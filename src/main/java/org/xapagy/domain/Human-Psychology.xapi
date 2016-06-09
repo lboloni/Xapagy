@@ -1,0 +1,49 @@
+$Define Human_Psychology
+
+// human attributes (to be applied to warriors)
+
+$Create Concept c_courageous   
+$Create Word "courageous" For Concept [c_courageous]
+
+$Create Concept c_fearless
+$Create Word "fearless" For Concept [c_fearless]
+
+$Create ConceptOverlap c_fearless Overlaps c_courageous With 0.5
+
+$Create Relation vr_crying
+$Create Word "starts-crying" For Verb [vr_crying, "CreateRelation"]
+$Create Word "stops-crying" For Verb [vr_crying, "RemoveRelation"]
+
+$Create Verb vc_emotion With Area = 4.0
+
+$Create Relation vr_love
+$Create VerbImpact vr_love Impacts vc_emotion With 4.0
+$Create Word "loves" For Verb [vr_love, "CreateRelation"]
+
+$Create Relation vr_hate
+$Create VerbImpact vr_hate Impacts vc_emotion With 4.0
+$Create Word "hates" For Verb [vr_hate, "CreateRelation"]
+
+$Create Relation vr_enemy_of
+$Create Word "enemy-of" For Verb [vr_enemy_of]
+$Create Word "has-as-enemy" For Verb [vr_enemy_of, "CreateRelation"]
+
+
+$Create Verb v_kiss
+$Create Word "kisses" For ActionVerb [v_kiss]
+
+$Create Verb v_caress
+$Create Word "caresses" For ActionVerb [v_caress]
+
+$Create Verb v_cry
+$Create Word "cries" For ActionVerb [v_cry]
+
+$Create Verb v_laugh
+$Create Word "laugh" For ActionVerb [v_laugh]
+
+$Create Verb v_joke
+$Create Word "jokes" For ActionVerb [v_joke]
+
+// subject talks to object
+$Create Verb v_talks_to
+$Create Word "talks_to" For ActionVerb [v_talks_to]

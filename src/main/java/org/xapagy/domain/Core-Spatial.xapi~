@@ -1,0 +1,162 @@
+//
+//  Xapagy Core Domain Library 0.999
+//  Core::Spatial
+//  last changed November 17, 2016 - convert to Xapi
+//
+$Define Core_Spatial
+
+// Colors
+$Create Concept cc_color 
+
+$Create Concept c_white
+$Create ConceptImpact c_white Impacts cc_color With 1.0
+$Create Word "white" For Concept [c_white]
+
+$Create Concept c_black
+$Create ConceptImpact c_black Impacts cc_color With 1.0
+$Create Word "black" For Concept [c_black]
+
+$Create Concept c_gray
+$Create ConceptImpact c_gray Impacts cc_color With 1.0
+$Create Word "gray" For Concept [c_gray]
+
+$Create Concept c_blue
+$Create ConceptImpact c_blue Impacts cc_color With 1.0
+$Create Word "blue" For Concept [c_blue]
+
+$Create Concept c_red
+$Create ConceptImpact c_red Impacts cc_color With 1.0
+$Create Word "red" For Concept [c_red]
+
+$Create Concept c_green
+$Create ConceptImpact c_green Impacts cc_color With 1.0
+$Create Word "green" For Concept [c_green]
+
+// Sizes
+$Create Concept cc_size
+
+$Create Concept c_small
+$Create ConceptImpact c_small Impacts cc_size With 1.0
+$Create Word "small" For Concept [c_small]
+
+$Create Concept c_medium
+$Create ConceptImpact c_medium Impacts cc_size With 1.0
+$Create ConceptOverlap c_medium Overlaps c_small With 0.2
+$Create Word "medium" For Concept [c_medium]
+
+$Create Concept c_large
+$Create ConceptImpact c_large Impacts cc_size With 1.0
+$Create ConceptOverlap c_large Overlaps c_medium With 0.2
+$Create Word "large" For Concept [c_large]
+
+$-- "category describing the fullness of a container"
+$Create Concept cc_fullness
+
+$Create Concept c_full
+$Create ConceptImpact c_full Impacts cc_fullness With 1.0
+$Create Word "full" For Concept [c_full]
+
+$Create Concept c_empty
+$Create ConceptImpact c_empty Impacts cc_fullness With 1.0
+$Create Word "empty" For Concept [c_empty]
+
+$Create Concept c_half_full
+$Create ConceptImpact c_half_full Impacts cc_fullness With 1.0
+$Create ConceptOverlap c_half_full Overlaps c_full With 0.8
+$Create ConceptOverlap c_half_full Overlaps c_empty With 0.8
+$Create Word "half-full" For Concept [c_half_full]
+
+$Create Relation vr_current_location
+$Create Word "current-location-is" For Verb ["CreateOneSourceRelation", vr_current_location]
+
+$-- "fuzzy distance relation"
+$Create Verb vc_fuzzy_distance
+
+$Create Relation vr_near
+$Create VerbImpact vr_near Impacts vc_fuzzy_distance With 1.0
+$Create Word "is-near" For Verb [vr_near, "CreateRelation"]
+
+$Create Relation vr_far
+$Create VerbImpact vr_far Impacts vc_fuzzy_distance With 1.0
+$Create Word "is-far" For Verb [vr_far, "CreateRelation"]
+
+
+$-- "relative distance relations"
+$Create Verb vc_relative_distance
+  
+$Create Relation vr_nearer
+$Create VerbImpact vr_nearer Impacts vc_relative_distance With 1.0
+$Create Word "is-nearer" For Verb [vr_nearer, "CreateRelation"]
+  
+$Create Relation vr_farther 
+$Create VerbImpact vr_farther Impacts vc_relative_distance With 1.0
+$Create Word "is-farther" For Verb [vr_farther, "CreateRelation"]
+
+$-- "relative horizontal position relations"
+$Create Verb vc_relative_position_horizontal 
+
+$Create Relation vr_to_left
+$Create VerbImpact vr_to_left Impacts vc_relative_position_horizontal With 1.0
+$Create Word "is-to-left" For Verb [vr_to_left, "CreateRelation"]
+  
+$Create Relation vr_to_right
+$Create VerbImpact vr_to_right Impacts vc_relative_position_horizontal With 1.0
+$Create Word "is-to-right" For Verb [vr_to_right, "CreateRelation"]
+
+$-- "relative vertical position relations"
+$Create Verb vc_relative_position_vertical 
+
+$Create Relation vr_above
+$Create VerbImpact vr_above Impacts vc_relative_position_vertical With 1.0
+$Create Word "is-above" For Verb [vr_above, "CreateRelation"]
+  
+$Create Relation vr_below
+$Create VerbImpact vr_below Impacts vc_relative_position_vertical With 1.0
+$Create Word "is-below" For Verb [vr_below, "CreateRelation"]
+
+$-- "inside / outside relations"
+$Create Verb vc_inside_outside 
+  
+$Create Relation vr_inside 
+$Create VerbImpact vr_inside Impacts vc_inside_outside With 1.0
+$Create Word "is-inside" For Verb [vr_inside, "CreateRelation"]
+  
+$Create Relation vr_outside 
+$Create VerbImpact vr_outside Impacts vc_inside_outside With 1.0
+$Create Word "is-outside" For Verb [vr_outside, "CreateRelation"]
+
+// ********** Movement and gestures ***********
+
+
+$-- "A completed spatial movement, which is started and finished in the same VI"
+$-- "The speed of the movement can be modulated by the movement speed verbs"
+$-- "which enter in the overlay. Example: moving from one place to another."
+$-- "A VI With this verb might be coincidental With one or more relation" 
+$-- "creation verbs, which show the results of the movement (such as moving"
+$-- "to a place)"
+$Create Verb v_move_completed
+$Create Word "move-completed" For ActionVerb [v_move_completed]
+
+
+$-- "A movement (for instance by hands, manipulators, etc) which is started"
+$-- "and finished in the same VI. Can be modulated by the movement speed verbs" 
+$-- "entering the overlay. Example: opening a door."
+$-- "The outcome of the gesture can be specified in relation creation verb"
+$-- "coincidental With the gesture"
+$Create Verb v_gesture_completed
+$Create Word "gesture-completed" For ActionVerb [v_gesture_completed]
+
+// ********** Action verbs, movement speed ***********
+
+$Create Verb vc_movement_speed With Area = 2.0
+
+$Create Verb v_fast 
+$Create VerbImpact v_fast Impacts vc_movement_speed With 2.0   
+
+$Create Verb v_slow
+$Create VerbImpact v_slow Impacts vc_movement_speed With 2.0
+
+$Create Verb v_medium_speed
+$Create VerbImpact v_medium_speed Impacts vc_movement_speed With 2.0
+$Create VerbOverlap v_medium_speed Overlaps v_fast With 0.8
+$Create VerbOverlap v_medium_speed Overlaps v_slow With 0.8

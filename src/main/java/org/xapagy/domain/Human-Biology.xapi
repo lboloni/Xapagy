@@ -1,0 +1,28 @@
+$Define Human_Biology
+$Include IfNotDefined Core 'Core'
+$Include IfNotDefined Animal 'Animal'
+$Create Concept c_human
+
+$Create Word "man" For Concept [c_male, c_human]
+$Create Word "he" For Concept [c_male, c_human]
+$Create Word "woman" For Concept [c_female, c_human]
+$Create Word "she" For Concept [c_female, c_human]
+$Create Word "girl" For Concept [c_female, c_human, c_young, c_small]
+$Create Word "boy" For Concept [c_male, c_human, c_young, c_small]
+
+
+$Create Concept c_head
+$Create Word "head" For Concept [c_head]
+
+$Create Concept c_eye
+$Create Word "eye" For Concept [c_eye]
+
+$Create Concept c_ear
+$Create Word "ear" For Concept [c_ear]
+
+$Create Concept c_foot
+$Create Word "foot" For Concept [c_foot]
+
+$Create Concept c_hand
+$Create Word "hand" For Concept [c_hand]
+

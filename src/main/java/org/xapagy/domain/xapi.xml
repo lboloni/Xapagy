@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<!-- Xapagy mode by Lotzi Boloni -->
+
+<MODE>
+	<PROPS>
+		<PROPERTY NAME="lineComment" VALUE="//" />
+	</PROPS>
+	<RULES IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+		<!-- Standard literals -->
+		<SPAN TYPE="LITERAL2" ESCAPE="\" NO_LINE_BREAK="FALSE">
+			<BEGIN>'</BEGIN>
+			<END>'</END>
+		</SPAN>
+		<SPAN TYPE="LITERAL2" ESCAPE="\" NO_LINE_BREAK="FALSE">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+		
+		<EOL_SPAN AT_LINE_START="TRUE" TYPE="COMMENT1">$Documentation</EOL_SPAN>
+		<EOL_SPAN AT_LINE_START="TRUE" TYPE="COMMENT1">$--</EOL_SPAN>
+		<EOL_SPAN AT_LINE_START="TRUE" TYPE="COMMENT2">//</EOL_SPAN>
+
+		<SEQ TYPE="OPERATOR">:=</SEQ>
+		<SEQ TYPE="OPERATOR">_</SEQ>
+		<SEQ TYPE="OPERATOR">=</SEQ>
+		<SEQ TYPE="OPERATOR">==</SEQ>
+		<SEQ TYPE="OPERATOR">&gt;</SEQ>
+		<SEQ TYPE="OPERATOR">&lt;</SEQ>
+		<SEQ TYPE="OPERATOR">&gt;=</SEQ>
+		<SEQ TYPE="OPERATOR">&lt;=</SEQ>
+		<SEQ TYPE="OPERATOR">+</SEQ>
+		<SEQ TYPE="OPERATOR">-</SEQ>
+		<SEQ TYPE="OPERATOR">/</SEQ>
+		<SEQ TYPE="OPERATOR">*</SEQ>
+
+		<MARK_PREVIOUS TYPE="KEYWORD3" MATCH_TYPE="OPERATOR">:</MARK_PREVIOUS>
+		<MARK_FOLLOWING TYPE="LABEL" MATCH_TYPE="OPERATOR">#</MARK_FOLLOWING>
+		<MARK_FOLLOWING TYPE="LITERAL1" MATCH_TYPE="OPERATOR">$</MARK_FOLLOWING>
+
+
+		<KEYWORDS>
+			<!-- Constants from XapiLangConstants.java -->
+
+			<KEYWORD1>Current</KEYWORD1>
+			<KEYWORD1>CloseOthers</KEYWORD1>
+			<KEYWORD1>AddSummary</KEYWORD1>
+			<KEYWORD1>RelatedAs</KEYWORD1>
+			<KEYWORD1>With</KEYWORD1>
+			<KEYWORD1>Instances</KEYWORD1>
+			<KEYWORD1>From</KEYWORD1>
+			<KEYWORD1>IfNotDefined</KEYWORD1>
+			<KEYWORD1>Concept</KEYWORD1>
+            <KEYWORD1>With</KEYWORD1>
+            <KEYWORD1>Area</KEYWORD1>
+            <KEYWORD1>ConceptImpact</KEYWORD1>
+            <KEYWORD1>Impacts</KEYWORD1>
+            <KEYWORD1>ConceptOverlap</KEYWORD1>
+            <KEYWORD1>Overlaps</KEYWORD1>
+			<KEYWORD1>Verb</KEYWORD1>
+			<KEYWORD1>MetaVerb</KEYWORD1>
+			<KEYWORD1>Code</KEYWORD1>
+			<KEYWORD1>Relation</KEYWORD1>
+			<KEYWORD1>VerbImpact</KEYWORD1>
+			<KEYWORD1>VerbOverlap</KEYWORD1>
+			<KEYWORD1>Word</KEYWORD1>
+			<KEYWORD1>For</KEYWORD1>
+			<KEYWORD1>ActionVerb</KEYWORD1>
+			<KEYWORD1>Add</KEYWORD1>
+			<KEYWORD1>Triggered-at</KEYWORD1>
+			<KEYWORD1>Executing</KEYWORD1>
+			<KEYWORD1>RemoveAll</KEYWORD1>
+			<KEYWORD1>Remove</KEYWORD1>
+			<KEYWORD1>New</KEYWORD1>
+			<KEYWORD1>DA</KEYWORD1>
+			<KEYWORD1>Name</KEYWORD1>
+			<KEYWORD1>Parameters</KEYWORD1>
+			<KEYWORD1>Append</KEYWORD1>
+			<KEYWORD1>To</KEYWORD1>
+			<KEYWORD1>Group</KEYWORD1>
+						
+			<!-- Reserved identifiers -->
+			
+		    <KEYWORD2>none</KEYWORD2>
+			<KEYWORD2>successor</KEYWORD2>
+			<KEYWORD2>view</KEYWORD2>
+			<KEYWORD2>fictional-future</KEYWORD2>
+			<KEYWORD2>predecessor</KEYWORD2>
+            <KEYWORD2>ir_context</KEYWORD2>
+            <KEYWORD2>ir_context_implication</KEYWORD2>
+            <KEYWORD2>question</KEYWORD2>
+            <KEYWORD2>answer</KEYWORD2>
+            <KEYWORD2>coincidence</KEYWORD2>
+            <KEYWORD2>summarization_begin</KEYWORD2>
+            <KEYWORD2>summarization_body</KEYWORD2>
+            <KEYWORD2>summarization_close</KEYWORD2>
+            <KEYWORD2>elaboration_begin</KEYWORD2>
+            <KEYWORD2>elaboration_body</KEYWORD2>
+            <KEYWORD2>elaboration_close</KEYWORD2>
+
+		</KEYWORDS>
+	</RULES>
+</MODE>

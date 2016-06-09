@@ -1,0 +1,16 @@
+This package contains representations of Xapagy entities which are collections of XapagyComponents.
+
+The WeightedSet and its specializations into InstanceSet and ViSet were the original objects of this
+kind. They have been used for Focus, AM and various other components. These components allow direct
+setting of a single value.  
+
+On March 31, 2014 a decision had been made that for the success of the ShadowEnergy model, try to make
+generic objects which:
+   - have additive energy representations 
+   - have different energy ``colors''
+   - can be read out on the logistic scale (possibly tweaked)
+   - have their own model of garbage collecting
+   - have their own model of tracking changes (quantums)
+
+So we moved here the ShadowEnergy components, and during April 2014, plan to refactor the
+other components.

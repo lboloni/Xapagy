@@ -1,0 +1,71 @@
+$DiffusionActivity Clear Composite "ShadowMaintenance" 
+
+// ********************************************
+// Area: A_SHM
+// ********************************************
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// If the stochastic sampling is used, the number of samples per iteration (used in SaicHelper)
+$SetParameter A_SHM/G_GENERAL/N_SHADOW_ITEMS_PER_ITERATION=20.0
+// If false, don't allow instances With focus energy and same scene to be in the shadow. 
+//Used in Shadows.applyInstanceShadowQuantum
+$SetParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_INSTANCE=0.0
+// If false, don't allow VIs sharing a scene to be used in the shadow. 
+//Used in Shadows.applyViShadowQuantum.
+$SetParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_VI=0.0
+// Decides what fraction of a VI increase is transfered to the instance parts in Shadows.strengthenCompositeShadow
+$SetParameter A_SHM/G_GENERAL/N_FRACTION_STRENGTHEN_INSTANCE_PART=1.0
+
+// --------------------------------------------
+// DA: DaShmViMatchingHead
+// --------------------------------------------
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "ViMatchingHead" Code "com.xapagy.activity.shadowmaintenance.DaShmViMatchingHead" Parameters "scaleActionVi" = "1.0", "scaleRelationDefault" = "0.2", "scaleRelationSubjectAttribute" = "1.0", "scaleRelationObjectAttribute" = "1.0"
+// --------------------------------------------
+// DA: DaShmViMatchingBody - not connected
+// --------------------------------------------
+//$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "ViMatchingBody" Code "com.xapagy.activity.shadowmaintenance.DaShmViMatchingBody"
+// --------------------------------------------
+// DA: DaShmInstanceMatchingHead
+// --------------------------------------------
+// Enables the DA DaShmInstanceMatchingHead
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "InstanceMatchingHead" Code "com.xapagy.activity.shadowmaintenance.DaShmInstanceMatchingHead" Parameters "scaleInstanceByAttribute" = "1.0", "scaleInstanceInAction" = "0.0"
+// --------------------------------------------
+// DA: DaShmInstanceMatchingBody
+// --------------------------------------------
+//$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "InstanceMachingBody" Code "com.xapagy.activity.shadowmaintenance.DaShmInstanceMatchingBody"
+// --------------------------------------------
+// DA: DaShmInstanceActsLike - not connected
+// --------------------------------------------
+//$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "InstanceActsLike" Code "com.xapagy.activity.shadowmaintenance.DaShmInstanceActsLike"
+
+// --------------------------------------------
+// DA: DaShmIdentity - not connected 
+// --------------------------------------------
+//$DiffusionActivity Append To Composite 'ShadowMaintenance' New DA With Name 'Identity' Code 'com.xapagy.activity.shadowmaintenance.DaShmIdentity' 
+
+// --------------------------------------------
+// DA: DaShmInquit - not connected
+// --------------------------------------------
+//$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "Inquit" Code "com.xapagy.activity.shadowmaintenance.DaShmInquit"
+
+// --------------------------------------------
+// DA: DaShmLinkStructure
+// This is a bit of a special case, because these
+// values differ from scene to scene so they are not 
+// really attached to the DA
+// --------------------------------------------
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "ShmLinkStructure" Code "com.xapagy.activity.shadowmaintenance.DaShmLinkStructure"
+
+// --------------------------------------------
+// DA: DaShmEnergyConversion
+// --------------------------------------------
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "EnergyConversion" Code "com.xapagy.activity.shadowmaintenance.DaShmEnergyConversion" Parameters "S_SHV_TEMPORAL_ORDER_TO_E_SHV_GENERIC" = "1.0", "S_SHV_ACTION_MATCH_TO_E_SHV_GENERIC" = "1.0", "S_SHI_ATTRIBUTE_TO_E_SHI_GENERIC" = "1.0", "S_SHI_RELATION_TO_E_SHI_GENERIC" = "1.0", "S_SHI_ACTION_TO_E_SHI_GENERIC" = "1.0"
+// --------------------------------------------
+// DA: DaShmGarbageCollect
+// --------------------------------------------
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "GarbageCollect" Code "com.xapagy.activity.shadowmaintenance.DaShmGarbageCollect" Parameters "beta" = "0.01", "inflectionPopulation" = "10.0", "safeEnergy" = "0.001"
+// --------------------------------------------
+// DA DaShmDecay
+// --------------------------------------------
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "Decay" Code "com.xapagy.activity.shadowmaintenance.DaShmDecay" Parameters "ISh_Mult_SHI_GENERIC" = "0.9", "ISh_Mult_SHI_ATTRIBUTE" = "0.9", "ISh_Mult_SHI_RELATION" = "0.9", "ISh_Mult_SHI_ACTION" = "0.9", "ViSh_Mult_SHV_ACTION_MATCH" = "0.9",  "ViSh_Mult_SHV_GENERIC" = "0.7", "ViSh_Mult_SHV_TEMPORAL_ORDER" = "0.3"

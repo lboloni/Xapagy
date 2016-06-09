@@ -1,0 +1,133 @@
+$-- "Used in LearnProperNames to set the Area of the proper name concept created on the fly"
+$CreateParameter A_GENERAL/G_GENERAL/N_AREA_OF_PROPER_NAMES=1.0
+
+$-- "FIXME: Used by SaMvInsertHlsLocation to insert a" 
+$-- "new VI into the right location in the link mesh" 
+$-- "will probably need to clean it out."
+$CreateParameter A_GENERAL/G_GENERAL/N_SA_MV_INSERT_HLS_LOCATION_ASSSUMED_PUSHOUT=-1.0
+
+$-- "The time step between individual steps of DAs" 
+$-- "FCM, SHM and also HLSM if it is not one-step). Used in Execute.executeTimePassing."
+$CreateParameter A_GENERAL/G_GENERAL/N_TIME_STEP_OF_DAS=0.1
+
+
+$-- "If true, ChoiceSelector will bring in an interactive, text based selector. Can be also" 
+$-- "set from Xapi With $ToggleOn InteractiveChoice"
+$CreateParameter A_DEBUG/G_GENERAL/N_INTERACTIVE_CHOICE_SELECTOR=0.0
+
+$-- "If true, the energy quantums will be recorded in the PairEnergySet for shadows."
+$CreateParameter A_DEBUG/G_GENERAL/N_RECORD_SHADOW_QUANTUMS=0.0
+
+$-- "If true, the energy quantums will be recorded in the EnergySet for both Focus and Memory."
+$CreateParameter A_DEBUG/G_GENERAL/N_RECORD_FOCUS_MEMORY_QUANTUMS=0.0
+
+$-- "If true, the link quantums will be recorded"
+$CreateParameter A_DEBUG/G_GENERAL/N_RECORD_LINK_QUANTUMS=0.0
+
+//
+// Autobiographical memory maintenance
+//
+
+//
+// Focus maintenance
+//
+$-- "The minimum ALL energy for which a focus instance is not garbage collected."
+$CreateParameter A_FCM/G_GENERAL/N_MINIMUM_INSTANCE=0.1
+$-- "The minimum ALL energy for which a focus VI is not garbage collected."
+$CreateParameter A_FCM/G_GENERAL/N_MINIMUM_VI=0.2
+
+//
+// Shadow maintenance
+//
+$-- "If the stochastic sampling is used, the number of samples per iteration (used in SaicHelper)"
+$CreateParameter A_SHM/G_GENERAL/N_SHADOW_ITEMS_PER_ITERATION=20.0
+$-- "If false, don't allow instances With focus energy and same scene to be in the shadow."
+$-- "Used in Shadows.applyInstanceShadowQuantum"
+$CreateParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_INSTANCE=0.0
+$-- "If false, don't allow VIs sharing a scene to be used in the shadow." 
+$-- "Used in Shadows.applyViShadowQuantum."
+$CreateParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_VI=0.0
+$-- "Decides what fraction of a VI increase is transfered to the instance parts in Shadows.strengthenCompositeShadow"
+$CreateParameter A_SHM/G_GENERAL/N_FRACTION_STRENGTHEN_INSTANCE_PART=1.0
+
+
+
+//
+// link structure
+//
+//$-- "DaShmLinkStructure - the weight attached to ANSWER links"
+//$CreateParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTAnswer=0.0
+//$-- "DaShmLinkStructure - the weight attached to COINCIDENCE links"
+//$CreateParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTCoincidence=10.0
+//$-- "DaShmLinkStructure - the weight attached to PREDECESSOR links"
+//$CreateParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTPredecessor=10.0
+//$-- "DaShmLinkStructure - the weight attached to SUCCESSOR links"
+//$CreateParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTSuccessor=10.0
+//$-- "DaShmLinkStructure - the weight attached to IR_CONTEXT links"
+//$CreateParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTIRContext=0.0
+//$-- "DaShmLinkStructure - the weight attached to IR_CONTEXT_IMPLICATION links"
+//$CreateParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTIRContextImplication=0.0
+//$-- "DaShmLinkStructure - the weight attached to QUESTION links"
+//$CreateParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTQuestion=0.0
+
+$CreateLinkType Regular "Coincidence" Default Weight = 10.0
+$CreateLinkType DirectionPaired "Answer" Default Weight = 0.0 With Reverse "Question" Default Weight = 0.0
+$CreateLinkType DirectionPaired "Successor" Default Weight = 0.0 With Reverse "Predecessor" Default Weight = 0.0
+$CreateLinkType DirectionPaired "IRContext" Default Weight = 0.0 With Reverse "IRContextImplication" Default Weight = 0.0
+$CreateLinkType DirectionPaired "Summarization_Begin" Default Weight = 0.0 With Reverse "Elaboration_Begin" Default Weight = 0.0
+$CreateLinkType DirectionPaired "Summarization_Body" Default Weight = 0.0 With Reverse "Elaboration_Body" Default Weight = 0.0
+$CreateLinkType DirectionPaired "Summarization_Close" Default Weight = 0.0 With Reverse "Elaboration_Close" Default Weight = 0.0
+
+
+
+//
+// HLS maintenance
+//
+// General
+
+$-- "If true, the HLSs are constructed only once, rather than for every step of the DA."
+$-- "This accelerates the code."
+$CreateParameter A_HLSM/G_GENERAL/N_SINGLE_STEP_HLS=1.0
+$-- "The default value of the interstitial energy of a scene."
+$-- "This is the value to which resetInterstitial energy sets it back."
+$CreateParameter A_HLSM/G_GENERAL/N_DEFAULT_INTERSTITIAL_ENERGY=10.0
+$-- "Used in the ChoiceSelector. If the choice has a lower score than this, it will" 
+$-- "not be instantiated, no matter how much interstitial energy we have."
+$CreateParameter A_HLSM/G_GENERAL/N_INTERNAL_CHOICE_THRESHOLD=0.05
+$-- "If true, the Execute.processSummarizationBlocks is turned on."
+$CreateParameter A_HLSM/G_GENERAL/N_PROCESS_SUMMARIZATION_BLOCKS=1.0
+$-- "If true, FslGenerator also generates FSL-s which are based on Choices."
+$CreateParameter A_HLSM/G_GENERAL/N_GENERATE_INDIRECT_FSL=0.0
+$-- "The FSL With the smallest value generated by FslGenerator"
+$CreateParameter A_HLSM/G_GENERAL/N_MINIMUM_FSL_STRENGTH=0.001
+
+//
+// Choices
+// These are weights for the mood scores and they are copied into the scenes!!!
+//
+
+$-- "Enables the choice creation and weights the mood score"
+$-- "for choices of type Characterization"
+$CreateParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESCHARACTERIZATION=0.0
+
+$-- "Enables the choice creation and weights the mood score"
+$-- "for choices of type Continuation"
+$CreateParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESCONTINUATION=1.0
+
+$-- "Enables the choice creation and weights the mood score"
+$-- "for choices of type Missing Action"
+$CreateParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESMISSING_ACTION=1.0
+
+$-- "Enables the choice creation and weights the mood score"
+$-- "for choices of type Missing Relation"
+$CreateParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESMISSING_RELATION=1.0
+
+$-- "Enables the choice creation and weights the mood score"
+$-- "for choices of type Static"
+$CreateParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESSTATIC=1.0
+
+//
+// Static
+//
+
+                

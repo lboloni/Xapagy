@@ -1,0 +1,37 @@
+// ********************************************
+// Area: A_FCM
+// ********************************************
+
+$DiffusionActivity Clear "FocusMaintenance" 
+
+
+// --------------------------------------------
+// group: G_E2S
+// --------------------------------------------
+// The slope for the energy to salience sigmoid for the focus instances (all colors!)
+$SetParameter A_FCM/G_E2S/N_INSTANCE=1.0
+// The slope for the energy to salience sigmoid for the focus VIs (all colors!)
+$SetParameter A_FCM/G_E2S/N_VERB_INSTANCE=1.0
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// The minimum ALL energy for which a focus instance is not garbage collected.
+$SetParameter A_FCM/G_GENERAL/N_MINIMUM_INSTANCE=0.1
+// The minimum ALL energy for which a focus VI is not garbage collected.
+$SetParameter A_FCM/G_GENERAL/N_MINIMUM_VI=0.2
+
+
+//
+// DA daFcmDecay
+//
+$DiffusionActivity AppendTo "FocusMaintenance" New DA With Name "Decay" Code "com.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "decayInstance" = "0.99", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
+
+//
+// DA daFcmMemorization
+//
+$DiffusionActivity AppendTo "FocusMaintenance" New DA With Name "Memorization" Code "com.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "I_S_Focus_to_I_E_AM" = "0.0", "VI_S_Focus_to_VI_E_AM" = "1.0", "VI_S_Focus_to_I_E_AM" = "1.0"
+
+//
+// DA daFcmSummarization
+//
+$DiffusionActivity AppendTo "FocusMaintenance" New DA With Name "Summarization" Code "com.xapagy.activity.focusmaintenance.DaFcmSummarization"

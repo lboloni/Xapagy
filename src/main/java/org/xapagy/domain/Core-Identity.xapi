@@ -1,0 +1,10 @@
+//
+//  Xapagy Core Domain Library 0.999
+//  Core::Identity
+//  last changed November 17, 2015 - convert to Xapi
+//
+$Define Core_Identity
+
+$Create Relation vr_identity
+
+$Create Word "is-identical" For Verb ["CreateRelation", vr_identity]

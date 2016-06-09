@@ -1,0 +1,19 @@
+// focus instance energies
+$CreateEnergy "FOCUS_INSTANCE" Of Type FOCUS_INSTANCE With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_INSTANCE" Of Type FOCUS_INSTANCE With E2S = 1.0
+// focus VI energies
+$CreateEnergy "FOCUS_VI" Of Type FOCUS_VI With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_VI" Of Type FOCUS_VI With E2S = 1.0
+// AM instance energies
+$CreateEnergy "AM_INSTANCE" Of Type AM_INSTANCE With E2S = 1.0
+// AM VI energies
+$CreateEnergy "AM_VI" Of Type AM_VI With E2S = 1.0
+// shadow instance energies
+$CreateEnergy "SHI_GENERIC" Of Type SHADOW_INSTANCE With E2S = 1.0
+$CreateEnergy "SHI_ATTRIBUTE" Of Type SHADOW_INSTANCE With E2S = 1.0
+$CreateEnergy "SHI_RELATION" Of Type SHADOW_INSTANCE With E2S = 1.0
+$CreateEnergy "SHI_ACTION" Of Type SHADOW_INSTANCE With E2S = 1.0
+// shadow VI energies
+$CreateEnergy "SHV_GENERIC" Of Type SHADOW_VI With E2S = 1.0
+$CreateEnergy "SHV_TEMPORAL_ORDER" Of Type SHADOW_VI With E2S = 1.0
+$CreateEnergy "SHV_ACTION_MATCH" Of Type SHADOW_VI With E2S = 1.0  

@@ -1,0 +1,816 @@
+PARSER_BEGIN(XapiLang)
+package com.xapagy.xapi.language.parser;
+import java.io.File;
+import java.io.IOException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.xapagy.agents.Agent;
+import com.xapagy.agents.PerformanceMeter;
+import com.xapagy.xapi.Kludges;
+import com.xapagy.xapi.KludgeCreateLink;
+import com.xapagy.xapi.XapiDictionary;
+import com.xapagy.autobiography.ABStory;
+import com.xapagy.xapi.MacroGenerator;
+import com.xapagy.parameters.Parameters;
+import com.xapagy.parameters.ParameterPrepack;
+import com.xapagy.ui.SaveLoadUtil;
+import com.xapagy.ui.TextUi;
+import com.xapagy.ui.prettyprint.PpStory;
+import com.xapagy.links.LinkAPI;
+import com.xapagy.debug.ViMatchFilter;
+import com.xapagy.instances.Instance;
+import com.xapagy.concepts.Concept;
+import com.xapagy.concepts.ConceptDataBaseHelper;
+import com.xapagy.concepts.ConceptOverlay;
+import com.xapagy.concepts.Verb;
+import com.xapagy.concepts.Hardwired;
+import com.xapagy.concepts.VerbOverlay;
+
+@SuppressWarnings({"all"})
+public class XapiLang {
+
+   private Agent agent;
+   private ConceptDataBaseHelper<Concept> cdh; 
+   private ConceptDataBaseHelper<Verb> vdh;   
+   
+   public void setAgent(Agent agent) {
+       this.agent = agent;
+       cdh = new ConceptDataBaseHelper<Concept>(agent.getConceptDB(),
+                        ConceptDataBaseHelper.ContentType.TYPE_CONCEPT, agent);
+       vdh = new ConceptDataBaseHelper<Verb>(agent.getVerbDB(),
+               ConceptDataBaseHelper.ContentType.TYPE_VERB, agent);
+   
+   }
+
+}
+
+PARSER_END(XapiLang)
+
+
+/*
+ * Tokens to ignore in the BNF follow.
+ */
+
+SKIP :
+{
+  < " " >
+| < "\t" >
+| < "\n" >
+| < "\r" >
+| < "//" (~["\n"])* "\n" >
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+| < "#" ([" ","\t"])* (["0"-"9"])+
+    (([" ","\t"])* "\"" (~["\""])+ "\""
+           ([" ","\t"])* (["0"-"9"])* ([" ","\t"])* (["0"-"9"])*)? "\n" >
+}
+
+/* The whole change specification */
+
+void line() :
+{}
+{
+  ( 
+    statement() |
+    debugHere() | 
+    newScene() |
+    changeScene() |
+    checkPoint() |
+    define() |
+    include() |
+    createLink() |
+    setParameter() |
+    setParameterPrepack() |
+    performanceMeter() |
+    concept() |
+    conceptImpact() |
+    conceptOverlap() |
+    conceptWord() |
+    createVerb() |
+    createMetaVerb() |
+    createRelation() |
+    verbImpact() |
+    verbOverlap() |
+    verbWord() |
+    actionVerbWord()
+    )
+    <EOF>
+}
+
+
+/* statement: a statement that can be an S-V-O, S-V, S-Adj, Quote */
+void statement() :
+{
+}
+{
+      cospecAsString() "/" vospec() 
+      (
+      ("/" cospecAsString() terminator() ) | 
+      (terminator() ) |
+      (":" cospecAsString() terminator() ) |
+      ("in" cospecAsString() "//" statement())
+      )
+} 
+
+/* this returns the cospec as a string. Eventually, we need to migrate to 
+   actually do proper parsing here, but in order to make a smooth transition, 
+   we will do this for the time being */
+String cospecAsString() :
+{
+    String accumulate = "";
+    Token t;
+    String value;
+}
+{
+    ( value = string_literal() 
+      { accumulate += value + " "; }
+    | t = <ID> 
+      { accumulate += t.image + " "; }
+    | t = <LABEL> 
+      { accumulate += t.image + " "; }    
+    )+
+    {
+       return accumulate.trim();
+    }
+} 
+
+
+void vospec() :
+{
+}
+{
+    ( string_literal() | <ID> )+
+    // ( <STRING> )+   
+} 
+
+
+/* parses a relation between scenes */
+String relationSpec() :
+{
+   String relation;
+}
+{
+   (
+    "none" {relation = "none";} | 
+    "successor" {relation = "successor";} |
+    "view" {relation = "view";} |
+    "fictional-future" {relation = "fictional-future";}
+   )
+   {
+      return relation;
+   }
+} 
+
+
+void terminator() :
+{
+}
+{
+    "." | "," | ";"
+}
+
+/* enter into debugging mode here */
+void debugHere() :
+{
+}
+{
+"$DebugHere"
+  {
+     Kludges.kludgeDebugHere(agent);
+  }
+} 
+
+/* create a new scene and make it current */
+void newScene() :
+{
+   String localFrom;
+   String localTo;
+   Token t;
+   String newSceneLabel;
+   String relation;
+   List<SimpleEntry<String, String>> participants = new ArrayList<SimpleEntry<String, String>>();
+   boolean makeCurrent = true;
+   boolean addSummary = false;
+   boolean onlyScene = false;
+}
+{
+  ("$NewSceneCurrent" {
+       makeCurrent = true;
+       addSummary = false;
+       onlyScene = false;
+  } 
+  |"$NewScene" {
+       makeCurrent = false;
+       addSummary = false;
+       onlyScene = false;
+  }
+  | "$NewSceneOnly" {
+       makeCurrent = true;
+       addSummary = false;
+       onlyScene = true;
+  } 
+  | "$NewSceneAndSummaryCurrent" {
+       makeCurrent = true;
+       addSummary = true;
+       onlyScene = false;
+  }
+  | "$NewSceneAndSummaryOnly" {
+       makeCurrent = true;
+       addSummary = true;
+       onlyScene = true;
+  }
+  ) 
+   t = <LABEL> { newSceneLabel = t.image;} ","
+   relation = relationSpec()  
+  ("," localFrom = cospecAsString() {localTo=null;} ("->" localTo = cospecAsString())?
+    {
+       SimpleEntry<String, String> entry = new SimpleEntry<String, String>(localFrom, localTo);
+       participants.add(entry);
+    }  
+  )*
+  {
+     
+     ABStory generated =
+                    MacroGenerator.generateNewScene(agent, newSceneLabel,
+                            makeCurrent, onlyScene, addSummary, relation,
+                            participants);
+     TextUi.println(PpStory.pp("Generated:", generated));
+     agent.getLoop().addImmediateReading(generated.getLines());
+     
+  }
+} 
+
+
+/* changes the default scene to another scene */
+void changeScene() :
+{
+   Token t;
+}
+{
+"$ChangeScene" t = <LABEL>
+  {
+      Instance target = null;
+      for (Instance scene : agent.getFocus().getSceneListAllEnergies()) {
+            if (scene.getConcepts().getLabels().contains(t.image)) {
+                target = scene;
+                break;
+            }
+      }
+      if (target == null) {
+            throw new Error("Could not find scene with label" + t.image);
+      }
+      agent.getFocus().setCurrentScene(target);
+  
+     // Kludges.kludgeChangeScene(t.image, agent);
+  }
+} 
+
+
+// parses a filename into a file
+File fileSpec() :
+{
+   String t;
+}
+{
+   t = string_literal()
+   {
+      String fileName = t.substring(1, t.length()-1);
+      File f = new File(fileName);
+      return f;
+   }
+}
+
+/* checkpoints Xapagy at this point */
+void checkPoint() :
+{  
+   File f;
+}
+{
+"$CheckPoint" f = fileSpec()
+  {
+      SaveLoadUtil<Agent> slu = new SaveLoadUtil<Agent>();
+      slu.save(agent, f);
+  }
+} 
+
+
+void define() :
+{
+   Token t = null;
+}
+{
+"$Define" t = <ID>
+  {
+    agent.getDomains().add(t.image);
+  }
+} 
+
+
+/* includes another Xapi file and queues it up for reading here. If the 
+   IfNotDefined clause is there, it does not include it if in the agent's domain 
+   list the term is already defined (with a previous $Define */
+void include() :
+{
+   File f;
+   Token t = null;
+}
+{
+"$Include" ("IfNotDefined" t = <ID>)? f = fileSpec()
+  {
+	    if (t != null) {
+	    	String domain = t.image;
+	    	if (agent.getDomains().contains(domain)) {
+	    		return;
+	    	}
+	    }
+        try {
+            agent.getLoop().loadFileToReading(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+            TextUi.println("$Include statement but could not find file"
+                    + f.getAbsolutePath());
+            throw new Error("$Include statement but could not find file"
+                    + f.getAbsolutePath());
+        }
+  }
+} 
+
+
+/* interprets the link name in the official way */
+String linkName() :
+{
+   String linkName;
+}
+{
+   (
+   "successor" {
+       linkName = LinkAPI.SUCCESSOR;
+    } |
+   "predecessor" {
+       linkName = LinkAPI.PREDECESSOR;
+    } |
+   "ir_context" {
+       linkName = LinkAPI.IR_CONTEXT;
+    } |
+   "ir_context_implication" {
+       linkName = LinkAPI.IR_CONTEXT_IMPLICATION;
+    } |
+   "question" {
+       linkName = LinkAPI.QUESTION;
+    } |
+   "answer" {
+       linkName = LinkAPI.ANSWER;
+    } |
+   "coincidence" {
+       linkName = LinkAPI.COINCIDENCE;
+    } |
+   "summarization_begin" {
+       linkName = LinkAPI.SUMMARIZATION_BEGIN;
+    } |
+   "summarization_body" {
+       linkName = LinkAPI.SUMMARIZATION_BODY;
+    } |
+   "summarization_close" {
+       linkName = LinkAPI.SUMMARIZATION_CLOSE;
+    } |
+   "elaboration_begin" {
+       linkName = LinkAPI.ELABORATION_BEGIN;
+    } |
+   "elaboration_body" {
+       linkName = LinkAPI.ELABORATION_BODY;
+    } |
+   "elaboration_close" {
+       linkName = LinkAPI.ELABORATION_CLOSE;
+    }
+    )
+    {
+       return linkName;
+    } 
+    }
+
+
+/*
+   Creates a match filter: right now it just picks up a string, and passes it to the
+   old match filter, but later we need to make this one a lot more flexible.
+*/
+ViMatchFilter viMatchFilter() :
+{
+   String spec;
+   ViMatchFilter linkName;
+}
+{
+   spec = string_literal() 
+   { 
+      String text = spec.substring(1, spec.length()-1);
+      ViMatchFilter retval = ViMatchFilter.createViMatchFilter(null, text);
+      return retval;
+   }
+}
+
+
+/* manually create a link */
+void createLink() :
+{
+   KludgeCreateLink.CreateLinkSpec spec = new KludgeCreateLink.CreateLinkSpec();
+   double specNumber = -1.0;
+}
+{
+"$CreateLink" spec.linkName = linkName() "{" spec.vmfFrom = viMatchFilter() "}" "==>" "{" spec.vmfTo = viMatchFilter() "}" 
+    (specNumber = number())?
+  {
+     if (specNumber != -1.0) {
+        spec.strength = specNumber;
+     }
+     KludgeCreateLink.kludgeCreateLink(spec, agent);
+  }
+} 
+
+/* sets the value of a specific parameter $SetParameter area/group/name=value */
+void setParameter() :
+{
+   Token area;
+   Token group;
+   Token name;
+   double value;
+}
+{
+"$SetParameter" area = <ID>  
+   "/" group = <ID> 
+   "/" name = <ID>  "=" value = number()
+  {
+      Parameters p = agent.getParameters();
+      p.set(area.image, group.image, name.image, value);
+  }
+} 
+
+/* sets the parameters to specific prepacked parameter value */
+void setParameterPrepack() :
+{
+    Token t;
+}
+{
+"$SetParameterPrepack" t = <ID>
+  {
+     String prepack = t.image;
+     ParameterPrepack.setPrepack(prepack, agent);
+  }
+} 
+
+/* turns on a performance meter */
+void performanceMeter() :
+{
+   String param;
+}
+{
+"$PerformanceMeter" param = string_literal()
+  {
+      PerformanceMeter pm = agent.getPerformanceMeter();
+      switch (param) {
+        case "\"Reset\"":
+            pm.timeCountReset();
+            break;
+        default:
+            throw new Error("$PerformanceMeter invalid command " + param);
+      }
+  }
+}
+
+/* create or update a concept */
+void concept() :
+{
+   Token t;
+   double conceptArea = 1.0;
+}
+{
+"$CreateConcept" t = <ID> ("with" "area" "=" conceptArea = number())? 
+  {
+     String conceptName = t.image;
+     Concept concept = cdh.createWithArea(conceptName, conceptArea);
+     concept.setComment("no comment");
+   }
+} 
+
+/* specify the impact between one concept and another */
+void conceptImpact() :
+{
+   Token t1;
+   Token t2;
+   double implication;
+}
+{
+"$ConceptImpact" t1 = <ID> "impacts" t2 = <ID> "with" implication = number()
+  {
+     String conceptName = t1.image;
+     String otherConcept = t2.image;
+     cdh.makeImpact(conceptName, otherConcept, implication);
+  }
+} 
+
+/* specify the overlap between one concept and another */
+void conceptOverlap() :
+{
+   Token t1;
+   Token t2;
+   double overlap;
+}
+{
+"$ConceptOverlap" t1 = <ID> "overlaps" t2 = <ID> "with" overlap = number()
+  {
+     String conceptName = t1.image;
+     String otherConcept = t2.image;
+     cdh.makeOverlap(conceptName, otherConcept, overlap);
+  }
+}
+
+/* Parses a concept overlay in the form:
+   [ concept1 = 0.6 , concept2 = 0.7 ] 
+   This is currently only used in concept word specification   
+*/
+ConceptOverlay co():
+{
+   Token t;
+   double conceptStrength = -1.0;
+   ConceptOverlay co = new ConceptOverlay(agent);
+   Concept concept = null;
+   double area = 0.0;
+}
+{
+   "["
+      t = <ID> ("=" conceptStrength = number())? 
+    {  
+    	  // if not specified, assume 1.0
+    	  if (conceptStrength == -1.0) {
+    		  conceptStrength = 1.0;
+    	  }
+          concept = agent.getConceptDB().getConcept(t.image);
+          area = agent.getConceptDB().getArea(concept);
+          co.addSpecificEnergy(concept, conceptStrength * area);
+          conceptStrength = -1.0;
+    }      
+   
+   (  "," t = <ID> ("=" conceptStrength = number())?
+    { 
+ 	  // if not specified, assume 1.0
+      	  if (conceptStrength == -1.0) {
+ 	    	  conceptStrength = 1.0;
+ 	      }
+          concept = agent.getConceptDB().getConcept(t.image);
+          area = agent.getConceptDB().getArea(concept);
+          co.addSpecificEnergy(concept, conceptStrength * area);
+          conceptStrength = -1.0;
+    }   
+   )* 
+   "]"
+   {return co;}
+}
+
+
+/* Parses a verb overlay in the form:
+   [ verb1 = 0.6 , verb2 = 0.7 ] 
+   This is currently only used in the verb word specification
+*/
+VerbOverlay vo():
+{
+   Token t;
+   double verbStrength = -1.0;
+   VerbOverlay vo = new VerbOverlay(agent);
+   Verb verb = null;
+   double area = 0.0;
+}
+{
+   "["
+      t = <ID> ("=" verbStrength = number())? 
+    { 
+    	  if (verbStrength == -1.0) {
+    		  verbStrength = 1.0;
+    	  }
+          verb = agent.getVerbDB().getConcept(t.image);
+          area = agent.getVerbDB().getArea(verb);
+          vo.addSpecificEnergy(verb, verbStrength * area);
+          verbStrength = -1.0;
+    }      
+   
+   (  "," t = <ID> ("=" verbStrength = number())?
+    { 
+ 	   if (verbStrength == -1.0) {
+		  verbStrength = 1.0;
+	   }
+       verb = agent.getVerbDB().getConcept(t.image);
+       area = agent.getVerbDB().getArea(verb);
+       vo.addSpecificEnergy(verb, verbStrength * area);
+       verbStrength = -1.0;
+    }   
+   )* 
+   "]"
+   {return vo;}
+}
+
+
+/* define a concept word */
+void conceptWord() :
+{
+   Token t;
+   ConceptOverlay co;
+}
+{
+"$ConceptWord" t = <ID> "=" co = co()
+  {
+     XapiDictionary xepd = agent.getXapiDictionary();
+     xepd.addConceptWord(t.image, co, "no comment");
+  }
+} 
+
+/* create or update a verb (that doesn't have a metaverb) */
+void createVerb() :
+{
+   Token t;
+   double verbArea = 1.0;
+}
+{
+"$CreateVerb" t = <ID> ("with" "area" "=" verbArea = number())? 
+  {
+    String verbName = t.image;
+    Verb verb = vdh.createWithAreaAndMetaverb(verbName, verbArea, null);
+    verb.setComment("no comment");
+  }
+} 
+
+
+
+/* create or update a verb that relies on a metaverb*/
+void createMetaVerb() :
+{
+   Token t;
+   double verbArea = 1.0;
+   Token t2 = null;
+}
+{
+"$CreateMetaVerb" t = <ID> ("with" "area" "=" verbArea = number())? "metaverb" t2 = <ID>
+  {
+    String verbName = t.image;
+    String metaverb = t2.image;
+    Verb verb = vdh.createWithAreaAndMetaverb(verbName, verbArea, metaverb);
+    verb.setComment("no comment");
+  }
+}
+
+
+/* create a relation */
+void createRelation() :
+{
+   Token t;
+   double verbArea = 1.0;
+   Token t2 = null;
+}
+{
+"$CreateRelation" t = <ID> 
+  {
+    String verbName = t.image;
+    Verb verb = vdh.createWithAreaAndMetaverb(verbName, verbArea, null);
+    verb.setComment("no comment");
+    // Verb relation = agent.getVerbDB().getConcept(Hardwired.VMC_RELATION);
+    vdh.makeOverlap(verbName, Hardwired.VMC_RELATION, 1.0);    
+  }
+} 
+
+
+/* specify the impact between one verb and another */
+void verbImpact() :
+{
+   Token t1;
+   Token t2;
+   double implication;
+}
+{
+"$VerbImpact" t1 = <ID> "impacts" t2 = <ID> "with" implication = number()
+  {
+     String verbName = t1.image;
+     String otherVerb = t2.image;
+     vdh.makeImpact(verbName, otherVerb, implication);
+  }
+} 
+
+/* specify the overlap between one verb and another */
+void verbOverlap() :
+{
+   Token t1;
+   Token t2;
+   double overlap;
+}
+{
+"$VerbOverlap" t1 = <ID> "overlaps" t2 = <ID> "with" overlap = number()
+  {
+     String verbName = t1.image;
+     String otherVerb = t2.image;
+     vdh.makeOverlap(verbName, otherVerb, overlap);
+  }
+}
+
+
+/* define a concept word */
+void verbWord() :
+{
+   Token t;
+   VerbOverlay vo;
+}
+{
+"$VerbWord" t = <ID> "=" vo = vo()
+  {
+     XapiDictionary xepd = agent.getXapiDictionary();
+     xepd.addVerbWord(t.image, vo);
+  }
+}
+
+/* define a concept word */
+void actionVerbWord() :
+{
+   Token t;
+   VerbOverlay vo;
+}
+{
+"$ActionVerbWord" t = <ID> "=" vo = vo()
+  {  	 
+     XapiDictionary xepd = agent.getXapiDictionary();
+     VerbOverlay voAction = xepd.getVoForWord("ActionVerb");
+     vo.addOverlay(voAction);
+     xepd.addVerbWord(t.image, vo);
+  }
+}
+
+
+double number() :
+{
+   Token t;
+}
+{
+   t = <FLOATONE> {
+      return Double.parseDouble(t.image);
+   }
+}
+
+/**
+ * Parses a string literal. The delimiter quotes are part of the returned
+   content. The literal can use either single or double quotes, but it will
+   always return the values with double quotes.
+ */
+
+String string_literal() :
+{
+Token t;
+Token t2;
+}
+{
+  (
+  t = <STRING_DOUBLE_QUOTES> {
+  	  return t.image;
+  } |
+  t2 = <STRING_SINGLE_QUOTES> {
+      return "\"" + t2.image.substring(1, t2.image.length()-1) + "\"";
+  }
+  )
+}
+
+
+
+TOKEN :
+{
+<  ID : ["a"-"z","A"-"Z", "_"] (["a"-"z","A"-"Z","0"-"9","_",".","-"])* > |
+// represents a Xapagy label - starts with #
+<  LABEL : "#"["a"-"z","A"-"Z", "_"] (["a"-"z","A"-"Z","0"-"9","_"])* > |
+ <  OCTALINT : "0" (["0"-"7"])* (["u","U","l","L"])? >
+| <  DECIMALINT : ["1"-"9"] (["0"-"9"])* (["u","U","l","L"])? >
+| <  HEXADECIMALINT : ("0x"|"0X") (["0"-"9","a"-"f","A"-"F"])+ (["u","U","l","L"])? >
+| <  FLOATONE : ((["0"-"9"])+ "." (["0"-"9"])* | (["0"-"9"])* "." (["0"-"9"])+)
+   (["e","E"] (["-","+"])? (["0"-"9"])+)? (["f","F","l","L"])? >
+| <  FLOATTWO : (["0"-"9"])+ ["e","E"] (["-","+"])?
+   (["0"-"9"])+ (["f","F","l","L"])? >
+| <  STRING_DOUBLE_QUOTES : "\""
+   ( ( ~["\"","\\","\n","\r"])
+   | ("\\" (
+             ["n","t","v","b","r","f","a","\\","?","'","\""]
+            |
+             "0" (["0"-"7"])*
+            |
+             ["1"-"9"] (["0"-"9"])*
+            |
+             ("0x" | "0X") (["0"-"9","a"-"f","A"-"F"])+
+           )
+     )
+   )*
+   "\"" >
+| <  STRING_SINGLE_QUOTES : "\'"
+   ( ( ~["\'","\\","\n","\r"])
+   | ("\\" (
+             ["n","t","v","b","r","f","a","\\","?","\""]
+            |
+             "0" (["0"-"7"])*
+            |
+             ["1"-"9"] (["0"-"9"])*
+            |
+             ("0x" | "0X") (["0"-"9","a"-"f","A"-"F"])+
+           )
+     )
+   )*
+   "\'" >
+}

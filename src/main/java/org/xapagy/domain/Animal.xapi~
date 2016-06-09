@@ -1,0 +1,45 @@
+$Define Animal
+$Include IfNotDefined Core 'Core'
+
+$Create Concept cc_gender
+
+$Create Concept c_male 
+$Create ConceptImpact c_male Impacts cc_gender With 1.0
+
+$Create Concept c_female 
+$Create ConceptImpact c_female Impacts cc_gender With 1.0
+$Create Word "female" For Concept [c_female]
+
+$Create Concept cc_age 
+
+$Create Concept c_young
+$Create ConceptImpact c_young Impacts cc_age With 1.0
+$Create Word "young" For Concept [c_young]
+
+$Create Concept c_old
+$Create ConceptImpact c_old Impacts cc_age With 1.0
+$Create Word "old" For Concept [c_old]
+
+$Create Concept c_alive With Area = 2.0 
+$Create Word "alive" For Concept [c_alive]
+
+$Create Concept c_dead With Area = 2.0
+$Create Word "dead" For Concept [c_dead]
+SCreate ConceptOverlap c_dead Overlaps not-c_alive With 1.0
+$Create ConceptImpact c_dead Impacts c_alive With -1.0
+$Create ConceptImpact c_alive Impacts c_dead With -1.0
+
+
+$Create Concept cc_animal_species 
+
+$Create Concept c_wolf
+$Create ConceptImpact c_wolf Impacts cc_animal_species With 1.0
+$Create Word "wolf" For Concept [c_wolf]
+
+$Create Concept c_dog
+$Create ConceptImpact c_dog Impacts cc_animal_species With 1.0
+$Create Word "dog" For Concept [c_dog]
+
+$Create Concept c_cat
+$Create ConceptImpact c_cat Impacts cc_animal_species With 1.0
+$Create Word "cat" For Concept [c_cat]

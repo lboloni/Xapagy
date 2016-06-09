@@ -1,0 +1,22 @@
+// ***************************************************
+//
+//  Xapagy Core Domain Library 0.31
+//  November 17, 2015
+//
+//  -top level file for core domain definitions, this file 
+//  only enforces dependencies
+//
+// ***************************************************
+$Include IfNotDefined Core-Core 'Core-Core'
+$Include IfNotDefined Core-Quantities 'Core-Quantities'
+$Include IfNotDefined Core-Communication 'Core-Communication'
+$Include IfNotDefined Core-Spatial 'Core-Spatial'
+$Include IfNotDefined Core-Identity 'Core-Identity'
+$Include IfNotDefined Core-Scene 'Core-Scene'
+$Include IfNotDefined Core-Language 'Core-Language'
+$Include IfNotDefined Core-Values 'Core-Values'
+
+
+
+
+

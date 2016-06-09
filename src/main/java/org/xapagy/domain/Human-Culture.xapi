@@ -1,0 +1,35 @@
+// ****************************************************
+//
+//   Definitions of things which relate to human culture:
+//   nationality, language etc.
+//
+//   NOTE: this had been gradually created from frameworks 
+//   which are started from Iliad, Little Red Riding Hood etc,
+//   so they are not representative of human culture as a whole
+//
+// ****************************************************
+
+$Define Human_Culture
+
+$Create Concept cc_nationality
+
+$Create Concept c_trojan
+$Create ConceptImpact c_trojan Impacts cc_nationality With 1.0
+$Create Word "trojan" For Concept [c_trojan]
+
+$Create Concept c_greek
+$Create ConceptImpact c_greek Impacts cc_nationality With 1.0
+$Create Word "greek" For Concept [c_greek]
+
+$Create Concept c_turk
+$Create ConceptImpact c_turk Impacts cc_nationality With 1.0
+$Create Word "turk" For Concept [c_trojan]
+
+$Create Concept c_bedouin
+$Create ConceptImpact c_bedouin Impacts cc_nationality With 1.0
+$Create Word "bedouin" For Concept [c_bedouin]
+
+$Create Concept c_amazon
+$Create ConceptImpact c_amazon Impacts cc_nationality With 1.0
+$Create Word "amazon" For Concept [c_amazon]
+

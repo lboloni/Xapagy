@@ -1,0 +1,1258 @@
+PARSER_BEGIN(XapiLang)
+package com.xapagy.xapi.language.parser;
+import java.io.File;
+import java.io.IOException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+
+
+import com.xapagy.activity.DaHelper;
+import com.xapagy.activity.DaComposite;
+import com.xapagy.activity.SaHelper;
+import com.xapagy.activity.SaComposite;
+import com.xapagy.agents.Agent;
+import com.xapagy.agents.PerformanceMeter;
+import com.xapagy.xapi.Kludges;
+import com.xapagy.xapi.KludgeCreateLink;
+import com.xapagy.xapi.XapiDictionary;
+import com.xapagy.autobiography.ABStory;
+import com.xapagy.xapi.MacroGenerator;
+import com.xapagy.xapi.XapiFileLoader;
+import com.xapagy.parameters.Parameters;
+import com.xapagy.ui.SaveLoadUtil;
+import com.xapagy.ui.TextUi;
+import com.xapagy.ui.prettyprint.PpStory;
+import com.xapagy.links.Links;
+import com.xapagy.debug.ViMatchFilter;
+import com.xapagy.ui.observers.XapiObserver;
+import com.xapagy.debug.DebugEvent.DebugEventType;
+import com.xapagy.instances.Instance;
+import com.xapagy.concepts.Concept;
+import com.xapagy.concepts.ConceptDataBaseHelper;
+import com.xapagy.concepts.ConceptOverlay;
+import com.xapagy.concepts.Verb;
+import com.xapagy.concepts.Hardwired;
+import com.xapagy.concepts.VerbOverlay;
+import com.xapagy.concepts.AbstractConceptDB;
+import com.xapagy.domain.IncludeHelper;
+import com.xapagy.ui.observers.AbstractAgentObserver.TraceWhat;
+import com.xapagy.ui.observers.ToStringObserver;
+import com.xapagy.exceptions.NoSuchConceptOrVerb;
+import com.xapagy.set.EnergyColors;
+
+
+@SuppressWarnings({"all"})
+public class XapiLang {
+
+   private Agent agent;
+   private ConceptDataBaseHelper<Concept> cdh; 
+   private ConceptDataBaseHelper<Verb> vdh;   
+   
+   public void setAgent(Agent agent) {
+       this.agent = agent;
+       cdh = new ConceptDataBaseHelper<Concept>(agent.getConceptDB(),
+                        ConceptDataBaseHelper.ContentType.TYPE_CONCEPT, agent);
+       vdh = new ConceptDataBaseHelper<Verb>(agent.getVerbDB(),
+               ConceptDataBaseHelper.ContentType.TYPE_VERB, agent);
+   
+   }
+
+}
+
+PARSER_END(XapiLang)
+
+
+/*
+ * Tokens to ignore in the BNF follow.
+ */
+
+SKIP :
+{
+  < " " >
+| < "\t" >
+| < "\n" >
+| < "\r" >
+| < "//" (~["\n"])* "\n" >
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+| < "#" ([" ","\t"])* (["0"-"9"])+
+    (([" ","\t"])* "\"" (~["\""])+ "\""
+           ([" ","\t"])* (["0"-"9"])* ([" ","\t"])* (["0"-"9"])*)? "\n" >
+}
+
+/* The whole change specification */
+void line() :
+{}
+{
+  ( 
+    documentation() |
+    statement() |
+    debugHere() | 
+    sceneCreate() |
+    changeScene() |
+    checkPoint() |
+    define() |
+    include() |
+    createLinkType() |
+    createLink() |
+    parameter() |
+    energyCreate() |
+    performanceMeter() |
+    create() |
+    observer() |
+    diffusionActivity() |
+    spikeActivity() |
+    print() |
+    namespace() 
+    )
+    <EOF>
+}
+
+
+/* statement: a statement that can be an S-V-O, S-V, S-Adj, Quote */
+void statement() :
+{
+}
+{
+      cospecInStatement() "/" vospecInStatement() 
+      (
+      ("/" cospecInStatement() terminator() ) | 
+      (terminator() ) |
+      (":" cospecInStatement() terminator() ) |
+      ("inx" cospecInStatement() "//" statement())
+      )
+} 
+
+/* this returns the cospec as a string. Eventually, we need to migrate to 
+   actually do proper parsing here, but in order to make a smooth transition, 
+   we will do this for the time being */
+String cospecInStatement() :
+{
+    String accumulate = "";
+    Token t;
+    String value;
+}
+{
+    ( value = string_literal() 
+      { accumulate += value + " "; }
+    | t = <ID> 
+      { accumulate += t.image + " "; }
+    | t = <LABEL> 
+      { accumulate += t.image + " "; }    
+    )+
+    {
+       return accumulate.trim();
+    }
+} 
+
+
+void vospecInStatement() :
+{
+}
+{
+    ( string_literal() | <ID> )+
+    // ( <STRING> )+   
+} 
+
+
+/* parses a relation between scenes */
+String relationSpec() :
+{
+   String relation;
+}
+{
+   (
+    "none" {relation = "none";} | 
+    "successor" {relation = "successor";} |
+    "view" {relation = "view";} |
+    "fictional-future" {relation = "fictional-future";}
+   )
+   {
+      return relation;
+   }
+} 
+
+
+void terminator() :
+{
+}
+{
+    "." | "," | ";"
+}
+
+/* enter into debugging mode here */
+void debugHere() :
+{
+}
+{
+"$DebugHere"
+  {
+     Kludges.kludgeDebugHere(agent);
+  }
+} 
+
+/* accumulates documentation */
+void documentation() :
+{
+	String newdoc;
+}
+{
+	("$Documentation" | "$--") newdoc = string_literal_content() 
+	{
+	   agent.setDocumentation(agent.getDocumentation() + " " + newdoc);	
+	}
+}
+
+
+
+/* create a new scene and make it current */
+void sceneCreate() :
+{
+   String localFrom;
+   String localTo;
+   Token t;
+   String newSceneLabel;
+   String relation = "none";
+   List<SimpleEntry<String, String>> participants = new ArrayList<SimpleEntry<String, String>>();
+   boolean makeCurrent = false;
+   boolean addSummary = false;
+   boolean onlyScene = false;
+}
+{
+  "$CreateScene" t = <LABEL> { newSceneLabel = t.image;}
+  ("Current" {
+       makeCurrent = true;
+  })? 
+  ("CloseOthers" {
+	  // if the closeothers is on, makeCurrentMust be on
+       onlyScene = true;
+       makeCurrent = true;
+  })? 
+  ( "AddSummary" {
+       addSummary = true;
+  })? 
+  ("RelatedAs" relation = relationSpec())?
+  ("With Instances"
+		  localFrom = cospecInStatement() {localTo=null;} ("->" localTo = cospecInStatement())?
+				    {
+				       SimpleEntry<String, String> entry1 = new SimpleEntry<String, String>(localFrom, localTo);
+				       participants.add(entry1);
+				    }
+  ("," localFrom = cospecInStatement() {localTo=null;} ("->" localTo = cospecInStatement())?
+    {
+       SimpleEntry<String, String> entry = new SimpleEntry<String, String>(localFrom, localTo);
+       participants.add(entry);
+    }  
+  )*
+  )?
+  {
+     
+     ABStory generated =
+                    MacroGenerator.generateNewScene(agent, newSceneLabel,
+                            makeCurrent, onlyScene, addSummary, relation,
+                            participants);
+     TextUi.println(PpStory.pp("Generated:", generated));
+     agent.getLoop().addImmediateReading(generated.getLines());
+     
+  }
+}  
+
+
+/* changes the default scene to another scene */
+void changeScene() :
+{
+   Token t;
+}
+{
+"$ChangeScene" t = <LABEL>
+  {
+      Instance target = null;
+      String sceneLabelReal = agent.getLabelSpaces().fullLabel(t.image);
+      for (Instance scene : agent.getFocus().getSceneListAllEnergies()) {
+            if (scene.getConcepts().getLabels().contains(sceneLabelReal)) {
+                target = scene;
+                break;
+            }
+      }
+      if (target == null) {
+            throw new Error("Could not find scene with label " + sceneLabelReal + " (expanded from " + t.image + ")");
+      }
+      agent.getFocus().setCurrentScene(target);
+  }
+} 
+
+
+// parses a filename into a file
+File fileSpec() :
+{
+   String fileName;
+}
+{
+   fileName = string_literal_content()
+   {
+      File f = new File(fileName);
+      return f;
+   }
+}
+
+/* checkpoints Xapagy at this point */
+void checkPoint() :
+{  
+   File f;
+}
+{
+"$CheckPoint" f = fileSpec()
+  {
+	agent.getLoop().setRequestedCheckPointFile(f);
+  }
+} 
+
+
+void define() :
+{
+   Token t = null;
+}
+{
+"$Define" t = <ID>
+  {
+    agent.getLabelSpaces().getDefines().add(t.image);
+  }
+} 
+
+
+/* includes another Xapi file and queues it up for reading here. If the 
+   IfNotDefined clause is there, it does not include it if in the agent's domain 
+   list the term is already defined (with a previous $Define */
+void include() :
+{
+   String includeSpec;
+   Token t = null;
+   String marker = null;
+}
+{
+"$Include" ("From" marker = string_literal_content())? ("IfNotDefined" t = <ID>)? includeSpec = string_literal_content()
+  {
+	    File f = IncludeHelper.findXapiFile(includeSpec);
+	    if (t != null) {
+	    	String domain = t.image;
+	    	if (agent.getLabelSpaces().getDefines().contains(domain)) {
+	    		return;
+	    	}
+	    }
+        try {
+        	XapiFileLoader.loadFileToReading(agent, f, marker);
+        } catch (IOException e) {
+            e.printStackTrace();
+            TextUi.println("$Include statement but could not find file"
+                    + f.getAbsolutePath());
+            throw new Error("$Include statement but could not find file"
+                    + f.getAbsolutePath());
+        }
+  }
+}
+
+/*
+   Creates a match filter: right now it just picks up a string, and passes it to the
+   old match filter, but later we need to make this one a lot more flexible.
+*/
+ViMatchFilter viMatchFilter() :
+{
+   String text;
+   ViMatchFilter linkName;
+}
+{
+   text = string_literal_content() 
+   { 
+      ViMatchFilter retval = ViMatchFilter.createViMatchFilter(null, text);
+      return retval;
+   }
+}
+
+
+/* create a new link type */
+void createLinkType() :
+{
+}
+{
+"$CreateLinkType"  ( createLinkTypeOneWay() | createLinkTypeUndirected() )
+} 
+
+
+/* remaining of the create link type statement for oneway links */
+void createLinkTypeOneWay() :
+{
+	String linkTypeName;
+	String reverse;
+	double defaultWeight;
+	double reverseDefaultWeight;
+}
+{
+"DirectionPaired" linkTypeName = string_literal_content() "Default" "Weight" "=" defaultWeight = number() "With" "Reverse" reverse = string_literal_content() "Default" "Weight" "=" reverseDefaultWeight = number()
+		
+		{
+	      String documentation = agent.getDocumentation();
+	      agent.setDocumentation("");
+          agent.getLinks().createDirectionPairedLinkTypes(linkTypeName, defaultWeight, reverse, reverseDefaultWeight, documentation);
+		}
+} 
+
+
+/* remaining of the create link type statement for undirected links */
+void createLinkTypeUndirected() :
+{
+	String linkTypeName;
+	double defaultWeight;
+}
+{
+"Regular" linkTypeName = string_literal_content() "Default" "Weight" "=" defaultWeight = number()
+		{
+    		String documentation = agent.getDocumentation();
+    		agent.setDocumentation("");
+    		agent.getLinks().createRegularLinkType(linkTypeName, defaultWeight, documentation);
+		}
+}
+
+
+/* manually create a link */
+void createLink() :
+{
+   KludgeCreateLink.CreateLinkSpec spec = new KludgeCreateLink.CreateLinkSpec();
+   double specNumber = -1.0;
+}
+{
+"$CreateLink" spec.linkName = string_literal_content() "{" spec.vmfFrom = viMatchFilter() "}" "==>" "{" spec.vmfTo = viMatchFilter() "}" 
+    (specNumber = number())?
+  {
+     if (specNumber != -1.0) {
+        spec.strength = specNumber;
+     }
+     KludgeCreateLink.kludgeCreateLink(spec, agent);
+  }
+} 
+
+
+/* functions that deal with parameters */
+void parameter() :
+{}
+{
+	(
+	parameterSet() |
+	parameterCreate()
+    )
+}
+
+
+/* sets the value of a specific parameter $SetParameter area/group/name=value */
+void parameterSet() :
+{
+   Token area;
+   Token group;
+   Token name;
+   double value;
+}
+{
+"$SetParameter" area = <ID>  
+   "/" group = <ID> 
+   "/" name = <ID>  "=" value = number()
+  {
+      Parameters p = agent.getParameters();
+      p.set(area.image, group.image, name.image, value);
+  }
+} 
+
+
+/* creates a new parameter $CreateParameter area/group/name=value */
+void parameterCreate() :
+{
+   Token area;
+   Token group;
+   Token name;
+   double value;
+}
+{
+"$CreateParameter" area = <ID>  
+   "/" group = <ID> 
+   "/" name = <ID>  "=" value = number()
+  {
+      Parameters p = agent.getParameters();
+      String documentation = agent.getDocumentation();
+      agent.setDocumentation("");
+      p.addParam(area.image, group.image, name.image, value, documentation);
+  }
+} 
+
+
+/* parses an energy color */
+EnergyColors.EnergyColorType energyColor() :
+{	
+}
+{
+	(
+	"AM_INSTANCE" { return EnergyColors.EnergyColorType.AM_INSTANCE; } |
+    "AM_VI" { return EnergyColors.EnergyColorType.AM_VI; } |
+    "FOCUS_INSTANCE" { return EnergyColors.EnergyColorType.FOCUS_INSTANCE; } |
+    "FOCUS_VI" { return EnergyColors.EnergyColorType.FOCUS_VI; } |
+    "SHADOW_INSTANCE" { return EnergyColors.EnergyColorType.SHADOW_INSTANCE; } |
+    "SHADOW_VI" { return EnergyColors.EnergyColorType.SHADOW_VI; } 
+    )
+}
+
+/* creates a new energy type CreateEnergy name Of Type FOCUS_INSTANCE With E2S = param */
+void energyCreate() :
+{
+   String name;
+   EnergyColors.EnergyColorType type;
+   double e2s;
+}
+{
+"$CreateEnergy" name = string_literal_content()  "Of" "Type" type = energyColor() "With" "E2S" "=" e2s = number()  
+  {
+      agent.getEnergyColors().createEnergy(name, type, e2s);
+  }
+} 
+
+
+
+/* turns on a performance meter */
+void performanceMeter() :
+{
+   String param;
+}
+{
+"$PerformanceMeter" param = string_literal()
+  {
+      PerformanceMeter pm = agent.getDebugInfo().getPerformanceMeter();
+      switch (param) {
+        case "\"Reset\"":
+            pm.timeCountReset();
+            break;
+        default:
+            throw new Error("$PerformanceMeter invalid command " + param);
+      }
+  }
+}
+
+
+/* all the commands with start with $Create or $Update */
+void create() :
+{
+}
+{
+	("$Create" | "$Update")
+	(
+		createConcept() | 
+		createConceptImpact() |
+		createConceptOverlap() |
+	    createVerb() |
+        createMetaVerb() |
+        createRelation() |
+        createVerbImpact() |
+        createVerbOverlap() |
+        createWord()
+    )
+}
+
+
+
+/* create or update a concept */
+void createConcept() :
+{
+   Token t;
+   double conceptArea = 1.0;
+}
+{
+"Concept" t = <ID> ("With" "Area" "=" conceptArea = number())? 
+  {
+     String conceptName = t.image;
+     Concept concept = cdh.createWithArea(conceptName, conceptArea);
+     // gather the documentation into the comment
+     String documentation = agent.getDocumentation();
+     agent.setDocumentation("");
+     concept.setDocumentation(documentation);
+     // create the negated concept
+     String negationName = AbstractConceptDB.getNegationName(conceptName);
+     Concept negatedConcept = cdh.createWithArea(negationName, conceptArea);
+     negatedConcept.setDocumentation("Concept that is the negation of concept " + conceptName + 
+    		 ". Documentation of the original concept was:" + documentation);
+     // FIXME: is this -1.0 or -area???
+     cdh.makeImpact(conceptName, negationName, -1.0);
+     cdh.makeImpact(negationName, conceptName, -1.0);
+   }
+} 
+
+/* specify the impact between one concept and another */
+void createConceptImpact() :
+{
+   Token t1;
+   Token t2;
+   double implication;
+}
+{
+"ConceptImpact" t1 = <ID> "Impacts" t2 = <ID> "With" implication = number()
+  {
+     String firstConceptName = t1.image;
+     String secondConceptName = t2.image;
+     cdh.makeImpact(firstConceptName, secondConceptName, implication);
+     // make the impact of the negated concepts
+     String negatedFirstConceptName = AbstractConceptDB.getNegationName(firstConceptName);
+     String negatedSecondConceptName = AbstractConceptDB.getNegationName(secondConceptName);
+     cdh.makeImpact(negatedFirstConceptName, negatedSecondConceptName, implication);     
+  }
+} 
+
+/* specify the overlap between one concept and another */
+void createConceptOverlap() :
+{
+   Token t1;
+   Token t2;
+   double overlap;
+}
+{
+"ConceptOverlap" t1 = <ID> "Overlaps" t2 = <ID> "With" overlap = number()
+  {
+     String firstConceptName = t1.image;
+     String secondConceptName = t2.image;
+     cdh.makeOverlap(firstConceptName, secondConceptName, overlap);
+     // make the overlap of the negated concepts
+     String negatedFirstConceptName = AbstractConceptDB.getNegationName(firstConceptName);
+     String negatedSecondConceptName = AbstractConceptDB.getNegationName(secondConceptName);
+     cdh.makeOverlap(negatedFirstConceptName, negatedSecondConceptName, overlap);     
+  }
+}
+
+/**
+    Specifies a concept (without a string sign or a word) with an 
+    optional multiplier strength
+*/
+ConceptOverlay coComponent():
+{
+	Token t = null;
+	String word = null;
+	double strength = 1.0;
+}
+{    
+	 (
+	 t = <ID> | word = string_literal_content() 
+	 )
+	 ("=" strength = number())? 
+	 {  
+     	  ConceptOverlay retval = new ConceptOverlay(agent);
+     	  if (t != null) { // it was a concept
+  			 try { 
+     	       Concept concept = agent.getConceptDB().getConcept(t.image);
+               double area = agent.getConceptDB().getArea(concept);
+               retval.addSpecificEnergy(concept, strength * area);
+    		  } catch(NoSuchConceptOrVerb nscov) {
+  				 TextUi.println("FIXME: here I would need to do an in-Xapi exception");
+  				 TextUi.println("Could not find concept for " + t.image + " at column" + t.beginColumn);
+  				 throw new Error("Invalid concept");
+  			  }
+          } else {
+             XapiDictionary xepd = agent.getXapiDictionary();	
+             ConceptOverlay coWord = xepd.getCoForWord(word);
+             retval.addOverlay(coWord);
+          }
+          return retval;
+	 }	  
+}
+
+
+/* Parses a concept overlay in the form:
+   [ concept, "word", concept1 = 0.6 , "word" = 0.7 ] 
+   This is currently only used in concept word specification   
+*/
+ConceptOverlay co():
+{
+   Token t;
+   double conceptStrength = -1.0;
+   ConceptOverlay retval = new ConceptOverlay(agent);
+   ConceptOverlay co = null;
+   double area = 0.0;
+}
+{
+   "["
+      co = coComponent()
+      {  
+          retval.addOverlay(co);
+      }      
+   
+   (  "," co = coComponent()
+    { 
+          retval.addOverlay(co);
+    }   
+   )* 
+   "]"
+   {return retval;}
+}
+
+
+
+
+/**
+    Specifies a component of a verb overlay either as a verb or as a verb word (written with a string mode)
+*/
+VerbOverlay voComponent():
+{
+	Token t = null;
+	String word = null;
+	double strength = 1.0;
+}
+{    
+	 (
+	 t = <ID> | word = string_literal_content() 
+	 )
+	 ("=" strength = number())? 
+	 {
+     	VerbOverlay retval = new VerbOverlay(agent);
+     	if (t != null) { // it was a concept
+     	   Verb verb = agent.getVerbDB().getConcept(t.image);
+           double area = agent.getVerbDB().getArea(verb);
+           retval.addSpecificEnergy(verb, strength * area);
+        } else {
+           XapiDictionary xepd = agent.getXapiDictionary();	
+           VerbOverlay voWord = xepd.getVoForWord(word);
+           retval.addOverlay(voWord);
+        }
+        return retval;
+	 }	  
+}
+
+
+
+/* Parses a verb overlay in the form:
+   [ verb, "word", verb1 = 0.6 , "word2" = 0.7 ] 
+   This is currently only used in the verb word specification
+*/
+VerbOverlay vo():
+{
+   VerbOverlay retval = new VerbOverlay(agent);
+   VerbOverlay vo;
+}
+{
+   "["
+      vo = voComponent() 
+    { 
+      retval.addOverlay(vo);	  
+    }      
+   
+   (  "," vo = voComponent()
+    { 
+    	retval.addOverlay(vo);
+    }   
+   )* 
+   "]"
+   {return retval;}
+}
+
+
+
+/* create or update a verb (that doesn't have a metaverb) */
+void createVerb() :
+{
+   Token t;
+   double verbArea = 1.0;
+}
+{
+"Verb" t = <ID> ("With" "Area" "=" verbArea = number())? 
+  {
+    String verbName = t.image;
+    Verb verb = vdh.createWithAreaAndMetaverb(verbName, verbArea, null);
+    // gather the documentation into the comment
+    String documentation = agent.getDocumentation();
+    agent.setDocumentation("");
+    verb.setDocumentation(documentation);
+    // create the negated verb
+    String negationName = AbstractConceptDB.getNegationName(verbName);
+    Verb negatedVerb = vdh.createWithAreaAndMetaverb(negationName, verbArea, null);
+    negatedVerb.setDocumentation("Verb that is the negation of verb " + verbName + 
+   		 ". Documentation of the original verb was:" + documentation);
+    // FIXME: is this -1.0 or -area???
+    vdh.makeImpact(verbName, negationName, -1.0);
+    vdh.makeImpact(negationName, verbName, -1.0);
+  }
+} 
+
+
+
+/* create or update a verb that relies on a metaverb*/
+void createMetaVerb() :
+{
+   Token t;
+   double verbArea = 1.0;
+   Token t2 = null;
+}
+{
+"MetaVerb" t = <ID> ("With" "Area" "=" verbArea = number())? "Code" t2 = <ID>
+  {
+    String verbName = t.image;
+    String metaverb = t2.image;
+    Verb verb = vdh.createWithAreaAndMetaverb(verbName, verbArea, metaverb);
+    // gather the documentation into the comment
+    String documentation = agent.getDocumentation();
+    agent.setDocumentation("");
+    verb.setDocumentation(documentation);
+    // create the negated verb - although we are negating a metaverb, the negation will not be a metaverb...
+    String negationName = AbstractConceptDB.getNegationName(verbName);
+    Verb negatedVerb = vdh.createWithAreaAndMetaverb(negationName, verbArea, null);
+    negatedVerb.setDocumentation("Verb that is the negation of verb " + verbName + 
+      		 ". Documentation of the original verb was:" + documentation);
+    // FIXME: is this -1.0 or -area???
+    vdh.makeImpact(verbName, negationName, -1.0);
+    vdh.makeImpact(negationName, verbName, -1.0);
+
+  }
+}
+
+/* create a relation */
+void createRelation() :
+{
+   Token t;
+   double verbArea = 1.0;
+   Token t2 = null;
+}
+{
+"Relation" t = <ID> 
+  {
+    String verbName = t.image;
+    Verb verb = vdh.createWithAreaAndMetaverb(verbName, verbArea, null);
+    // gather the documentation into the comment
+    String documentation = agent.getDocumentation();
+    agent.setDocumentation("");
+    verb.setDocumentation(documentation);
+    vdh.makeOverlap(verbName, Hardwired.VMC_RELATION, 1.0);    
+    // FIXME: currently we are not creating negated relations???
+    // create the negated verb
+    String negationName = AbstractConceptDB.getNegationName(verbName);
+    Verb negatedVerb = vdh.createWithAreaAndMetaverb(negationName, verbArea, null);
+    vdh.makeOverlap(negationName, Hardwired.VMC_RELATION, 1.0);  
+    negatedVerb.setDocumentation("Verb that is the negation of verb " + verbName + 
+      		 ". Documentation of the original verb was:" + documentation);
+    // FIXME: is this -1.0 or -area???
+    vdh.makeImpact(verbName, negationName, -1.0);
+    vdh.makeImpact(negationName, verbName, -1.0);
+  }
+} 
+
+
+/* specify the impact between one verb and another */
+void createVerbImpact() :
+{
+   Token t1;
+   Token t2;
+   double implication;
+}
+{
+"VerbImpact" t1 = <ID> "Impacts" t2 = <ID> "With" implication = number()
+  {
+     String firstVerbName = t1.image;
+     String secondVerbName = t2.image;
+     vdh.makeImpact(firstVerbName, secondVerbName, implication);
+     // make the impact of the negated concepts
+     String negatedFirstVerbName = AbstractConceptDB.getNegationName(firstVerbName);
+     String negatedSecondVerbName = AbstractConceptDB.getNegationName(secondVerbName);
+     vdh.makeImpact(negatedFirstVerbName, negatedSecondVerbName, implication);     
+  }
+} 
+
+/* specify the overlap between one verb and another */
+void createVerbOverlap() :
+{
+   Token t1;
+   Token t2;
+   double overlap;
+}
+{
+"VerbOverlap" t1 = <ID> "Overlaps" t2 = <ID> "With" overlap = number()
+  {
+     String firstVerbName = t1.image;
+     String secondVerbName = t2.image;
+     vdh.makeOverlap(firstVerbName, secondVerbName, overlap);
+     // make the impact of the negated concepts
+     String negatedFirstVerbName = AbstractConceptDB.getNegationName(firstVerbName);
+     String negatedSecondVerbName = AbstractConceptDB.getNegationName(secondVerbName);
+     vdh.makeOverlap(negatedFirstVerbName, negatedSecondVerbName, overlap);     
+  }
+}
+
+
+
+
+/* define a word for a concept or a verb */
+void createWord() :
+{
+   String word;
+   VerbOverlay vo;
+}
+{
+"Word" word = string_literal_content() "For" 
+		( createWordForConcept(word) | createWordForVerb(word) | createWordForActionVerb(word) )
+}
+
+
+/* Continues from $Create Word "name" For */
+void createWordForConcept(String word) :
+{
+   ConceptOverlay co;
+}
+{
+"Concept" co = co()
+  {
+    XapiDictionary xepd = agent.getXapiDictionary();
+    // gather the documentation into the comment
+    String documentation = agent.getDocumentation();
+    agent.setDocumentation("");
+    xepd.addConceptWord(word, co, documentation);
+  }
+}
+
+
+/* Continues from $Create Word "name" For */
+void createWordForVerb(String word) :
+{
+   VerbOverlay vo;
+}
+{
+"Verb" vo = vo()
+  {
+     XapiDictionary xepd = agent.getXapiDictionary();
+     // gather the documentation into the comment
+     String documentation = agent.getDocumentation();
+     agent.setDocumentation("");
+     xepd.addVerbWord(word, vo, documentation);
+  }
+}
+
+/* Continues from $Create Word "name" For */
+void createWordForActionVerb(String word) :
+{
+   VerbOverlay vo;
+}
+{
+"ActionVerb" vo = vo()
+  {
+    XapiDictionary xepd = agent.getXapiDictionary();
+    // FIXME: replace with Hardwired
+    VerbOverlay voAction = xepd.getVoForWord("ActionVerb");
+    vo.addOverlay(voAction);
+    // gather the documentation into the comment
+    String documentation = agent.getDocumentation();
+    agent.setDocumentation("");
+    xepd.addVerbWord(word, vo, documentation);
+  }
+}
+
+
+/* diffusion activity commands: they can be basically clear and add */
+void diffusionActivity() :
+{
+}
+{
+      "$DiffusionActivity" 
+      (
+    	 diffusionActivityClear() | diffusionActivityAdd() | diffusionActivityUpdate()
+      )
+} 
+
+
+/* clears a particular DA group */
+void diffusionActivityClear() :
+{
+	String groupName;
+}
+{
+      "Clear" "Composite" groupName = string_literal_content() {
+    	  DaHelper.clearComposite(agent, groupName);
+      }
+} 
+
+/* adds a new DA to a particular DA group */
+void diffusionActivityAdd() :
+{
+	String groupName;
+	String daName;
+	String daCode;
+	Map<String, String> parameters = new HashMap<String, String>();
+}
+{
+      "Append" "To" "Composite" groupName = string_literal_content() "New" "DA" "With" "Name" daName = string_literal_content() "Code" daCode = string_literal_content() (parameters = activityParameters())? {
+          DaHelper.addDaToComposite(agent, groupName, daName, daCode, parameters);
+      }
+} 
+
+/* updates the parameters of a particular named DA from a DA group */
+void diffusionActivityUpdate() :
+{
+	String groupName;
+	String daName;
+	Map<String, String> parameters = new HashMap<String, String>();
+}
+{
+      "Update" "From" "Composite" groupName = string_literal_content() "DA" "With" "Name" daName = string_literal_content() "With" parameters = activityParameters() {
+          DaHelper.updateDaInComposite(agent, groupName, daName, parameters);
+      }
+} 
+
+/**
+ * Parses the activities 
+ */
+Map<String, String> activityParameters() :
+{
+	String name;
+	String value;
+	Map<String, String> retval = new HashMap<String, String>();
+}
+{
+	"Parameters" name = string_literal_content() "=" value = string_literal_content() { retval.put(name, value); } 
+	( "," name = string_literal_content() "=" value = string_literal_content() { retval.put(name, value); } )*
+	{
+		return retval;
+	}
+}
+
+
+/* diffusion activity commands: they can be basically clear and add */
+void spikeActivity() :
+{
+}
+{
+      "$SpikeActivity" 
+      (
+    	 spikeActivityClear() | spikeActivityAdd() | spikeActivityUpdate()
+      )
+} 
+
+
+/* clears a particular composite SA */
+void spikeActivityClear() :
+{
+	String groupName;
+}
+{
+      "Clear" "Composite" groupName = string_literal_content() {
+    	  SaHelper.clearComposite(agent, groupName);
+      }
+} 
+
+/* adds a new SA to a particular composite SA */
+void spikeActivityAdd() :
+{
+	String groupName;
+	String daName;
+	String daCode;
+	Map<String, String> parameters = new HashMap<String, String>();
+}
+{
+      "Append" "To" "Composite" groupName = string_literal_content() "New" "SA" "With" "Name" daName = string_literal_content() "Code" daCode = string_literal_content() (parameters = activityParameters())? {
+          SaHelper.addSaToComposite(agent, groupName, daName, daCode, parameters);
+      }
+} 
+
+/* updates the parameters of a particular named DA from a DA group */
+void spikeActivityUpdate() :
+{
+	String groupName;
+	String daName;
+	Map<String, String> parameters = new HashMap<String, String>();
+}
+{
+      "Update" "From" "Composite" groupName = string_literal_content() "SA" "With" "Name" daName = string_literal_content() "With" parameters = activityParameters() {
+          SaHelper.updateSaInComposite(agent, groupName, daName, parameters);
+      }
+} 
+
+
+
+/* metastatement managing observers of the Xapi agent */
+void observer() :
+{
+}
+{
+      "$Observer" 
+      (
+    	 observerAdd() | observerRemoveAll() | observerRemove()
+      )
+} 
+
+
+/* adding a new observer (of XapiObserver type) */
+void observerAdd() :
+{
+	String name;
+	String triggerSpec;
+	String fileSpec;
+}
+{
+      "Add" name = string_literal_content() "Triggered-at" triggerSpec = string_literal_content() "Executing" fileSpec = string_literal_content() 
+      {
+  	    File f = IncludeHelper.findXapiFile(fileSpec);
+    	  XapiObserver observer = null;
+    	  try {
+    	      observer = new XapiObserver(f);
+    	  } catch (IOException e) {
+    	      // TODO Auto-generated catch block
+    	      e.printStackTrace();
+    	  }
+    	  observer.addObserveWhat(DebugEventType.AFTER_LOOP_ITEM_EXECUTION);
+    	  agent.addObserver(name, observer);
+      }
+} 
+
+/* removing all observers from the Xapi agent */
+void observerRemoveAll() :
+{
+}
+{
+      "RemoveAll" {
+    	  agent.removeAllObservers();
+      }
+} 
+
+/* removing all observers from the Xapi agent */
+void observerRemove() :
+{
+	String name;
+}
+{
+      "Remove" name = string_literal_content() {
+    	  agent.removeObserver(name);
+      }
+} 
+
+/* Metastatement for printing something */
+void print() :
+{
+	String current = null;
+	List<String> list = new ArrayList<String>();
+}
+{
+	"$Print" current = printspec() {list.add(current);} 
+	("," current = printspec() {list.add(current);} )*
+	{
+		for(String item: list) {
+			TextUi.print(item);
+		}
+		TextUi.println("");
+	}
+}
+
+/* statement for creating namespaces */
+void namespace() :
+{
+	String ns;
+}
+{
+	"$Namespace" (
+		"Set" ns = string_literal_content() { agent.getLabelSpaces().setNamespace(ns); } 
+		| "Create" { agent.getLabelSpaces().createNamespace(); }
+     )
+}
+
+
+/* Various things that can be printed */
+String printspec() :
+{
+	String retval = null;
+}
+{ 
+	( retval = string_literal_content() |
+	  "Trace" { 
+		Set<TraceWhat> traceWhat = new HashSet<TraceWhat>();
+		traceWhat.add(TraceWhat.VERBALIZATION);
+		retval = ToStringObserver.formatTraceString(agent, DebugEventType.AFTER_LOOP_ITEM_EXECUTION, traceWhat);
+	  } 
+	)
+	{ return retval;}
+	
+}
+
+double number() :
+{
+   Token t;
+}
+{
+   t = <FLOATONE> {
+      return Double.parseDouble(t.image);
+   }
+}
+
+/**
+ * Parses a string literal. The delimiter quotes are part of the returned
+   content. The literal can use either single or double quotes, but it will
+   always return the values with double quotes.
+ */
+
+String string_literal() :
+{
+Token t;
+Token t2;
+}
+{
+  (
+  t = <STRING_DOUBLE_QUOTES> {
+  	  return t.image;
+  } |
+  t2 = <STRING_SINGLE_QUOTES> {
+      return "\"" + t2.image.substring(1, t2.image.length()-1) + "\"";
+  }
+  )
+}
+
+/**
+ * Accepts a string literal, but returns its content without the quotes
+ */
+String string_literal_content() :
+{  
+	String value;
+}
+{
+	value = string_literal() {
+		return value.substring(1, value.length()-1);
+	}
+}
+
+
+TOKEN :
+{
+<  ID : ["a"-"z","A"-"Z", "_"] (["a"-"z","A"-"Z","0"-"9","_",".","-",":"])* > |
+// represents a Xapagy label - starts with #, can have underscore and .
+<  LABEL : "#"["a"-"z","A"-"Z", "_"] (["a"-"z","A"-"Z","0"-"9","_","."])* > |
+ <  OCTALINT : "0" (["0"-"7"])* (["u","U","l","L"])? >
+| <  DECIMALINT : ["1"-"9"] (["0"-"9"])* (["u","U","l","L"])? >
+| <  HEXADECIMALINT : ("0x"|"0X") (["0"-"9","a"-"f","A"-"F"])+ (["u","U","l","L"])? >
+| <  FLOATONE : ("-")?((["0"-"9"])+ "." (["0"-"9"])* | (["0"-"9"])* "." (["0"-"9"])+)
+   (["e","E"] (["-","+"])? (["0"-"9"])+)? (["f","F","l","L"])? >
+| <  FLOATTWO : ("-")?(["0"-"9"])+ ["e","E"] (["-","+"])?
+   (["0"-"9"])+ (["f","F","l","L"])? >
+| <  STRING_DOUBLE_QUOTES : "\""
+   ( ( ~["\"","\\","\n","\r"])
+   | ("\\" (
+             ["n","t","v","b","r","f","a","\\","?","'","\""]
+            |
+             "0" (["0"-"7"])*
+            |
+             ["1"-"9"] (["0"-"9"])*
+            |
+             ("0x" | "0X") (["0"-"9","a"-"f","A"-"F"])+
+           )
+     )
+   )*
+   "\"" >
+| <  STRING_SINGLE_QUOTES : "\'"
+   ( ( ~["\'","\\","\n","\r"])
+   | ("\\" (
+             ["n","t","v","b","r","f","a","\\","?","\""]
+            |
+             "0" (["0"-"7"])*
+            |
+             ["1"-"9"] (["0"-"9"])*
+            |
+             ("0x" | "0X") (["0"-"9","a"-"f","A"-"F"])+
+           )
+     )
+   )*
+   "\'" >
+}

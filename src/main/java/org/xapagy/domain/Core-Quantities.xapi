@@ -1,0 +1,38 @@
+//
+//  Xapagy Core Domain Library 0.999
+//  Core::Quantities
+//
+//  This domain describes groups, number sense, existence and inexistence
+//
+$Define Core_Quantities
+
+$Create Concept c_inexistent
+$Create Word "inexistent" For Concept [c_inexistent]
+
+$Create Concept c_many
+$Create Word "many" For Concept [c_many]
+
+$Create Concept c_pair
+$Create Word "pair" For Concept [c_pair]
+
+$Create Concept c_group
+$Create Word "group" For Concept [c_group]
+
+$Create Concept c_explicit 
+$Create ConceptOverlap c_explicit Overlaps c_many With 1.0
+$Create Word "explicit" For Concept [c_explicit]
+
+$Create Relation vr_member_of_group
+$Create Word "joins-group" For Verb ["CreateRelation", vr_member_of_group]	
+$Create Word "leaves-group" For Verb ["RemoveRelation", vr_member_of_group]
+
+$Create Relation vr_left
+$Create Word "left-of" For Verb [vr_left]
+$Create Word "becomes-left-of" For Verb ["CreateRelation", vr_left]
+
+$Create Relation vr_right
+$Create Word "right-of" For Verb [vr_right]
+$Create Word "becomes-right-of" For Verb ["CreateRelation", vr_right]
+
+
+		

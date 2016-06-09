@@ -1,0 +1,24 @@
+//
+//  Xapagy Core Domain Library 0.999
+//  Core::Values
+//  last changed November 18, 2015 - convert to Xapi
+// 
+$Define Core_Values
+
+$Create Verb vm_physical
+$Create Word "physical" For Verb [vm_physical]
+
+$Create Verb vm_psychological
+$Create Word "psychological" For Verb [vm_psychological]
+
+$Create Verb vm_does 
+$Create Word "does" For Verb [vm_does]
+
+$Create Verb vm_intends
+$Create Word "intends" For Verb [vm_intends]
+
+$Create Verb vm_harm
+$Create Word "harm" For Verb [vm_harm]
+
+$Create Verb vm_benefit
+$Create Word "benefit" For Verb [vm_benefit]

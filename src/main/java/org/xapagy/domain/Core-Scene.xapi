@@ -1,0 +1,40 @@
+//
+//  Xapagy Core Domain Library 0.999
+//  Core::Scene
+//  last changed Nov 17, 2015 - Convert to Xapi
+//
+
+$Define Core_Scene
+
+$Create Concept c_scene
+$Create Word "scene" For Concept [c_scene]
+
+$Create MetaVerb vm_scene_is_only Code com.xapagy.metaverbs.SaMvSceneIsOnly
+
+// scene relations: FIXME: where are these used?
+$Create Relation vr_part_of_scene
+$Create Relation vr_subject_is_scene
+$Create Relation vr_object_is_scene
+$Create Relation vr_in_scene
+
+// relations between scenes
+$Create Relation vr_scene_view
+$Create Relation vr_scene_fictional_future
+$Create Relation vr_scene_succession
+
+// verb words pertaining to relations
+$Create Word "is-only-scene" For Verb [vm_scene_is_only, vr_subject_is_scene]
+$Create Word "in" For Verb [vr_in_scene]
+$Create Word "PartOfScene" For Verb [vr_part_of_scene]
+$Create Word "create-instance" For Verb [vm_create_instance, vr_subject_is_scene]
+
+// verb words pertaining to relations between scenes
+
+$Create Word "has-view" For Verb [vr_scene_view, "CreateRelation"] 
+$Create Word "view-of" For Verb [vr_scene_view] 
+$Create Word "has-fictional-future" For Verb [vr_scene_fictional_future, "CreateRelation"]
+$Create Word "fictional-future-of" For Verb [vr_scene_fictional_future] 
+$Create Word "has-successor" For Verb [vr_scene_succession, "CreateRelation"]
+$Create Word "successor-of" For Verb [vr_scene_succession]
+
+

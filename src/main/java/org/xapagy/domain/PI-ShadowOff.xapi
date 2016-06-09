@@ -1,0 +1,51 @@
+$DiffusionActivity Clear Composite "ShadowMaintenance" 
+
+// ********************************************
+// Area: A_SHM
+// ********************************************
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// If the stochastic sampling is used, the number of samples per iteration (used in SaicHelper)
+$SetParameter A_SHM/G_GENERAL/N_SHADOW_ITEMS_PER_ITERATION=20.0
+// If false, don't allow instances With focus energy and same scene to be in the shadow. 
+//Used in Shadows.applyInstanceShadowQuantum
+$SetParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_INSTANCE=0.0
+// If false, don't allow VIs sharing a scene to be used in the shadow. 
+//Used in Shadows.applyViShadowQuantum.
+$SetParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_VI=0.0
+// Decides what fraction of a VI increase is transfered to the instance parts in Shadows.strengthenCompositeShadow
+$SetParameter A_SHM/G_GENERAL/N_FRACTION_STRENGTHEN_INSTANCE_PART=1.0
+// --------------------------------------------
+// group: G_GARBAGE_COLLECT
+// --------------------------------------------
+// --------------------------------------------
+// group: G_DECAY
+// --------------------------------------------
+// --------------------------------------------
+// group: G_IDENTITY
+// --------------------------------------------
+// --------------------------------------------
+// group: G_INQUIT
+// --------------------------------------------
+// --------------------------------------------
+// group: G_INSTANCE_ACTS_LIKE
+// --------------------------------------------
+// --------------------------------------------
+// group: G_INSTANCE_MATCHING_BODY
+// --------------------------------------------
+// --------------------------------------------
+// group: G_LINK_STRUCTURE
+// --------------------------------------------
+// --------------------------------------------
+// group: G_ENERGY_CONVERSION
+// --------------------------------------------
+// --------------------------------------------
+// group: G_INSTANCE_MATCHING_HEAD
+// --------------------------------------------
+// --------------------------------------------
+// group: G_VI_MATCHING_BODY
+// --------------------------------------------
+// --------------------------------------------
+// group: G_VI_MATCHING_HEAD
+// --------------------------------------------

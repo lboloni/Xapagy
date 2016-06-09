@@ -1,0 +1,33 @@
+//
+//  Xapagy Core Domain Library 0.999
+//  Core::Communication 
+//  last changed November 17, 2015 - convert to Xapi
+//
+$Define Core_Communication
+
+$Create Verb v_communication
+
+$Create Verb v_say
+$Create Word "says" For ActionVerb [v_say, v_communication]
+
+$Create Verb v_ask
+$Create Word "asks" For ActionVerb [v_ask, v_communication]
+
+$Create Verb v_write
+$Create Word "writes" For ActionVerb [v_write, v_communication]
+
+$Create Verb v_think
+$Create Word "thinks" For ActionVerb [v_think, v_communication]
+
+$Create Verb v_imply
+$Create Word "implies" For ActionVerb [v_imply, v_communication]
+
+$Create Verb v_plan
+$Create Word "plans" For ActionVerb [v_plan, v_communication]
+
+$Create Verb v_try
+$Create Word "tries" For ActionVerb [v_try, v_communication]
+
+$Create Verb v_see
+$Create Word "sees" For ActionVerb [v_see, v_communication]
+   

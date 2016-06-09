@@ -1,0 +1,15 @@
+// ***************************************************
+//
+//  Human 0.3
+//  December 15, 2015
+//
+//  -top level file the human domain definitions, only
+// enforces dependencies
+//
+// ***************************************************
+
+$Define Human
+$Include IfNotDefined Animal "Animal"
+$Include IfNotDefined Human_Biology "Human-Biology"
+$Include IfNotDefined Human_Psychology "Human-Psychology"
+$Include IfNotDefined Human_Culture "Human-Culture"

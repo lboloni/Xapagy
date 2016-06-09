@@ -1,0 +1,5 @@
+$Include 'P-All'
+// If true, the Execute.processSummarizationBlocks is turned on.
+$SetParameter A_HLSM/G_GENERAL/N_PROCESS_SUMMARIZATION_BLOCKS=0.0
+//not be instantiated, no matter how much interstitial energy we have.
+$SetParameter A_HLSM/G_GENERAL/N_INTERNAL_CHOICE_THRESHOLD=10000.0

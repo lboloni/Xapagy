@@ -1,0 +1,286 @@
+// ********************************************
+// Area: A_GENERAL
+// ********************************************
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// Used in LearnProperNames to set the Area of the proper name concept created on the fly
+$SetParameter A_GENERAL/G_GENERAL/N_AREA_OF_PROPER_NAMES=1.0
+// FIXME: Used by SaMvInsertHlsLocation to insert a 
+//new VI into the right location in the link mesh 
+//- will probably need to clean it out.
+$SetParameter A_GENERAL/G_GENERAL/N_SA_MV_INSERT_HLS_LOCATION_ASSSUMED_PUSHOUT=-1.0
+// XapiParser interprets this value as the time to wait after a sentence terminated With a '.'
+$SetParameter A_GENERAL/G_GENERAL/N_READING_SPEED=1.0
+// The time step between individual steps of DAs 
+//(FCM, SHM and also HLSM if it is not one-step). Used in Execute.executeTimePassing.
+$SetParameter A_GENERAL/G_GENERAL/N_TIME_STEP_OF_DAS=0.1
+// ********************************************
+// Area: A_DEBUG
+// ********************************************
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// If true, LoopItem will record the choices which existed when a given LoopItem had been instantiated.
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_CHOICES_INTO_LOOPITEM=0.0
+// If true, ChoiceSelector will bring in an interactive, text based selector. Can be also 
+//set from Xapi With $ToggleOn InteractiveChoice
+$SetParameter A_DEBUG/G_GENERAL/N_INTERACTIVE_CHOICE_SELECTOR=0.0
+// If true, the energy quantums will be recorded in the PairEnergySet for shadows.
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_SHADOW_QUANTUMS=0.0
+// If true, the energy quantums will be recorded in the EnergySet for both Focus and Memory.
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_FOCUS_MEMORY_QUANTUMS=0.0
+// If true, the link quantums will be recorded
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_LINK_QUANTUMS=0.0
+// ********************************************
+// Area: A_AMM
+// ********************************************
+// --------------------------------------------
+// group: G_E2S
+// --------------------------------------------
+// The slope for the energy to salience sigmoid for the 
+//autobiographical memory instances (all colors)
+$SetParameter A_AMM/G_E2S/N_INSTANCE=1.0
+// The slope for the energy to salience sigmoid for the 
+//autobiographical memory VIs (all colors)
+$SetParameter A_AMM/G_E2S/N_VERB_INSTANCE=1.0
+// ********************************************
+// Area: A_FCM
+// ********************************************
+// --------------------------------------------
+// group: G_E2S
+// --------------------------------------------
+// The slope for the energy to salience sigmoid for the focus instances (all colors!)
+$SetParameter A_FCM/G_E2S/N_INSTANCE=1.0
+// The slope for the energy to salience sigmoid for the focus VIs (all colors!)
+$SetParameter A_FCM/G_E2S/N_VERB_INSTANCE=1.0
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// The minimum ALL energy for which a focus instance is not garbage collected.
+$SetParameter A_FCM/G_GENERAL/N_MINIMUM_INSTANCE=0.1
+// The minimum ALL energy for which a focus VI is not garbage collected.
+$SetParameter A_FCM/G_GENERAL/N_MINIMUM_VI=0.2
+// --------------------------------------------
+// group: G_DECAY
+// --------------------------------------------
+// Enables the focus decay DA daFcmDecay
+$SetParameter A_FCM/G_DECAY/N_ENABLE=1.0
+// Multiplicative decay for action VIs
+$SetParameter A_FCM/G_DECAY/N_ACTION_VI=0.97
+// Multiplicative decay for non-action VIs (like is-a, change-scene etc)
+$SetParameter A_FCM/G_DECAY/N_NON_ACTION_VI=0.6
+// Multiplicative decay of the EnergyColor.FOCUS for instances and 
+//scenes which lost all their instances.
+$SetParameter A_FCM/G_DECAY/N_INSTANCE=0.99
+// --------------------------------------------
+// group: G_MEMORIZATION
+// --------------------------------------------
+// Enables the memorization DA daFcmMemorization
+$SetParameter A_FCM/G_MEMORIZATION/N_ENABLE=1.0
+// a multiplier for the transformation of the salience of EnergyColor.FOCUS
+//into the energy of EnergyColor.AM for an instance
+$SetParameter A_FCM/G_MEMORIZATION/N_INSTANCE_SALIENCE_FOCUS_TO_ENERGY_AM=0.0
+// a multiplier for the transformation of the salience of EnergyColor.FOCUS
+//into the energy of EnergyColor.AM for a VI
+$SetParameter A_FCM/G_MEMORIZATION/N_VI_SALIENCE_FOCUS_TO_ENERGY_AM=1.0
+// a multiplier for the transformation of the salience of an action VI EnergyColor.FOCUS
+//into the energy of EnergyColor.AM for an instance
+$SetParameter A_FCM/G_MEMORIZATION/N_VI_SALIENCE_FOCUS_TO_INSTANCE_ENERGY_AM=1.0
+// --------------------------------------------
+// group: G_SUMMARIZATION
+// --------------------------------------------
+// Enables the summarization DA daFcmSummarization
+$SetParameter A_FCM/G_SUMMARIZATION/N_ENABLE=1.0
+// ********************************************
+// Area: A_SHM
+// ********************************************
+// --------------------------------------------
+// group: G_E2S
+// --------------------------------------------
+// The slope for the energy to salience sigmoid for the shadow instances (all colors!)
+$SetParameter A_SHM/G_E2S/N_INSTANCE=1.0
+// The slope for the energy to salience sigmoid for the shadow VIs (all colors!)
+$SetParameter A_SHM/G_E2S/N_VERB_INSTANCE=1.0
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// If the stochastic sampling is used, the number of samples per iteration (used in SaicHelper)
+$SetParameter A_SHM/G_GENERAL/N_SHADOW_ITEMS_PER_ITERATION=20.0
+// If false, don't allow instances With focus energy and same scene to be in the shadow. 
+//Used in Shadows.applyInstanceShadowQuantum
+$SetParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_INSTANCE=0.0
+// If false, don't allow VIs sharing a scene to be used in the shadow. 
+//Used in Shadows.applyViShadowQuantum.
+$SetParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_VI=0.0
+// Decides what fraction of a VI increase is transfered to the instance parts in Shadows.strengthenCompositeShadow
+$SetParameter A_SHM/G_GENERAL/N_FRACTION_STRENGTHEN_INSTANCE_PART=1.0
+// --------------------------------------------
+// group: G_GARBAGE_COLLECT
+// --------------------------------------------
+// Enable the garbage collection of shadows DaShmGarbageCollect
+$SetParameter A_SHM/G_GARBAGE_COLLECT/N_ENABLE=0.0
+// PairEnergySet.garbageCollectStochastic - the steepness of the angle
+$SetParameter A_SHM/G_GARBAGE_COLLECT/N_GC_BETA=0.01
+// PairEnergySet.garbageCollectStochastic - above this population, the probability to be garbage collected
+// increase - this is the size of the shadow we would like to have
+$SetParameter A_SHM/G_GARBAGE_COLLECT/N_GC_INFLECTION_POPULATION=10.0
+// PairEnergySet.garbageCollectStochastic - the ALL energy above which a shadow will not be
+// garbage collected.
+$SetParameter A_SHM/G_GARBAGE_COLLECT/N_GC_SAFE_ENERGY=0.001
+// --------------------------------------------
+// group: G_DECAY
+// --------------------------------------------
+// Enables DaShmDecay
+$SetParameter A_SHM/G_DECAY/N_ENABLE=0.0
+// The ratio the SHI_GENERIC energy decays in the shadow of an instance/scene in 1 sec.
+$SetParameter A_SHM/G_DECAY/N_INSTANCE_SHADOW_ENERGY_DECAY_MULTIPLIERSHI_GENERIC=0.9
+// The ratio the SHI_ATTRIBUTE energy decays in the shadow of an instance/scene in 1 sec.
+$SetParameter A_SHM/G_DECAY/N_INSTANCE_SHADOW_ENERGY_DECAY_MULTIPLIERSHI_ATTRIBUTE=0.9
+// The ratio the SHI_RELATION energy decays in the shadow of an instance/scene in 1 sec.
+$SetParameter A_SHM/G_DECAY/N_INSTANCE_SHADOW_ENERGY_DECAY_MULTIPLIERSHI_RELATION=0.9
+// The ratio the SHI_ACTION energy decays in the shadow of an instance/scene in 1 sec.
+$SetParameter A_SHM/G_DECAY/N_INSTANCE_SHADOW_ENERGY_DECAY_MULTIPLIERSHI_ACTION=0.9
+// The ratio to which the SHADOW_GENERIC energy decays in 1 sec
+$SetParameter A_SHM/G_DECAY/N_VI_SHADOW_ENERGY_DECAY_MULTIPLIERSHV_ACTION_MATCH=0.7
+// The ratio to which the SHADOW_GENERIC energy decays in 1 sec
+$SetParameter A_SHM/G_DECAY/N_VI_SHADOW_ENERGY_DECAY_MULTIPLIERSHV_GENERIC=0.7
+// The ratio to which the SHADOW_LINK_STRUCTURE energy decays in 1 sec
+$SetParameter A_SHM/G_DECAY/N_VI_SHADOW_ENERGY_DECAY_MULTIPLIERSHV_TEMPORAL_ORDER=0.3
+// --------------------------------------------
+// group: G_IDENTITY
+// --------------------------------------------
+// Enables the DA DaShmIdentity
+$SetParameter A_SHM/G_IDENTITY/N_ENABLE=0.0
+// --------------------------------------------
+// group: G_INQUIT
+// --------------------------------------------
+// Enables the DA DaShmInquit
+$SetParameter A_SHM/G_INQUIT/N_ENABLE=0.0
+// --------------------------------------------
+// group: G_INSTANCE_ACTS_LIKE
+// --------------------------------------------
+// Enables the DA DaShmInstanceActsLike
+$SetParameter A_SHM/G_INSTANCE_ACTS_LIKE/N_ENABLE=0.0
+// --------------------------------------------
+// group: G_INSTANCE_MATCHING_BODY
+// --------------------------------------------
+// Enables the DA DaShmInstanceMatchingBody
+$SetParameter A_SHM/G_INSTANCE_MATCHING_BODY/N_ENABLE=0.0
+// --------------------------------------------
+// group: G_LINK_STRUCTURE
+// --------------------------------------------
+// Enables the DA DaShmLinkStructure
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_ENABLE=0.0
+// DaShmLinkStructure - the weight attached to ANSWER links
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTAnswer=0.0
+// DaShmLinkStructure - the weight attached to COINCIDENCE links
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTCoincidence=10.0
+// DaShmLinkStructure - the weight attached to PREDECESSOR links
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTReverse:Successor=10.0
+// DaShmLinkStructure - the weight attached to SUCCESSOR links
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTSuccessor=10.0
+// DaShmLinkStructure - the weight attached to IR_CONTEXT links
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTIRContext=0.0
+// DaShmLinkStructure - the weight attached to IR_CONTEXT_IMPLICATION links
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTReverse:IRContext=0.0
+// DaShmLinkStructure - the weight attached to QUESTION links
+$SetParameter A_SHM/G_LINK_STRUCTURE/N_WEIGHTReverse:Answer=0.0
+// --------------------------------------------
+// group: G_ENERGY_CONVERSION
+// --------------------------------------------
+// Enables the DA DaShmEnergyConversion
+$SetParameter A_SHM/G_ENERGY_CONVERSION/N_ENABLE=0.0
+// Describes the ratio at which the salience of SHV_TEMPORAL_ORDER is converted to energy of SHV_GENERIC
+$SetParameter A_SHM/G_ENERGY_CONVERSION/N_S_SHV_TEMPORAL_ORDER_TO_E_SHV_GENERIC=1.0
+// Describes the ratio at which the salience of SHV_ACTION_MATCH is converted to energy of SHV_GENERIC
+$SetParameter A_SHM/G_ENERGY_CONVERSION/N_S_SHV_ACTION_MATCH_TO_E_SHV_GENERIC=1.0
+// Describes the ratio at which the salience of SHI_ATTRIBUTE is converted to energy of SHI_GENERIC
+$SetParameter A_SHM/G_ENERGY_CONVERSION/N_S_SHI_ATTRIBUTE_TO_E_SHI_GENERIC=1.0
+// Describes the ratio at which the salience of SHI_RELATION is converted to energy of SHI_GENERIC
+$SetParameter A_SHM/G_ENERGY_CONVERSION/N_S_SHI_RELATION_TO_E_SHI_GENERIC=1.0
+// Describes the ratio at which the salience of SHI_RELATION is converted to energy of SHI_GENERIC
+$SetParameter A_SHM/G_ENERGY_CONVERSION/N_S_SHI_ACTION_TO_E_SHI_GENERIC=1.0
+// --------------------------------------------
+// group: G_INSTANCE_MATCHING_HEAD
+// --------------------------------------------
+// Enables the DA DaShmInstanceMatchingHead
+$SetParameter A_SHM/G_INSTANCE_MATCHING_HEAD/N_ENABLE=0.0
+// Multiplies the amount of energy added to all in-focus instances by DaShmInstanceMatchingHead
+$SetParameter A_SHM/G_INSTANCE_MATCHING_HEAD/N_INSTANCE=1.0
+// Multiplies the amount of energy added to all active instances by DaShmInstanceMatchingHead
+$SetParameter A_SHM/G_INSTANCE_MATCHING_HEAD/N_INSTANCE_IN_ACTION=0.0
+// --------------------------------------------
+// group: G_VI_MATCHING_BODY
+// --------------------------------------------
+// Enables the DA DaShmViMatchingBody
+$SetParameter A_SHM/G_VI_MATCHING_BODY/N_ENABLE=0.0
+// --------------------------------------------
+// group: G_VI_MATCHING_HEAD
+// --------------------------------------------
+// Enables the DA DaShmViMatchingHead
+$SetParameter A_SHM/G_VI_MATCHING_HEAD/N_ENABLE=0.0
+// Multiplies the value of SHADOW_GENERIC energy applied to ACTION VIs
+$SetParameter A_SHM/G_VI_MATCHING_HEAD/N_ACTION_VI=1.0
+// the contribution to SHI_RELATION even if the instances do not attribute shadowed
+$SetParameter A_SHM/G_VI_MATCHING_HEAD/N_RELATION_DEFAULT=0.2
+// the contribution to SHI_RELATION from the subject attribute shadows
+$SetParameter A_SHM/G_VI_MATCHING_HEAD/N_RELATION_SUBJECT=1.0
+// the contribution to the SHI_RELATION from the object attribute shadows
+$SetParameter A_SHM/G_VI_MATCHING_HEAD/N_RELATION_OBJECT=1.0
+// ********************************************
+// Area: A_HLSM
+// ********************************************
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// If true, the HLSs are constructed only once, rather than for every step of the DA.
+//This accelerates the code.
+$SetParameter A_HLSM/G_GENERAL/N_SINGLE_STEP_HLS=1.0
+// The default value of the interstitial energy of a scene.
+// This is the value to which resetInterstitial energy sets it back.
+$SetParameter A_HLSM/G_GENERAL/N_DEFAULT_INTERSTITIAL_ENERGY=10.0
+// Used in the ChoiceSelector. If the choice has a lower score than this, it will 
+//not be instantiated, no matter how much interstitial energy we have.
+$SetParameter A_HLSM/G_GENERAL/N_INTERNAL_CHOICE_THRESHOLD=0.05
+// If true, the Execute.processSummarizationBlocks is turned on.
+$SetParameter A_HLSM/G_GENERAL/N_PROCESS_SUMMARIZATION_BLOCKS=0.0
+// If true, FslGenerator also generates FSL-s which are based on Choices.
+$SetParameter A_HLSM/G_GENERAL/N_GENERATE_INDIRECT_FSL=0.0
+// The FSL With the smallest value generated by FslGenerator
+$SetParameter A_HLSM/G_GENERAL/N_MINIMUM_FSL_STRENGTH=0.001
+// --------------------------------------------
+// group: G_CHOICES
+// --------------------------------------------
+// Enables the DA DaHlsmChoices
+$SetParameter A_HLSM/G_CHOICES/N_ENABLE=0.0
+// Enables the choice creation and weights the mood score
+// for choices of type Characterization
+$SetParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESCHARACTERIZATION=0.0
+// Enables the choice creation and weights the mood score
+// for choices of type Continuation
+$SetParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESCONTINUATION=0.0
+// Enables the choice creation and weights the mood score
+// for choices of type Missing Action
+$SetParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESMISSING_ACTION=0.0
+// Enables the choice creation and weights the mood score
+// for choices of type Missing Relation
+$SetParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESMISSING_RELATION=0.0
+// Enables the choice creation and weights the mood score
+// for choices of type Static
+$SetParameter A_HLSM/G_CHOICES/N_CHOICE_TYPE_PREFERENCESSTATIC=0.0
+// --------------------------------------------
+// group: G_SUPPORT
+// --------------------------------------------
+// Enables the DA DaHlsmSupport
+$SetParameter A_HLSM/G_SUPPORT/N_ENABLE=0.0
+// --------------------------------------------
+// group: G_STATIC
+// --------------------------------------------
+// Enables the DA DaHlsmStatic
+$SetParameter A_HLSM/G_STATIC/N_ENABLE=0.0
+// --------------------------------------------
+// group: G_E2S
+// --------------------------------------------
+// The slope for the energy to salience sigmoid for the static HLS
+$SetParameter A_HLSM/G_E2S/N_STATIC_HLS=1.0

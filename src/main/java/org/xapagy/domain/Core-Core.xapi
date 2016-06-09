@@ -1,0 +1,132 @@
+// Xapagy Core Domain Library 0.999
+// Core_Core
+// March 23, 2012 - Nov 13, 2015
+$Define Core_Core
+
+$Create Concept c_thing
+$Create Word "thing" For Concept [c_thing]
+
+$Create Concept cc_proper_name
+
+$-- "relation, very large - relations are things which overlap With it"
+$Create Verb vmc_relation With Area = 10.0
+
+$-- "relation marker - changes the expiration behavior"
+$Create Verb vm_relation_marker 
+
+$-- "action marker - marks the actions"
+$Create Verb vm_action_marker
+$Create MetaVerb vm_successor Code com.xapagy.metaverbs.SaMvSuccessor
+
+$Create MetaVerb vm_create_relation Code com.xapagy.metaverbs.SaMvCreateRelation
+$Create Word "CreateRelation" For Verb [vm_create_relation]
+
+$Create MetaVerb vm_create_one_source_relation Code com.xapagy.metaverbs.SaMvCreateOneSourceRelation
+$Create Word "CreateOneSourceRelation" For Verb [vm_create_one_source_relation]
+
+$Create MetaVerb vm_remove_relation Code com.xapagy.metaverbs.SaMvRemoveRelation
+$Create Word "RemoveRelation" For Verb [vm_remove_relation]
+
+// defining action verb words
+$Create Word "ActionVerb" For Verb [vm_successor, vm_action_marker]
+$Create Word "CreateRelation" For ActionVerb [vm_create_relation]
+$Create Word "CreateOneSourceRelation" For ActionVerb [vm_create_one_source_relation]
+$Create Word "RemoveRelation" For ActionVerb [vm_remove_relation]
+
+
+$Create Concept c_i
+$Create Word "i" For Concept [c_i]
+
+$Create Concept c_you
+$Create Word "you" For Concept [c_you]
+
+$Create Concept c_thou
+$Create Word "thou" For Concept [c_thou]
+
+$Create Concept c_we
+$Create Word "we" For Concept [c_we]
+
+$-- "question marker"
+$Create Concept c_wh
+$Create Word "wh" For Concept [c_wh]
+
+$Create Concept c_what
+$Create Word "what" For Concept [c_what]
+
+$Create MetaVerb vm_create_instance Code com.xapagy.metaverbs.SaMvCreateInstance
+
+$Create MetaVerb vm_is_a Code com.xapagy.metaverbs.SaMvIsA
+$Create Word "is-a" For Verb [vm_is_a]
+
+$Create MetaVerb vm_changes Code com.xapagy.metaverbs.SaMvChanges
+$Create Word "changes" For ActionVerb [vm_changes]
+
+$Create MetaVerb vm_transforms Code com.xapagy.metaverbs.SaMvTransforms
+$Create Word "transforms" For ActionVerb [vm_transforms]
+
+$Create MetaVerb vm_acts_like Code com.xapagy.metaverbs.SaMvActsLike
+$Create Word "acts-like" For Verb [vm_acts_like]
+
+$Create MetaVerb vm_create_chain_identity Code com.xapagy.metaverbs.SaMvCreateChainIdentity
+$Create Word "create-chain-identity" For Verb [vm_create_chain_identity]
+
+$Create MetaVerb vm_create_succession_identity Code com.xapagy.metaverbs.SaMvCreateSuccessionIdentity
+$Create Word "create-succession-identity" For Verb [vm_create_succession_identity]
+
+$Create MetaVerb vm_thus Code com.xapagy.metaverbs.SaMvThus
+$Create Word "thus" For Verb [vm_thus]
+
+$Create MetaVerb vm_forget Code com.xapagy.metaverbs.SaMvForget
+$Create Word "forget" For Verb [vm_forget]
+
+$Create MetaVerb vm_clone_scene Code com.xapagy.metaverbs.SaMvCloneScene
+$Create Word "clone-scene" For Verb [vm_clone_scene]
+
+$-- "changes the agent into recall mode"
+$Create MetaVerb vm_recall Code com.xapagy.metaverbs.SaMvRecall
+$Create Word "recall" For Verb [vm_recall]
+
+$-- "turns on the narration for an agent"
+$Create MetaVerb vm_narrate Code com.xapagy.metaverbs.SaMvNarrate
+$Create Word "narrate" For Verb [vm_narrate]
+
+
+$Create Verb v_does_nothing
+$Create Word "exists" For Verb [v_does_nothing]
+$Create Word "does-nothing" For ActionVerb [v_does_nothing]
+
+$-- "whether question marker: FIXME: why is this a meta verb?"
+$Create Verb vm_whether
+$Create Word "whether" For Verb [vm_whether]
+
+$-- "why question marker: FIXME: why is this a meta verb?"
+$Create Verb vm_why
+$Create Word "why" For Verb [vm_why]
+
+// ownership type 
+$Create Relation vr_holds 
+$Create Relation vr_legally_owns
+$Create Relation vr_is_part_of
+
+$-- "achievement verb, requires a thus after it - why is this a meta-verb" 
+$Create Verb vm_achieve
+$Create Word "achieves" For ActionVerb [vm_achieve]
+
+$-- "instrumentality verb"
+$Create Verb vm_uses
+$Create Word "uses" For ActionVerb [vm_uses]
+
+// various ownership relations - some finesse is needed here
+$Create Word "of" For Verb [vr_legally_owns, vr_holds, vr_is_part_of]
+$Create Word "has" For Verb ["CreateRelation", vr_legally_owns]
+$Create Word "receives" For Verb ["CreateRelation", vr_legally_owns]
+$Create Word "disowns" For Verb ["RemoveRelation", vr_legally_owns]
+$Create Word "gives" For Verb ["RemoveRelation", vr_legally_owns]
+$Create Word "holds" For Verb ["CreateRelation", vr_holds]
+$Create Word "picks-up" For Verb ["CreateRelation", vr_holds]
+$Create Word "takes" For Verb ["CreateRelation", vr_holds]
+$Create Word "drops" For Verb ["RemoveRelation", vr_holds]
+$Create Word "puts-down" For Verb ["RemoveRelation", vr_holds]
+$Create Word "contains" For Verb ["CreateRelation", vr_is_part_of]
+
+

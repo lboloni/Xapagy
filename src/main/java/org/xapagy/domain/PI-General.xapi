@@ -1,0 +1,37 @@
+// ********************************************
+// Area: A_GENERAL
+// ********************************************
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// Used in LearnProperNames to set the Area of the proper name concept created on the fly
+$SetParameter A_GENERAL/G_GENERAL/N_AREA_OF_PROPER_NAMES=1.0
+// FIXME: Used by SaMvInsertHlsLocation to insert a 
+//new VI into the right location in the link mesh 
+//- will probably need to clean it out.
+$SetParameter A_GENERAL/G_GENERAL/N_SA_MV_INSERT_HLS_LOCATION_ASSSUMED_PUSHOUT=-1.0
+// XapiParser interprets this value as the time to wait after a sentence terminated With a '.'
+$SetParameter A_GENERAL/G_GENERAL/N_READING_SPEED=1.0
+// The time step between individual steps of DAs 
+//(FCM, SHM and also HLSM if it is not one-step). Used in Execute.executeTimePassing.
+$SetParameter A_GENERAL/G_GENERAL/N_TIME_STEP_OF_DAS=0.1
+// ********************************************
+// Area: A_DEBUG
+// ********************************************
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// If true, LoopItem will record the choices which existed when a given LoopItem had been instantiated.
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_CHOICES_INTO_LOOPITEM=0.0
+// If true, ChoiceSelector will bring in an interactive, text based selector. Can be also 
+//set from Xapi With $ToggleOn InteractiveChoice
+$SetParameter A_DEBUG/G_GENERAL/N_INTERACTIVE_CHOICE_SELECTOR=0.0
+// If true, the energy quantums will be recorded in the PairEnergySet for shadows.
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_SHADOW_QUANTUMS=0.0
+// If true, the energy quantums will be recorded in the EnergySet for both Focus and Memory.
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_FOCUS_MEMORY_QUANTUMS=0.0
+// If true, the link quantums will be recorded
+$SetParameter A_DEBUG/G_GENERAL/N_RECORD_LINK_QUANTUMS=0.0
+// ********************************************
+// Area: A_AMM
+// ********************************************

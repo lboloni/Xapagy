@@ -1,0 +1,207 @@
+body, table.embedtable, table.energyquantum {
+    font-family: Verdana;
+    background: lightgrey;
+    font-size: 9pt;
+}
+
+td.embedvertical {
+	background: lightblue;
+    color:red;
+    border:0px solid red;
+    padding: 3px; 
+    font-size:24px;
+    font-weight:bold;
+    vertical-align: top;
+}
+
+.verticaltext {
+    /*writing-mode:tb-rl;*/
+    /* filter: flipv fliph;*/
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -o-transform: rotate(90deg);
+    white-space:nowrap;
+    width:28px;
+    height:28px;
+}
+
+p {
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+
+div.indent, div.embed {
+	margin-left: 30px;
+}
+
+div.embed {
+    xbackground: #FFC266;
+}
+
+a.bodylink, a {
+	color: #021144;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.navbar {
+    color: white;
+    text-shadow: 0 0 3px #000;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+
+a.navbar:hover,a.headerlink:hover,a:hover {
+	text-decoration: underline;
+}
+
+pre {
+	border: 1pt solid black;
+	background-color: white;
+	font-family: "Lucida Console", Monaco, monospace;
+}
+
+pre.notification {
+    border: 1pt solid white;
+    background-color: red;
+    color: white;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-weight: bold;
+}
+
+span.label {
+	font-weight: bold;
+	display: inline;
+}
+
+.more {
+	display: none;
+}
+
+/**
+   The navigation bar: fixed at the top with a static size
+*/
+div.navbar {
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	height:150px;
+	z-index: 100;
+}
+
+/**
+    The reminder of the content at the top
+*/
+div.content {
+	position: relative;
+	top: 150px;
+}
+
+.navbar, .version, .xapagylabel {
+    background: #024419;
+    color: white;
+    text-shadow: 0 0 3px #000;
+    font-family: Verdana;
+    font-size: 9pt;
+}
+
+.xapagylabel {
+    font-size: 14pt;
+}
+
+.version {
+	font-size: 8pt;
+}
+
+.xapagyidentifier {
+    font-size: 7pt;
+    font-family: monospace;
+    font-stretch: ultra-condensed;
+    color: gray;
+}
+
+.enum {
+    font-family: monospace;
+    font-stretch: ultra-condensed;
+}
+
+.explanation {
+	font-style: italic;
+	font-weight: bold;
+	color:#606060;
+}
+
+.grayout {
+    color: gray;
+}
+
+
+H1 {
+    font-size: 150%;
+    font-family: Verdana;
+}
+
+H2 {
+    color: white;
+    text-shadow: 0 0 3px #000;
+    padding-top: 2px;   
+	font-size: 120%;
+    background: darkgray;
+}
+
+H3 {
+    font-size: 110%;
+    background: darkgray;
+}
+
+H2.identifier {
+    background: #44020D;
+}
+
+H2.extensible {
+    background: #024419;
+}
+
+.meter-wrap, .meter-wrap-negative {
+    position: relative;
+}
+
+.meter-wrap, .meter-value, .meter-text, .meter-wrap-negative, .meter-value-negative {
+    width: 100px; height: 15px;
+    display: inline-block;
+}
+
+.meter-wrap {
+    background: lightgreen;
+}
+
+.meter-value {
+    background: #024419;
+}
+
+.meter-wrap-negative {
+    background: #FFCCFF;
+}
+
+.meter-value-negative {
+    background: #AA0000;
+}
+
+.meter-text {
+    position: absolute;
+    top:0; 
+    left:0;
+    padding-top: 0px;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    font-size: 8pt;
+}
+
+.alternativelinks {
+	background: lightgreen;
+}
+

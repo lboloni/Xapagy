@@ -1,0 +1,16 @@
+//
+//  Xapagy Core Domain Library 0.999
+//  Core::Language
+//  last changed November 16, 2015 - convert to Xapi
+//
+
+$Define Core_Language
+
+$Create Concept c_text
+$Create Word "text" For Concept [c_text]
+
+$Create Concept c_sound
+$Create Word "sound" For Concept [c_sound]
+
+$Create Verb v_utter
+$Create Word "utters" For Verb [v_utter]

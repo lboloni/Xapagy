@@ -1,0 +1,43 @@
+// ********************************************
+// Area: A_FCM
+// ********************************************
+
+$DiffusionActivity Clear Composite "FocusMaintenance" 
+
+// --------------------------------------------
+// group: G_GENERAL
+// --------------------------------------------
+// The minimum ALL energy for which a focus instance is not garbage collected.
+$SetParameter A_FCM/G_GENERAL/N_MINIMUM_INSTANCE=0.1
+// The minimum ALL energy for which a focus VI is not garbage collected.
+$SetParameter A_FCM/G_GENERAL/N_MINIMUM_VI=0.2
+
+
+//
+// DA daFcmDecay
+//
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Decay" Code "com.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "decayInstance" = "0.99", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
+
+//
+// DA daFcmMemorization
+//
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Memorization" Code "com.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "I_S_Focus_to_I_E_AM" = "0.0", "VI_S_Focus_to_VI_E_AM" = "1.0", "VI_S_Focus_to_I_E_AM" = "1.0"
+
+//
+// DA daFcmSummarization
+//
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Summarization" Code "com.xapagy.activity.focusmaintenance.DaFcmSummarization"
+
+
+//
+// SA before
+//
+$SpikeActivity Clear Composite "BeforeVi"
+$SpikeActivity Append To Composite "BeforeVi" New SA With Name "FcmInsertVi" Code "com.xapagy.activity.focusmaintenance.SaFcmInsertVi"      
+      
+//
+// SA after
+//
+$SpikeActivity Clear Composite "AfterVi"
+$SpikeActivity Append To Composite "AfterVi" New SA With Name "FcmFoundAnswer" Code "com.xapagy.activity.focusmaintenance.SaFcmFoundAnswer"      
+$SpikeActivity Append To Composite "AfterVi" New SA With Name "HlmsExpectedVi" Code "com.xapagy.activity.hlsmaintenance.SaHlsmExpectedVi"      
