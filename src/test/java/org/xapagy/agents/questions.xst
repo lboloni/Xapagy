@@ -1,0 +1,9 @@
+A "Jenny" / is-a / girl.
+(ST1) "Jenny" / hits / a dog.
+(ST2) The dog / is-a / angry.
+(Q1) Wh / is-a / angry?
+(Q2) "Jenny" / wh hits / the dog?
+(Q3) "Jenny" / hits / wh?
+(Q4) The dog / wh is-a / dead?
+(Q5) Wh dog / is-a / angry?
+(Q6) "Jenny" / wh not-hits / the dog?
