@@ -16,15 +16,15 @@ $Create Verb vm_relation_marker
 
 $-- "action marker - marks the actions"
 $Create Verb vm_action_marker
-$Create MetaVerb vm_successor Code com.xapagy.metaverbs.SaMvSuccessor
+$Create MetaVerb vm_successor Code org.xapagy.metaverbs.SaMvSuccessor
 
-$Create MetaVerb vm_create_relation Code com.xapagy.metaverbs.SaMvCreateRelation
+$Create MetaVerb vm_create_relation Code org.xapagy.metaverbs.SaMvCreateRelation
 $Create Word "CreateRelation" For Verb [vm_create_relation]
 
-$Create MetaVerb vm_create_one_source_relation Code com.xapagy.metaverbs.SaMvCreateOneSourceRelation
+$Create MetaVerb vm_create_one_source_relation Code org.xapagy.metaverbs.SaMvCreateOneSourceRelation
 $Create Word "CreateOneSourceRelation" For Verb [vm_create_one_source_relation]
 
-$Create MetaVerb vm_remove_relation Code com.xapagy.metaverbs.SaMvRemoveRelation
+$Create MetaVerb vm_remove_relation Code org.xapagy.metaverbs.SaMvRemoveRelation
 $Create Word "RemoveRelation" For Verb [vm_remove_relation]
 
 // defining action verb words
@@ -53,41 +53,41 @@ $Create Word "wh" For Concept [c_wh]
 $Create Concept c_what
 $Create Word "what" For Concept [c_what]
 
-$Create MetaVerb vm_create_instance Code com.xapagy.metaverbs.SaMvCreateInstance
+$Create MetaVerb vm_create_instance Code org.xapagy.metaverbs.SaMvCreateInstance
 
-$Create MetaVerb vm_is_a Code com.xapagy.metaverbs.SaMvIsA
+$Create MetaVerb vm_is_a Code org.xapagy.metaverbs.SaMvIsA
 $Create Word "is-a" For Verb [vm_is_a]
 
-$Create MetaVerb vm_changes Code com.xapagy.metaverbs.SaMvChanges
+$Create MetaVerb vm_changes Code org.xapagy.metaverbs.SaMvChanges
 $Create Word "changes" For ActionVerb [vm_changes]
 
-$Create MetaVerb vm_transforms Code com.xapagy.metaverbs.SaMvTransforms
+$Create MetaVerb vm_transforms Code org.xapagy.metaverbs.SaMvTransforms
 $Create Word "transforms" For ActionVerb [vm_transforms]
 
-$Create MetaVerb vm_acts_like Code com.xapagy.metaverbs.SaMvActsLike
+$Create MetaVerb vm_acts_like Code org.xapagy.metaverbs.SaMvActsLike
 $Create Word "acts-like" For Verb [vm_acts_like]
 
-$Create MetaVerb vm_create_chain_identity Code com.xapagy.metaverbs.SaMvCreateChainIdentity
+$Create MetaVerb vm_create_chain_identity Code org.xapagy.metaverbs.SaMvCreateChainIdentity
 $Create Word "create-chain-identity" For Verb [vm_create_chain_identity]
 
-$Create MetaVerb vm_create_succession_identity Code com.xapagy.metaverbs.SaMvCreateSuccessionIdentity
+$Create MetaVerb vm_create_succession_identity Code org.xapagy.metaverbs.SaMvCreateSuccessionIdentity
 $Create Word "create-succession-identity" For Verb [vm_create_succession_identity]
 
-$Create MetaVerb vm_thus Code com.xapagy.metaverbs.SaMvThus
+$Create MetaVerb vm_thus Code org.xapagy.metaverbs.SaMvThus
 $Create Word "thus" For Verb [vm_thus]
 
-$Create MetaVerb vm_forget Code com.xapagy.metaverbs.SaMvForget
+$Create MetaVerb vm_forget Code org.xapagy.metaverbs.SaMvForget
 $Create Word "forget" For Verb [vm_forget]
 
-$Create MetaVerb vm_clone_scene Code com.xapagy.metaverbs.SaMvCloneScene
+$Create MetaVerb vm_clone_scene Code org.xapagy.metaverbs.SaMvCloneScene
 $Create Word "clone-scene" For Verb [vm_clone_scene]
 
 $-- "changes the agent into recall mode"
-$Create MetaVerb vm_recall Code com.xapagy.metaverbs.SaMvRecall
+$Create MetaVerb vm_recall Code org.xapagy.metaverbs.SaMvRecall
 $Create Word "recall" For Verb [vm_recall]
 
 $-- "turns on the narration for an agent"
-$Create MetaVerb vm_narrate Code com.xapagy.metaverbs.SaMvNarrate
+$Create MetaVerb vm_narrate Code org.xapagy.metaverbs.SaMvNarrate
 $Create Word "narrate" For Verb [vm_narrate]
 
 

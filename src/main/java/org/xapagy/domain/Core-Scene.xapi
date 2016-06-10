@@ -9,7 +9,7 @@ $Define Core_Scene
 $Create Concept c_scene
 $Create Word "scene" For Concept [c_scene]
 
-$Create MetaVerb vm_scene_is_only Code com.xapagy.metaverbs.SaMvSceneIsOnly
+$Create MetaVerb vm_scene_is_only Code org.xapagy.metaverbs.SaMvSceneIsOnly
 
 // scene relations: FIXME: where are these used?
 $Create Relation vr_part_of_scene

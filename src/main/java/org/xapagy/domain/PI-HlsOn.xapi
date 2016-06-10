@@ -29,17 +29,17 @@ $SetParameter A_HLSM/G_GENERAL/N_MINIMUM_FSL_STRENGTH=0.001
 // --------------------------------------------
 // DA: DaHlsmStatic
 // --------------------------------------------
-$DiffusionActivity Append To Composite "HlsMaintenance" New DA With Name "StaticHLS" Code "com.xapagy.activity.hlsmaintenance.DaHlsmStatic"
+$DiffusionActivity Append To Composite "HlsMaintenance" New DA With Name "StaticHLS" Code "org.xapagy.activity.hlsmaintenance.DaHlsmStatic"
 
 // --------------------------------------------
 // DA: DaHlsmSupport
 // --------------------------------------------
-$DiffusionActivity Append To Composite "HlsMaintenance" New DA With Name "SupportHLS" Code "com.xapagy.activity.hlsmaintenance.DaHlsmSupport"
+$DiffusionActivity Append To Composite "HlsMaintenance" New DA With Name "SupportHLS" Code "org.xapagy.activity.hlsmaintenance.DaHlsmSupport"
 
 // --------------------------------------------
 // group: G_CHOICES
 // --------------------------------------------
-$DiffusionActivity Append To Composite "HlsMaintenance" New DA With Name "Choices" Code "com.xapagy.activity.hlsmaintenance.DaHlsmChoices" Parameters "enableCharacterization" = "false", "enableContinuation" = "true", "enableMissingAction" = "true", "enableMissingRelation" = "true", "enableStatic" = "true"
+$DiffusionActivity Append To Composite "HlsMaintenance" New DA With Name "Choices" Code "org.xapagy.activity.hlsmaintenance.DaHlsmChoices" Parameters "enableCharacterization" = "false", "enableContinuation" = "true", "enableMissingAction" = "true", "enableMissingRelation" = "true", "enableStatic" = "true"
 
 //
 // These are weights for the mood scores and they are copied into the scenes!!!
