@@ -38,7 +38,7 @@ import org.xapagy.concepts.Verb;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.concepts.AbstractConceptDB;
-import org.xapagy.domain.IncludeHelper;
+import org.xapagy.xapi.IncludeHelper;
 import org.xapagy.ui.observers.AbstractAgentObserver.TraceWhat;
 import org.xapagy.ui.observers.ToStringObserver;
 import org.xapagy.exceptions.NoSuchConceptOrVerb;
