@@ -24,10 +24,42 @@
 				<version>2.19.1</version>
 				<configuration>
 					<includes>
-						<!--  <include>**/test*.java</include>  -->
-						<include>**/testLoop.java</include>  
+						<include>**/test*.java</include>
 					</includes>
+					<excludes>
+					</excludes>
+					<parallel>classes</parallel>
+					<threadCount>5</threadCount>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- NOTE: We don't need a groupId specification because the group is 
+					org.apache.maven.plugins ...which is assumed by default. -->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+						<descriptorRef>bin</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>org.xapagy.Xapagy</mainClass>
+						</manifest>
+					</archive>
+					<finalName>Xapagy</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 

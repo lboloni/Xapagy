@@ -62,7 +62,10 @@ import org.xapagy.util.DirUtil;
  */
 public class ArtificialDomain {
 
+	// file root for the saved agent for the artificial domain with warmup
     public static final String AAB_CONCEPTS = "aab_concepts";
+	// file root for the saved agent for the artificial domain only
+    public static final String AAB_DOMAIN = "aab_domain";
     public static final String domainFileName =
             ArtificialDomain.outputDirName + "Artificial.domain";
     public static int instanceLabel = 0;
@@ -73,8 +76,6 @@ public class ArtificialDomain {
      * Creates an agent from a specific domain and a series of stories passed as
      * parameters.
      * 
-     * @param domain
-     *            the domain from which the agent is created
      * @param prefix
      *            the prefix which is used for storing the intermediary files
      * @param stories
@@ -84,7 +85,7 @@ public class ArtificialDomain {
      * @return
      * @throws IOException
      */
-    private static Agent createLoadedAgent(Agent starterAgent, String prefix,
+    private static Agent createLoadedAgent(String prefix,
             List<ABStory> stories, String parameterPrepack) throws IOException {
         int count = 0;
         // out of sheer luck: do we have the final?
@@ -94,13 +95,12 @@ public class ArtificialDomain {
         if (outputFile.exists()) {
             Runner r = new Runner(outputFile);
             return r.agent;
-        }
+        } //else {
+        	//TextUi.println("Outputfile does not exist:" + outputFile.getAbsolutePath());
+        	// System.exit(1);
+        //}
         // no, we need to run it
         count = 0;
-        String inputFileName = outputDirName + prefix + "_agent" + count + ".xa";
-        File inputFile = new File(inputFileName);
-        SaveLoadUtil<Agent> slo = new SaveLoadUtil<>();
-        slo.save(starterAgent, inputFile);
         // create one big story
         ABStory bigStory = new ABStory();
         for (ABStory story : stories) {
@@ -110,7 +110,7 @@ public class ArtificialDomain {
         String bigStoryName = outputDirName + "bigstory.xapi";
         bigStory.saveTo(bigStoryName);
         // force the focus-only parameters
-        Xapagy.main(parameterPrepack, bigStoryName, "--input-agent", inputFileName, "--output-agent", outputFileName);
+        Xapagy.main(parameterPrepack, bigStoryName, "--output-agent", outputFileName);
         Runner r = new Runner(outputFile);
         return r.agent;
     }
@@ -176,15 +176,10 @@ public class ArtificialDomain {
      * @return a runner with an agent with the artificial concepts filled in
      */
     public static Runner createAabConcepts() {
-        Agent agent = null;
-        try {
-            agent = ArtificialDomain.createArtificialDomain();
-        } catch (IOException e) {
-            e.printStackTrace();
-            TextUi.abort("cannot create domain");
-        }
         List<ABStory> stories = new ArrayList<>();
         List<String> verbs = Arrays.asList("wa_v_av1", "wa_v_av2", "wa_v_av3");
+        ABStory domainStory = ArtificialDomain.createArtificialDomain();
+        stories.add(domainStory);
         // most of the frequencies are exponentially distributed
         // the problem here, is that it would create a too large story, so
         // we are keeping this tempering factor
@@ -248,16 +243,15 @@ public class ArtificialDomain {
         ABStory absClear = new ABStory();
         // absClear.add("$NewSceneOnly #Clear,none");
         absClear.add("$CreateScene #Clear CloseOthers");
-
         absClear.add("----");
         stories.add(absClear);
+    	TextUi.println("Stories created");
         Agent loadedAgent = null;
         try {
             loadedAgent =
-                    createLoadedAgent(agent, ArtificialDomain.AAB_CONCEPTS,
+                    createLoadedAgent(ArtificialDomain.AAB_CONCEPTS,
                             stories, "P-FocusOnly");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return new Runner(loadedAgent);
@@ -272,7 +266,7 @@ public class ArtificialDomain {
      * 
      * @throws IOException
      */
-    public static Agent createArtificialDomain() throws IOException {
+    public static ABStory createArtificialDomain() {
         DirUtil.guaranteeDirectory(ArtificialDomain.outputDirName);
         Runner r = new Runner("Core");
         DomainGenerator dg = new DomainGenerator(r.agent);
@@ -320,7 +314,7 @@ public class ArtificialDomain {
             dg.createCMO(catname, size, cminame, 10, 0.0, story);
         }
         // 10 proper names, called propername1,...
-        dg.createPropernames("PN", 10);
+        dg.createPropernames("PN", 10, story);
         //
         // Creates the verbs
         //
@@ -345,18 +339,20 @@ public class ArtificialDomain {
             dg.createCategoryVerb(rcatname, 1.0, story);
             dg.createCategoryRelationVerbs(rcatname, 1.0, 5, rminame, overlap, story);
         }
-        // execute the created story
-        r.exec(story);
-        return r.agent;
+        return story;
     }
 
     /**
      * Creates an agent the artificial domain
      * 
+     * FIXME: just returned here the aabconcepts...
+     * 
      * @return
      * @throws IOException
      */
     public static Runner createUnloadedRunner() {
+    	return createAabConcepts();
+    	/*
         Agent agent = null;
         try {
             agent = ArtificialDomain.createArtificialDomain();
@@ -365,6 +361,7 @@ public class ArtificialDomain {
             TextUi.abort("cannot create domain");
         }
         return new Runner(agent);
+        */
     }
 
     /**

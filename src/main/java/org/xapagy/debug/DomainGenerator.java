@@ -243,15 +243,18 @@ public class DomainGenerator {
     }
 
     /**
-     * Creates count proper names
+     * Creates count proper names - change
      * 
      * @param string
      * @param i
+     * @param story - to which we add the changes
      */
-    public void createPropernames(String root, int count) {
+    public void createPropernames(String root, int count, ABStory story) {
         for (int i = 0; i != count; i++) {
             String name = "\"" + root + i + "\"";
-            LearnProperNames.learnTheWord(agent, name);
+            // LearnProperNames.learnTheWord(agent, name);
+            String command = "A " + name + " / exists.";
+            story.add(command);
         }
     }
 

@@ -22,7 +22,7 @@ public class XrefWait extends AbstractXapiReference {
 
     public XrefWait(double timeWait, XapiReference parent) {
         super(XapiReferenceType.WAIT, parent, XapiPositionInParent.WAIT, "");
-        assert parent.getType().equals(XapiReferenceType.STATEMENT);
+        // assert parent.getType().equals(XapiReferenceType.STATEMENT);
         this.timeWait = timeWait;
     }
 
