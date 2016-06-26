@@ -26,6 +26,7 @@ import org.xapagy.instances.IdentifierGenerator;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViType;
+import org.xapagy.introspect.Introspect;
 import org.xapagy.links.Links;
 import org.xapagy.parameters.Parameters;
 import org.xapagy.set.EnergyColors;
@@ -385,6 +386,8 @@ public class Agent implements Serializable {
             scriptEngine = factory.getEngineByName("JavaScript");
             scriptEngine.put("agent", this);
             scriptEngine.put("ref", referenceAPI);
+            Introspect introspect = new Introspect(this);
+            scriptEngine.put("introspect", introspect);
         }
         return scriptEngine;
     }
