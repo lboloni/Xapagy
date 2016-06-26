@@ -22,7 +22,7 @@ import org.xapagy.set.EnergyColors.EnergyColorType;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
  * This class collects the results of a run with respect to the shadows of
@@ -185,7 +185,7 @@ public class ViShadowEvolutionMatrix extends AbstractEvolutionMatrix {
             row[0] = Formatter.fmt(time);
             // the second item: a formatted one
             VerbInstance vi = rows.get(rowCount).getKey();
-            String s = SpFocus.ppsViXapiForm(vi, agent);
+            String s = XapiPrint.ppsViXapiForm(vi, agent);
             row[1] = s;
             // now the remaining columns
             for (int i = 0; i != columns.size(); i++) {
@@ -222,7 +222,7 @@ public class ViShadowEvolutionMatrix extends AbstractEvolutionMatrix {
         String val = "";
         if (sr.getSortBy() != null) {
             VerbInstance vi = sr.getShadowObject();
-            val = SpFocus.ppsViXapiForm(vi, agent);
+            val = XapiPrint.ppsViXapiForm(vi, agent);
         }
         for (String ec : agent.getEnergyColors().getEnergies(EnergyColorType.SHADOW_VI)) {
             String ecLowerCase = ec.toString().toLowerCase();

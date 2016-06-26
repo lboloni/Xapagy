@@ -121,7 +121,6 @@ public class VerbInstance implements XapagyComponent, Serializable {
      * If this VI is part of a quote, it points to the inquit
      */
     private VerbInstance inquit = null;
-
     /**
      * Shows which parts are missing
      */
@@ -144,8 +143,19 @@ public class VerbInstance implements XapagyComponent, Serializable {
      * be kept here
      */
     private Instance createdInstance = null;
+    /**
+     * The agent time when it was created
+     */
+    private double creationTime;
 
-    public Instance getCreatedInstance() {
+    /**
+	 * @return the creationTime
+	 */
+	public double getCreationTime() {
+		return creationTime;
+	}
+
+	public Instance getCreatedInstance() {
         return createdInstance;
     }
 
@@ -160,16 +170,15 @@ public class VerbInstance implements XapagyComponent, Serializable {
     }
 
     /**
-     * Constructor for a VerbInstance type VI
+     * Constructor for a VerbInstance type VI. Called from Agent.createVerbInstance
      * 
-     * @param verb
-     * @param subject
-     * @param object
-     * @param id
+     * @param viType - the type of the VI
+     * @param identifier 
+     * @param verbs - the Verb part of the VI
+     * @param agent
      */
     public VerbInstance(ViType viType, String identifier, VerbOverlay verbs,
             Agent agent) {
-        // this(viType, verbs);
         this.identifier = identifier;
         this.viType = viType;
         setResolvedPart(ViPart.Verb, verbs);
@@ -179,6 +188,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
                 missingParts.add(part);
             }
         }
+        creationTime = agent.getTime();
     }
 
     public ConceptOverlay getAdjective() {

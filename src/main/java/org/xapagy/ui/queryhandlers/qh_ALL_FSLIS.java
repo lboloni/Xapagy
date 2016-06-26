@@ -20,7 +20,7 @@ import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.util.SimpleEntryComparator;
 
 /**
@@ -110,7 +110,7 @@ public class qh_ALL_FSLIS implements IQueryHandler {
             }
             fmtLocal.deindent();
             fmt.progressBar(entry.getValue(), maxValue);
-            fmt.addBold(SpFocus.ppsViXapiForm(vi, agent));
+            fmt.addBold(XapiPrint.ppsViXapiForm(vi, agent));
             fmt.addExtensible("fslibylinked" + idCount++, "expand>> ",
                     "<< hide", fmtLocal.toString(), false);
             fmt.add("<br/>");

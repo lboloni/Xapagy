@@ -38,6 +38,7 @@ import org.xapagy.ui.queryhandlers.qh_STATIC_FSLI;
 import org.xapagy.ui.queryhandlers.qh_STATIC_HLS;
 import org.xapagy.ui.smartprint.SpFocus;
 import org.xapagy.ui.smartprint.SpInstance;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.xapi.ConceptWord;
 import org.xapagy.xapi.VerbWord;
 
@@ -452,7 +453,7 @@ public class PwQueryLinks implements IQueryAttributes {
         RESTQuery gqNew = QueryHelper.copyWithEmptyCommand(query);
         gqNew.setAttribute(Q_QUERY_TYPE, "VERB_INSTANCE");
         gqNew.setAttribute(Q_ID, vi.getIdentifier());
-        String label = SpFocus.ppsViXapiForm(vi, agent);
+        String label = XapiPrint.ppsViXapiForm(vi, agent);
         label += fmt.getEmpty().addIdentifier(vi);
         // adds the scene of the subject!
         Instance instance = vi.getSubject();

@@ -28,7 +28,7 @@ import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.prettyprint.PpVerbInstance;
 import org.xapagy.ui.prettyprint.PrettyPrint;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.xapi.XapiParserException;
 
 /**
@@ -399,7 +399,7 @@ public class ChoiceEvolutionMatrix extends AbstractEvolutionMatrix {
             row[0] = Formatter.fmt(time);
             // the second item: a formatted one
             VerbInstance vi = rows.get(rowCount).getKey();
-            String s = SpFocus.ppsViXapiForm(vi, agent);
+            String s = XapiPrint.ppsViXapiForm(vi, agent);
             row[1] = s;
             for (int i = 0; i != columns.size(); i++) {
                 SimpleEntry<Choice, double[]> entry =

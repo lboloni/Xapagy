@@ -15,12 +15,10 @@ import org.xapagy.concepts.Hardwired;
 import org.xapagy.httpserver.RESTQuery;
 import org.xapagy.httpserver.Session;
 import org.xapagy.instances.Instance;
-import org.xapagy.ui.formatters.HtmlFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
-import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.util.SimpleEntryComparator;
 
 public class qh_CONCEPT implements IQueryHandler, IQueryAttributes {

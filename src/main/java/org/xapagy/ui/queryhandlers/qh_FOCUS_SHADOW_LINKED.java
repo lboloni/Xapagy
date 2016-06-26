@@ -14,7 +14,7 @@ import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 public class qh_FOCUS_SHADOW_LINKED implements IQueryHandler, IQueryAttributes {
 
@@ -65,7 +65,7 @@ public class qh_FOCUS_SHADOW_LINKED implements IQueryHandler, IQueryAttributes {
     public static String pwConcise(PwFormatter fmt, FocusShadowLinked fsl,
             Agent agent) {
         fmt.addEnum(fsl.getFslType().toString());
-        String label = SpFocus.ppsViXapiForm(fsl.getViLinked(), agent);
+        String label = XapiPrint.ppsViXapiForm(fsl.getViLinked(), agent);
         fmt.add(" relative:" + label);
         fmt.addIdentifier(fsl.getViLinked());
         fmt.add("F:?" + " S:?"  + " L:"

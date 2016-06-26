@@ -87,7 +87,7 @@ public class ArtificialDomain {
      */
     private static Agent createLoadedAgent(String prefix,
             List<ABStory> stories, String parameterPrepack) throws IOException {
-        int count = 0;
+        //int count = 0;
         // out of sheer luck: do we have the final?
         String outputFileName =
                 outputDirName + prefix + "_agent" + stories.size() + ".xa";
@@ -100,7 +100,7 @@ public class ArtificialDomain {
         	// System.exit(1);
         //}
         // no, we need to run it
-        count = 0;
+        //count = 0;
         // create one big story
         ABStory bigStory = new ABStory();
         for (ABStory story : stories) {
@@ -258,18 +258,12 @@ public class ArtificialDomain {
     }
 
     /**
-     * Ensures that the domain is there - this thing actually exports the
-     * domain!
-     * 
-     * FIXME: Nov 19, 2015, I made this return the created agent, once the
-     * domains are factored out....
-     * 
-     * @throws IOException
+     * Returns a story that creates the artificial domain
+     * @return
      */
     public static ABStory createArtificialDomain() {
         DirUtil.guaranteeDirectory(ArtificialDomain.outputDirName);
-        Runner r = new Runner("Core");
-        DomainGenerator dg = new DomainGenerator(r.agent);
+        DomainGenerator dg = new DomainGenerator();
         ABStory story = new ABStory();
         //
         // Create the concepts

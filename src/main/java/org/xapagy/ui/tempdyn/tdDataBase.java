@@ -29,8 +29,8 @@ import org.xapagy.instances.ViSimilarityHelper;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
 import org.xapagy.shadows.Shadows;
-import org.xapagy.ui.smartprint.SpFocus;
 import org.xapagy.ui.smartprint.SpInstance;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.ui.tempdyn.tdComponent.tdComponentType;
 
 /**
@@ -597,7 +597,7 @@ public class tdDataBase implements Serializable {
             tdcThis = new tdComponent(tdComponentType.VI, vi.getIdentifier());
             focusVis.add(tdcThis);
         }
-        String pp = SpFocus.ppsViXapiForm(vi, agent);
+        String pp = XapiPrint.ppsViXapiForm(vi, agent);
         tdcThis.recordPrettyPrint(pp);
     }
 

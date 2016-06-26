@@ -38,8 +38,8 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.parameters.Parameters;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.prettyprint.PpChoice;
-import org.xapagy.ui.smartprint.SpFocus;
 import org.xapagy.ui.smartprint.SpInstance;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.ui.tempdyn.tdComponent.tdComponentType;
 
 /**
@@ -690,7 +690,7 @@ public class GraphEvolution {
         } else {
             VerbInstance vi =
                     agent.getAutobiographicalMemory().getVerbInstance(sh);
-            shadowLabel += " - " + SpFocus.ppsViXapiForm(vi, agent);
+            shadowLabel += " - " + XapiPrint.ppsViXapiForm(vi, agent);
         }
         JFreeChart chart =
                 ChartFactory.createXYLineChart(shadowLabel, "Time", "Value",

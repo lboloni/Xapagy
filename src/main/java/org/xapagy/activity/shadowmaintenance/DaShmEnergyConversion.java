@@ -27,7 +27,7 @@ import org.xapagy.set.EnergyTransformationHelper;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
  * @author Ladislau Boloni
@@ -186,8 +186,8 @@ public class DaShmEnergyConversion extends AbstractDaFocusIterator {
             Formatter fmt = new Formatter();
             fmt.add("Conversion factor:");
             fmt.indent();
-            fmt.is("FVI", SpFocus.ppsViXapiForm(fvi, agent));
-            fmt.is("SVI", SpFocus.ppsViXapiForm(svi, agent));
+            fmt.is("FVI", XapiPrint.ppsViXapiForm(fvi, agent));
+            fmt.is("SVI", XapiPrint.ppsViXapiForm(svi, agent));
             fmt.is("Conversion factor", conversionFactor);
             TextUi.println(fmt);
         }

@@ -19,7 +19,7 @@ import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.set.ViSet;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
  * @author Ladislau Boloni
@@ -122,7 +122,7 @@ public class pgvVerbInstance {
         }
         // action vi
         if (ViClassifier.decideViClass(ViClass.ACTION, vi, agent)) {
-            String label = SpFocus.ppsViXapiForm(vi, agent);
+            String label = XapiPrint.ppsViXapiForm(vi, agent);
             label = GraphVizHelper.wrapLabel(label, param.vi_wrap);
             // label = TextUiHelper.wrap(label, param.vi_wrap);
             // label = label.replaceAll("\n", "\\\\n");
@@ -137,7 +137,7 @@ public class pgvVerbInstance {
             return true;
         }
         // create-other types
-        String label = SpFocus.ppsViXapiForm(vi, agent);
+        String label = XapiPrint.ppsViXapiForm(vi, agent);
         label = GraphVizHelper.wrapLabel(label, param.vi_wrap);
         // label = TextUiHelper.wrap(label, param.vi_wrap);
         // label = label.replaceAll("\n", "\\\\n");

@@ -13,7 +13,7 @@ import org.xapagy.agents.Agent;
 import org.xapagy.debug.storygenerator.RecordedStory;
 import org.xapagy.debug.storygenerator.RsScene;
 import org.xapagy.instances.VerbInstance;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
  * @author Ladislau Boloni
@@ -62,7 +62,7 @@ public class PpRecordedStory {
         fmt.add("VIs recorded from the execution");
         fmt.indent();
         for (VerbInstance vi : rs.getRecordedVis()) {
-            fmt.add(SpFocus.ppsViXapiForm(vi, agent));
+            fmt.add(XapiPrint.ppsViXapiForm(vi, agent));
         }
         fmt.deindent();
         return fmt.toString();

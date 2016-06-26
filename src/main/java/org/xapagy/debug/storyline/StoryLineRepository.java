@@ -11,6 +11,8 @@ package org.xapagy.debug.storyline;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +40,9 @@ public class StoryLineRepository implements Serializable {
     private static final long serialVersionUID = -3341081965861340838L;
 
     /**
-     * Extract a list of story lines from a set of VIs
+     * Extract a list of story lines from a set of VIs. In practice this is used
+     * to extract all the story lines that are currently referenced by any of the
+     * shadows...
      * 
      * @param agent
      * @param vis
@@ -73,9 +77,17 @@ public class StoryLineRepository implements Serializable {
                                 stScenes);
                 vit.remove();
             }
-            // create the story line
+            // create the story line from the scenes sorted by time
+            List<Instance> scenes = new ArrayList<>(stScenes);
+            Collections.sort(scenes, new Comparator<Instance>() {
+
+				@Override
+				public int compare(Instance o1, Instance o2) {
+					return Double.compare(o1.getCreationTime(), o2.getCreationTime());
+				}
+			});
             StoryLine st =
-                    new StoryLine("storyline", new ArrayList<>(stScenes), stVis);
+                    new StoryLine("storyline", scenes);
             retval.add(st);
         }
         return retval;
@@ -84,8 +96,6 @@ public class StoryLineRepository implements Serializable {
     /**
      * Takes a set of scenes. Then for each of the scenes, adds to the set all
      * the scenes which are related
-     * 
-     * FIXME: not implemented yet, implement me
      * 
      * @return
      */
@@ -142,10 +152,8 @@ public class StoryLineRepository implements Serializable {
     }
 
     private Agent agent;
-
     // the last time it was updated, avoids repeated calls
     private double lastUpdated = -1;
-
     private List<StoryLine> storyLines = new ArrayList<>();
 
     /**

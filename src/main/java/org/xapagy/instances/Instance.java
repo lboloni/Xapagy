@@ -19,7 +19,8 @@ public class Instance implements Serializable, XapagyComponent {
     private String identifier;
     /**
      * The VIs which are referring to the instance. Only the VIs which actually
-     * had been instantiated (inserted in the focus) will be reported here.
+     * had been instantiated (inserted in the focus) will be reported here, and the
+     * order in which they appear, is the order in which they were recorded
      */
     private List<VerbInstance> referringVis = new ArrayList<>();
     /**
@@ -35,8 +36,19 @@ public class Instance implements Serializable, XapagyComponent {
      * The scene preferences, it is non-null only if this instance is a scene
      */
     private SceneParameters sceneParameters;
-
     /**
+     * The agent time when it was created
+     */
+    private double creationTime;
+    
+    /**
+	 * @return the creationTime
+	 */
+	public double getCreationTime() {
+		return creationTime;
+	}
+
+	/**
      * Creates a new instance. If the scene is null, this instance will be a
      * scene.
      * 
@@ -57,6 +69,7 @@ public class Instance implements Serializable, XapagyComponent {
             sceneMembers = new ArrayList<>();
         }
         concepts = new ConceptOverlay(agent);
+        creationTime = agent.getTime();
     }
 
     /**

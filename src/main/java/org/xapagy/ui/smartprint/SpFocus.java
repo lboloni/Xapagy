@@ -27,7 +27,6 @@ import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.prettyprint.PpVerbOverlay;
-import org.xapagy.verbalize.VerbalMemoryHelper;
 
 /**
  * 
@@ -63,7 +62,7 @@ public class SpFocus {
             // }
             fmt.addWithMarginNote(
                     Formatter.fmt(fc.getSalience(vi, EnergyColors.FOCUS_VI)),
-                    SpFocus.ppsViXapiForm(vi, agent) + " " + vi.getIdentifier());
+                    XapiPrint.ppsViXapiForm(vi, agent) + " " + vi.getIdentifier());
         }
         return fmt.toString();
     }
@@ -244,28 +243,6 @@ public class SpFocus {
         }
         return fmt.toString();
 
-    }
-
-    /**
-     * Creates a printed form of the VI which looks similar to the way in which
-     * it would have looked in Xapi. If the VI had a Xapi form in the memory, it
-     * returns it. Otherwise it performs part-by-part verbalization
-     * 
-     * FIXME: this performs very badly for things such as quotes
-     * 
-     * @param key
-     * @param agent
-     * @return
-     */
-    public static String ppsViXapiForm(VerbInstance vi, Agent agent) {
-        StringBuffer buf = new StringBuffer();
-        String xapiText = VerbalMemoryHelper.getXapiStatementOfVi(vi, agent);
-        if (xapiText != null) {
-            buf.append(xapiText);
-        } else {
-            buf.append(agent.getVerbalize().verbalize(vi));
-        }
-        return buf.toString();
     }
 
     /**

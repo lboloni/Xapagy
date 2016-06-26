@@ -19,7 +19,7 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.util.SimpleEntryComparator;
 
 public class qh_ALL_FSLS implements IQueryHandler {
@@ -95,7 +95,7 @@ public class qh_ALL_FSLS implements IQueryHandler {
             }
             fmtLocal.deindent();
             fmt.progressBar(entry.getValue(), maxValue);
-            fmt.addBold(SpFocus.ppsViXapiForm(vi, agent));
+            fmt.addBold(XapiPrint.ppsViXapiForm(vi, agent));
             fmt.add(" (" + sublist.size() + " items)");
             fmt.addExtensible("fslbylinked" + idCount++, "expand>> ",
                     "<< hide", fmtLocal.toString(), false);

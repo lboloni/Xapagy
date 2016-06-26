@@ -13,9 +13,9 @@ import java.util.Set;
 public class Concept extends AbstractConcept implements Serializable {
 
     private static final long serialVersionUID = -1485596021344824281L;
-    private Object foreignKey = null;
+    //private Object foreignKey = null;
     // a foreign object associated with a concept: for example, a synset
-    private transient Object foreignObject = null;
+    //private transient Object foreignObject = null;
     private Set<Concept> incompatibilitySet = null;
     private boolean isFavorite;
     private Set<Concept> supersets = new HashSet<>();

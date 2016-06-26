@@ -25,7 +25,7 @@ import org.xapagy.ui.prettyhtml.ColorCodeRepository;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 public class qh_VERB_INSTANCE implements IQueryHandler, IQueryAttributes {
 
@@ -235,7 +235,7 @@ public class qh_VERB_INSTANCE implements IQueryHandler, IQueryAttributes {
             }
             // otherwise, go ahead with the visualization
         }
-        String concise = SpFocus.ppsViXapiForm(vi, agent);
+        String concise = XapiPrint.ppsViXapiForm(vi, agent);
         //
         // Red header
         //

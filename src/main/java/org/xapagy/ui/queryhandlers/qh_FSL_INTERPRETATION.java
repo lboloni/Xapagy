@@ -12,7 +12,7 @@ import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
 import org.xapagy.ui.prettyhtml.PwViTemplate;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 public class qh_FSL_INTERPRETATION implements IQueryHandler, IQueryAttributes {
 
@@ -59,14 +59,14 @@ public class qh_FSL_INTERPRETATION implements IQueryHandler, IQueryAttributes {
         switch (howtolabel) {
         case "relative": {
             VerbInstance vi = fsli.getFsl().getViLinked();
-            String label = "relative: " + SpFocus.ppsViXapiForm(vi, agent);
+            String label = "relative: " + XapiPrint.ppsViXapiForm(vi, agent);
             label += fmt.getEmpty().addIdentifier(vi);
             fmt.add(label);
             return fmt.toString();
         }
         case "shadow": {
             VerbInstance vi = fsli.getFsl().getViShadow();
-            String label = "shadow: " + SpFocus.ppsViXapiForm(vi, agent);
+            String label = "shadow: " + XapiPrint.ppsViXapiForm(vi, agent);
             label += fmt.getEmpty().addIdentifier(vi);
             fmt.add(label);
             return fmt.toString();

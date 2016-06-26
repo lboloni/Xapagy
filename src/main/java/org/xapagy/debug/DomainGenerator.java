@@ -9,10 +9,8 @@
 
 package org.xapagy.debug;
 
-import org.xapagy.agents.Agent;
 import org.xapagy.autobiography.ABStory;
 import org.xapagy.concepts.ConceptNamingConventions;
-import org.xapagy.learning.LearnProperNames;
 import org.xapagy.ui.prettyprint.Formatter;
 
 /**
@@ -53,20 +51,8 @@ public class DomainGenerator {
      */
     public static final String PREFIX_WORD = "w_";
 
-    private Agent agent;
-    //private Runner r;
-    //private ConceptDataBaseHelper<Concept> cdbh;
-    //private XapiDictionary dict;
-    //private ConceptDataBaseHelper<Verb> vdbh;
 
-    public DomainGenerator(Agent agent) {
-        this.agent = agent;
-        // this.r = new Runner(agent);
-        //cdbh = new ConceptDataBaseHelper<>(agent.getConceptDB(),
-        //        ContentType.TYPE_CONCEPT, agent);
-        //vdbh = new ConceptDataBaseHelper<>(agent.getVerbDB(),
-        //        ContentType.TYPE_VERB, agent);
-        //dict = agent.getXapiDictionary();
+    public DomainGenerator() {
     }
 
     /**

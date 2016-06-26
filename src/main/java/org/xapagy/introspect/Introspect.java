@@ -9,7 +9,14 @@
 
 package org.xapagy.introspect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.xapagy.agents.Agent;
+import org.xapagy.debug.storyline.StoryLine;
+import org.xapagy.debug.storyline.StoryLineRepository;
+import org.xapagy.instances.VerbInstance;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
  * This class is the gathering point of a number of "low hanging fruit"
@@ -42,4 +49,22 @@ public class Introspect {
 		return agent.getName();
 	}
 	
+	/**
+	 * Gets the whole storyline of the current story and prints it out
+	 * @return
+	 */
+	public String getCurrentStory() {
+		VerbInstance lastVi = agent.getLastVerbInstance();
+		List<VerbInstance> vis = new ArrayList<>();
+		vis.add(lastVi);
+		List<StoryLine> stls = StoryLineRepository.createStoryLines(agent, vis);
+		StoryLine stl = stls.get(0); // normally, it cannot be more than one
+		// return PrettyPrint.ppConcise(stl, agent);
+		StringBuffer sb = new StringBuffer();
+		for(VerbInstance vi: stl.getVis()) {
+			sb.append(XapiPrint.ppsViXapiForm(vi, agent)  +"\n");
+		}
+		return sb.toString();
+	}
+
 }

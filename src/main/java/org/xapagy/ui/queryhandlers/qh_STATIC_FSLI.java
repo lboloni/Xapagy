@@ -19,7 +19,7 @@ import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
 import org.xapagy.ui.prettyhtml.PwViTemplate;
-import org.xapagy.ui.smartprint.SpFocus;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
  * Functions which generate a visualization for a StaticFSLI
@@ -88,7 +88,7 @@ public class qh_STATIC_FSLI implements IQueryHandler, IQueryAttributes {
         String interpretation = PwViTemplate.pwConcise(fmt, sfsli.getViInterpretation(), agent);
         buffer.append(interpretation);
         buffer.append(" from ");
-        buffer.append(SpFocus.ppsViXapiForm(sfsli.getViMemory(), agent));
+        buffer.append(XapiPrint.ppsViXapiForm(sfsli.getViMemory(), agent));
         return buffer.toString();
     }
     
