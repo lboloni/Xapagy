@@ -203,13 +203,12 @@ public class Shadows implements Serializable {
     }
 
     /**
-     * Reverse shadow of an instance -the instances where it is part. FIXME:
-     * this is using the salience value: is this what we want?
+     * Returns an InstanceSet composed of all the values into whose shadows the instance si participates.
+     * The participation in the instanceset is equal with the <em>salience<\em> of the shadow. 
      * 
-     * @param agent
      * @param si
      * @param ec
-     *            - the energy color on which the reversal is done
+     *            - the energy color in which we are considering
      * @return
      */
     public InstanceSet getReverseShadow(Instance si, String ec) {
@@ -224,11 +223,10 @@ public class Shadows implements Serializable {
     }
 
     /**
-     * Reverse shadow of an instance -the instances where it is part. FIXME:
-     * this is using the absolute value: is this what we want?
+     * Returns a ViSet composed of all the values into whose shadows the instance svi participates.
+     * The participation in the ViSet is equal with the <em>salience<\em> of the shadow. 
      * 
-     * @param agent
-     * @param si
+     * @param svi
      * @param ec
      *            - the energy color on which the reversal is done
      * @return
