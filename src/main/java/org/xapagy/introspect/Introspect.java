@@ -12,6 +12,7 @@ package org.xapagy.introspect;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.management.openmbean.ArrayType;
 
@@ -96,16 +97,19 @@ public class Introspect {
 		}
 		buf.append(verbalizeStoryLine(bestStoryLine));
 		buf.append("Where the instances are mapped as follows:\n");
-		List<SimpleEntry<Instance, Instance>> pairs = IntrospectHelper.getMapping(agent, stl, bestStoryLine,
+		Map<Instance, Instance> mapping = IntrospectHelper.getMapping(agent, stl, bestStoryLine,
 				EnergyColors.SHI_GENERIC);
-		for (SimpleEntry<Instance, Instance> pair : pairs) {
-			Instance value = pair.getValue();
+		for (Instance from : mapping.keySet()) {
+			Instance value = mapping.get(from);
 			if (value != null) {
-				buf.append(SpInstance.spc(pair.getKey(), agent) + " ==>" + SpInstance.spc(value, agent) + "\n");
+				buf.append(SpInstance.spc(from, agent) + " ==>" + SpInstance.spc(value, agent) + "\n");
 			} else {
-				buf.append(SpInstance.spc(pair.getKey(), agent) + " ==> <none>\n");
+				buf.append(SpInstance.spc(from, agent) + " ==> <none>\n");
 			}
 		}
+		//
+		buf.append("And now for a prediction");
+		buf.append(IntrospectHelper.singleStoryLinePrediction(agent, stl, bestStoryLine, ec));
 		return buf.toString();
 	}
 }
