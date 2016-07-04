@@ -7,6 +7,7 @@ import java.util.AbstractMap.SimpleEntry;
 import org.xapagy.agents.Agent;
 import org.xapagy.debug.storyline.StoryLine;
 import org.xapagy.debug.storyline.StoryLineRepository;
+import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
@@ -34,7 +35,7 @@ public class IntrospectHelper {
 		return stl;
 	}
 	
-	public static StoryLine getStrongestShadowStoryLine(Agent agent) {
+	public static StoryLine getStrongestShadowStoryLine(Agent agent, String ec) {
 		List<VerbInstance> vis = new ArrayList<>();
 		VerbInstance lastVi = agent.getLastVerbInstance();
 		vis.add(lastVi);
@@ -43,7 +44,6 @@ public class IntrospectHelper {
 		// get all the shadow story lines
 		vis = new ArrayList<>();
 		Shadows sh = agent.getShadows();
-		String ec = EnergyColors.SHV_GENERIC;
 		// extract all the storylines in the shadows
 		for(VerbInstance vi: agent.getFocus().getViListAllEnergies()) {
 			vis.addAll(sh.getMembers(vi, ec));
@@ -68,5 +68,39 @@ public class IntrospectHelper {
 			}
 		}
 		return bestStoryLine;
+	}
+	
+	/**
+	 * Returns a mapping between the instances based on their shadow levels. 
+	 * 
+	 * FIXME: Note that this could be improved by taking into consideration identity relations
+	 * 
+	 * @param agent 
+	 * @param fstl - a storyline (normally, the one that is in the focus)
+	 * @param shtl - a storyline (normally, one that is in the shadows)
+	 * @param ec - the energy color based on which the mapping is done
+	 * @return
+	 */
+	public static List<SimpleEntry<Instance, Instance>> getMapping(Agent agent, StoryLine fstl, StoryLine shtl, String ec) {
+		Shadows sh = agent.getShadows();
+		List<SimpleEntry<Instance, Instance>> retval = new ArrayList<>();
+		for(Instance scene: fstl.getScenes()) {
+			for(Instance fi: scene.getSceneMembers()) {
+				SimpleEntry<Instance, Instance> rv = null;
+				// find the strongest
+				List<Instance> members = sh.getMembers(fi, ec);
+				for(Instance inst: members) {
+					if (shtl.contains(inst)) {
+						rv = new SimpleEntry<Instance, Instance>(fi, inst);
+						break;
+					}
+				}
+				if (rv == null) {
+					rv = new SimpleEntry<Instance, Instance>(fi, null);					
+				}
+				retval.add(rv);
+			}
+		}
+		return retval;
 	}
 }
