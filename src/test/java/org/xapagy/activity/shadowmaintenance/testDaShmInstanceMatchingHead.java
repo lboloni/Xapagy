@@ -43,7 +43,7 @@ public class testDaShmInstanceMatchingHead {
     public void test() {
         String description = "matching with various combinations";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         //
         // Create the parameters: history no shadowing or hls
         // Testing: only instance matching turned on

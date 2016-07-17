@@ -49,7 +49,7 @@ public class testIncCovResVo {
      * for the incompatibility between concepts
      */
     public SimpleEntry<String, String> experiments() {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
 
         Agent agent = r.agent;
         VerbOverlay voSource = null;

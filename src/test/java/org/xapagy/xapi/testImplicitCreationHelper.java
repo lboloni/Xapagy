@@ -39,7 +39,7 @@ public class testImplicitCreationHelper {
         String testDescription =
                 "The XapiSplitter correctly counts the number of instance creations in Xapi sentences.";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XrefStatement entry =
                 (XrefStatement) r.agent.getXapiParser().parseLine(
                         "The w_c_bai20 / wa_v_av40 / the thing.");
@@ -89,7 +89,7 @@ public class testImplicitCreationHelper {
         String testDescription =
                 "The XapiSplitter correctly splits sentences into creation and reference part.";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XrefStatement statement =
                 (XrefStatement) r.agent.getXapiParser().parseLine(
                         "The w_c_bai20 / says in scene #A //"
@@ -115,7 +115,7 @@ public class testImplicitCreationHelper {
         String testDescription =
                 "The XapiSplitter correctly splits sentences into creation and reference part.";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // new subject, one level
         XrefStatement entry =
                 (XrefStatement) r.agent.getXapiParser().parseLine(

@@ -1,24 +1,22 @@
 package org.xapagy.introspect;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.AbstractMap.SimpleEntry;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.debug.storyline.StoryLine;
 import org.xapagy.debug.storyline.StoryLineRepository;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
-import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
 import org.xapagy.shadows.Shadows;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.verbalize.VerbalizeVo;
 import org.xapagy.verbalize.VrblzAdjective;
-import org.xapagy.verbalize.VrblzInstance;
 
 /**
  * A number of calls helping the Introspect ones. These return internal

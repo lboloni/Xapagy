@@ -40,7 +40,7 @@ public class testIncCovResCo {
      * Experiments for incompatibility, coverage and resolution confidence.
      */
     public SimpleEntry<String, String> experiments() {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
 
         Agent agent = r.agent;
         ConceptOverlay coSource = null;

@@ -41,7 +41,7 @@ public class testIncompatibilityCo {
      * for the incompatibility between concepts
      */
     public SimpleEntry<String, String> incompatibilityExperiments() {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
 
         Agent agent = r.agent;
         ConceptOverlay coSource = null;

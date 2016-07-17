@@ -25,7 +25,7 @@ public class testMacroParser {
     public void testInquitRepeat() {
         String description = "Macro: repeat an inquit";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // r.tso.setTrace(TraceWhat.VERBALIZATION);
         r.exec("A scene #first / exists.");
         r.exec("$ChangeScene #first");        

@@ -31,7 +31,7 @@ public class testQuestionAnswerPairing {
         String description =
                 "Checks whether a question and a proposed answer is a syntactic pair";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         VerbInstance viQuestion = null;
         VerbInstance viAnswer = null;
         

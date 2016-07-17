@@ -35,7 +35,7 @@ public class testViSimilarityHelper {
     public void testDecideSimilarityVi() {
         String description = "Matching.decideSimilarityVi function.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("A w_c_bai20 'Achilles' / exists.");
         r.exec("A w_c_bai20 'Hector' / exists.");
         VerbInstance vi1 = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");

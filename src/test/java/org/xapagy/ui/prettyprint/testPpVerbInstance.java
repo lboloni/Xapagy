@@ -30,7 +30,7 @@ public class testPpVerbInstance {
     public void testSimple() {
         String description = "PpsFocus - printing a summary";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         // r.tso.trace();
         // r.tso.setCompactTraceIncludingVerbalization(true);

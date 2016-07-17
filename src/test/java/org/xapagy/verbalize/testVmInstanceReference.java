@@ -41,7 +41,7 @@ public class testVmInstanceReference {
     public void test() {
         String description = "basic";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace();
         r.exec("A scene #Troy / exists.");
         r.exec("$ChangeScene #Troy");

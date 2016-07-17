@@ -43,7 +43,7 @@ public class testDaShmDecay {
      */
     public SimpleEntry<Double, Double> measureInstanceDecay(
             double instanceRemainingEnergyRatio) {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-FocusAndShadows'");
         Parameters p = r.agent.getParameters();
         Shadows sf = r.agent.getShadows();
@@ -92,7 +92,7 @@ public class testDaShmDecay {
      */
     public SimpleEntry<Double, Double> measureViDecay(
             double viRemainingEnergyRatio) {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-FocusAndShadows'");
         Parameters p = r.agent.getParameters();
         Shadows sf = r.agent.getShadows();

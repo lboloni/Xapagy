@@ -37,7 +37,7 @@ public class testDaFcmSummarization {
         String description =
                 "Closing of the summarization transforms the FOCUS_SUMMARIZATION energy to FOCUS energy";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Focus fc = r.agent.getFocus();
         AutobiographicalMemory am = r.agent.getAutobiographicalMemory();
         r.exec("$CreateScene #One CloseOthers With Instances w_c_bai20 'Hector', w_c_bai21 'Achilles'");
@@ -86,7 +86,7 @@ public class testDaFcmSummarization {
         String description =
                 "The expiration of begin and body leads to the removal of the summarization with no record";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Focus fc = r.agent.getFocus();
         AutobiographicalMemory am = r.agent.getAutobiographicalMemory();
 

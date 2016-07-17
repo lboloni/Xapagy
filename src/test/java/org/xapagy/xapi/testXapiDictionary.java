@@ -51,7 +51,7 @@ public class testXapiDictionary {
     public void testVerbExists() {
         String description = "Dictionary must have exists and is-a.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XapiDictionary dict = r.agent.getXapiDictionary();
         VerbOverlay verb = dict.getVoForWord("exists");
         Assert.assertTrue(verb != null);

@@ -40,7 +40,7 @@ public class testViMatch {
     public void test() {
         String description = "ViMatch for VIs";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ViMatch vim = new ViMatch(r.agent);
         r.exec("$Include 'P-FocusOnly'");
         r.exec("$CreateScene #first CloseOthers With Instances w_c_bai20 'Hector' #H, w_c_bai20 'Achilles' #A");
@@ -107,7 +107,7 @@ public class testViMatch {
     public void testTemplates() throws XapiParserException {
         String description = "ViMatch for ViTemplates";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ViMatch vim = new ViMatch(r.agent);
         XapiParser xp = r.agent.getXapiParser();
         r.exec("$Include 'P-FocusOnly'");
@@ -140,7 +140,7 @@ public class testViMatch {
     public void testFilter() {
         String description = "ViMatch";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ViMatch vim = new ViMatch(r.agent);
         r.exec("$Include 'P-FocusOnly'");
         // r.exec("$SetParameter A_DEBUG/G_GENERAL/N_RECORD_FOCUS_MEMORY_QUANTUMS=1.0");

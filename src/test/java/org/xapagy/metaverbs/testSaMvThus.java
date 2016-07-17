@@ -29,7 +29,7 @@ import org.xapagy.ui.prettyprint.Formatter;
 public class testSaMvThus {
 
     public double pushoutValue(boolean useThus) {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Focus fc = r.agent.getFocus();
         // r.tso.setTrace();
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles'");
@@ -50,7 +50,7 @@ public class testSaMvThus {
     public void test() {
         String description = "SaMvThus - creating a coincidence group";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // r.tso.setTrace();
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles'");
 
@@ -72,7 +72,7 @@ public class testSaMvThus {
         String description =
                 "SaMvThus - creating a coincidence group with labels";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles'");
 
         @SuppressWarnings("unused")

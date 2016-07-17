@@ -380,4 +380,13 @@ public class ABStory {
         FileWritingUtil.writeToTextFile(file, toString());
     }
     
+
+    /**
+     * Saves the story to a file 
+     * @param filename
+     * @throws IOException
+     */
+    public void saveTo(File file) throws IOException {
+        FileWritingUtil.writeToTextFile(file, toString());
+    }
 }

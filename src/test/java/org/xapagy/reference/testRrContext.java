@@ -44,7 +44,7 @@ public class testRrContext {
         String description =
                 "Test for the creation of a direct reference RrContext object.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XapiParser xp = r.agent.getXapiParser();
         // r.exec("A w_c_bai20 'Achilles' / exists.");
         // r.exec("A w_c_bai20 'Hector' / exists.");
@@ -80,7 +80,7 @@ public class testRrContext {
         String description =
                 "Test for the creation of a direct reference RrContext object.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XapiParser xp = r.agent.getXapiParser();
         Instance scene = r.agent.getFocus().getCurrentScene();
         ViPart partInVi = ViPart.Subject;

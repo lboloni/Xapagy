@@ -34,7 +34,7 @@ public class testSaFcmInsertVi {
     public void testInsertionViEnergy() {
         String testDescription = "The focus energy added at insertion";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Focus fc = r.agent.getFocus();
         r.exec("$CreateScene #Reality CloseOthers With Instances w_c_bai20 'Hector', w_c_bai21 'Achilles', w_c_bai22");
         //

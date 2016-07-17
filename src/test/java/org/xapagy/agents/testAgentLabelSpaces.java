@@ -38,7 +38,7 @@ public class testAgentLabelSpaces {
     @Test
     public void testFullLabel() {
         TestHelper.testStart("Tests whether LabelSpaces fillLabel does what it is supposed to do");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         AgentLabelSpaces als = r.agent.getLabelSpaces();
         String label = als.fullLabel("#A");
         assertEquals("#XNS_0.A", label);
@@ -55,7 +55,7 @@ public class testAgentLabelSpaces {
     @Test
     public void testInstanceAndViLabeling() {
         TestHelper.testStart("Testing the setting of label spaces");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #One CloseOthers With Instances w_c_bai20 #H 'Hector', w_c_bai21 'Achilles'");
         r.exec("'Achilles'/ #Label wa_v_av40 / #H 'Hector'.");
         r.exec("$Namespace Set 'My.Favorite.Space'");

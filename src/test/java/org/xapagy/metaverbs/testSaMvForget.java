@@ -30,7 +30,7 @@ public class testSaMvForget {
     public void test() {
         String description = "SaMvForget";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // r.tso.setTrace();
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles', w_c_bai20 'Ulysses'");
         VerbInstance vi = r.exac("'Ulysses' / wa_v_av40 / 'Hector'.");

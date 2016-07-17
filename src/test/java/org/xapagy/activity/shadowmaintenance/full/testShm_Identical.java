@@ -116,7 +116,7 @@ public class testShm_Identical {
                 instance1, instance2, verbs, rels12, rels21);
         RecordedStory st2 = RsGenerator.generateReciprocalWithRelations(
                 instance1, instance2, verbs, rels12, rels21);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         RsTestingUnit stu = new RsTestingUnit(
                 new ABStory("$Include 'P-FocusAndShadows'"), history, st,
                 new ABStory("$Include 'P-FocusAndShadows'"), st2);

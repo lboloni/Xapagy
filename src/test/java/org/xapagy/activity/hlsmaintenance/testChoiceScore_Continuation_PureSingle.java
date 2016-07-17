@@ -44,7 +44,7 @@ public class testChoiceScore_Continuation_PureSingle {
         TestHelper.testStart("testChoiceScore_Continuation_PureSingle:Default");
         RsTestingUnit rtu = RsFrequentNarratives.createPureRepetition(1);
         TextUi.println(rtu.getFullStory());
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         rtu.runHistory(r);
         rtu.runShadowStory(r);
         // ok, create the ChoiceEvolutionMatrix

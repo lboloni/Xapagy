@@ -43,7 +43,7 @@ public class testAutobiographicMemory {
      * for the incompatibility between concepts
      */
     public SimpleEntry<String, String> autobiographicalMemoryExperiments() {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Agent agent = r.agent;
         LatexFormatter lf = new LatexFormatter();
         FormatTable ft = new FormatTable(40, 20, 40);

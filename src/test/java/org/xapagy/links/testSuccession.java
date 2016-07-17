@@ -81,7 +81,7 @@ public class testSuccession {
     public void testGroupSuccession() {
         String description = "Test .";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Iliad CloseOthers With Instances 'Achilles', 'Hector', 'Ajax', 'Ulysses', 'Patrocles'");
         VerbInstance viSingle = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");
         VerbInstance viGroup =
@@ -103,7 +103,7 @@ public class testSuccession {
         String description =
                 "Succession links for action VIs interspersed with isA VIs.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Iliad CloseOthers With Instances 'Achilles', 'Hector'");
         List<VerbInstance> listVi = new ArrayList<VerbInstance>();
         // 0,1,2,3,4
@@ -149,7 +149,7 @@ public class testSuccession {
         String description =
                 "Creation of succession for a linear sequence of action VIs.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Iliad CloseOthers With Instances 'Achilles', 'Hector'");
 
         List<VerbInstance> listVi = new ArrayList<VerbInstance>();
@@ -186,7 +186,7 @@ public class testSuccession {
     public void testSuccessionChange() {
         String description = "Test succession over change.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Iliad CloseOthers With Instances 'Achilles', 'Hector', 'Ajax', 'Ulysses', 'Patrocles'");
         VerbInstance viHectorOld = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");
         PrettyPrint.ppd(viHectorOld, r.agent);

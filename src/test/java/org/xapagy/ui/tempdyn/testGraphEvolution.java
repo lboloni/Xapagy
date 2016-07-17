@@ -30,7 +30,7 @@ public class testGraphEvolution {
     public void testGraphs() {
         String description = "Graph evolution";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.COMPACT);
         r.exec("$Include 'P-FocusOnly'");
         ABStory story = testRecall.createAchillesHector("#one", false, false, null);

@@ -74,7 +74,7 @@ public class testResolutionWithRrContext {
      * @return
      */
     public Runner createBasicStory() {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("A w_c_bai20 'Achilles' #Achilles / exists.");
         r.exec("A w_c_bai20 w_c_bai22 'Hector' #Hector / exists.");
         r.exec("'Achilles' / wcr_vr_rel1 / a w_c_bai21 #AchillesSword.");
@@ -105,7 +105,7 @@ public class testResolutionWithRrContext {
                     throws XapiParserException, rrException {
         String expectedLabelFull = null;
         if (expectedLabel != null) {
-            r.agent.getLabelSpaces().fullLabel(expectedLabel);
+            expectedLabelFull = r.agent.getLabelSpaces().fullLabel(expectedLabel);
         }
         rrContext rrc =
                 testResolutionWithRrContext.createRefAsSubject(r, reference);

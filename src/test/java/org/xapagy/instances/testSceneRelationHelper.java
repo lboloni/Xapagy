@@ -55,7 +55,7 @@ public class testSceneRelationHelper {
     public void testFictional() {
         TestHelper.testStart(
                 "scene fictional created by L2 and verified by SceneRelationHelper");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         SimpleEntry<Instance, Instance> tmp = createL2SceneRelation(r,
                 Hardwired.LABEL_SCENEREL_FICTIONAL_FUTURE);
         Instance sceneReality = tmp.getKey();
@@ -72,7 +72,7 @@ public class testSceneRelationHelper {
     public void testSuccession() {
         TestHelper.testStart(
                 "scene succession created by L2 and verified by SceneRelationHelper");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         SimpleEntry<Instance, Instance> tmp =
                 createL2SceneRelation(r, Hardwired.LABEL_SCENEREL_SUCCESSOR);
         Instance scene1 = tmp.getKey();
@@ -95,7 +95,7 @@ public class testSceneRelationHelper {
     public void testView() {
         TestHelper.testStart(
                 "scene view created by L2 and verified by SceneRelationHelper");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         SimpleEntry<Instance, Instance> tmp =
                 createL2SceneRelation(r, Hardwired.LABEL_SCENEREL_VIEW);
         Instance sceneReality = tmp.getKey();

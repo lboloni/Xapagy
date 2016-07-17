@@ -31,7 +31,7 @@ public class testSummarizationHelper {
         String description =
                 "Test the functions of the summarization helper";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #one CloseOthers With Instances w_c_bai20 'Hector', w_c_bai21 'Achilles'");
 
         VerbInstance vi = r.exac("'Achilles'/ wa_v_av40 / 'Hector'.");

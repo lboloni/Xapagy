@@ -29,7 +29,7 @@ public class testVrblzInstance {
     @Test
     public void test() {
         Formatter fmt = new Formatter();
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Scene1 CloseOthers With Instances w_c_bai20, w_c_bai21");
         VerbInstance vi = r.exac("The w_c_bai20 / wa_v_av20 / the w_c_bai21.");
         // Instance inst = vi.getSubject();

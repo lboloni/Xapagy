@@ -33,7 +33,7 @@ public class testQuestionHelper {
     public void testIsAQuestion() {
         String description = "The verification if something is a question";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         VerbInstance vi = null;
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles'");
 

@@ -80,7 +80,7 @@ public class testCreateLink {
         String description =
                 "Test that the CreateLink kludge indeed creates a link";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai21 'Achilles'");
 
         VerbInstance vi1 = r.exac("'Hector' / wa_v_av1 / 'Achilles'.");

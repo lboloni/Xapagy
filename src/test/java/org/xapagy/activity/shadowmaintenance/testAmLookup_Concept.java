@@ -111,7 +111,7 @@ public class testAmLookup_Concept {
      */
     public SimpleEntry<String, String> lookupCoExperiments() {
         LatexFormatter lf = new LatexFormatter();
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         agent = r.agent;
         createAM();
         ConceptOverlay coFocus = null;

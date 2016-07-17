@@ -57,7 +57,7 @@ public class testDaShmViMatchingHead {
         RecordedStory st2 =
                 RsGenerator.generateReciprocal("w_c_bai21", "w_c_bai22",
                         Arrays.asList("wa_v_av40", "wa_v_av41", "wa_v_av42"));
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         RsTestingUnit stu = new RsTestingUnit(p, history, st, p, st2);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: identical, ACTORS: base level matching");
@@ -73,7 +73,7 @@ public class testDaShmViMatchingHead {
                 RsGenerator.generateReciprocal("w_c_bai21", "w_c_bai22",
                         Arrays.asList("wa_v_av40", "wa_v_av41", "wa_v_av42"));
         st2.addRandomPropernames(sg);
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st, p, st2);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: identical, ACTORS: base level and label matching");
@@ -86,7 +86,7 @@ public class testDaShmViMatchingHead {
                 RsGenerator.generateReciprocal("w_c_bai21", "w_c_bai22",
                         Arrays.asList("wa_v_av40", "wa_v_av41", "wa_v_av42"));
         stp2.addRandomPropernames(sg);
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st, p, stp2);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: identical,  ACTORS: base level identical, different labels");
@@ -100,7 +100,7 @@ public class testDaShmViMatchingHead {
         RecordedStory st4 =
                 RsGenerator.generateReciprocal("w_c_bai25", "w_c_bai26",
                         Arrays.asList("wa_v_av40", "wa_v_av40", "wa_v_av40"));
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st3, p, st4);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: identical,  ACTORS: base level different");
@@ -114,7 +114,7 @@ public class testDaShmViMatchingHead {
         st4 =
                 RsGenerator.generateReciprocal("w_c_bai22", "w_c_bai21",
                         Arrays.asList("wa_v_av40", "wa_v_av41", "wa_v_av42"));
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st3, p, st4);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: identical,  ACTORS: base level opposing");
@@ -136,7 +136,7 @@ public class testDaShmViMatchingHead {
                         .asList("CreateRelation wv_vr_rel1",
                                 "CreateRelation wv_vr_rel2", "wa_v_av40",
                                 "wa_v_av40", "wa_v_av40"));
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st3, p, st4);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: identical with relations, ACTORS: base level matching");
@@ -163,7 +163,7 @@ public class testDaShmViMatchingHead {
         RecordedStory st2 =
                 RsGenerator.generateReciprocal("w_c_bai21", "w_c_bai22",
                         Arrays.asList("wa_v_av40", "wa_v_av41", "wa_v_av42"));
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         RsTestingUnit stu = new RsTestingUnit(p, history, st, p, st2);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: identical, ACTORS: base level matching");
@@ -174,7 +174,7 @@ public class testDaShmViMatchingHead {
         st2 =
                 RsGenerator.generateReciprocal("w_c_bai21", "w_c_bai22",
                         Arrays.asList("wa_v_av40", "wa_v_av41", "wa_v_av42"));
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st, p, st2);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: 2-3 flipped, ACTORS: base level matching");
@@ -186,7 +186,7 @@ public class testDaShmViMatchingHead {
                 RsGenerator.generateReciprocal("w_c_bai21", "w_c_bai22", Arrays
                         .asList("wa_v_av40", "wa_v_av41", "wa_v_av40",
                                 "wa_v_av41", "wa_v_av42"));
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st, p, st2);
         TextUi.printLabeledSeparator("STORY: 1-2-1-2-3, ACTORS: base level matching");
         TextUi.println(stu);
@@ -198,7 +198,7 @@ public class testDaShmViMatchingHead {
                         .asList("CreateRelation wv_vr_rel1",
                                 "CreateRelation wv_vr_rel2", "wa_v_av40",
                                 "wa_v_av41", "wa_v_av42"));
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st, p, st2);
         stu.runAll(r);
         TextUi.printLabeledSeparator("STORY: 1-2-1-2-3, ACTORS: base level matching");
@@ -213,7 +213,7 @@ public class testDaShmViMatchingHead {
         postStory.add("The w_c_bai21 / is-a / w_c_bai25.");
         st2.addStory(postStory);
 
-        r = ArtificialDomain.createAabConcepts();
+        r = ArtificialDomain.runnerArtificialAutobiography();
         stu = new RsTestingUnit(p, history, st, p, st2);
         // Adding an extra story
         // stu.rsFocus.rsdsDirect.postStory.add("The w_c_bc1 / is-a / w_c_bc10.");

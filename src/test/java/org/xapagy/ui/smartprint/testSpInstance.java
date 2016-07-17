@@ -27,7 +27,7 @@ public class testSpInstance {
     public void testSimple() {
         String description = "SpInstance ";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         r.exec("A scene #Scene1 / is-only-scene.");
         Instance instMan1 = r.exac("A w_c_bai20 / exists.").getSubject();

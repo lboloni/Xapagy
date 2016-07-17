@@ -26,7 +26,7 @@ public class testSpFocus {
     public void testSpFocusSimple() {
         String description = "SpFocus-simple";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         // r.tso.trace();
         // r.tso.setCompactTraceIncludingVerbalization(true);
@@ -48,7 +48,7 @@ public class testSpFocus {
     public void testSpFocusSummary() {
         String description = "SpFocus - printing a summary";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         // r.tso.trace();
         // r.tso.setCompactTraceIncludingVerbalization(true);

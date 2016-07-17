@@ -36,7 +36,7 @@ public class testRecallInstanceCreation {
     public void test() {
         String description = "Recall - instance creation";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-FocusOnly'");
         // r.tso.setTrace();
        r.exec("$CreateScene #One CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles', w_c_bai21");

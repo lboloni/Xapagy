@@ -27,7 +27,7 @@ public class testStoryGenerator {
         String description =
                 "The concept name, proper name and verb name generators of the the story generator";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         for (int i = 0; i != 5; i++) {
             String temp = r.properNameGenerator.generateProperName();
             // TextUi.println(temp);

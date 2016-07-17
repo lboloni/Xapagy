@@ -38,7 +38,7 @@ public class testSaMvCreateChainIdentity {
     public void test() {
         String description = "SaMvCreateChainIdentity";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-FocusAndShadows'");
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles'");
         VerbInstance vi = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");

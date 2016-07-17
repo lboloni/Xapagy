@@ -29,7 +29,7 @@ public class testPrettyPrint {
     public void testSimple() {
         String description = "Tests whether it prints based on the ancestor";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         // r.tso.trace();
         // r.tso.setCompactTraceIncludingVerbalization(true);

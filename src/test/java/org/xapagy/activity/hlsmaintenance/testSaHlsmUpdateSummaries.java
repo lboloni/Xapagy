@@ -29,7 +29,7 @@ public class testSaHlsmUpdateSummaries {
     public void testAlternative() {
         String description = "Create alternative summaries";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Parameters p = r.agent.getParameters();
         p.set("A_HLSM", "G_GENERAL",
                 "N_PROCESS_SUMMARIZATION_BLOCKS", true);
@@ -48,7 +48,7 @@ public class testSaHlsmUpdateSummaries {
     public void testRepetitive() {
         String description = "SaUpdateSummaries - create repetitive summaries";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // r.tso.setTrace();
         Parameters p = r.agent.getParameters();
         p.set("A_HLSM", "G_GENERAL",

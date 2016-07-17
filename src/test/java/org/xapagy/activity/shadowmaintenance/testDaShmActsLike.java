@@ -38,7 +38,7 @@ public class testDaShmActsLike {
         String description =
                 "DaMvActsLike - changing the participation in the shadow";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-FocusAndShadows'");
         r.exec("$DiffusionActivity Append To Composite 'ShadowMaintenance' New DA With Name 'InstanceActsLike' Code 'org.xapagy.activity.shadowmaintenance.DaShmInstanceActsLike'");
         // r.tso.setTrace();

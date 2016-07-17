@@ -32,7 +32,7 @@ public class testRecallScoredCharacterizations {
     public void debugCharacterizationChoices() {
         String description = "debugCharacterizationChoices";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
 
         // create the history
         ABStory abs = new ABStory();
@@ -65,7 +65,7 @@ public class testRecallScoredCharacterizations {
     public void testCharacterizations() {
         String description = "Recall Case 1: scored characterizations";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // create the history
         ABStory abs = new ABStory();
         abs.add("$CreateScene #Scene1 Current With Instances w_c_bai20 w_c_bai22 'Hector', w_c_bai20 w_c_bai22 'Achilles' w_c_bai21");

@@ -41,7 +41,7 @@ public class testFocusInstance {
         String testDescription =
                 "Instances not referred are eventually expiring. ";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Focus fc = r.agent.getFocus();
         r.exec("$CreateScene #Reality CloseOthers With Instances 'Hector' #Hector, w_c_bai20 #referred, w_c_bai21");
         Instance instanceHector =
@@ -75,7 +75,7 @@ public class testFocusInstance {
         String testDescription =
                 "Instance in a quoted sentence are also regenerating. ";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Quoted CloseOthers With Instances 'Hector' #Hector, 'Achilles' #Achilles");
         r.exec("$CreateScene #Reality Current With Instances w_c_bai20, w_c_bai21");
         Instance instHector =

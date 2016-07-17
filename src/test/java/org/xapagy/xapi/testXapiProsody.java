@@ -33,7 +33,7 @@ public class testXapiProsody {
     public void testProsody() {
         String testDescription = "Tests various prosody models.";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // two regular sentences
         double oldTime = r.agent.getTime();
         r.exec("A w_c_bai20 / exists.");

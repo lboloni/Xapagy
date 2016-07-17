@@ -71,7 +71,7 @@ public class testXapiLang {
      * @throws ParseException
      */
     private XapiLang parse(String text) {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ByteArrayInputStream bais = null;
         try {
             bais = new ByteArrayInputStream(text.getBytes("UTF-8"));
@@ -108,7 +108,7 @@ public class testXapiLang {
     public void testConceptCreate() {
         String description = "The specification of concepts from Xapi";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         AbstractConceptDB<Concept> cdb = r.agent.getConceptDB();
         r.exec("$-- 'Bingo is a game of skill and tenacity'");
         r.exec("$Create Concept c_bingo");
@@ -192,7 +192,7 @@ public class testXapiLang {
     public void testPrint() {
         String description = "Printing from Xapi";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Observer Add 'default' Triggered-at 'always' Executing 'Observe'");
         r.exec("$Print 'Hello world!'");
         r.exec("A w_c_bai20 #two/ exists.");

@@ -30,7 +30,7 @@ public class testKludges {
         String description =
                 "Test that the CreateScene indeed changes the current scene";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Troy CloseOthers With Instances w_c_bai20 'Hector', w_c_bai21 'Achilles'");
         r.exec("$CreateScene #Current Current With Instances w_c_bai20 'Bill', w_c_bai21 'Jill'");
         /*VerbInstance vi1 = */ r.exac("'Bill' / wa_v_av1 / 'Jill'.");
@@ -47,7 +47,7 @@ public class testKludges {
         String description =
                 "Test that the SetParameter indeed sets the parameter";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Parameters p = r.agent.getParameters();
         double oldValue = p.get("A_DEBUG","G_GENERAL", "N_RECORD_LINK_QUANTUMS");
         assertEquals(0.0, oldValue, 0.001);

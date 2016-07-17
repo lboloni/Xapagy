@@ -35,7 +35,7 @@ public class testRsFrequentNarratives {
         TestHelper.testStart(description);
         RsTestingUnit rtu = RsFrequentNarratives.createForkSimple(5, 4);
         TextUi.println(rtu.getFullStory());
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         rtu.runAll(r);
         TestHelper.testDone();
     }
@@ -50,7 +50,7 @@ public class testRsFrequentNarratives {
         TestHelper.testStart(description);
         RsTestingUnit rtu = RsFrequentNarratives.createPureRepetition(1);
         TextUi.println(rtu.getFullStory());
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         rtu.runAll(r);
         TestHelper.testDone();
     }
@@ -65,7 +65,7 @@ public class testRsFrequentNarratives {
         TestHelper.testStart(description);
         RsTestingUnit rtu = RsFrequentNarratives.createDirtyRepetition(1);
         TextUi.println(rtu.getFullStory());
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         rtu.runAll(r);
         TestHelper.testDone();
     }
@@ -80,7 +80,7 @@ public class testRsFrequentNarratives {
         TestHelper.testStart(description);
         RsTestingUnit rtu = RsFrequentNarratives.createApproximateRepetition(1, 2);
         TextUi.println(rtu.getFullStory());
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         rtu.runAll(r);
         TestHelper.testDone();
     }

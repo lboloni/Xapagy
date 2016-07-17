@@ -46,7 +46,7 @@ public class testToStringObserver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setPrintToOutput(testToStringObserver.printToOutput); // turn to
                                                                     // true for
                                                                     // inspecting
@@ -65,7 +65,7 @@ public class testToStringObserver {
     public void testTraceChoices() {
         TestHelper.testStart("TSO: tracing with choices");
         String storyFile = "story.xst";
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.CHOICES_NATIVE);
         r.tso.setPrintToOutput(testToStringObserver.printToOutput);
         r.execFile(this, storyFile, null);
@@ -83,7 +83,7 @@ public class testToStringObserver {
     public void testTraceVerbalization() {
         TestHelper.testStart("TSO: Tracing with verbalization");
         String storyFile = "story.xst";
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.VERBALIZATION);
         r.tso.setPrintToOutput(testToStringObserver.printToOutput);
         r.execFile(this, storyFile, null);

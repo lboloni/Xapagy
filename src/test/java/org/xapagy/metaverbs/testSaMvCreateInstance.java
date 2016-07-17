@@ -38,7 +38,7 @@ public class testSaMvCreateInstance {
     public void testCreateInstanceInQuote() {
         String description = "Create instance in quote";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         r.exec("A scene #Scene1 / exists.");
         r.exec("$ChangeScene #Scene1");
@@ -62,7 +62,7 @@ public class testSaMvCreateInstance {
     public void testCreateInstanceLabel() {
         String description = "Create instance in main scene";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Reality CloseOthers With Instances 'Achilles' #A w_c_bai20");
         r.exec("A 'Hector' #H / exists.");
         VerbInstance vi = r.exac("'Achilles' / wa_v_av40 / 'Hector'.");
@@ -84,7 +84,7 @@ public class testSaMvCreateInstance {
     public void testCreateInstanceMainScene() {
         String description = "Create instance in main scene";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // create as a subject
         Instance instHector = r.exac("A 'Hector' / exists.").getSubject();
         // create as an object

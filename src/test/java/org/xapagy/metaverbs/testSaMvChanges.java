@@ -38,7 +38,7 @@ public class testSaMvChanges {
     public void test() {
         String description = "SaMvChanges";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Troy CloseOthers With Instances 'Achilles' w_c_bai20, 'Hector' w_c_bai20 w_c_bai21");
         VerbInstance vi = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");
         Instance instHector = vi.getSubject();

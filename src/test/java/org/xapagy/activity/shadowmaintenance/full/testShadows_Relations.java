@@ -36,7 +36,7 @@ public class testShadows_Relations {
         TestHelper.testStart("testShadows_Pure");
         RsTestingUnit rtu = RsFrequentNarratives.createPureRepetition(1);
         TextUi.println(rtu.getFullStory());
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         rtu.runHistory(r);
         rtu.runShadowStory(r);
         //

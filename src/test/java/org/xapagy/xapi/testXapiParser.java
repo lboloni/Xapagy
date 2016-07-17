@@ -44,7 +44,7 @@ public class testXapiParser {
     public void testSiviFound() throws XapiParserException {
         String description = "Parser accepts ";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         String text = "'Hector' / wa_v_av10 // I / has / a friend tons.";
         XrefStatement xst =
                 (XrefStatement) r.agent.getXapiParser().parseLine(text);
@@ -64,7 +64,7 @@ public class testXapiParser {
     public void testGroup() throws XapiParserException {
         String description = "Correct parsing of group reference";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XrefStatement xst =
                 (XrefStatement) r.agent.getXapiParser().parseLine(
                         "'Achilles' + 'Hector'/ exists.");
@@ -82,7 +82,7 @@ public class testXapiParser {
     public void testParseNounPhrase() throws XapiParserException {
         String description = "Parsing of an isolated noun phrase";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XapiParser xp = r.agent.getXapiParser();
         XrefToInstance xtoi;
         // direct reference
@@ -110,7 +110,7 @@ public class testXapiParser {
     public void testParseVerbPhrase() throws XapiParserException {
         String description = "Parsing of an isolated verb phrase";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XapiParser xp = r.agent.getXapiParser();
         XrefVerb xtov;
         // direct reference
@@ -134,7 +134,7 @@ public class testXapiParser {
     public void testQuote() throws XapiParserException {
         String description = "Correct parsing of quote statements";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XrefStatement statement =
                 (XrefStatement) r.agent.getXapiParser().parseLine(
                         "A 'John' / says in scene // A 'Billy' / exists.");
@@ -155,7 +155,7 @@ public class testXapiParser {
     public void testRelational() throws XapiParserException {
         String description = "Correct parsing of relational reference";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XrefStatement xst =
                 (XrefStatement) r.agent
                         .getXapiParser()
@@ -174,7 +174,7 @@ public class testXapiParser {
     public void testVoLabel() throws XapiParserException {
         String description = "Correct parsing of VO labels";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XapiParser xp = r.agent.getXapiParser();
         XrefStatement xst =
                 (XrefStatement) xp

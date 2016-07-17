@@ -26,7 +26,7 @@ public class testPpShadows {
     public void testShadowInstances() {
         String description = "Printing of the shadow instances";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace();
         // the original observations
         r.printOn = true;

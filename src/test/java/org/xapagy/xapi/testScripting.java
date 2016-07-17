@@ -27,7 +27,7 @@ public class testScripting {
      */
     @Test
     public void testExecution() {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("!!print('Hello world! ' + agent);");
         r.exec("$BeginScript");
         r.exec("print('One ' + agent);");
@@ -41,7 +41,7 @@ public class testScripting {
      */
     @Test
     public void testRef() {
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #first CloseOthers With Instances w_c_bai20 'Hector' #H, w_c_bai20 'Achilles' #A");
         @SuppressWarnings("unused")
         VerbInstance vi1 =

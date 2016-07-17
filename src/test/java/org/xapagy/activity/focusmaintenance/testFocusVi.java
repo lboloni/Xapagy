@@ -36,7 +36,7 @@ public class testFocusVi {
         String testDescription =
                 "Test the pushout of action verbs, by dependent action verbs";
         TestHelper.testStart(testDescription);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Reality CloseOthers With Instances w_c_bai20, w_c_bai21, w_c_bai22");
         r.exec("$CreateScene #Reality2 Current With Instances 'Hector', 'Achilles'");
         // r.debugMode();

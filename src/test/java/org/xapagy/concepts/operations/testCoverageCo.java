@@ -50,7 +50,7 @@ public class testCoverageCo {
      */
     public SimpleEntry<String, String> coverageExperiments() {
         LatexFormatter lf = new LatexFormatter();
-        Runner r = ArtificialDomain.createUnloadedRunner();
+        Runner r = ArtificialDomain.runnerArtificialDomain();
         Agent agent = r.agent;
         ConceptOverlay coFocus = null;
         ConceptOverlay coShadow = null;

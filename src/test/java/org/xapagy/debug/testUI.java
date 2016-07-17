@@ -25,7 +25,7 @@ public class testUI {
     public void test() {
         String description = "Debug the UI";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-FocusOnly'");
         r.exec("$CreateScene #first CloseOthers With Instances w_c_bai20 'Hector' #H, w_c_bai20 'Achilles' #A");
         r.exec("'Achilles' / wa_v_av40 / 'Hector'.");

@@ -29,7 +29,7 @@ public class testWordResolutionHelper {
     public void testComposition() throws XapiParserException {
         String description = "Composition of words for an overlay";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         List<String> words = new ArrayList<>();
         words.add("w_c_bai20");

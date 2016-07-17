@@ -34,7 +34,7 @@ public class testSaMvOperationRelation {
     public void testCategoryRelation() {
         String description = "creating and removing an independent relation";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #reality CloseOthers With Instances w_c_bai1, w_c_bai2");
         VerbInstance vi =
                 r.exac("The w_c_bai1 / CreateRelation wv_vr_rcat1_rmi0 / the w_c_bai2.");
@@ -56,7 +56,7 @@ public class testSaMvOperationRelation {
     public void testIndependentRelation() {
         String description = "creating and removing an independent relation";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #reality CloseOthers With Instances w_c_bai1, w_c_bai2");
         VerbInstance vi =
                 r.exac("The w_c_bai1 / CreateRelation wv_vr_rel0 / the w_c_bai2.");

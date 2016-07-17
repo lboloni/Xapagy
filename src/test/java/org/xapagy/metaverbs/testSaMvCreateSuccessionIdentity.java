@@ -31,7 +31,7 @@ public class testSaMvCreateSuccessionIdentity {
     public void test() {
         String description = "SaMvCreateSuccessionIdentity";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // r.tso.setTrace();
         r.exec("$CreateScene #Iliad CloseOthers With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles'");
         VerbInstance vi = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");

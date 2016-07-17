@@ -31,7 +31,7 @@ public class testRrCandidate {
     public void test() throws XapiParserException {
         String description = "rrCandidate";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         //
         // a story
         //

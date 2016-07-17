@@ -41,7 +41,7 @@ public class testChoiceEvolutionMatrix {
         story.add("'Achilles'/ wa_v_av43 / 'Hector'.");
         story.add("'Achilles'/ wa_v_av44 / 'Hector'.");
         // prepare the agent
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.COMPACT);
         r.printOn = true;
         r.exec("$Include 'P-FocusOnly'");
@@ -79,7 +79,7 @@ public class testChoiceEvolutionMatrix {
     public void testRTU() {
         RsTestingUnit rtu = RsFrequentNarratives.createForkSimple(5, 4);
         TextUi.println(rtu.getFullStory());
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         rtu.runHistory(r);
         rtu.runShadowStory(r);
         // ok, create the ChoiceEvolutionMatrix

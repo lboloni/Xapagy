@@ -48,7 +48,7 @@ public class testMissing {
     public void testMissingActionPureRecall() throws IOException {
         String description = "Missing action for pure recall.";
         TestHelper.testStart(description);
-        String starterFile = ArtificialDomain.createAabConceptsFile();
+        String starterFile = ArtificialDomain.agentfileArtificialDomain();
         String dir = "output/testMissing/actionPureRecall/";
         String intermediateAgent = dir + "Intermediate.xa";
         String finalAgent = dir + "Final.xa";
@@ -97,7 +97,7 @@ public class testMissing {
     public void testMissingInterpretation() throws IOException {
         String description = "Missing interpretation.";
         TestHelper.testStart(description);
-        String starterFile = ArtificialDomain.createAabConceptsFile();
+        String starterFile = ArtificialDomain.agentfileArtificialDomain();
         String dir = "output/testMissing/interpretation/";
         DirUtil.guaranteeDirectory(dir);
         String intermediateAgent = dir + "Intermediate.xa";
@@ -145,7 +145,7 @@ public class testMissing {
     public void testMissingRelationPureRecall() throws IOException {
         String description = "Missing relation for pure recall.";
         TestHelper.testStart(description);
-        String starterFile = ArtificialDomain.createAabConceptsFile();
+        String starterFile = ArtificialDomain.agentfileArtificialDomain();
         String dir = "output/testMissing/interpretation/";
         DirUtil.guaranteeDirectory(dir);
         String intermediateAgent = dir + "Intermediate.xa";

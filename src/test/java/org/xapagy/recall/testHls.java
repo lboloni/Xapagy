@@ -33,7 +33,7 @@ public class testHls {
     public void testHlsContextRelations() {
         String description = "HLS creation.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         HeadlessComponents hlc = r.agent.getHeadlessComponents();
         r.printOn = false;
         r.exec("$CreateScene #Troy CloseOthers");
@@ -82,7 +82,7 @@ public class testHls {
     public void testHlsSummaryRelations() {
         String description = "HLS creation.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         HeadlessComponents hlc = r.agent.getHeadlessComponents();
         r.printOn = true;
         r.exec("$CreateScene #main CloseOthers AddSummary With Instances w_c_bai20 'Hector', w_c_bai20 'Achilles'");
@@ -132,7 +132,7 @@ public class testHls {
     public void testTheHlsSimple() {
         String description = "HLS creation.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = false;
         r.exec("An w_c_bai20 'Achilles' / exists.");
         r.exec("A w_c_bai20 'Hector' / exists.");

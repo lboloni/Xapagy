@@ -53,7 +53,7 @@ public class testCoverageVo {
      */
     public SimpleEntry<String, String> coverageExperiments() {
         LatexFormatter lf = new LatexFormatter();
-        Runner r = ArtificialDomain.createUnloadedRunner();
+        Runner r = ArtificialDomain.runnerArtificialDomain();
         Agent agent = r.agent;
         VerbOverlay voFocus = null;
         VerbOverlay voShadow = null;

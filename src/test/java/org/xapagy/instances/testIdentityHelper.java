@@ -30,7 +30,7 @@ public class testIdentityHelper {
     public void testFictionalIdentityExplicit() {
         String description = "Fictional identity.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #P CloseOthers With Instances 'Achilles' #Achilles");
         Instance instAchilles =
                 r.ref.InstanceByLabel("#Achilles");
@@ -53,7 +53,7 @@ public class testIdentityHelper {
     public void testSomaticIdentityExplicit() {
         String description = "Somatic identity.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Troy CloseOthers With Instances 'Achilles', 'Hector' #Hector");
 
         Instance instHector =
@@ -79,7 +79,7 @@ public class testIdentityHelper {
     public void testSuccessionIdentity() {
         String description = "Succession identity.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #P CloseOthers With Instances 'Achilles' #Achilles");
 
         Instance instAchilles =
@@ -103,7 +103,7 @@ public class testIdentityHelper {
     public void testViewIdentity() {
         String description = "View identity.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #P CloseOthers With Instances 'Achilles' #Achilles");
 
         Instance instAchilles =

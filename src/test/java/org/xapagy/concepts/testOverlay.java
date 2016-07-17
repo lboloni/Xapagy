@@ -38,7 +38,7 @@ public class testOverlay {
         String description =
                 "Test the impact-add of concepts (dead replaces alive)";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ConceptOverlay ovr = new ConceptOverlay(r.agent);
         ovr.addFullEnergyImpacted(r.agent.getConceptDB().getConcept("c_bai10"));
         ovr.addFullEnergyImpacted(r.agent.getConceptDB().getConcept("c_bai11"));
@@ -58,7 +58,7 @@ public class testOverlay {
         String description =
                 "Test the same coverage function";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ConceptOverlay co1 = ConceptOverlay.createCO(r.agent, "c_bai1");
         ConceptOverlay co2 = ConceptOverlay.createCO(r.agent, "c_bai1");
         ConceptOverlay co3 = ConceptOverlay.createCO(r.agent, "c_bai1", "c_bai2");
@@ -79,7 +79,7 @@ public class testOverlay {
         String description =
                 "Test the impact-add between overlays, with negation";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ConceptOverlay ovr = ConceptOverlay.createCO(r.agent, "c_bai10");
         ConceptOverlay ovr2 = ConceptOverlay.createCO(r.agent, "not-c_bai10");
         ovr.addOverlayImpacted(ovr2);
@@ -98,7 +98,7 @@ public class testOverlay {
         String description =
                 "Test the prettyprint for overlays for not crashing";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ConceptOverlay ovr =
                 ConceptOverlay.createCO(r.agent, "c_bai10", "not-c_bai11");
         String ts = ovr.toString();
@@ -115,7 +115,7 @@ public class testOverlay {
         String description =
                 "Test the cover function for overlays";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ConceptOverlay a = ConceptOverlay.createCO(r.agent, "c_bai10", "c_bai11", "c_bai12");        
         ConceptOverlay b = ConceptOverlay.createCO(r.agent, "c_bai10", "c_bai12");
         // a should cover b
@@ -137,7 +137,7 @@ public class testOverlay {
         String description =
                 "Test the cover function for overlays";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         XapiParser xp = r.agent.getXapiParser();
         ConceptOverlay a = xp.parseCo("w_c_bai10 w_c_bai11 #one #two");        
         ConceptOverlay b = xp.parseCo("w_c_bai10 w_c_bai11 #one");

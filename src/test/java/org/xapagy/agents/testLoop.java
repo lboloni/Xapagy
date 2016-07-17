@@ -32,7 +32,7 @@ public class testLoop {
     public void testReading() throws IOException {
         String description = "Test for the reading component in the loop.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Loop l = r.agent.getLoop();
         l.addReading("$CreateScene #Reality CloseOthers With Instances w_c_bai20, w_c_bai21, w_c_bai22");
         l.addReading("The w_c_bai20 / wa_v_av40 / the w_c_bai21.");
@@ -51,7 +51,7 @@ public class testLoop {
     public void testSchedule() throws IOException, InterruptedException {
         String description = "Test for the evolution of the marking.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Agent agent = r.agent;
         Loop l = r.agent.getLoop();
         l.addReading("$CreateScene #Reality CloseOthers With Instances w_c_bai20, w_c_bai21, w_c_bai22");

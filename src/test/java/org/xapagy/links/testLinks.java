@@ -33,7 +33,7 @@ public class testLinks {
     public void test() {
         String description = "Test undirected links";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Iliad CloseOthers With Instances 'Achilles', 'Hector', 'Ajax', 'Ulysses', 'Patrocles'");
         VerbInstance vi1 = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");
         VerbInstance vi2 = r.exac("'Achilles' / wa_v_av40 / 'Hector'.");

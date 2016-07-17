@@ -37,7 +37,7 @@ public class testFocusShadowLinked {
         String description =
                 "Test for creation of FocusShadowLinked for prediction.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-Default'");
         r.exec("An w_c_bai20 'Achilles' / exists.");
         r.exec("A w_c_bai20 'Hector' / exists.");

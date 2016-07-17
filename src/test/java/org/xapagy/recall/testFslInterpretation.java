@@ -50,7 +50,7 @@ public class testFslInterpretation {
         String description =
                 "Test for the pretty printing of the FslInterpretation.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$Include 'P-Default'");
         Shadows sf = r.agent.getShadows();
         HeadlessComponents hlc = r.agent.getHeadlessComponents();

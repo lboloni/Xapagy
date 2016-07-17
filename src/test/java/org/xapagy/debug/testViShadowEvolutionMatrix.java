@@ -42,7 +42,7 @@ public class testViShadowEvolutionMatrix {
         //story.add("'Achilles'/ wa_v_av43 / 'Hector'.");
         //story.add("'Achilles'/ wa_v_av44 / 'Hector'.");
         // prepare the agent
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.COMPACT);
         r.printOn = true;
         r.exec("$Include 'P-FocusOnly'");

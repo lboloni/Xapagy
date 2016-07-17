@@ -30,7 +30,7 @@ public class testSaMvCloneScene {
     public void test() {
         String description = "SaMvForget";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Troy CloseOthers With Instances 'Hector' #H, w_c_bai20 'Achilles' #A, w_c_bai20 'Ulysses' #U");
         VerbInstance vi = r.exac("'Ulysses' / wa_v_av40 / 'Hector'.");
         Instance instUlysses = vi.getSubject();

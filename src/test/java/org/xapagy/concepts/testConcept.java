@@ -37,7 +37,7 @@ public class testConcept {
         String description =
                 "Negations of concepts has been correctly created.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Concept cnotbai10 = r.agent.getConceptDB().getConcept("not-c_bai10");
         Double area = r.agent.getConceptDB().getArea(cnotbai10);
         // TextUi.println("area = " + area);

@@ -37,7 +37,7 @@ public class testScenes {
     public void testCreateScene() {
         String description =
                 "Creating scenes does not change the current scene";
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Instance initialScene = r.agent.getFocus().getCurrentScene();
         r.exec("A scene #Troy / exists.");
         r.exec("A w_c_bai20 / exists.");
@@ -58,7 +58,7 @@ public class testScenes {
     public void testOnlyScene() {
         String description = "Only scene discards other scenes";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Instance initialScene = r.agent.getFocus().getCurrentScene();
         Instance troyScene =
                 r.exec("A scene #Troy / exists.").get(1).getSubject();
@@ -91,7 +91,7 @@ public class testScenes {
     public void testPrettyPrint() {
         String description = "Test the pretty print for the scenes";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         String temp = "";
         r.exec("A scene #Troy / exists.");
         r.exec("A w_c_bai20 / exists.");

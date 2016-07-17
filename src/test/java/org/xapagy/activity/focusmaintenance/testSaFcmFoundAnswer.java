@@ -28,7 +28,7 @@ public class testSaFcmFoundAnswer {
     public void testIdentifyAnswer() {
         String description = "Checks whether matched answers are linked.";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Reality CloseOthers With Instances w_c_bai20, w_c_bai21");
 
         VerbInstance viAnswer =

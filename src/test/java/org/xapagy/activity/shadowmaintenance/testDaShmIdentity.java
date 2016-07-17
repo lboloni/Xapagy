@@ -38,7 +38,7 @@ public class testDaShmIdentity {
         ABStory p = new ABStory("$Include 'P-FocusAndShadows'");
         p.add("$DiffusionActivity Append To Composite 'ShadowMaintenance' New DA With Name 'Identity' Code 'org.xapagy.activity.shadowmaintenance.DaShmIdentity'");
         // two base level stuff
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         RecordedStory st =
                 RsGenerator.generateNarratedReciprocal("w_c_bai23",
                         "w_c_bai21", "w_c_bai22",

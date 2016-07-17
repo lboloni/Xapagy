@@ -45,7 +45,7 @@ public class testReferenceResolution {
         String description =
                 "Test instance resolution based on concepts of the basic level of the hierarchy";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Instance instMan = r.exac("A w_c_bai20 / exists.").getSubject();
         Instance instWoman = r.exac("A w_c_bai21 / exists.").getSubject();
         // print the situation
@@ -73,7 +73,7 @@ public class testReferenceResolution {
     public void testGroup() {
         String description = "Reference in the quote (the dog must be Fido)";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         r.exec("$CreateScene #Scene1 CloseOthers With Instances w_c_bai20 'Jenny', w_c_bai21 'Billy', w_c_bai22 'Fluffy'");
         Instance instGroup =
@@ -105,7 +105,7 @@ public class testReferenceResolution {
     public void testProperNameResolution() {
         String description = "Instance resolution based on proper names";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Instance instHector =
                 r.exec("A 'Hector' / exists.").get(1).getSubject();
         Instance instAchilles =
@@ -135,7 +135,7 @@ public class testReferenceResolution {
     public void testRecentness() {
         String description = "Resolution based on recentness";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // r.tso.addPrintWhat(DebugEventType.AFTER_INSTANCE_RESOLUTION,
         // PrintWhat.INSTANCE_RESOLUTION_CHOICES);
         // Instance instHector =
@@ -159,7 +159,7 @@ public class testReferenceResolution {
         String description = "Reference by label";
         TestHelper.testStart(description);
         Formatter fmt = new Formatter();
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #R CloseOthers With Instances w_c_bai20 #A, w_c_bai20 #B");
 
         VerbInstance vi1 =
@@ -180,7 +180,7 @@ public class testReferenceResolution {
     public void testReferenceQuote() {
         String description = "Reference in the quote (the dog must be Fido)";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = true;
         r.exec("$CreateScene #Scene1 CloseOthers With Instances w_c_bai20 'Jenny', w_c_bai20 'Fluffy'");
         r.exec("$CreateScene #Scene2 Current With Instances w_c_bai22 'Billy'");
@@ -204,7 +204,7 @@ public class testReferenceResolution {
     public void testReferenceRelational() {
         String description = "Relational reference";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.printOn = false;
         r.exec("$CreateScene #Scene1 CloseOthers With Instances w_c_bai20 'Jenny', w_c_bai21 'Fluffy', w_c_bai22 'Billy'");
         Instance instFluffy =
@@ -237,7 +237,7 @@ public class testReferenceResolution {
         String description = "Reference by label";
         TestHelper.testStart(description);
         Formatter fmt = new Formatter();
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #R CloseOthers With Instances w_c_bai20");
         r.exec("$CreateScene #Story With Instances w_c_bai20, w_c_bai21");
         VerbInstance vi1 =

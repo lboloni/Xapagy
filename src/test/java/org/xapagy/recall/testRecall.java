@@ -37,7 +37,7 @@ public class testRecall {
     public void testPureRecall() {
         String description = "Pure recall";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.COMPACT);
         r.exec("$Include 'P-FocusOnly'");
         ABStory story = createAchillesHector("#one", false, false, null);
@@ -63,7 +63,7 @@ public class testRecall {
     public void testCompetitiveRecall() {
         String description = "Recall Case 2: competitive recall";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.COMPACT);
         r.exec("$Include 'P-FocusOnly'");
         ABStory story = null;
@@ -96,7 +96,7 @@ public class testRecall {
     public void testSelfShadowing() {
         String description = "Self shadowing recall";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.COMPACT);
         r.exec("$Include 'P-FocusOnly'");
         ABStory story = null;
@@ -128,7 +128,7 @@ public class testRecall {
     public void testContextBased() {
         String description = "Self shadowing recall";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace(TraceWhat.COMPACT);
         r.exec("$Include 'P-FocusOnly'");
         ABStory story = null;

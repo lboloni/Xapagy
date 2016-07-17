@@ -53,7 +53,7 @@ public class testVrbOverlay {
     public void testWordsForVerbOverlay() {
         String description = "basic";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         List<String> verbList = new ArrayList<>();
         verbList.add("v_does_nothing");
         // verbList.add("v_av10");

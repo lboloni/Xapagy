@@ -10,9 +10,7 @@
 package org.xapagy;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,10 +20,8 @@ import org.xapagy.debug.DomainGenerator;
 import org.xapagy.debug.Runner;
 import org.xapagy.debug.storygenerator.RecordedStory;
 import org.xapagy.debug.storygenerator.RsGenerator;
-import org.xapagy.ui.SaveLoadUtil;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.util.ClassResourceHelper;
 import org.xapagy.util.DirUtil;
 
 /**
@@ -63,322 +59,279 @@ import org.xapagy.util.DirUtil;
 public class ArtificialDomain {
 
 	// file root for the saved agent for the artificial domain with warmup
-    public static final String AAB_CONCEPTS = "aab_concepts";
+	public static final String FILE_ARTIFICIAL_DOMAIN = "artificial_domain";
 	// file root for the saved agent for the artificial domain only
-    public static final String AAB_DOMAIN = "aab_domain";
-    public static final String domainFileName =
-            ArtificialDomain.outputDirName + "Artificial.domain";
-    public static int instanceLabel = 0;
-    public static final String outputDirName = "output/artificialdomain/";
+	public static final String FILE_ARTIFICIAL_AUTOBIOGRAPHY = "artificial_autobiography";
+	// counter for the automatically generated instance labels
+	public static int instanceLabel = 0;
+	public static final String outputDirName = "output/artificialdomain/";
 
-    /**
-     * 
-     * Creates an agent from a specific domain and a series of stories passed as
-     * parameters.
-     * 
-     * @param prefix
-     *            the prefix which is used for storing the intermediary files
-     * @param stories
-     *            the stories which the agent will have in its autobiography
-     * @param parameterPrepack
-     *            the parametrization used while stories are executed
-     * @return
-     * @throws IOException
-     */
-    private static Agent createLoadedAgent(String prefix,
-            List<ABStory> stories, String parameterPrepack) throws IOException {
-        //int count = 0;
-        // out of sheer luck: do we have the final?
-        String outputFileName =
-                outputDirName + prefix + "_agent" + stories.size() + ".xa";
-        File outputFile = new File(outputFileName);
-        if (outputFile.exists()) {
-            Runner r = new Runner(outputFile);
-            return r.agent;
-        } //else {
-        	//TextUi.println("Outputfile does not exist:" + outputFile.getAbsolutePath());
-        	// System.exit(1);
-        //}
-        // no, we need to run it
-        //count = 0;
-        // create one big story
-        ABStory bigStory = new ABStory();
-        for (ABStory story : stories) {
-            bigStory.add(story);
-            // bigStory.isolate();
-        }
-        String bigStoryName = outputDirName + "bigstory.xapi";
-        bigStory.saveTo(bigStoryName);
-        // force the focus-only parameters
-        Xapagy.main(parameterPrepack, bigStoryName, "--output-agent", outputFileName);
-        Runner r = new Runner(outputFile);
-        return r.agent;
-    }
+	/**
+	 * 
+	 * Creates an agent from a specific domain and a series of stories passed as
+	 * parameters.
+	 * 
+	 * @param prefix
+	 *            the prefix which is used for storing the intermediary files
+	 * @param stories
+	 *            the stories which the agent will have in its autobiography
+	 * @param parameterPrepack
+	 *            the parametrization used while stories are executed
+	 * @return
+	 * @throws IOException
+	 */
+	private static Agent createLoadedAgent(String prefix, ABStory story, String parameterPrepack)
+			throws IOException {
+		// int count = 0;
+		// out of sheer luck: do we have the final?
+		String outputFileName = outputDirName + prefix + "_agent" + ".xa";
+		File outputFile = new File(outputFileName);
+		if (outputFile.exists()) {
+			Runner r = new Runner(outputFile);
+			return r.agent;
+		} 
+		// we don't have it, we need to run it
+		String bigStoryName = outputDirName + prefix + ".xapi";
+		story.saveTo(bigStoryName);
+		// force the focus-only parameters
+		Xapagy.main(parameterPrepack, bigStoryName, "--output-agent", outputFileName);
+		Runner r = new Runner(outputFile);
+		return r.agent;
+	}
 
-    /**
-     * Runs a program (typically a test) in the AabConcepts artificial domain
-     * 
-     * @param dirobj
-     *            the object used to establish the directory of the xapi file
-     * @param xapiFileName
-     *            the file name of the xapi file
-     * 
-     * @return
-     * @throws IOException
-     * @throws FileNotFoundException
-     */
-    public static Runner runInAabConcepts(Object dirobj, String xapiFileName)
-            throws FileNotFoundException, IOException {
-        Runner r = createAabConcepts();
-        File f = ClassResourceHelper.getResourceFile(dirobj, xapiFileName);
-        ABStory abs = new ABStory(f);
-        r.exec(abs);
-        return r;
-    }
 
-    /**
-     * Helper function, for the creation of a substory
-     */
-    private static void createAaaConceptsSubstory(String instance1,
-            String instance2, List<String> verbs, List<ABStory> stories) {
-        String instOne =
-                instance1 + " #instance" + ArtificialDomain.instanceLabel++;
-        String instTwo = instance2 + " " + " #instance"
-                + ArtificialDomain.instanceLabel++;
-        RecordedStory rs =
-                RsGenerator.generateReciprocal(instOne, instTwo, verbs);
-        ABStory theStory = rs.getFullStory();
-        stories.add(theStory);
-    }
+	/**
+	 * Generates a reciprocal story using two instances and the specified list
+	 * of strings. Add labels to the instances for unique access.
+	 * 
+	 * @param instance1
+	 * @param instance2
+	 * @param verbs
+	 * @return
+	 */
+	private static ABStory storyReciprocal(String instance1, String instance2, List<String> verbs) {
+		String instOne = instance1 + " #instance" + ArtificialDomain.instanceLabel++;
+		String instTwo = instance2 + " " + " #instance" + ArtificialDomain.instanceLabel++;
+		RecordedStory rs = RsGenerator.generateReciprocal(instOne, instTwo, verbs);
+		ABStory theStory = rs.getFullStory();
+		return theStory;
+	}
 
-    /**
-     * A variation on the createAaaConcepts call, which saves the file to a
-     * specific location
-     * 
-     * @return
-     */
-    public static String createAabConceptsFile() {
-        String file = ArtificialDomain.outputDirName + "/aabconcepts.xa";
-        Runner r = createAabConcepts();
-        SaveLoadUtil<Agent> slu = new SaveLoadUtil<>();
-        slu.save(r.agent, new File(file));
-        return file;
-    }
+	/**
+	 * Returns the filename of a starter agent that has the artificial domain already loaded
+	 * @return
+	 */
+	public static String agentfileArtificialDomain() {
+		String file = ArtificialDomain.outputDirName + FILE_ARTIFICIAL_DOMAIN + "_agent.xa";
+		// ensure it is there
+		runnerArtificialDomain();
+		return file;
+	}
 
-    /**
-     * Creates an artificial autobiography where the distribution of the
-     * instances with specific concepts models certain settings for the testing
-     * of the algorithms.
-     * 
-     * The stories (and their verbs) are not relevant for this autobiography, so
-     * all the stories are simple reciprocal stories.
-     * 
-     * @return a runner with an agent with the artificial concepts filled in
-     */
-    public static Runner createAabConcepts() {
-        List<ABStory> stories = new ArrayList<>();
-        List<String> verbs = Arrays.asList("wa_v_av1", "wa_v_av2", "wa_v_av3");
-        ABStory domainStory = ArtificialDomain.createArtificialDomain();
-        stories.add(domainStory);
-        // most of the frequencies are exponentially distributed
-        // the problem here, is that it would create a too large story, so
-        // we are keeping this tempering factor
-        // 0.5: the largest frequency is 148
-        double tempering = 0.5;
-        //
-        // A series of instances with a single BAI attribute
-        //
-        // Uses: c_bai0 ... c_bai9
-        // c_bai0 --- used \sum(i*i) times
-        // c_baix --- used i * i times (x 1..9)
-        //
-        int base = 0;
-        String instOne = "w_c_bai" + 0;
-        for (int i = 1; i != 10; i++) {
-            // exponential distribution of frequences
-            int usesOfBaiI = (int) Math.exp(tempering * i);
-            String instTwo = "w_c_bai" + (base + i);
-            for (int j = 0; j != usesOfBaiI; j++) {
-                ArtificialDomain.createAaaConceptsSubstory(instOne, instTwo,
-                        verbs, stories);
-            }
-        }
-        //
-        // A series of instances with more than 1 BAI attributes
-        // Using c_bai11..c_bai20
-        base = 10;
-        String anchor = "w_c_bai" + base;
-        // c_bai10 appears 10 times alone
-        for (int i = 1; i != 10; i++) {
-            String instTwo = anchor;
-            ArtificialDomain.createAaaConceptsSubstory(instOne, instTwo, verbs,
-                    stories);
-        }
-        // 10 times each with c_bai2...c_bai5 only
-        // 10 times each with c_bai2... c_bai5 + c_bai6
-        // 10 times each with c_bai2... c_bai5 + c_bai6 + c_bai7
-        for (int iter = 0; iter != 3; iter++) {
-            String addOn = "";
-            switch (iter) {
-            case 0:
-                addOn = "";
-                break;
-            case 1:
-                addOn = " w_c_bai" + (base + 6);
-                break;
-            case 2:
-                addOn = " w_c_bai" + (base + 6) + " w_c_bai" + (base + 7);
-            }
-            for (int i = 1; i != 10; i++) {
-                for (int j = 1; j != 5; j++) {
-                    String instTwo =
-                            anchor + " " + "w_c_bai" + (base + j) + addOn;
-                    ArtificialDomain.createAaaConceptsSubstory(instOne, instTwo,
-                            verbs, stories);
-                }
-            }
-        }
-        // this tries to assure that what comes after will be created with a
-        // clean focus
-        ABStory absClear = new ABStory();
-        // absClear.add("$NewSceneOnly #Clear,none");
-        absClear.add("$CreateScene #Clear CloseOthers");
-        absClear.add("----");
-        stories.add(absClear);
-    	TextUi.println("Stories created");
-        Agent loadedAgent = null;
-        try {
-            loadedAgent =
-                    createLoadedAgent(ArtificialDomain.AAB_CONCEPTS,
-                            stories, "P-FocusOnly");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new Runner(loadedAgent);
-    }
+	/**
+	 * Creates an artificial autobiography where the distribution of the
+	 * instances with specific concepts models certain settings for the testing
+	 * of the algorithms.
+	 * 
+	 * The stories (and their verbs) are not relevant for this autobiography, so
+	 * all the stories are simple reciprocal stories.
+	 */
+	private static ABStory storyArtificialAutobiography() {
+		ABStory retval = new ABStory();
+		retval.add( storyArtificialDomain());
+		// the verbs used in the generation
+		List<String> verbs = Arrays.asList("wa_v_av1", "wa_v_av2", "wa_v_av3");
+		// most of the frequencies are exponentially distributed
+		// the problem here, is that it would create a too large story, so
+		// we are keeping this tempering factor
+		// 0.5: the largest frequency is 148
+		double tempering = 0.5;
+		//
+		// A series of instances with a single BAI attribute
+		//
+		// Uses: c_bai0 ... c_bai9
+		// c_bai0 --- used \sum(i*i) times
+		// c_baix --- used i * i times (x 1..9)
+		//
+		int base = 0;
+		String instOne = "w_c_bai" + 0;
+		for (int i = 1; i != 10; i++) {
+			// exponential distribution of frequences
+			int usesOfBaiI = (int) Math.exp(tempering * i);
+			String instTwo = "w_c_bai" + (base + i);
+			for (int j = 0; j != usesOfBaiI; j++) {
+				retval.add(storyReciprocal(instOne, instTwo, verbs));
+			}
+		}
+		//
+		// A series of instances with more than 1 BAI attributes
+		// Using c_bai11..c_bai20
+		base = 10;
+		String anchor = "w_c_bai" + base;
+		// c_bai10 appears 10 times alone
+		for (int i = 1; i != 10; i++) {
+			String instTwo = anchor;
+			retval.add(storyReciprocal(instOne, instTwo, verbs));
+		}
+		// 10 times each with c_bai2...c_bai5 only
+		// 10 times each with c_bai2... c_bai5 + c_bai6
+		// 10 times each with c_bai2... c_bai5 + c_bai6 + c_bai7
+		for (int iter = 0; iter != 3; iter++) {
+			String addOn = "";
+			switch (iter) {
+			case 0:
+				addOn = "";
+				break;
+			case 1:
+				addOn = " w_c_bai" + (base + 6);
+				break;
+			case 2:
+				addOn = " w_c_bai" + (base + 6) + " w_c_bai" + (base + 7);
+			}
+			for (int i = 1; i != 10; i++) {
+				for (int j = 1; j != 5; j++) {
+					String instTwo = anchor + " " + "w_c_bai" + (base + j) + addOn;
+					retval.add(storyReciprocal(instOne, instTwo, verbs));
+				}
+			}
+		}
+		// this tries to assure that what comes after will be created with a
+		// clean focus
+		ABStory absClear = new ABStory();
+		// absClear.add("$NewSceneOnly #Clear,none");
+		absClear.add("$CreateScene #Clear CloseOthers");
+		absClear.add("----");
+		retval.add(absClear);
+		return retval;
+	}	
+	
+	/**
+	 * Returns a runner for an agent which has the artificial domain, but no warmup autobiography
+	 *  
+	 * @return
+	 */
+	public static Runner runnerArtificialAutobiography() {
+		ABStory story = storyArtificialAutobiography();
+		Agent loadedAgent = null;
+		try {
+			loadedAgent = createLoadedAgent(ArtificialDomain.FILE_ARTIFICIAL_AUTOBIOGRAPHY, story, "P-FocusOnly");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Runner(loadedAgent);
+	}
 
-    /**
-     * Returns a story that creates the artificial domain
-     * @return
-     */
-    public static ABStory createArtificialDomain() {
-        DirUtil.guaranteeDirectory(ArtificialDomain.outputDirName);
-        DomainGenerator dg = new DomainGenerator();
-        ABStory story = new ABStory();
-        //
-        // Create the concepts
-        //
-        // 30 independent base attributes
-        dg.createBAIs(30, "bai", story);
-        // 10 pairs of overlapping base attributes, with overlap ranging from
-        // 0.0 to 1.0
-        // they will be called bao3_1 etc.
-        for (int i = 0; i <= 10; i++) {
-            String name = "bao" + i + "_";
-            double overlap = 0.1 * i;
-            dg.createBAOPair(name, overlap, story);
-        }
-        // hard exclusion domains
-        // 10 categories with an exclusion domain called cat3 etc.
-        // each of them with 10 independent category members called cat3_cmi4
-        // etc
-        for (int i = 0; i <= 10; i++) {
-            String catname = "cat" + i;
-            String cminame = catname + "_cmi";
-            dg.createCAT(catname, 1.0, story);
-            dg.createCMO(catname, 1.0, cminame, 10, 0.0, story);
-        }
-        // soft exclusion domains
-        // 10 categories with an exclusion domain called cot3 etc
-        // each of them with 10 overlapping category members called
-        for (int i = 0; i <= 10; i++) {
-            String cotname = "cot" + i;
-            String cmoname = cotname + "_cmo";
-            double overlap = 0.1 * i;
-            dg.createCAT(cotname, 1.0, story);
-            dg.createCMO(cotname, 1.0, cmoname, 4, overlap, story);
-        }
-        // EXPERIMENTAL: categories with variable sizes (ranging from 0.1 to
-        // 2.0)
-        for (int i = 0; i <= 20; i++) {
-            String catname = "catv" + i;
-            String cminame = catname + "_cmiv";
-            double size = 0.1 * i;
-            dg.createCAT(catname, size, story);
-            dg.createCMO(catname, size, cminame, 10, 0.0, story);
-        }
-        // 10 proper names, called propername1,...
-        dg.createPropernames("PN", 10, story);
-        //
-        // Creates the verbs
-        //
-        // 50 independent action verbs
-        dg.createIndependentActionVerbs(50, "av", story);
-        // 50 independent relation verbs
-        dg.createIndependentRelationVerbs(50, "rel", story);
-        // 10 different categories of independent category relation verbs with
-        // different numbers for each category
-        for (int i = 0; i != 10; i++) {
-            String rcatname = "rcat" + i;
-            String rminame = rcatname + "_rmi";
-            dg.createCategoryVerb(rcatname, 1.0, story);
-            dg.createCategoryRelationVerbs(rcatname, 1.0, i + 2, rminame, 0.0, story);
-        }
-        // 10 different categories of overlapping category relation verbs with 5
-        // verbs each and different overlaps
-        for (int i = 0; i != 10; i++) {
-            String rcatname = "rcot" + i;
-            String rminame = rcatname + "_rmo";
-            double overlap = 0.1 * i;
-            dg.createCategoryVerb(rcatname, 1.0, story);
-            dg.createCategoryRelationVerbs(rcatname, 1.0, 5, rminame, overlap, story);
-        }
-        return story;
-    }
+	/**
+	 * Returns a story that creates the artificial domain
+	 * 
+	 * @return
+	 */
+	private static ABStory storyArtificialDomain() {
+		DirUtil.guaranteeDirectory(ArtificialDomain.outputDirName);
+		DomainGenerator dg = new DomainGenerator();
+		ABStory story = new ABStory();
+		//
+		// Create the concepts
+		//
+		// 30 independent base attributes
+		dg.createBAIs(30, "bai", story);
+		// 10 pairs of overlapping base attributes, with overlap ranging from
+		// 0.0 to 1.0
+		// they will be called bao3_1 etc.
+		for (int i = 0; i <= 10; i++) {
+			String name = "bao" + i + "_";
+			double overlap = 0.1 * i;
+			dg.createBAOPair(name, overlap, story);
+		}
+		// hard exclusion domains
+		// 10 categories with an exclusion domain called cat3 etc.
+		// each of them with 10 independent category members called cat3_cmi4
+		// etc
+		for (int i = 0; i <= 10; i++) {
+			String catname = "cat" + i;
+			String cminame = catname + "_cmi";
+			dg.createCAT(catname, 1.0, story);
+			dg.createCMO(catname, 1.0, cminame, 10, 0.0, story);
+		}
+		// soft exclusion domains
+		// 10 categories with an exclusion domain called cot3 etc
+		// each of them with 10 overlapping category members called
+		for (int i = 0; i <= 10; i++) {
+			String cotname = "cot" + i;
+			String cmoname = cotname + "_cmo";
+			double overlap = 0.1 * i;
+			dg.createCAT(cotname, 1.0, story);
+			dg.createCMO(cotname, 1.0, cmoname, 4, overlap, story);
+		}
+		// EXPERIMENTAL: categories with variable sizes (ranging from 0.1 to
+		// 2.0)
+		for (int i = 0; i <= 20; i++) {
+			String catname = "catv" + i;
+			String cminame = catname + "_cmiv";
+			double size = 0.1 * i;
+			dg.createCAT(catname, size, story);
+			dg.createCMO(catname, size, cminame, 10, 0.0, story);
+		}
+		// 10 proper names, called propername1,...
+		dg.createPropernames("PN", 10, story);
+		//
+		// Creates the verbs
+		//
+		// 50 independent action verbs
+		dg.createIndependentActionVerbs(50, "av", story);
+		// 50 independent relation verbs
+		dg.createIndependentRelationVerbs(50, "rel", story);
+		// 10 different categories of independent category relation verbs with
+		// different numbers for each category
+		for (int i = 0; i != 10; i++) {
+			String rcatname = "rcat" + i;
+			String rminame = rcatname + "_rmi";
+			dg.createCategoryVerb(rcatname, 1.0, story);
+			dg.createCategoryRelationVerbs(rcatname, 1.0, i + 2, rminame, 0.0, story);
+		}
+		// 10 different categories of overlapping category relation verbs with 5
+		// verbs each and different overlaps
+		for (int i = 0; i != 10; i++) {
+			String rcatname = "rcot" + i;
+			String rminame = rcatname + "_rmo";
+			double overlap = 0.1 * i;
+			dg.createCategoryVerb(rcatname, 1.0, story);
+			dg.createCategoryRelationVerbs(rcatname, 1.0, 5, rminame, overlap, story);
+		}
+		return story;
+	}
 
-    /**
-     * Creates an agent the artificial domain
-     * 
-     * FIXME: just returned here the aabconcepts...
-     * 
-     * @return
-     * @throws IOException
-     */
-    public static Runner createUnloadedRunner() {
-    	return createAabConcepts();
-    	/*
-        Agent agent = null;
-        try {
-            agent = ArtificialDomain.createArtificialDomain();
-        } catch (IOException e) {
-            e.printStackTrace();
-            TextUi.abort("cannot create domain");
-        }
-        return new Runner(agent);
-        */
-    }
+	public static Runner runnerArtificialDomain() {
+		ABStory story = storyArtificialDomain();
+		Agent loadedAgent = null;
+		try {
+			loadedAgent = createLoadedAgent(ArtificialDomain.FILE_ARTIFICIAL_DOMAIN, story, "P-FocusOnly");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Runner(loadedAgent);
+	}
 
-    /**
-     * Prints and possibly executes a recorded story in an unloaded runner
-     * 
-     * @param label
-     * @param rs
-     */
-    public static Runner doIt(String label, RecordedStory rs, boolean printIt,
-            boolean runIt) {
-        Formatter fmt = new Formatter();
-        fmt.add(label);
-        fmt.indent();
-        fmt.add(rs.getFullStory());
-        if (printIt) {
-            TextUi.println(fmt.toString());
-        }
-        if (runIt) {
-            Runner r = ArtificialDomain.createUnloadedRunner();
-            rs.runAll(r);
-            return r;
-        }
-        return null;
-    }
+	/**
+	 * Prints and possibly executes a recorded story in an unloaded runner
+	 * 
+	 * @param label
+	 * @param rs
+	 */
+	public static Runner doIt(String label, RecordedStory rs, boolean printIt, boolean runIt) {
+		Formatter fmt = new Formatter();
+		fmt.add(label);
+		fmt.indent();
+		fmt.add(rs.getFullStory());
+		if (printIt) {
+			TextUi.println(fmt.toString());
+		}
+		if (runIt) {
+			Runner r = ArtificialDomain.runnerArtificialDomain();
+			rs.runAll(r);
+			return r;
+		}
+		return null;
+	}
 
 }

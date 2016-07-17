@@ -39,7 +39,7 @@ public class testResolutionConfidence {
      * Run experiments about the referability between concept overlays
      */
     public SimpleEntry<String, String> resolutionConfidenceExperiments() {
-        Runner r = ArtificialDomain.createUnloadedRunner();
+        Runner r = ArtificialDomain.runnerArtificialDomain();
         Agent agent = r.agent;
         ConceptOverlay coTested = null;
         ConceptOverlay coReference = null;

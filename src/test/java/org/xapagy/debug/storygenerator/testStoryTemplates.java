@@ -39,7 +39,7 @@ public class testStoryTemplates {
     public void testSimpleNewCharacter() {
         TestHelper.testStart("Generate simple new character");
         // Runner r = new Runner("Iliad");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         ABStory storyTemplate =
                 StoryTemplates.templateNewCharacter(SceneSetting.NEW_ONLY, 2,
                         2, "S", "I", "A", null, null);
@@ -63,7 +63,7 @@ public class testStoryTemplates {
     @Test
     public void testSimpleReciprocal() {
         TestHelper.testStart("Generate simple reciprocal");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // Runner r = new Runner("Iliad");
         // r.printOn = true;
         ABStory storyTemplate =
@@ -91,7 +91,7 @@ public class testStoryTemplates {
     @Test
     public void testLongStory() {
         TestHelper.testStart("Generate simple reciprocal");
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         // Runner r = new Runner("Iliad");
         // r.printOn = true;
         ABStory storyTemplate =

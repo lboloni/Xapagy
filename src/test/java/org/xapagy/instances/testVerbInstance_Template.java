@@ -42,7 +42,7 @@ public class testVerbInstance_Template {
                 "Experiments with Template VIs";
         Formatter fmt = new Formatter();
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();        
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();        
         XapiParser xp = r.agent.getXapiParser();
         
         r.exec("$CreateScene #one CloseOthers AddSummary With Instances w_c_bai20 'Hector', w_c_bai21 'Achilles'");

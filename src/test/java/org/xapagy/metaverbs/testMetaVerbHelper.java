@@ -34,7 +34,7 @@ public class testMetaVerbHelper {
     public void testRemoveMetaVerbs() {
         String description = "Removing meta verbs from a VO";
         TestHelper.testStart(description);
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Iliad CloseOthers With Instances 'Achilles', 'Hector', 'Ajax', 'Ulysses', 'Patrocles'");
         r.exec("'Hector' / is-a / w_c_bai20.");
         r.exec("'Achilles' / is-a / w_c_bai21.");

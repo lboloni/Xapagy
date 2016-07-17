@@ -52,7 +52,7 @@ public class testAmLookup_Verb {
      */
     public SimpleEntry<String, String> lookupVoExperiments() {
         LatexFormatter lf = new LatexFormatter();
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         Agent agent = r.agent;
         VerbOverlay voFocus = null;
         FormatTable ft = new FormatTable(50, 50);

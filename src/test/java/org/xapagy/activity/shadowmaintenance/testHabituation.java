@@ -74,7 +74,7 @@ public class testHabituation {
                 "w_c_bai21", Arrays.asList("wa_v_av41", "wa_v_av42"));
         stnew.addRandomPropernames(sg);
 
-        Runner r = ArtificialDomain.createAabConcepts();
+        Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.tso.setTrace();
         RsTestingUnit stu = new RsTestingUnit(
                 new ABStory("$Include 'P-FocusOnly'"), history, null,
