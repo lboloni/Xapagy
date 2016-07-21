@@ -22,9 +22,9 @@ public class Version {
     }
 
     public static final String PROJECTNAME = "Xapagy";
-    public static String VERSION_DATE = "July 17, 2016";
+    public static String VERSION_DATE = "July 20, 2016";
     public static int VERSION_MAJOR = 1;
-    public static int VERSION_MICRO = 515;
+    public static int VERSION_MICRO = 516;
     public static int VERSION_MINOR = 0;
     public static VersionStatus VERSION_STATUS = VersionStatus.Beta;
 

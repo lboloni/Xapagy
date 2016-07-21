@@ -20,13 +20,14 @@ import org.xapagy.set.EnergyQuantum;
 import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
- * The gradual decay of all the components in the focus
+ * The gradual decay of the energy of all the components in the focus
  * 
  * Parameters:
  * 
  * <ul>
  * <li> decayInstance
- * <li> decayVi
+ * <li> decayActionVi
+ * <li> decayNonActionVi
  * </ul>
  * 
  * @author Ladislau Boloni
@@ -36,9 +37,13 @@ public class DaFcmDecay extends AbstractDaFocusIterator {
     
     private static final long serialVersionUID = 847927033187310966L;
     /** 
-     * Multiplicative decay of the EnergyColor.FOCUS for instances and scenes which lost all their instances.
+     * Multiplicative decay for the instances
      */
     private double decayInstance;
+    /** 
+     * Multiplicative decay for the scenes (only apply for the ones that had lost all their instances)
+     */
+    private double decayScene /* = 0 */;
     /**
      * Multiplicative decay for action VIs
      */
@@ -47,6 +52,14 @@ public class DaFcmDecay extends AbstractDaFocusIterator {
      * Multiplicative decay for non-action VIs (like is-a, change-scene etc)
      */
     private double decayNonActionVi;
+    /**
+     * The focus instance energy we are considering
+     */
+    private String ecInstance /* = EnergyColors.FOCUS_INSTANCE */;
+    /**
+     * The focus VI energy we are considering
+     */
+    private String ecVI /* = EnergyColors.FOCUS_VI */;
     
     /**
      * @param name
@@ -60,12 +73,15 @@ public class DaFcmDecay extends AbstractDaFocusIterator {
     @Override
     public void extractParameters() {
         decayInstance = getParameterDouble("decayInstance");
+        decayScene = getParameterDouble("decayScene");
         decayActionVi = getParameterDouble("decayActionVi");
         decayNonActionVi = getParameterDouble("decayNonActionVi");
+        ecInstance = getParameterString("ecInstance");
+        ecVI = getParameterString("ecVI");
     }
     
     /**
-     * Decay of the focus energy
+     * Decay of the energy for a non-scene instance
      * 
      * @param fi
      * @param time
@@ -74,40 +90,42 @@ public class DaFcmDecay extends AbstractDaFocusIterator {
     protected void applyFocusNonSceneInstance(Instance fi, double time) {
         EnergyQuantum<Instance> eq =
                 EnergyQuantum.createMult(fi, decayInstance, time,
-                        EnergyColors.FOCUS_INSTANCE, "DaFcmDecay");
+                        ecInstance, "DaFcmDecay");
         fc.applyInstanceEnergyQuantum(eq);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Decay of the energy of the scene. If any of the members has this particular type of
+     * energy, the given energy of the scene does not decay. When they are going, it starts 
+     * to decay with a specific parameter
      * 
-     * @see
-     * org.xapagy.activity.AbstractDaFocusIterator#applyFocusScene(com.xapagy
-     * .instances.Instance, double)
+     * @param fi
+     * @param time
      */
     @Override
     protected void applyFocusScene(Instance fi, double time) {
         // the current scene does not decay
-        if (agent.getFocus().getCurrentScene().equals(fi)) {
-            return;
-        }
+        //if (agent.getFocus().getCurrentScene().equals(fi)) {
+        //    return;
+        //}
         //
-        // if the scene has any members of the focus, then it does not decay
+        // if the scene has any members in the focus, then it does not decay
         //
         double sum = 0;
         for (Instance member : fi.getSceneMembers()) {
-            sum = sum + fc.getEnergy(member, EnergyColors.FOCUS_INSTANCE);
+            sum = sum + fc.getEnergy(member, ecInstance);
         }
         if (sum > 0) {
             return;
         }
         //
-        // scenes who lost all their members, decay gradually
+        // scenes who lost all their members, decay 
         // FIXME: what is the purpose of this???
         //
         EnergyQuantum<Instance> eq =
-                EnergyQuantum.createMult(fi, decayInstance, time,
-                        EnergyColors.FOCUS_INSTANCE, "DaFcmDecay");
+                EnergyQuantum.createMult(fi, decayScene, time,
+                        ecInstance, "DaFcmDecay");
+        // JUST TRYING, WHY iS THIS FAILING???
         fc.applyInstanceEnergyQuantum(eq);
     }
 
@@ -117,14 +135,10 @@ public class DaFcmDecay extends AbstractDaFocusIterator {
      */
     @Override
     protected void applyFocusVi(VerbInstance fvi, double time) {
-        // double currentValue = fc.getSalience(fvi, EnergyColor.FOCUS);
         if (ViClassifier.decideViClass(ViClass.ACTION, fvi, agent)) {
-            //double decayActionVi =
-            //        p.get("A_FCM", "G_DECAY",
-            //                "N_ACTION_VI");
             EnergyQuantum<VerbInstance> eq =
                     EnergyQuantum.createMult(fvi, decayActionVi, time,
-                            EnergyColors.FOCUS_VI, "DaFcmDecay");
+                            ecVI, "DaFcmDecay");
             fc.applyViEnergyQuantum(eq);
             return;
         }
@@ -142,12 +156,9 @@ public class DaFcmDecay extends AbstractDaFocusIterator {
             return;
         }
         // not an action verb, nor a relation verb, nor a summary
-        //double decayNonActionVi =
-        //        p.get("A_FCM", "G_DECAY",
-        //                "N_NON_ACTION_VI");
          EnergyQuantum<VerbInstance> eq =
                 EnergyQuantum.createMult(fvi, decayNonActionVi, time,
-                        EnergyColors.FOCUS_VI, "DaFcmDecay");
+                        ecVI, "DaFcmDecay");
         fc.applyViEnergyQuantum(eq);
 
     }
@@ -159,7 +170,10 @@ public class DaFcmDecay extends AbstractDaFocusIterator {
     public void formatTo(IXwFormatter fmt, int detailLevel) {
         fmt.add("DaFcmDecay");
         fmt.indent();
+        fmt.is("ecInstance", ecInstance);
         fmt.is("decayInstance", decayInstance);
+        fmt.is("decayScene", decayScene);
+        fmt.is("ecVI", ecVI);
         fmt.is("decayActionVi", decayActionVi);
         fmt.is("decayNonActionVi", decayNonActionVi);
         fmt.add("description");

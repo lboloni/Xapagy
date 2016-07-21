@@ -16,8 +16,8 @@ $SetParameter A_FCM/G_GENERAL/N_MINIMUM_VI=0.2
 //
 // DA daFcmDecay
 //
-$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Decay" Code "org.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "decayInstance" = "0.99", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
-
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "FocusDecay" Code "org.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "ecInstance" = "FOCUS_INSTANCE", "decayInstance" = "0.99", "decayScene" = "0.99", "ecVI" = "FOCUS_VI", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "FocusSummarizationDecay" Code "org.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "ecInstance" = "FOCUS_SUMMARIZATION_INSTANCE", "decayInstance" = "0.99", "decayScene" = "0.0", "ecVI" = "FOCUS_SUMMARIZATION_VI", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
 //
 // DA daFcmMemorization
 //

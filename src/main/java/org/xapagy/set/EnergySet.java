@@ -23,8 +23,6 @@ import org.xapagy.instances.XapagyComponent;
  * or VIs). This is normally used to represent the energy in the focus and in
  * the autobiographical memory
  * 
- * -to be used starting early April 2014
- * 
  * @author Ladislau Boloni
  * 
  */
@@ -38,10 +36,7 @@ public class EnergySet<T extends XapagyComponent> implements Serializable {
      */
     private long appliedQuantumCount = 0;
     /**
-     * The collection of energies indexed by the ShadowColor
-     * 
-     * The energy of the shadow: the first item is the focus item, while the
-     * next one the shadow item.
+     * The collection of energies indexed by the EnergyColor
      */
     private Map<String, Map<T, Double>> energies;
     /**
@@ -62,13 +57,9 @@ public class EnergySet<T extends XapagyComponent> implements Serializable {
     }
 
     /**
-     * Applies the shadow quantum. Applies the time slice and strength
+     * Applied an energy quantum to the energy set
      * 
-     * FIXME: for the time being it only applies to SC_ALL
-     * 
-     * @param eq
-     *            - the shadow quantum to be applied
-     * 
+     * @param eq - the energy set
      */
     public void applyEnergyQuantum(EnergyQuantum<T> eq) {
         T f = eq.getFocusComponent();
@@ -96,10 +87,10 @@ public class EnergySet<T extends XapagyComponent> implements Serializable {
         //
         // record the new energy value
         //
-        Map<T, Double> shadow = getEnergy(eq.getEnergyColor());
+        Map<T, Double> energyMap = getEnergy(eq.getEnergyColor());
         double valueForColor = valueEnergy(f, eq.getEnergyColor());
         double newValueForColor = valueForColor * multiplication + addition;
-        shadow.put(f, newValueForColor);
+        energyMap.put(f, newValueForColor);
         //
         // if the parameter says so, store the quantum
         //
