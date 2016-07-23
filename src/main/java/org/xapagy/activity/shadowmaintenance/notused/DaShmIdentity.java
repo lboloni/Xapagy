@@ -7,7 +7,7 @@
    Copyright (c) 2008-2014 Ladislau Boloni
  */
 
-package org.xapagy.activity.shadowmaintenance;
+package org.xapagy.activity.shadowmaintenance.notused;
 
 import java.util.HashSet;
 import java.util.Set;

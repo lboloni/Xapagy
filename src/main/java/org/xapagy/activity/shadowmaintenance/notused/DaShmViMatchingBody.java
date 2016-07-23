@@ -7,9 +7,13 @@
    Copyright (c) 2008-2014 Ladislau Boloni
  */
 
-package org.xapagy.activity.shadowmaintenance;
+package org.xapagy.activity.shadowmaintenance.notused;
 
 import org.xapagy.activity.AbstractDaFocusIterator;
+import org.xapagy.activity.shadowmaintenance.AmLookup;
+import org.xapagy.activity.shadowmaintenance.SaicHelper;
+import org.xapagy.activity.shadowmaintenance.ShmAddItem;
+import org.xapagy.activity.shadowmaintenance.ShmAddItemCollection;
 import org.xapagy.agents.Agent;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;

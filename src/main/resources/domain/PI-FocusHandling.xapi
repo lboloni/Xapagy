@@ -17,12 +17,15 @@ $SetParameter A_FCM/G_GENERAL/N_MINIMUM_VI=0.2
 // DA daFcmDecay
 //
 $DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "FocusDecay" Code "org.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "ecInstance" = "FOCUS_INSTANCE", "decayInstance" = "0.99", "decayScene" = "0.99", "ecVI" = "FOCUS_VI", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
-$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "FocusSummarizationDecay" Code "org.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "ecInstance" = "FOCUS_SUMMARIZATION_INSTANCE", "decayInstance" = "0.99", "decayScene" = "0.0", "ecVI" = "FOCUS_SUMMARIZATION_VI", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
+
+//
+// FIXME: due to how the summarization energy is handled, this might not be necessary. The summarization energy is transformed into simple focus energy in one shot, or discarded in one shot.
+//
+// $DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "FocusSummarizationDecay" Code "org.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "ecInstance" = "FOCUS_SUMMARIZATION_INSTANCE", "decayInstance" = "0.99", "decayScene" = "0.0", "ecVI" = "FOCUS_SUMMARIZATION_VI", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
 //
 // DA daFcmMemorization
 //
-$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Memorization" Code "org.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "I_S_Focus_to_I_E_AM" = "0.0", "VI_S_Focus_to_VI_E_AM" = "1.0", "VI_S_Focus_to_I_E_AM" = "1.0"
-
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Memorization" Code "org.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "ecFocusVI"="FOCUS_VI", "ecAMInstance"="AM_INSTANCE", "ecAMVI"="AM_VI", "VI_S_Focus_to_VI_E_AM"="1.0", "VI_S_Focus_to_I_E_AM"="1.0"
 //
 // DA daFcmSummarization
 //

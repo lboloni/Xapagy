@@ -20,7 +20,7 @@ import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
  * 
- * SA which identifies if a question had been answered.
+ * SA that identifies if a question had been answered.
  * 
  * It is called on the QUESTION! (verify this) so vi is the question vi
  * 

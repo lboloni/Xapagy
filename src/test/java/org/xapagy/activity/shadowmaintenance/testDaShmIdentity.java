@@ -30,7 +30,7 @@ import org.xapagy.ui.TextUi;
  */
 public class testDaShmIdentity {
 
-    @Test
+    //@Test
     public void test() {
         String description = "test";
         TestHelper.testStart(description);

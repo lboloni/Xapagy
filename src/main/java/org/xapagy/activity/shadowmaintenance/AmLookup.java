@@ -44,44 +44,6 @@ public class AmLookup {
     // verbs which are ignored in the lookupVi, because they appear so often
     private static Set<String> ignoredVerbs = null;
 
-    /**
-     * Explodes the overlay into components: returns a list of all the overlays
-     * which are subsets of the current overlay based on the explicit concepts
-     * 
-     * NOTE: for larger overlays this can be expensive, and it makes the lookup
-     * functions expensive as well.
-     * 
-     * @param ovr
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends AbstractConcept, P extends Overlay<T>> List<P>
-            explode(P ovr) {
-        List<P> retval = new ArrayList<>();
-        List<SimpleEntry<T, Double>> list = ovr.getList();
-        if (list.size() == 1) {
-            P single = (P) ovr.newOverlay();
-            single.addOverlay(ovr);
-            retval.add(single);
-            P empty = (P) ovr.newOverlay();
-            retval.add(empty);
-            return retval;
-        }
-        // create the one without the one
-        T current = list.get(0).getKey();
-        P withoutCurrent = (P) ovr.newOverlay();
-        withoutCurrent.addOverlay(ovr);
-        withoutCurrent.scrapeEnergy(current);
-        List<P> seed = AmLookup.explode(withoutCurrent);
-        for (P ovrseed : seed) {
-            retval.add(ovrseed);
-            P withCurrent = (P) ovr.newOverlay();
-            withCurrent.addSpecificEnergy(current, list.get(0).getValue());
-            withCurrent.addOverlay(ovrseed);
-            retval.add(withCurrent);
-        }
-        return retval;
-    }
 
     /**
      * Returns the list of verbs ignored in shadows
@@ -119,40 +81,6 @@ public class AmLookup {
         return AmLookup.ignoredVerbs;
     }
 
-    /**
-     * FIXME: this is the old implementation, which relies on "exploding" the concepts. 
-     * 
-     * Looks up instances matching a certain CO from the autobiographical memory
-     * of an agent. The returned instance set is weighted by match and
-     * frequency.
-     * 
-     * @param agent
-     * @param fco
-     *            - a concept overlay used to do the lookup
-     * @return
-     */
-    public static InstanceSet lookupCoOld(AutobiographicalMemory am, ConceptOverlay fco) {
-        InstanceSet retval = new InstanceSet();
-        List<ConceptOverlay> cos = AmLookup.explode(fco);
-        // each concept will be part in half of them, so this creates a scaling
-        double explodeMultiplier = 2.0 / cos.size();
-        for (ConceptOverlay co : cos) {
-            if (co.getList().isEmpty()) {
-                continue;
-            }
-            Set<Instance> instances = am.getInstancesOverlappingWithCo(co);
-            // The more frequent the match, the less its contribution to the
-            // lookup
-            double frequencyMultiplier = 1.0 / instances.size();
-            for (Instance inst : instances) {
-                double match = Coverage.scoreCoverage(inst.getConcepts(), fco);
-                double increase =
-                        match * frequencyMultiplier * explodeMultiplier;
-                retval.change(inst, increase);
-            }
-        }
-        return retval;
-    }
 
     
     /**

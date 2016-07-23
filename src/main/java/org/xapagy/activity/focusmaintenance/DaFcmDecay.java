@@ -15,7 +15,6 @@ import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
-import org.xapagy.set.EnergyColors;
 import org.xapagy.set.EnergyQuantum;
 import org.xapagy.ui.formatters.IXwFormatter;
 

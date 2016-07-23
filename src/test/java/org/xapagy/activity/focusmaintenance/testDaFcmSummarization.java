@@ -56,7 +56,7 @@ public class testDaFcmSummarization {
                 fc.getEnergy(viSum, EnergyColors.FOCUS_SUMMARIZATION_VI);
         double energyAm = am.getEnergy(viSum, EnergyColors.AM_VI);
         assertEquals(0.0, energyFocus, 0.0);
-        assertEquals(0.2, energyFocusSummarization, 0.1);
+        assertEquals(1.0, energyFocusSummarization, 0.1);
         assertEquals(0.0, energyAm, 0.0);
         // now create the closing link
         r.exec("$CreateLink 'Summarization_Close' { 'wa_v_av42' } ==> { 'wv_v_av43' }");
@@ -125,8 +125,6 @@ public class testDaFcmSummarization {
         //
         r.ah.notLinkedBy(Hardwired.LINK_SUMMARIZATION_BEGIN, viBegin, viSum);
         r.ah.notLinkedBy(Hardwired.LINK_SUMMARIZATION_BODY, viBody, viSum);
-
-        
         TestHelper.testDone();
     }
 
