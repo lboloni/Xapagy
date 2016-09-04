@@ -23,11 +23,10 @@ import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
  * 
- * This DA adds SHADOW_GENERIC energy to the memory instances which match the
- * focus head.
+ * This DA adds SHI_ATTRIBUTE energy based on the matching of returned by AmLookup.lookupCo.
  * 
- * The amount of energy added is defined by whatever AmLookup.lookupCo returns
- * as the matching amount.
+ * There are two occasions of energies added: every iteration for every instance, and to all
+ * the instances participating in an action VI (which fades out with the action VI)
  * 
  * @author Ladislau Boloni
  * 

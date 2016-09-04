@@ -10,8 +10,6 @@
 package org.xapagy.activity.shadowmaintenance;
 
 import org.junit.Assert;
-import org.junit.Test;
-
 import org.xapagy.ArtificialDomain;
 import org.xapagy.TestHelper;
 import org.xapagy.debug.Runner;

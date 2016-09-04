@@ -21,21 +21,24 @@ import org.xapagy.shadows.Shadows;
 import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
+ * This DA is based on the match between a focus VI and VIs in the AM. The degree of the 
+ * match is calculated by AmLookup.
  * 
- * Looks up in the memory verb instances which core match the head verb
- * instance. Adds them to the instances shadow - and their corresponding parts
- * to the corresponding parts shadow.
+ * It generates three kind of energies:
+ * 
+ * <ul>
+ * <li> SHV_ACTION_MATCH - between the focus and AM VIs
+ * <li> SHI_RELATION - between corresponding relation subject and object, if the matching VIs are relations
+ * <li> SHI_ACTION - between corresponding subject and object, if the matching VIs are actions
+ * </ul>
+ * 
  * 
  * @author Ladislau Boloni
  * 
  */
-public class DaShmViMatchingHead extends AbstractDaFocusIterator {
+public class DaShmViMatchRelation extends AbstractDaFocusIterator {
 
 	private static final long serialVersionUID = -8569487491044178752L;
-	/**
-	 * Multiplies the value of SHADOW_GENERIC energy applied to ACTION VIs
-	 */
-	private double scaleActionVi;
 	/**
 	 * the contribution even if the instances do not attribute shadowed
 	 */
@@ -56,7 +59,6 @@ public class DaShmViMatchingHead extends AbstractDaFocusIterator {
 	 */
 	@Override
 	public void extractParameters() {
-		scaleActionVi = getParameterDouble("scaleActionVi");
 		scaleRelationDefault = getParameterDouble("scaleRelationDefault");
 		scaleRelationSubjectAttribute = getParameterDouble("scaleRelationSubjectAttribute");
 		scaleRelationObjectAttribute = getParameterDouble("scaleRelationObjectAttribute");
@@ -67,29 +69,10 @@ public class DaShmViMatchingHead extends AbstractDaFocusIterator {
 	 * @param agent
 	 * @param name
 	 */
-	public DaShmViMatchingHead(Agent agent, String name) {
+	public DaShmViMatchRelation(Agent agent, String name) {
 		super(agent, name);
 	}
 
-	/**
-	 * Performing the match when the focus VI is an action. We already know that
-	 * it is an action, so we don't check again
-	 * 
-	 * @param fvi
-	 * @param timeSlice
-	 */
-	private void applyFocusViAction(VerbInstance fvi, double timeSlice) {
-		ShmAddItemCollection saicGeneric = new ShmAddItemCollection();
-		ViSet matches = AmLookup.lookupVi(agent, fvi, EnergyColors.AM_VI);
-		for (VerbInstance match : matches.getParticipants()) {
-			double matchLevel = matches.value(match);
-			double addEnergy = matchLevel * scaleActionVi;
-			ShmAddItem sai = new ShmAddItem(agent, match, fvi, addEnergy, EnergyColors.SHV_ACTION_MATCH,
-					EnergyColors.SHI_ACTION);
-			saicGeneric.addShmAddItem(sai);
-		}
-		SaicHelper.applySAIC_VisAndInstances(agent, saicGeneric, timeSlice, "DaShmViMachingHead.applyFocusVi");
-	}
 
 	/**
 	 * Performing the match when the focus VI is an relation. We already know
@@ -130,7 +113,7 @@ public class DaShmViMatchingHead extends AbstractDaFocusIterator {
 			sai = new ShmAddItem(agent, shObject, fiObject, score, EnergyColors.SHI_RELATION);
 			saicRelation.addShmAddItem(sai);
 		}
-		SaicHelper.applySAIC_Instances(agent, saicRelation, timeSlice, "DaShmViMachingHead.applyFocusVi");
+		SaicHelper.applySAIC_Instances(agent, saicRelation, timeSlice, "DaShmViMatchRelation.applyFocusVi");
 	}
 
 	/**
@@ -152,10 +135,6 @@ public class DaShmViMatchingHead extends AbstractDaFocusIterator {
 			applyFocusViRelation(fvi, timeSlice);
 			return;
 		}
-		if (ViClassifier.decideViClass(ViClass.ACTION, fvi, agent)) {
-			applyFocusViAction(fvi, timeSlice);
-			return;
-		}
 	}
 
 	/*
@@ -167,12 +146,10 @@ public class DaShmViMatchingHead extends AbstractDaFocusIterator {
 	 */
 	@Override
 	public void formatTo(IXwFormatter fmt, int detailLevel) {
-		fmt.add("DaShmViMatchingHead");
+		fmt.add("DaShmViMatchRelation");
 		fmt.indent();
-		fmt.is("scaleActionVi", scaleActionVi);
-		fmt.explanatoryNote("Multiplies the value of SHADOW_GENERIC energy applied to ACTION VIs");
 		fmt.is("scaleRelationDefault", scaleRelationDefault);
-		fmt.explanatoryNote("the contribution even if the instances do not attribute shadowed");
+		fmt.explanatoryNote("the contribution even if the instances do not have the attribute shadowed");
 		fmt.is("scaleRelationSubjectAttribute", scaleRelationSubjectAttribute);
 		fmt.explanatoryNote("the contribution from the subject attribute shadows");
 		fmt.is("scaleRelationObjectAttribute", scaleRelationObjectAttribute);

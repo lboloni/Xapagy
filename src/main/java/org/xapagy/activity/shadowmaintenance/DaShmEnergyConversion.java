@@ -157,6 +157,8 @@ public class DaShmEnergyConversion extends AbstractDaFocusIterator {
     }
 
     /**
+     * A second-tier factor in the conversion of the SHV_TEMPORAL energy to SHV_GENERIC
+     * 
      * The idea here is that for VIs which are similar, the positional energy is
      * converted to generic energy, for those which are not, it is less so. The
      * original version was with 1.0
@@ -165,7 +167,7 @@ public class DaShmEnergyConversion extends AbstractDaFocusIterator {
      * @param svi
      * @return
      */
-    double viConversionFactor(VerbInstance fvi, VerbInstance svi) {
+    double viOrderToGenericConversionFactor(VerbInstance fvi, VerbInstance svi) {
         if (!ViSimilarityHelper.isCompatible(agent, fvi, svi)) {
             return 0;
         }
@@ -215,14 +217,14 @@ public class DaShmEnergyConversion extends AbstractDaFocusIterator {
                 "N_FRACTION_STRENGTHEN_INSTANCE_PART");
         //
         // Convert the salience of the SHV_TEMPORAL_ORDER energy into
-        // SHV_GENERIC
-        // as a composite to the VI and its instances as well.
+        // SHV_GENERIC as a composite to the VI and its instances as well.
+        // NOTE that this is using the viConversion factor, which scales 
         //
         for (VerbInstance svi : sf.getMembers(fvi,
                 SHV_TEMPORAL_ORDER)) {
             double salience =
                     sf.getSalience(fvi, svi, SHV_TEMPORAL_ORDER);
-            double conversionFactor = viConversionFactor(fvi, svi);
+            double conversionFactor = viOrderToGenericConversionFactor(fvi, svi);
             if (conversionFactor == 0)
                 continue;
             double additiveChange = conversionFactor * salience

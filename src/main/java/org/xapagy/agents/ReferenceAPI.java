@@ -31,9 +31,6 @@ import org.xapagy.ui.prettyprint.PrettyPrint;
  */
 public class ReferenceAPI implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1085256278208360441L;
     private Agent agent;
 

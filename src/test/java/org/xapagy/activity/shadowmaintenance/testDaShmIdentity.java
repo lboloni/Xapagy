@@ -12,8 +12,6 @@ package org.xapagy.activity.shadowmaintenance;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Test;
-
 import org.xapagy.ArtificialDomain;
 import org.xapagy.TestHelper;
 import org.xapagy.autobiography.ABStory;

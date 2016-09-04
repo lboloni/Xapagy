@@ -18,9 +18,14 @@ $SetParameter A_SHM/G_GENERAL/N_ALLOW_SAME_SCENE_SHADOW_VI=0.0
 $SetParameter A_SHM/G_GENERAL/N_FRACTION_STRENGTHEN_INSTANCE_PART=1.0
 
 // --------------------------------------------
-// DA: DaShmViMatchingHead
+// DA: DaShmViMatchAction
 // --------------------------------------------
-$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "ViMatchingHead" Code "org.xapagy.activity.shadowmaintenance.DaShmViMatchingHead" Parameters "scaleActionVi" = "1.0", "scaleRelationDefault" = "0.2", "scaleRelationSubjectAttribute" = "1.0", "scaleRelationObjectAttribute" = "1.0"
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "ViMatchAction" Code "org.xapagy.activity.shadowmaintenance.DaShmViMatchAction" Parameters "scale" = "1.0"
+
+// --------------------------------------------
+// DA: DaShmViMatchRelation
+// --------------------------------------------
+$DiffusionActivity Append To Composite "ShadowMaintenance" New DA With Name "ViMatchRelation" Code "org.xapagy.activity.shadowmaintenance.DaShmViMatchRelation" Parameters  "scaleRelationDefault" = "0.2", "scaleRelationSubjectAttribute" = "1.0", "scaleRelationObjectAttribute" = "1.0"
 
 // --------------------------------------------
 // DA: DaShmInstanceMatchingHead
