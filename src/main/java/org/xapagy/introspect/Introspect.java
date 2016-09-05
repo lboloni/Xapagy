@@ -26,8 +26,8 @@ import org.xapagy.ui.smartprint.XapiPrint;
  * processes of story generation. For instance, once can get the "most likely"
  * continuation, the "most similar story", or a "most likely story from here".
  * 
- * Why these functions use the shadows / HLSs, they do not iterate xapagy
- * through the re-narration process.
+ * While these functions use the shadows / HLSs, they do not use the Xapagy
+ * internal flow generation through the re-narration process.
  * 
  * These should be normally called from the Javascript embedded code from Xapi.
  * 
@@ -52,11 +52,12 @@ public class Introspect {
 	}
 
 	/**
-	 * Verbalizing a the story line
+	 * Verbalizes a story line in Xapi. Ideally, this should be a format which
+	 * can be parsed back.
 	 * 
 	 * @return
 	 */
-	private String verbalizeStoryLine(StoryLine stl) {
+	public String verbalize(StoryLine stl) {
 		StringBuffer sb = new StringBuffer();
 		for (VerbInstance vi : stl.getVis()) {
 			sb.append(XapiPrint.ppsViXapiForm(vi, agent) + "\n");
@@ -65,15 +66,26 @@ public class Introspect {
 	}
 
 	/**
-	 * Gets the whole storyline of the current story and prints it out
+	 * Verbalizes a verb instance
+	 * 
+	 * @param vi
+	 * @return
+	 */
+	public String verbalize(VerbInstance vi) {
+		return XapiPrint.ppsViXapiForm(vi, agent) + "\n";
+	}
+
+	/**
+	 * Returns the current story line: this tacitly assumes that there
+	 * is a single shadow story...
 	 * 
 	 * @return
 	 */
-	public String getCurrentStory() {
-		StoryLine stl = IntrospectHelper.getCurrentStoryLine(agent);
-		return verbalizeStoryLine(stl);
+	public StoryLine currentStoryLine() {
+		return IntrospectHelper.getCurrentStoryLine(agent);
 	}
 
+	
 	/**
 	 * Gets the whole storyline of the strongest shadow and prints it out
 	 * -actually, what we would want here is to identify what are the strongest
@@ -83,11 +95,11 @@ public class Introspect {
 		String ec = EnergyColors.SHV_GENERIC;
 		StoryLine stl = IntrospectHelper.getCurrentStoryLine(agent);
 		StringBuffer buf = new StringBuffer();
-		StoryLine bestStoryLine = IntrospectHelper.getStrongestShadowStoryLine(agent, ec);
+		StoryLine bestStoryLine = IntrospectHelper.getStrongestShadowStoryLine(agent, stl, ec);
 		if (bestStoryLine == null) {
 			return "Could not find a storyline in the shadow.";
 		}
-		buf.append(verbalizeStoryLine(bestStoryLine));
+		buf.append(verbalize(bestStoryLine));
 		buf.append("Where the instances are mapped as follows:\n");
 		Map<Instance, Instance> mapping = IntrospectHelper.getMapping(agent, stl, bestStoryLine,
 				EnergyColors.SHI_GENERIC);

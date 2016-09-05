@@ -255,7 +255,7 @@ void sceneCreate() :
                     MacroGenerator.generateNewScene(agent, newSceneLabel,
                             makeCurrent, onlyScene, addSummary, relation,
                             participants);
-     TextUi.println(PpStory.pp("Generated:", generated));
+     // TextUi.println(PpStory.pp("Generated:", generated));
      agent.getLoop().addImmediateReading(generated.getLines());
      
   }

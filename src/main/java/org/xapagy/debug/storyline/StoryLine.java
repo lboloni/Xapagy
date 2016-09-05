@@ -97,6 +97,10 @@ public class StoryLine implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Returns the name of the story line
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
@@ -108,7 +112,7 @@ public class StoryLine implements Serializable {
 	 * @return
 	 */
 	public List<Instance> getScenes() {
-		return scenes;
+		return Collections.unmodifiableList(scenes);
 	}
 
 	/**
@@ -132,9 +136,19 @@ public class StoryLine implements Serializable {
 				return Double.compare(o1.getCreationTime(), o2.getCreationTime());
 			}
 		});
-		return retval;
+		return Collections.unmodifiableList(retval);
 	}
 
+	/**
+	 * Returns the last verbinstance in the story line
+	 * @return
+	 */
+	public VerbInstance lastVi() {
+		List<VerbInstance> vis = getVis();
+		return vis.get(vis.size()-1);
+	}
+	
+	
 	/**
 	 * Two storylines overlap if they have a common scene.
 	 * 

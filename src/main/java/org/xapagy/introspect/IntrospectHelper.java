@@ -2,6 +2,7 @@ package org.xapagy.introspect;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.xapagy.set.ViSet;
 import org.xapagy.shadows.Shadows;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.smartprint.SpInstance;
+import org.xapagy.util.SimpleEntryComparator;
 import org.xapagy.verbalize.VerbalizeVo;
 import org.xapagy.verbalize.VrblzAdjective;
 
@@ -28,7 +30,8 @@ import org.xapagy.verbalize.VrblzAdjective;
 public class IntrospectHelper {
 
 	/**
-	 * Returns the current storyline of the Xapagy agent
+	 * Returns the current storyline of the Xapagy agent - note that this
+	 * function tacitly assumes that there is a single story line...
 	 * 
 	 * @param agent
 	 * @return
@@ -42,33 +45,40 @@ public class IntrospectHelper {
 		return stl;
 	}
 
+	public static StoryLine getStrongestShadowStoryLine(Agent agent, StoryLine st, String ec) {
+		List<SimpleEntry<StoryLine, Double>> entries = getShadowStoryLines(agent, st, ec);
+		return entries.get(0).getKey();
+	}
+
 	/**
-	 * Returns the strongest story line from the shadows
+	 * Returns the story lines from the shadows which map to the specified
+	 * current story line. The resulting story lines are annotated with a
+	 * specific metric.
 	 * 
+	 * FIXME: the current implementation does not take into account the current
+	 * storyline, only looks for the strongest shadows
 	 * 
 	 * @param agent
+	 * @param st
+	 *            - the
 	 * @param ec
+	 *            - normally SHV_GENERIC
 	 * @return
 	 */
-	public static StoryLine getStrongestShadowStoryLine(Agent agent, String ec) {
-		List<VerbInstance> vis = new ArrayList<>();
-		VerbInstance lastVi = agent.getLastVerbInstance();
-		vis.add(lastVi);
-		// List<StoryLine> stls = StoryLineRepository.createStoryLines(agent,
-		// vis);
-		// StoryLine stl = stls.get(0); // normally, it cannot be more than one
-		// get all the shadow story lines
-		vis = new ArrayList<>();
+	public static List<SimpleEntry<StoryLine, Double>> getShadowStoryLines(Agent agent, StoryLine st, String ec) {
 		Shadows sh = agent.getShadows();
-		// extract all the storylines in the shadows
+		//
+		// Extract all the story lines from the shadows
+		//
+		List<VerbInstance> vis = new ArrayList<>();
 		for (VerbInstance vi : agent.getFocus().getViListAllEnergies()) {
 			vis.addAll(sh.getMembers(vi, ec));
 		}
 		List<StoryLine> stlsShadows = StoryLineRepository.createStoryLines(agent, vis);
-		double bestMetric = -1.0;
-		StoryLine bestStoryLine = null;
-		// for all story lines, sum up the shadow VI energy: for the strongest
-		// ones, in salience steps
+		//
+		// for all story lines, calculate a metric that looks at their energies
+		//
+		List<SimpleEntry<StoryLine, Double>> entries = new ArrayList<>();
 		for (StoryLine stl : stlsShadows) {
 			double metric = 0;
 			for (VerbInstance vi : stl.getVis()) {
@@ -78,13 +88,13 @@ public class IntrospectHelper {
 					metric += list.get(0).getValue();
 				}
 			}
-			// is this the best storyline???
-			if (metric > bestMetric) {
-				bestMetric = metric;
-				bestStoryLine = stl;
-			}
+			SimpleEntry<StoryLine, Double> entry = new SimpleEntry<>(stl, metric);
+			entries.add(entry);
 		}
-		return bestStoryLine;
+		// return the story line with the best metric
+		Collections.sort(entries, new SimpleEntryComparator<StoryLine>());
+		Collections.reverse(entries);
+		return entries;
 	}
 
 	/**
@@ -166,11 +176,17 @@ public class IntrospectHelper {
 	}
 
 	/**
-	 * Performs a single story line prediction
+	 * Performs a single story line prediction (returns Xapi...)
+	 * 
 	 * @param agent
 	 * @param stl
+	 *            - the current story line, at least partially in the focus
 	 * @param shstl
+	 *            - the strongest shadow story line, based on which we are doing
+	 *            the prediction
 	 * @param ec
+	 *            - the energy color based on which we are doing the prediction
+	 *            (normally SHV_GENERIC)
 	 * @return
 	 */
 	public static List<String> singleStoryLinePrediction(Agent agent, StoryLine stl, StoryLine shstl, String ec) {
@@ -182,9 +198,9 @@ public class IntrospectHelper {
 			return prediction;
 		}
 		List<VerbInstance> vis = shstl.getVis();
-		for(int i = location; i < vis.size(); i++) {
+		for (int i = location; i < vis.size(); i++) {
 			VerbInstance old = vis.get(i);
-			switch(old.getViType()) {
+			switch (old.getViType()) {
 			case QUOTE:
 				prediction.add("Quote not supported yet");
 				break;
@@ -198,10 +214,9 @@ public class IntrospectHelper {
 				}
 				String temp = SpInstance.spc(old.getSubject(), agent);
 				temp += " / " + VerbalizeVo.verbalizeVerb(agent, old.getVerbs(), old);
-				temp += " / " + VrblzAdjective.verbalizeAdjective(agent,
-                        old.getAdjective(), true);
+				temp += " / " + VrblzAdjective.verbalizeAdjective(agent, old.getAdjective(), true);
 				prediction.add(temp);
-				break;				
+				break;
 			}
 			case S_V:
 				prediction.add("SV not supported yet");
