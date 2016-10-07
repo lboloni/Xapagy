@@ -7,7 +7,7 @@
    Copyright (c) 2008-2014 Ladislau Boloni
  */
 
-package org.xapagy.debug.storyline;
+package org.xapagy.storyline;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -12,14 +12,17 @@ package org.xapagy.introspect;
 import java.util.Map;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.debug.storyline.StoryLine;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.storyline.StoryLine;
+import org.xapagy.storyline.StoryLineReasoning;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
+ * 
+ * 
  * This class is the gathering point of a number of "low hanging fruit"
  * introspection models. They can be used by a user to conveniently extract
  * information from Xapagy agent, without going through the the complex internal
@@ -42,14 +45,6 @@ public class Introspect {
 		this.agent = agent;
 	}
 
-	/**
-	 * Test to see if is is working from Javascript.
-	 * 
-	 * @return
-	 */
-	public String getAgentName() {
-		return agent.getName();
-	}
 
 	/**
 	 * Verbalizes a story line in Xapi. Ideally, this should be a format which
@@ -82,7 +77,7 @@ public class Introspect {
 	 * @return
 	 */
 	public StoryLine currentStoryLine() {
-		return IntrospectHelper.getCurrentStoryLine(agent);
+		return StoryLineReasoning.getCurrentStoryLine(agent);
 	}
 
 	
@@ -93,15 +88,15 @@ public class Introspect {
 	 */
 	public String getStrongestShadowStory() {
 		String ec = EnergyColors.SHV_GENERIC;
-		StoryLine stl = IntrospectHelper.getCurrentStoryLine(agent);
+		StoryLine stl = StoryLineReasoning.getCurrentStoryLine(agent);
 		StringBuffer buf = new StringBuffer();
-		StoryLine bestStoryLine = IntrospectHelper.getStrongestShadowStoryLine(agent, stl, ec);
+		StoryLine bestStoryLine = StoryLineReasoning.getStrongestShadowStoryLine(agent, stl, ec);
 		if (bestStoryLine == null) {
 			return "Could not find a storyline in the shadow.";
 		}
 		buf.append(verbalize(bestStoryLine));
 		buf.append("Where the instances are mapped as follows:\n");
-		Map<Instance, Instance> mapping = IntrospectHelper.getMapping(agent, stl, bestStoryLine,
+		Map<Instance, Instance> mapping = StoryLineReasoning.getStoryLineInstanceMapping(agent, stl, bestStoryLine,
 				EnergyColors.SHI_GENERIC);
 		for (Instance from : mapping.keySet()) {
 			Instance value = mapping.get(from);
@@ -113,7 +108,7 @@ public class Introspect {
 		}
 		//
 		buf.append("And now for a prediction");
-		buf.append(IntrospectHelper.singleStoryLinePrediction(agent, stl, bestStoryLine, ec));
+		buf.append(StoryLineReasoning.singleStoryLinePrediction(agent, stl, bestStoryLine, ec));
 		return buf.toString();
 	}
 }
