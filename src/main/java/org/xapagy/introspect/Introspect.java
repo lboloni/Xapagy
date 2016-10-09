@@ -9,7 +9,9 @@
 
 package org.xapagy.introspect;
 
+import java.util.List;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.instances.Instance;
@@ -74,12 +76,32 @@ public class Introspect {
 	 * Returns the current story line: this tacitly assumes that there
 	 * is a single shadow story...
 	 * 
-	 * @return
+	 * @return the current story line
 	 */
 	public StoryLine currentStoryLine() {
 		return StoryLineReasoning.getCurrentStoryLine(agent);
 	}
 
+	/**
+	 * Returns the current story line: this tacitly assumes that there
+	 * is a single shadow story...
+	 * 
+	 * @return the current story line
+	 */
+	public List<StoryLine> inFocusStoryLines() {
+		List<VerbInstance> viList = agent.getFocus().getViList(EnergyColors.FOCUS_VI);
+		return StoryLineReasoning.createStoryLines(agent, viList);
+	}
+
+	/**
+	 * Returns the shadow story lines associated with the specified story line
+	 * 
+	 * @param st
+	 * @return
+	 */
+	public List<SimpleEntry<StoryLine, Double>> createShadowStoryLines(StoryLine st) {
+		return StoryLineReasoning.createShadowStoryLines(agent, st, EnergyColors.SHV_GENERIC);
+	}
 	
 	/**
 	 * Gets the whole storyline of the strongest shadow and prints it out
@@ -90,7 +112,7 @@ public class Introspect {
 		String ec = EnergyColors.SHV_GENERIC;
 		StoryLine stl = StoryLineReasoning.getCurrentStoryLine(agent);
 		StringBuffer buf = new StringBuffer();
-		StoryLine bestStoryLine = StoryLineReasoning.getStrongestShadowStoryLine(agent, stl, ec);
+		StoryLine bestStoryLine = StoryLineReasoning.getStrongestShadowStoryLine(agent, stl);
 		if (bestStoryLine == null) {
 			return "Could not find a storyline in the shadow.";
 		}
