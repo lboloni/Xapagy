@@ -90,7 +90,7 @@ public class Loop implements Serializable {
             throw new Error(
                     "Trying to accumulate while not in accumulation mode");
         }
-        accumulatedScript.append(line);
+        accumulatedScript.append(line + "\n");
     }
 
     /**

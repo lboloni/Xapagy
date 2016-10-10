@@ -72,6 +72,19 @@ public class Introspect {
 		return XapiPrint.ppsViXapiForm(vi, agent) + "\n";
 	}
 
+	
+	/**
+	 * Verbalizes an instance
+	 * 
+	 * @param vi
+	 * @return
+	 */
+	public String verbalize(Instance instance) {
+		return SpInstance.spc(instance, agent);
+	}
+
+	
+	
 	/**
 	 * Returns the current story line: this tacitly assumes that there
 	 * is a single shadow story...
