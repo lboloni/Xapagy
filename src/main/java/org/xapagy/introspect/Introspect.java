@@ -19,6 +19,7 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.storyline.StoryLine;
 import org.xapagy.storyline.StoryLineReasoning;
+import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
 
@@ -47,7 +48,6 @@ public class Introspect {
 		this.agent = agent;
 	}
 
-
 	/**
 	 * Verbalizes a story line in Xapi. Ideally, this should be a format which
 	 * can be parsed back.
@@ -72,7 +72,6 @@ public class Introspect {
 		return XapiPrint.ppsViXapiForm(vi, agent) + "\n";
 	}
 
-	
 	/**
 	 * Verbalizes an instance
 	 * 
@@ -83,11 +82,9 @@ public class Introspect {
 		return SpInstance.spc(instance, agent);
 	}
 
-	
-	
 	/**
-	 * Returns the current story line: this tacitly assumes that there
-	 * is a single shadow story...
+	 * Returns the current story line: this tacitly assumes that there is a
+	 * single shadow story...
 	 * 
 	 * @return the current story line
 	 */
@@ -96,14 +93,35 @@ public class Introspect {
 	}
 
 	/**
-	 * Returns the current story line: this tacitly assumes that there
-	 * is a single shadow story...
+	 * Returns the current story line: this tacitly assumes that there is a
+	 * single shadow story...
 	 * 
 	 * @return the current story line
 	 */
 	public List<StoryLine> inFocusStoryLines() {
 		List<VerbInstance> viList = agent.getFocus().getViList(EnergyColors.FOCUS_VI);
 		return StoryLineReasoning.createStoryLines(agent, viList);
+	}
+
+	/**
+	 * Prints out the likely instance mapping between two story lines in a
+	 * pleasant way
+	 * 
+	 * @return the current story line
+	 */
+	public String printLikelyInstanceMapping(StoryLine fstl, StoryLine shstl) {
+		Formatter fmt = new Formatter();
+		Map<Instance, Instance> map = StoryLineReasoning.getLikelyInstanceMapping(agent, fstl, shstl,
+				EnergyColors.SHI_GENERIC);
+		for (Instance fi : map.keySet()) {
+			Instance si = map.get(fi);
+			if (si != null) {
+				fmt.is(SpInstance.spc(fi, agent), SpInstance.spc(si, agent));
+			} else {
+				fmt.is(SpInstance.spc(fi, agent), "<< no mapping found >>");
+			}
+		}
+		return fmt.toString();
 	}
 
 	/**
@@ -115,7 +133,7 @@ public class Introspect {
 	public List<SimpleEntry<StoryLine, Double>> createShadowStoryLines(StoryLine st) {
 		return StoryLineReasoning.createShadowStoryLines(agent, st, EnergyColors.SHV_GENERIC);
 	}
-	
+
 	/**
 	 * Gets the whole storyline of the strongest shadow and prints it out
 	 * -actually, what we would want here is to identify what are the strongest
@@ -131,7 +149,7 @@ public class Introspect {
 		}
 		buf.append(verbalize(bestStoryLine));
 		buf.append("Where the instances are mapped as follows:\n");
-		Map<Instance, Instance> mapping = StoryLineReasoning.getStoryLineInstanceMapping(agent, stl, bestStoryLine,
+		Map<Instance, Instance> mapping = StoryLineReasoning.getLikelyInstanceMapping(agent, stl, bestStoryLine,
 				EnergyColors.SHI_GENERIC);
 		for (Instance from : mapping.keySet()) {
 			Instance value = mapping.get(from);
