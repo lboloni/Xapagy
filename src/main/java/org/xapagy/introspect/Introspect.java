@@ -103,16 +103,23 @@ public class Introspect {
 		return StoryLineReasoning.createStoryLines(agent, viList);
 	}
 
+	public Map<Instance, Instance> getLikelyInstanceMapping(StoryLine fline, StoryLine sline) {
+		return StoryLineReasoning.getLikelyInstanceMapping(agent, fline, sline, EnergyColors.SHI_GENERIC);
+	}
+
+	public Map<VerbInstance, VerbInstance> getLikelyViMapping(StoryLine fline, StoryLine sline) {
+		return StoryLineReasoning.getLikelyViMapping(agent, fline, sline, EnergyColors.SHV_GENERIC);
+	}
+	
 	/**
-	 * Prints out the likely instance mapping between two story lines in a
-	 * pleasant way
+	 * Returns a formatted string showing a focus instance to shadow instance
+	 * map
 	 * 
-	 * @return the current story line
+	 * @param map
+	 * @return
 	 */
-	public String printLikelyInstanceMapping(StoryLine fstl, StoryLine shstl) {
+	public String formatInstanceMapping(Map<Instance, Instance> map) {
 		Formatter fmt = new Formatter();
-		Map<Instance, Instance> map = StoryLineReasoning.getLikelyInstanceMapping(agent, fstl, shstl,
-				EnergyColors.SHI_GENERIC);
 		for (Instance fi : map.keySet()) {
 			Instance si = map.get(fi);
 			if (si != null) {
@@ -124,6 +131,31 @@ public class Introspect {
 		return fmt.toString();
 	}
 
+	
+	/**
+	 * Returns a formatted string showing a focus VI to shadow VI
+	 * map
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public String formatViMapping(Map<VerbInstance, VerbInstance> map) {
+		Formatter fmt = new Formatter();
+		for (VerbInstance fvi : map.keySet()) {
+			VerbInstance svi = map.get(fvi);
+			if (svi != null) {
+				fmt.add(XapiPrint.ppsViXapiForm(fvi, agent));
+				fmt.addIndented("---> " + XapiPrint.ppsViXapiForm(svi, agent));
+			} else {
+				fmt.add(XapiPrint.ppsViXapiForm(fvi, agent));
+				fmt.addIndented("---> << no match found >>");
+			}
+		}
+		return fmt.toString();
+	}
+
+	
+	
 	/**
 	 * Returns the shadow story lines associated with the specified story line
 	 * 

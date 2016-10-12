@@ -89,12 +89,16 @@ public class StoryLine implements Serializable {
 	 * @return
 	 */
 	public boolean contains(VerbInstance vi) {
-		for (Instance scene : scenes) {
-			if (scene.getReferringVis().contains(vi)) {
-				return true;
-			}
-		}
-		return false;
+		//for (Instance scene : scenes) {
+		//	if (scene.getReferringVis().contains(vi)) {
+		//		return true;
+		//	}
+		//}
+		//return false;
+		//
+		//  FIXME: cache me!!!
+		//
+		return getVis().contains(vi);
 	}
 
 	/**
