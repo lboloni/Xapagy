@@ -10,6 +10,8 @@
 package org.xapagy.headless_shadows;
 
 import java.io.Serializable;
+
+import org.xapagy.agents.Agent;
 import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
@@ -51,7 +53,7 @@ public class StaticFSLI implements XapagyComponent, Serializable, Comparable<Sta
      * @param viInterpretation
      * @param totalSupport
      */
-    public StaticFSLI(String identifier, VerbInstance viMemory,
+    public StaticFSLI(Agent agent, String identifier, VerbInstance viMemory,
             SOSP sosp, double totalSupport) {
         super();
         this.identifier = identifier;
@@ -60,7 +62,7 @@ public class StaticFSLI implements XapagyComponent, Serializable, Comparable<Sta
         this.totalSupport = totalSupport;
         ViType viType = viMemory.getViType();
         VerbOverlay verbs = viMemory.getVerbs();
-        viInterpretation = VerbInstance.createViTemplate(viType, verbs);
+        viInterpretation = VerbInstance.createViTemplate(agent, viType, verbs);
         switch (viType) {
         case S_V_O:
             viInterpretation.setResolvedPart(ViPart.Subject,

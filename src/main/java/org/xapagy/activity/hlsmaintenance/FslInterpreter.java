@@ -98,7 +98,7 @@ public class FslInterpreter {
         VerbOverlay verbs = viLinked.getVerbs();
         Map<VerbInstance, Double> retval = new HashMap<>();
         VerbInstance viFsliTemplate =
-                VerbInstance.createViTemplate(viType, verbs);
+                VerbInstance.createViTemplate(agent, viType, verbs);
         retval.put(viFsliTemplate, 1.0);
         // resolve the instance parts one by one
         for (ViPart part : ViStructureHelper.getAllowedInstanceParts(viType)) {

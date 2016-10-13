@@ -51,7 +51,7 @@ public class testVerbInstance_Template {
         
         // create one
         VerbOverlay verbs = xp.parseVo("wa_v_av10");
-        VerbInstance vit = VerbInstance.createViTemplate(ViType.S_V_O, verbs);
+        VerbInstance vit = VerbInstance.createViTemplate(r.agent, ViType.S_V_O, verbs);
         fmt.add("SVO after creation, only verb resolved");
         fmt.addIndented(PrettyPrint.ppDetailed(vit, r.agent));
         // set a new component for subject

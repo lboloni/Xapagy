@@ -119,7 +119,7 @@ public class testViMatch {
         // Instance instAchilles = vi.getSubject();
         // Instance instHector = vi.getObject();
         VerbOverlay verbs = xp.parseVo("wa_v_av10");
-        VerbInstance vit = VerbInstance.createViTemplate(ViType.S_V_O, verbs);
+        VerbInstance vit = VerbInstance.createViTemplate(r.agent, ViType.S_V_O, verbs);
         assertTrue(vim.match(vit, null, "wa_v_av10"));
         assertTrue(vim.match(vit, null, "MISSING", "wa_v_av10", "MISSING"));
         assertFalse(vim.match(vit, null, "NEW:", "wa_v_av10", "MISSING"));

@@ -69,16 +69,20 @@ public class VerbInstance implements XapagyComponent, Serializable {
      * Factory function:
      * 
      * Constructs a VI template with the type and the instance specified and all
-     * the other parts missing. Used in the FsliInterpreter to generate the FSLI
+     * the other parts missing. Used in the FsliInterpreter to generate the FSLI and
+     * in the StoryLineReasoning
      * 
+     * @param agent
      * @param viType
-     * @param verbs
+     * @param verbs - the specified verb overlay that will be copied in the new overlay 
      */
     public static VerbInstance
-            createViTemplate(ViType viType, VerbOverlay verbs) {
+            createViTemplate(Agent agent, ViType viType, VerbOverlay verbs) {
         VerbInstance vit = new VerbInstance();
         vit.viType = viType;
-        vit.setResolvedPart(ViPart.Verb, verbs);
+        VerbOverlay myverbs = new VerbOverlay(agent);
+        myverbs.addOverlay(verbs);
+        vit.setResolvedPart(ViPart.Verb, myverbs);
         // everything can be missing, except the verb
         for (ViPart part : ViStructureHelper.getAllowedParts(viType)) {
             if (part != ViPart.Verb) {

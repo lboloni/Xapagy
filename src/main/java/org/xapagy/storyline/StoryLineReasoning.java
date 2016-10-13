@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.xapagy.agents.Agent;
@@ -16,7 +17,9 @@ import org.xapagy.concepts.Hardwired;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.RelationHelper;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.instances.ViStructureHelper;
 import org.xapagy.instances.ViStructureHelper.ViPart;
+import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
 import org.xapagy.shadows.Shadows;
@@ -508,6 +511,65 @@ public class StoryLineReasoning {
 			retval.add(st);
 		}
 		return retval;
+	}
+
+	/**
+	 * Creates a focus pair
+	 * 
+	 * @param agent
+	 * @param svi
+	 * @param s2fInstanceMap
+	 * @return
+	 */
+	public static VerbInstance createFocusPair(Agent agent, VerbInstance svi, Map<Instance, Instance> s2fInstanceMap) {
+		ViType type = svi.getViType();
+		VerbInstance retval = VerbInstance.createViTemplate(agent, svi.getViType(), svi.getVerbs());
+		for (ViPart part : ViStructureHelper.getAllowedInstanceParts(type)) {
+			Instance si = (Instance) svi.getPart(part);
+			Instance fi = s2fInstanceMap.get(si);
+			if (fi == null) {
+				throw new Error("createFocusPair - cannot resolve what is in the current focus for:"
+						+ SpInstance.spc(si, agent));
+			}
+			retval.setResolvedPart(part, fi);
+		}
+		// finally, if this is a quote, recurse
+		if (type == ViType.QUOTE) {
+			VerbInstance fqoute = createFocusPair(agent, svi.getQuote(), s2fInstanceMap);
+		}
+		return retval;
+	}
+
+	/**
+	 * Creates a prediction
+	 * 
+	 * @param agent
+	 * @param fline
+	 * @param sline
+	 * @return
+	 */
+	public static List<VerbInstance> createPrediction(Agent agent, StoryLine fline, StoryLine sline,
+			Map<Instance, Instance> f2sInstanceMap, String ec) {
+		// create the s2fInstanceMap
+		Map<Instance, Instance> s2fInstanceMap = new HashMap<>();
+		for(Entry<Instance, Instance> entry : f2sInstanceMap.entrySet()) {
+			s2fInstanceMap.put(entry.getValue(), entry.getKey());
+		}
+		
+		
+		int location = findPositionOfCurrentStoryLine(agent, fline, sline, ec);
+		List<VerbInstance> prediction = new ArrayList<>();
+		if (location == -1) {
+			TextUi.println("The current story is at an end");
+			return prediction;
+		}
+		List<VerbInstance> vis = sline.getVis();
+		for (int i = location; i < vis.size(); i++) {
+			VerbInstance svi = vis.get(i);
+			VerbInstance fi = createFocusPair(agent, svi, s2fInstanceMap);
+			prediction.add(fi);
+		}
+		return prediction;
 	}
 
 }

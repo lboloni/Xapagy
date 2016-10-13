@@ -52,10 +52,10 @@ public class testViSimilarityHelper {
         //
         // Checking for S-V-O types
         //
-        VerbInstance vit1 = VerbInstance.createViTemplate(ViType.S_V_O, voHits);
+        VerbInstance vit1 = VerbInstance.createViTemplate(r.agent, ViType.S_V_O, voHits);
         VerbInstance vit2 =
-                VerbInstance.createViTemplate(ViType.S_V_O, voStrikes);
-        VerbInstance vit3 = VerbInstance.createViTemplate(ViType.S_V_O, voHits);
+                VerbInstance.createViTemplate(r.agent, ViType.S_V_O, voStrikes);
+        VerbInstance vit3 = VerbInstance.createViTemplate(r.agent, ViType.S_V_O, voHits);
         // vi1 and vi2 are not compatible, because of the
         // hits vs strikes
         Assert.assertTrue(!ViSimilarityHelper.decideSimilarityVi(vit1, vit2,
@@ -76,9 +76,9 @@ public class testViSimilarityHelper {
         //
         // These fail, because for the two IsA verbs it returns
         // incompatibility!!!
-        VerbInstance vit4 = VerbInstance.createViTemplate(ViType.S_ADJ, voIsA);
+        VerbInstance vit4 = VerbInstance.createViTemplate(r.agent, ViType.S_ADJ, voIsA);
         vit4.setResolvedPart(ViPart.Adjective, coWarrior);
-        VerbInstance vit5 = VerbInstance.createViTemplate(ViType.S_ADJ, voIsA);
+        VerbInstance vit5 = VerbInstance.createViTemplate(r.agent, ViType.S_ADJ, voIsA);
         vit5.setResolvedPart(ViPart.Adjective, coWarrior);
         Assert.assertTrue(ViSimilarityHelper.decideSimilarityVi(vit4, vit5,
                 r.agent, true));
@@ -86,13 +86,13 @@ public class testViSimilarityHelper {
         VerbInstance vi5 =
                 r.exac("'Hector' / says / scene // 'Achilles' / is-a / w_c_bai21.");
         VerbInstance vit6 =
-                VerbInstance.createViTemplate(ViType.QUOTE, vi5.getVerbs());
+                VerbInstance.createViTemplate(r.agent, ViType.QUOTE, vi5.getVerbs());
         vit6.setResolvedPart(ViPart.Subject, instHector);
         vit6.setResolvedPart(ViPart.QuoteScene, vi5.getQuoteScene());
         // checking compatibility with the original, at this point
         Assert.assertFalse(ViSimilarityHelper.decideSimilarityVi(vit6, vi5,
                 r.agent, false));
-        VerbInstance vit7 = VerbInstance.createViTemplate(ViType.S_ADJ, voIsA);
+        VerbInstance vit7 = VerbInstance.createViTemplate(r.agent, ViType.S_ADJ, voIsA);
         vit7.setResolvedPart(ViPart.Subject, instAchilles);
         vit7.setResolvedPart(ViPart.Adjective, coWarrior);
         vit6.setResolvedPart(ViPart.Quote, vit7);

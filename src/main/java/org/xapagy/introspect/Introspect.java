@@ -167,6 +167,19 @@ public class Introspect {
 	}
 
 	/**
+	 * Creates a list of predictions based on the most likely mapping... 
+	 * 
+	 * @param fline
+	 * @param sline
+	 * @return
+	 */
+	public List<VerbInstance> createPrediction(StoryLine fline, StoryLine sline) {
+		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(fline, sline);
+		return StoryLineReasoning.createPrediction(agent, fline, sline, instanceMap, EnergyColors.SHV_GENERIC);
+	}
+	
+	
+	/**
 	 * Gets the whole storyline of the strongest shadow and prints it out
 	 * -actually, what we would want here is to identify what are the strongest
 	 * shadows of the whole thing...

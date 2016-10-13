@@ -140,7 +140,7 @@ public class DaHlsmStatic extends DiffusionActivity {
                         agent.getIdentifierGenerator()
                                 .getStaticFsliIdentifier();
                 StaticFSLI sfsli =
-                        new StaticFSLI(identifier, vi, sosp, sosp.getScore());
+                        new StaticFSLI(agent, identifier, vi, sosp, sosp.getScore());
                 sfslis.add(sfsli);
             }
         }

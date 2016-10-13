@@ -60,7 +60,6 @@ public abstract class Overlay<T extends AbstractConcept> extends Observable
     protected Agent agent;
     protected AbstractConceptDB<T> cdb;
     private Map<T, Double> energy = new HashMap<>();
-
     protected String identifier = null;
 
     /**
