@@ -49,6 +49,15 @@ public class Introspect {
 	}
 
 	/**
+	 * Executes a VI in the system based
+	 * @param vi
+	 */
+	public void enactVi(VerbInstance vi) {
+		throw new Error("Enact VI not implemented yet");
+	}
+	
+	
+	/**
 	 * Verbalizes a story line in Xapi. Ideally, this should be a format which
 	 * can be parsed back.
 	 * 

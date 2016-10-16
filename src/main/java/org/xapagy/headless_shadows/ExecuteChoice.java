@@ -50,7 +50,7 @@ public class ExecuteChoice {
                 break;
             }
             referencedScenes.addAll(vi.getReferencedScenes());
-            Execute.executeSpikeActivities(agent, vi, null);
+            Execute.executeVIandSAs(agent, vi, null);
             choice.resolveDependency(vi.getCreatedInstance());
             executionResult.add(vi);
         }
@@ -65,9 +65,9 @@ public class ExecuteChoice {
             Hls hls = choice.getHls();
             SaMvInsertHlsLocation samv =
                     new SaMvInsertHlsLocation(agent, vi.getViType(), hls);
-            Execute.executeSpikeActivities(agent, vi, samv);
+            Execute.executeVIandSAs(agent, vi, samv);
         } else {
-            Execute.executeSpikeActivities(agent, vi, null);
+            Execute.executeVIandSAs(agent, vi, null);
         }
         executionResult.add(vi);
         // if the VI is coming from an HLS, and this is the end of the

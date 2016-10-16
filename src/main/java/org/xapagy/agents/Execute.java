@@ -81,7 +81,7 @@ public class Execute {
      * @param successorReplacement - the verb which should be executed instead of the successor verb. This 
      *    is normally the SaMvInsertHml
      */
-    public static void executeSpikeActivities(Agent agent, VerbInstance vi,
+    public static void executeVIandSAs(Agent agent, VerbInstance vi,
             AbstractSaMetaVerb successorReplacement) {
         // adds the vi to the focus
         //SaFcmInsertVi saFocusInsertVi = new SaFcmInsertVi(agent, "FcmInsertVi");
@@ -116,7 +116,7 @@ public class Execute {
         agent.getSaComposite(Hardwired.SA_AFTER_VI).apply(vi);
         // FINALLY, if this is a quote, iterate down on the quote
         if (vi.getViType().equals(ViType.QUOTE)) {
-            Execute.executeSpikeActivities(agent, vi.getQuote(), null);
+            Execute.executeVIandSAs(agent, vi.getQuote(), null);
         }
     }
 
