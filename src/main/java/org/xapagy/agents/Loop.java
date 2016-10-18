@@ -277,11 +277,12 @@ public class Loop implements Serializable {
 	 * @return the next loop item
 	 */
 	private LoopItem nextLoopItemExternalOrReading() {
-		if (inExecution != null) {
-			TextUi.errorPrint("already executing " + PrettyPrint.ppDetailed(inExecution, agent)
-					+ " possibly after checkpoint restore?");
+		LoopItem inExecution = null;
+		//if (inExecution != null) {
+		//	TextUi.errorPrint("already executing " + PrettyPrint.ppDetailed(inExecution, agent)
+		//			+ " possibly after checkpoint restore?");
 			// throw new Error("Already in execution");
-		}
+		//}
 		if (!scheduled.isEmpty() && scheduled.get(0).getScheduledExecutionTime() <= agent.getTime()) {
 			inExecution = scheduled.get(0);
 			scheduled.remove(0);
@@ -358,7 +359,9 @@ public class Loop implements Serializable {
 	 * @return
 	 */
 	public VerbInstance proceedOneForcedStep(VerbInstance forcedVi, double forcedTimeAfter) {
-		throw new Error("proceed one forced step not implemented yet!!!");
+		LoopItem item = LoopItem.createForced(agent, agent.getTime(), forcedVi, forcedTimeAfter);
+		item.execute(true);
+		return forcedVi;
 	}
 	
 	/**

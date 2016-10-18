@@ -25,6 +25,7 @@ import org.xapagy.set.ViSet;
 import org.xapagy.shadows.Shadows;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.smartprint.SpInstance;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.util.SimpleEntryComparator;
 import org.xapagy.verbalize.VerbalizeVo;
 import org.xapagy.verbalize.VrblzAdjective;
@@ -528,8 +529,14 @@ public class StoryLineReasoning {
 			Instance si = (Instance) svi.getPart(part);
 			Instance fi = s2fInstanceMap.get(si);
 			if (fi == null) {
-				throw new Error("createFocusPair - cannot resolve what is in the current focus for:"
-						+ SpInstance.spc(si, agent));
+				// throw new Error("createFocusPair - cannot resolve what is in
+				// the current focus for:"
+				// + SpInstance.spc(si, agent));
+				TextUi.println("When making prediction based on " + XapiPrint.ppsViXapiForm(svi, agent));
+				TextUi.println("createFocusPair - cannot resolve what is in the current focus for:"
+						+ SpInstance.spc(si, agent) + " this might be due to a change??");
+				TextUi.println("Not generating prediction");
+				return null;
 			}
 			retval.setResolvedPart(part, fi);
 		}
@@ -537,7 +544,7 @@ public class StoryLineReasoning {
 		if (type == ViType.QUOTE) {
 			VerbInstance fqoute = createFocusPair(agent, svi.getQuote(), s2fInstanceMap);
 		}
-		return retval;
+		return VerbInstance.createViFromResolvedTemplate(agent, retval);
 	}
 
 	/**
@@ -552,11 +559,10 @@ public class StoryLineReasoning {
 			Map<Instance, Instance> f2sInstanceMap, String ec) {
 		// create the s2fInstanceMap
 		Map<Instance, Instance> s2fInstanceMap = new HashMap<>();
-		for(Entry<Instance, Instance> entry : f2sInstanceMap.entrySet()) {
+		for (Entry<Instance, Instance> entry : f2sInstanceMap.entrySet()) {
 			s2fInstanceMap.put(entry.getValue(), entry.getKey());
 		}
-		
-		
+
 		int location = findPositionOfCurrentStoryLine(agent, fline, sline, ec);
 		List<VerbInstance> prediction = new ArrayList<>();
 		if (location == -1) {
@@ -567,7 +573,10 @@ public class StoryLineReasoning {
 		for (int i = location; i < vis.size(); i++) {
 			VerbInstance svi = vis.get(i);
 			VerbInstance fi = createFocusPair(agent, svi, s2fInstanceMap);
-			prediction.add(fi);
+			if (fi != null) {
+				prediction.add(fi);
+			} 
+			// maybe if it is null break???
 		}
 		return prediction;
 	}

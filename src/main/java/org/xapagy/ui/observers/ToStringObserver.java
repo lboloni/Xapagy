@@ -201,12 +201,23 @@ public class ToStringObserver extends AbstractAgentObserver {
         }
         case INTERNAL: {
             if (current.getState().equals(LoopItemState.EXECUTED)) {
-                buff.append("~~~"); // showing is an approximation
+                buff.append("I~~~"); // showing is an approximation
                 for (VerbInstance vi : current.getExecutionResult()) {
                     buff.append(agent.getVerbalize().verbalize(vi));
                 }
             } else {
                 buff.append("~~~ internal loopitem execution in progress...");
+            }
+            break;
+        }
+        case FORCED: {
+            if (current.getState().equals(LoopItemState.EXECUTED)) {
+                buff.append("F~~~"); // showing is an approximation
+                for (VerbInstance vi : current.getExecutionResult()) {
+                    buff.append(agent.getVerbalize().verbalize(vi));
+                }
+            } else {
+                buff.append("~~~ forced loopitem execution in progress...");
             }
             break;
         }

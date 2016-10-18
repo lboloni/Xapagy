@@ -89,6 +89,9 @@ public class qh_LOOP_HISTORY implements IQueryHandler {
             case INTERNAL:
                 color = "green";
                 break;
+            case FORCED:
+                color = "red";
+                break;
             }
             PwQueryLinks.linkToLoopItem(fmt, agent, gq, li, "style=\"color: "
                     + color + ";\"");

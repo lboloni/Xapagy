@@ -32,6 +32,7 @@ import org.xapagy.reference.ReferenceResolution;
 import org.xapagy.reference.rrException;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.PrettyPrint;
+import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.xapi.DecompositionHelper;
 import org.xapagy.xapi.MacroParser;
 import org.xapagy.xapi.XapiParserException;
@@ -127,6 +128,7 @@ public class LoopItem implements XapagyComponent, Serializable {
 		retval.executionTime = time;
 		retval.forcedVi = forcedVi;
 		retval.forcedTimeAfter = forcedTimeAfter;
+		retval.text = XapiPrint.ppsViXapiForm(forcedVi, agent);
 		return retval;
 	}
 
@@ -254,6 +256,8 @@ public class LoopItem implements XapagyComponent, Serializable {
 	 *            observers to avoid an infinite loop
 	 */
 	public void execute(boolean notifyObservers) {
+		// this allows recursive execution 
+		LoopItem current = agent.getLoop().getInExecution();
 		agent.getLoop().setInExecution(this);
 		//
 		// if this parameter is turned on, the choices which had been active at
@@ -288,8 +292,7 @@ public class LoopItem implements XapagyComponent, Serializable {
 			agent.notifyObservers(new DebugEvent(DebugEventType.AFTER_LOOP_ITEM_EXECUTION));
 			agent.getLoop().getHistory().add(this);
 		}
-		agent.getLoop().setInExecution(null);
-
+		agent.getLoop().setInExecution(current);
 	}
 
 	/**

@@ -43,7 +43,8 @@ public class PpLoopItem {
             buf.append("External: ");
             break;
         }
-        case INTERNAL: {
+        case INTERNAL:
+        case FORCED: {
             buf.append("Internal: ");
             buf.append(PrettyPrint.ppConcise(li.getChoice(), agent));
             break;
@@ -67,6 +68,12 @@ public class PpLoopItem {
         }
         case INTERNAL: {
             fmt.add("LoopItem - Internal");
+            fmt.indent();
+            fmt.add(PrettyPrint.ppDetailed(li.getChoice(), agent));
+            break;
+        }
+        case FORCED: {
+            fmt.add("LoopItem - Forced");
             fmt.indent();
             fmt.add(PrettyPrint.ppDetailed(li.getChoice(), agent));
             break;

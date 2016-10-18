@@ -62,6 +62,11 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
             fmt.add(PrettyPrint.ppConcise(li.getChoice(), agent));
             break;
         }
+        case FORCED: {
+            fmt.addEnum("Forced: ");
+            fmt.add(PrettyPrint.ppConcise(li.getText(), agent));
+            break;
+        }
         case READING: {
             fmt.addEnum("Reading: ");
             fmt.add(li.getText());

@@ -49,11 +49,11 @@ public class Introspect {
 	}
 
 	/**
-	 * Executes a VI in the system based
+	 * Executes a VI in the agent. 
 	 * @param vi
 	 */
 	public void enactVi(VerbInstance vi) {
-		throw new Error("Enact VI not implemented yet");
+		agent.getLoop().proceedOneForcedStep(vi, 1.0);
 	}
 	
 	
