@@ -374,7 +374,7 @@ public class ViMatch implements Serializable {
     /**
      * Helper function for matching a part of the VI which is an instance
      * 
-     * @param text
+     * @param xapiText
      * @param vi
      * @return
      * @throws XapiParserException

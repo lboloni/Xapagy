@@ -20,8 +20,6 @@ import java.util.Map;
 import org.xapagy.headless_shadows.Choice;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.SaveLoadUtil;
-import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**
  * 
@@ -104,7 +102,7 @@ public class Loop implements Serializable {
 	/**
 	 * All the loopitems ever created
 	 */
-	private Map<String, LoopItem> allLoopItems = new HashMap<>();
+	private Map<String, AbstractLoopItem> allLoopItems = new HashMap<>();
 
 	/**
 	 * The ChoiceSelector component
@@ -114,23 +112,23 @@ public class Loop implements Serializable {
 	/**
 	 * Keeps a history of all the executed loop items
 	 */
-	private List<LoopItem> history = new ArrayList<>();
-	private LoopItem inExecution;
+	private List<AbstractLoopItem> history = new ArrayList<>();
+	private AbstractLoopItem inExecution;
 	/**
 	 * Keeps the schedule of the future readings: these are the items which the
 	 * agent will read, when it wants to read something
 	 */
-	private List<LoopItem> readings = new ArrayList<>();
+	private List<AbstractLoopItem> readings = new ArrayList<>();
 	/**
 	 * Keeps the schedule of future events scheduled at specific moments in
 	 * time.
 	 */
-	private List<LoopItem> scheduled = new ArrayList<>();
+	private List<liXapiScheduled> scheduled = new ArrayList<>();
 	/**
 	 * I think... Keeps a list of currently active summaries, which at some
 	 * moment will be
 	 */
-	private List<LoopItem> summaries = new ArrayList<>();
+	private List<AbstractLoopItem> summaries = new ArrayList<>();
 
 	/**
 	 * Constructor, creates the loop for the specified agent
@@ -156,9 +154,9 @@ public class Loop implements Serializable {
 	 * @param list
 	 */
 	public void addImmediateReading(List<String> list) {
-		List<LoopItem> lilist = new ArrayList<>();
+		List<AbstractLoopItem> lilist = new ArrayList<>();
 		for (String text : list) {
-			LoopItem li = LoopItem.createReading(agent, text);
+			AbstractLoopItem li = new liXapiReading(agent, text);
 			lilist.add(li);
 		}
 		readings.addAll(0, lilist);
@@ -170,7 +168,7 @@ public class Loop implements Serializable {
 	 * @param xapiText
 	 */
 	public void addReading(String xapiText) {
-		LoopItem reading = LoopItem.createReading(agent, xapiText);
+		AbstractLoopItem reading = new liXapiReading(agent, xapiText);
 		readings.add(reading);
 	}
 
@@ -182,7 +180,7 @@ public class Loop implements Serializable {
 	 * @param xapiText
 	 */
 	public void addScheduled(double time, String xapiText) {
-		LoopItem scheduledItem = LoopItem.createScheduled(agent, xapiText, time);
+		liXapiScheduled scheduledItem = new liXapiScheduled(agent, xapiText, time);
 		scheduled.add(scheduledItem);
 	}
 
@@ -195,7 +193,7 @@ public class Loop implements Serializable {
 	 * 
 	 * @param loopItem
 	 */
-	public void addSummary(LoopItem loopItem) {
+	public void addSummary(AbstractLoopItem loopItem) {
 		summaries.add(loopItem);
 	}
 
@@ -218,7 +216,7 @@ public class Loop implements Serializable {
 			if (choice == null) {
 				break;
 			}
-			LoopItem item = LoopItem.createInternal(agent, agent.getTime(), choice,
+			liHlsChoiceBased item = new liHlsChoiceBased(agent, agent.getTime(), choice,
 					choice.getChoiceScore().getScoreMood());
 			item.execute(true);
 		}
@@ -228,42 +226,42 @@ public class Loop implements Serializable {
 	/**
 	 * @return the allLoopItems
 	 */
-	public Map<String, LoopItem> getAllLoopItems() {
+	public Map<String, AbstractLoopItem> getAllLoopItems() {
 		return allLoopItems;
 	}
 
 	/**
 	 * @return the history
 	 */
-	public List<LoopItem> getHistory() {
+	public List<AbstractLoopItem> getHistory() {
 		return history;
 	}
 
 	/**
 	 * @return the inExecution
 	 */
-	public LoopItem getInExecution() {
+	public AbstractLoopItem getInExecution() {
 		return inExecution;
 	}
 
 	/**
 	 * @return the readings
 	 */
-	public List<LoopItem> getReadings() {
+	public List<AbstractLoopItem> getReadings() {
 		return readings;
 	}
 
 	/**
 	 * @return the scheduled
 	 */
-	public List<LoopItem> getScheduled() {
+	public List<liXapiScheduled> getScheduled() {
 		return scheduled;
 	}
 
 	/**
 	 * @return the summaries
 	 */
-	public List<LoopItem> getSummaries() {
+	public List<AbstractLoopItem> getSummaries() {
 		return summaries;
 	}
 
@@ -276,8 +274,8 @@ public class Loop implements Serializable {
 	 * 
 	 * @return the next loop item
 	 */
-	private LoopItem nextLoopItemExternalOrReading() {
-		LoopItem inExecution = null;
+	private AbstractLoopItem nextLoopItemExternalOrReading() {
+		AbstractLoopItem inExecution = null;
 		//if (inExecution != null) {
 		//	TextUi.errorPrint("already executing " + PrettyPrint.ppDetailed(inExecution, agent)
 		//			+ " possibly after checkpoint restore?");
@@ -341,7 +339,7 @@ public class Loop implements Serializable {
 				retval.addAll(viSummaries);
 				// now proceed with the external or reading lines
 			}
-			LoopItem item = nextLoopItemExternalOrReading();
+			AbstractLoopItem item = nextLoopItemExternalOrReading();
 			if (item == null) {
 				return retval;
 			}
@@ -359,7 +357,7 @@ public class Loop implements Serializable {
 	 * @return
 	 */
 	public VerbInstance proceedOneForcedStep(VerbInstance forcedVi, double forcedTimeAfter) {
-		LoopItem item = LoopItem.createForced(agent, agent.getTime(), forcedVi, forcedTimeAfter);
+		AbstractLoopItem item = new liViBased(agent, agent.getTime(), forcedVi, forcedTimeAfter);
 		item.execute(true);
 		return forcedVi;
 	}
@@ -374,7 +372,7 @@ public class Loop implements Serializable {
 		// this can be longer than what you have here, because the
 		// processing of summaries can create new summaries
 		while (!summaries.isEmpty()) {
-			LoopItem item = summaries.get(0);
+			AbstractLoopItem item = summaries.get(0);
 			summaries.remove(0);
 			item.execute(true);
 			retval.addAll(item.getExecutionResult());
@@ -393,7 +391,7 @@ public class Loop implements Serializable {
 	 * @param inExecution
 	 *            the inExecution to set
 	 */
-	public void setInExecution(LoopItem inExecution) {
+	public void setInExecution(AbstractLoopItem inExecution) {
 		this.inExecution = inExecution;
 	}
 }

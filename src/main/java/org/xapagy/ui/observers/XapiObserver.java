@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.debug.DebugEvent;
 import org.xapagy.xapi.XapiFileLoader;
 
@@ -39,8 +39,8 @@ public class XapiObserver extends AbstractAgentObserver {
     @Override
     public void observeInner(DebugEvent event)
             throws IOException, InterruptedException {
-        List<LoopItem> loopItems = XapiFileLoader.loadFileToLoopItems(agent, xapiFile, null);
-        for(LoopItem li: loopItems) {
+        List<AbstractLoopItem> loopItems = XapiFileLoader.loadFileToLoopItems(agent, xapiFile, null);
+        for(AbstractLoopItem li: loopItems) {
             li.execute(false);
         }
     }

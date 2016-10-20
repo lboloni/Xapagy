@@ -1,8 +1,12 @@
 package org.xapagy.ui.queryhandlers;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
-import org.xapagy.agents.LoopItem.LoopItemState;
+import org.xapagy.agents.liHlsChoiceBased;
+import org.xapagy.agents.liXapiReading;
+import org.xapagy.agents.AbstractLoopItem;
+import org.xapagy.agents.liXapiScheduled;
+import org.xapagy.agents.liViBased;
+import org.xapagy.agents.AbstractLoopItem.LoopItemState;
 import org.xapagy.httpserver.RESTQuery;
 import org.xapagy.httpserver.Session;
 import org.xapagy.instances.VerbInstance;
@@ -18,7 +22,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
     @Override
     public void generate(PwFormatter fmt, Agent agent, RESTQuery query, Session session) {
         String identifier = query.getAttribute(Q_ID);
-        LoopItem li = agent.getLoop().getAllLoopItems().get(identifier);
+        AbstractLoopItem li = agent.getLoop().getAllLoopItems().get(identifier);
         if (li == null) {
             fmt.addErrorMessage("The LoopItem with the identifier "
                     + identifier + " could not be found");
@@ -41,7 +45,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
      * @param agent
      * @return
      */
-    public static String pwConcise(PwFormatter fmt, LoopItem li, Agent agent) {
+    public static String pwConcise(PwFormatter fmt, AbstractLoopItem li, Agent agent) {
         // prefix: executed / not executed
         switch (li.getState()) {
         case EXECUTED:
@@ -52,24 +56,26 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
         }
         // /
         switch (li.getType()) {
-        case EXTERNAL: {
+        case XAPI_SCHEDULED: {
             fmt.addEnum("External: ");
             fmt.add("-- dont know how to handle external");
             break;
         }
-        case INTERNAL: {
+        case HLS_CHOICE_BASED: {
+        	liHlsChoiceBased li2 = (liHlsChoiceBased) li;
             fmt.addEnum("Internal: ");
-            fmt.add(PrettyPrint.ppConcise(li.getChoice(), agent));
+            fmt.add(PrettyPrint.ppConcise(li2.getChoice(), agent));
             break;
         }
-        case FORCED: {
+        case VI_BASED: {
+        	liViBased li2 = (liViBased) li;
             fmt.addEnum("Forced: ");
-            fmt.add(PrettyPrint.ppConcise(li.getText(), agent));
+            fmt.add(PrettyPrint.ppConcise(li2.getXapiText(), agent));
             break;
         }
-        case READING: {
+        case XAPI_READING: {
             fmt.addEnum("Reading: ");
-            fmt.add(li.getText());
+            fmt.add(li.getXapiText());
             break;
         }
         }
@@ -86,7 +92,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
      * @param query
      * @return
      */
-    public static String pwDetailed(PwFormatter fmt, Agent agent, LoopItem li,
+    public static String pwDetailed(PwFormatter fmt, Agent agent, AbstractLoopItem li,
             RESTQuery query) {
         fmt.is("Type", fmt.getEmpty().addEnum(li.getType().toString()));
         fmt.is("State", fmt.getEmpty().addEnum(li.getState().toString()));
@@ -103,29 +109,31 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
         }
 
         switch (li.getType()) {
-        case EXTERNAL: {
-            fmt.is("scheduled time", li.getScheduledExecutionTime());
-            fmt.is("text", li.getText());
+        case XAPI_SCHEDULED: {
+            fmt.is("scheduled time", ((liXapiScheduled)li).getScheduledExecutionTime());
+            fmt.is("text", li.getXapiText());
             break;
         }
-        case INTERNAL: {
+        case HLS_CHOICE_BASED: {
+        	liHlsChoiceBased li2 = (liHlsChoiceBased) li;
             fmt.addBold("choice");
             fmt.startEmbed();
-            qh_CHOICE.pwDetailed(fmt, agent, li.getChoice(), query);
+            qh_CHOICE.pwDetailed(fmt, agent, li2.getChoice(), query);
             fmt.endEmbed();
             break;
         }
-        case READING: {
+        case XAPI_READING: {
+        	liXapiReading li2 = (liXapiReading) li;
             String header = "Reading: ";
-            if (li.getFileName() != null) {
+            if (li2.getFileName() != null) {
                 header =
-                        header + " (" + li.getFileName() + ":"
-                                + li.getFileLineNo() + ")";
+                        header + " (" + li2.getFileName() + ":"
+                                + li2.getFileLineNo() + ")";
             } else {
                 header = header + "(directly added)";
             }
             fmt.add(header);
-            fmt.add(li.getText());
+            fmt.add(li.getXapiText());
             break;
         }
         }

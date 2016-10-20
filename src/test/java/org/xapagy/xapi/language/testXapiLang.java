@@ -101,7 +101,7 @@ public class testXapiLang {
     /**
      * Tests for the specification of concepts from Xap
      * 
-     * @param text
+     * @param xapiText
      * @throws ParseException
      */
     //@Test
@@ -148,7 +148,7 @@ public class testXapiLang {
     /**
      * Tests for the specification of concepts from Xapi
      * 
-     * @param text
+     * @param xapiText
      * @throws ParseException
      */
     @Test
@@ -167,7 +167,7 @@ public class testXapiLang {
     /**
      * Tests for the specification of concepts from Xapi
      * 
-     * @param text
+     * @param xapiText
      * @throws ParseException
      */
     //@Test
@@ -185,7 +185,7 @@ public class testXapiLang {
     /**
      * Tests for the print representation
      * 
-     * @param text
+     * @param xapiText
      * @throws ParseException
      */
     @Test

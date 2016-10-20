@@ -10,7 +10,13 @@
 package org.xapagy.ui.prettyprint;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.liHlsChoiceBased;
+import org.xapagy.agents.liXapiReading;
+import org.xapagy.agents.liViBased;
+import org.xapagy.agents.liXapiScheduled;
+import org.xapagy.ui.smartprint.XapiPrint;
+
+import org.xapagy.agents.AbstractLoopItem;
 
 /**
  * Pretty printing the loop item
@@ -27,7 +33,7 @@ public class PpLoopItem {
      * @param agent
      * @return
      */
-    public static String ppConcise(LoopItem li, Agent agent) {
+    public static String ppConcise(AbstractLoopItem li, Agent agent) {
         StringBuffer buf = new StringBuffer();
         // prefix: executed / not executed
         switch (li.getState()) {
@@ -39,56 +45,63 @@ public class PpLoopItem {
         }
         // /
         switch (li.getType()) {
-        case EXTERNAL: {
+        case XAPI_SCHEDULED: {
             buf.append("External: ");
             break;
         }
-        case INTERNAL:
-        case FORCED: {
+        case HLS_CHOICE_BASED: {
+        	liHlsChoiceBased li2 = (liHlsChoiceBased) li;
             buf.append("Internal: ");
-            buf.append(PrettyPrint.ppConcise(li.getChoice(), agent));
+            buf.append(PrettyPrint.ppConcise(li2.getChoice(), agent));
             break;
         }
-        case READING: {
-            buf.append("Reading: " + li.getText());
+        case VI_BASED: {
+        	liViBased li2 = (liViBased) li;
+        	buf.append(XapiPrint.ppsViXapiForm(li2.getForcedVi(), agent));
+        }
+        case XAPI_READING: {
+            buf.append("Reading: " + li.getXapiText());
             break;
         }
         }
         return buf.toString();
     }
 
-    public static String ppDetailed(LoopItem li, Agent agent) {
+    public static String ppDetailed(AbstractLoopItem li, Agent agent) {
         Formatter fmt = new Formatter();
         switch (li.getType()) {
-        case EXTERNAL: {
+        case XAPI_SCHEDULED: {
             fmt.add("LoopItem - External");
             fmt.indent();
-            fmt.is("scheduled time", li.getScheduledExecutionTime());
+            fmt.is("scheduled time", ((liXapiScheduled)li).getScheduledExecutionTime());
             break;
         }
-        case INTERNAL: {
+        case HLS_CHOICE_BASED: {
+        	liHlsChoiceBased li2 = (liHlsChoiceBased) li;
             fmt.add("LoopItem - Internal");
             fmt.indent();
-            fmt.add(PrettyPrint.ppDetailed(li.getChoice(), agent));
+            fmt.add(PrettyPrint.ppDetailed(li2.getChoice(), agent));
             break;
         }
-        case FORCED: {
+        case VI_BASED: {
+        	liViBased li2 = (liViBased) li;
             fmt.add("LoopItem - Forced");
             fmt.indent();
-            fmt.add(PrettyPrint.ppDetailed(li.getChoice(), agent));
+            fmt.add(XapiPrint.ppsViXapiForm(li2.getForcedVi(), agent));
             break;
         }
-        case READING: {
+        case XAPI_READING: {
+        	liXapiReading li2 = (liXapiReading) li;
             String header = "LoopItem - Reading";
-            if (li.getFileName() != null) {
+            if (li2.getFileName() != null) {
                 header =
-                        header + " (" + li.getFileName() + ":"
-                                + li.getFileLineNo() + ")";
+                        header + " (" + li2.getFileName() + ":"
+                                + li2.getFileLineNo() + ")";
             } else {
                 header = header + "(directly added)";
             }
             fmt.add(header);
-            fmt.add(li.getText());
+            fmt.add(li2.getXapiText());
             fmt.indent();
             break;
         }

@@ -12,7 +12,7 @@ package org.xapagy.debug.storygenerator;
 import java.util.List;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.autobiography.ABStory;
 import org.xapagy.instances.XapagyComponent;
 
@@ -27,7 +27,7 @@ public class RsOneLine implements XapagyComponent {
     private ABStory abStory;
     private String identifier = null;
     private int lineNo;
-    private List<LoopItem> loopItems;
+    private List<AbstractLoopItem> loopItems;
     private RecordedStory recordedStory;
 
     /**
@@ -37,7 +37,7 @@ public class RsOneLine implements XapagyComponent {
      * @param loopItems
      */
     public RsOneLine(Agent agent, RecordedStory recordedStory, ABStory abStory,
-            int lineNo, List<LoopItem> loopItems) {
+            int lineNo, List<AbstractLoopItem> loopItems) {
         super();
         this.identifier =
                 agent.getIdentifierGenerator().getRsOneLineIdentifier();
@@ -65,7 +65,7 @@ public class RsOneLine implements XapagyComponent {
         return lineNo;
     }
 
-    public List<LoopItem> getLoopItems() {
+    public List<AbstractLoopItem> getLoopItems() {
         return loopItems;
     }
 

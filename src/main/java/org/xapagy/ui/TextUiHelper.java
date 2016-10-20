@@ -221,7 +221,7 @@ public class TextUiHelper {
      * 
      * @param pads
      * @param padding
-     * @param text
+     * @param xapiText
      * @return
      */
     public static String shiftText(final int pads, final String padding,

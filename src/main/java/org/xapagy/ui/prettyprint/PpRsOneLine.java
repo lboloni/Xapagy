@@ -10,7 +10,7 @@
 package org.xapagy.ui.prettyprint;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.debug.storygenerator.RsOneLine;
 
 /**
@@ -38,7 +38,7 @@ public class PpRsOneLine {
                 + rsol.getAbStory().getLine(rsol.getLineNo()));
         fmt.add("LoopItems");
         fmt.indent();
-        for (LoopItem li : rsol.getLoopItems()) {
+        for (AbstractLoopItem li : rsol.getLoopItems()) {
             fmt.add(PpLoopItem.ppDetailed(li, agent));
         }
         fmt.deindent();

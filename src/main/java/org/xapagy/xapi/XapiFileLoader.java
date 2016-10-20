@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.liXapiReading;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.ui.TextUi;
 
 /**
@@ -39,7 +40,7 @@ public class XapiFileLoader {
      */
     public static void loadFileToReading(Agent agent, File file, String marker)
             throws IOException {
-        List<LoopItem> localReadings = loadFileToLoopItems(agent, file, marker);
+        List<AbstractLoopItem> localReadings = loadFileToLoopItems(agent, file, marker);
         agent.getLoop().getReadings().addAll(0, localReadings);
     }
 
@@ -61,7 +62,7 @@ public class XapiFileLoader {
      * @return
      * @throws IOException
      */
-    public static List<LoopItem> loadFileToLoopItems(Agent agent, File file,
+    public static List<AbstractLoopItem> loadFileToLoopItems(Agent agent, File file,
             String marker) throws IOException {
         boolean ignore = true;
         if (marker == null) {
@@ -69,7 +70,7 @@ public class XapiFileLoader {
         } else {
             ignore = true;
         }
-        List<LoopItem> localReadings = new ArrayList<>();
+        List<AbstractLoopItem> localReadings = new ArrayList<>();
         try (FileReader fr = new FileReader(file);
                 LineNumberReader in = new LineNumberReader(fr);) {
             String statement = "";
@@ -96,7 +97,7 @@ public class XapiFileLoader {
                 }
                 if (statement.startsWith("$")
                         || XapiParser.completeStatement(statement)) {
-                    LoopItem reading = LoopItem.createReading(agent, statement,
+                    AbstractLoopItem reading = new liXapiReading(agent, statement,
                             file, in.getLineNumber());
                     // add the statements only if we are not in the ignore mode
                     if (!ignore) {

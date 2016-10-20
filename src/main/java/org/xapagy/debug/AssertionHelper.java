@@ -17,8 +17,9 @@ import org.junit.Assert;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Focus;
-import org.xapagy.agents.LoopItem;
-import org.xapagy.agents.LoopItem.LoopItemType;
+import org.xapagy.agents.liHlsChoiceBased;
+import org.xapagy.agents.AbstractLoopItem;
+import org.xapagy.agents.AbstractLoopItem.LoopItemType;
 import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.VerbOverlay;
@@ -270,10 +271,10 @@ public class AssertionHelper implements Serializable {
      */
     public boolean historyIsInternal(int back, ViType viType, String verbName)
             throws XapiParserException {
-        List<LoopItem> history = agent.getLoop().getHistory();
-        LoopItem li = history.get(history.size() - back);
+        List<AbstractLoopItem> history = agent.getLoop().getHistory();
+        AbstractLoopItem li = history.get(history.size() - back);
         boolean retval;
-        if (!li.getType().equals(LoopItemType.INTERNAL)) {
+        if (!li.getType().equals(LoopItemType.HLS_CHOICE_BASED)) {
             retval = false;
         } else {
             retval = ahNotAsserting.viIs(li.getExecutionResult().get(0), viType,
@@ -578,7 +579,7 @@ public class AssertionHelper implements Serializable {
     public boolean sequenceInRecentHistory(ChoiceType choiceType,
             ViMatcher matcher, String... matchStrings) {
         Formatter fmt = new Formatter();
-        List<LoopItem> history = agent.getLoop().getHistory();
+        List<AbstractLoopItem> history = agent.getLoop().getHistory();
         int back = 1;
         int count = matchStrings.length - 1;
         boolean retval = true;
@@ -587,12 +588,14 @@ public class AssertionHelper implements Serializable {
                 retval = false;
                 break;
             }
-            LoopItem li = history.get(history.size() - back);
+            AbstractLoopItem li = history.get(history.size() - back);
             back++;
-            if (!li.getType().equals(LoopItemType.INTERNAL)) {
+            if (!li.getType().equals(LoopItemType.HLS_CHOICE_BASED)) {
                 continue;
             }
-            if (!li.getChoice().getChoiceType().equals(choiceType)) {
+            // so now we know it is a 
+            liHlsChoiceBased li2 = (liHlsChoiceBased) li;
+            if (!li2.getChoice().getChoiceType().equals(choiceType)) {
                 continue;
             }
             // the matching algorithm

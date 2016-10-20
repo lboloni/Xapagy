@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.liXapiReading;
 import org.xapagy.ui.TextUi;
 import org.xapagy.xapi.language.parser.ParseException;
 import org.xapagy.xapi.language.parser.XapiLang;
@@ -80,7 +80,7 @@ public class MacroParser {
         } catch (ParseException e) {
             // Pretty write of the current error
             String description = "";
-            LoopItem loopItem = agent.getLoop().getInExecution();
+            liXapiReading loopItem = (liXapiReading) agent.getLoop().getInExecution();
             if (loopItem != null) {
                 description += "While executing loop item: " + loopItem.getFileName() + ":" + loopItem.getFileLineNo() + "\n";
             }
@@ -96,7 +96,7 @@ public class MacroParser {
             throw new Error("Parse exception, cannot continue");
         } catch(Exception e) {
             String description = "";
-            LoopItem loopItem = agent.getLoop().getInExecution();
+            liXapiReading loopItem = (liXapiReading)agent.getLoop().getInExecution();
             if (loopItem != null) {
                 description += "While executing loop item: " + loopItem.getFileName() + ":" + loopItem.getFileLineNo() + "\n";
             }
@@ -104,17 +104,7 @@ public class MacroParser {
             description+= e.toString();
             TextUi.println(description);
             throw new Error("Exception while performing command, cannot continue");            
-        } /* catch(Error e) {
-            String description = "";
-            LoopItem loopItem = agent.getLoop().getInExecution();
-            if (loopItem != null) {
-                description += "While executing loop item: " + loopItem.getFileName() + ":" + loopItem.getFileLineNo() + "\n";
-            }
-            description+= "Exception at line:\n" + macroStatement + "\n";
-            description+= e.getMessage();
-            TextUi.println(description);
-            throw new Error("Exception while performing command, cannot continue");            
-        } */
+        } 
     }    
     
     

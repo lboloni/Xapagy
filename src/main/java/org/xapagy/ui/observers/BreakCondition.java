@@ -10,7 +10,7 @@
 package org.xapagy.ui.observers;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.debug.DebugEvent;
 import org.xapagy.debug.DebugEvent.DebugEventType;
 import org.xapagy.ui.TextUi;
@@ -105,7 +105,7 @@ public class BreakCondition {
             }
         }
         case XAPI_STRING: {
-            LoopItem li = agent.getLoop().getInExecution();
+            AbstractLoopItem li = agent.getLoop().getInExecution();
             if (li == null) {
                 return false;
             }

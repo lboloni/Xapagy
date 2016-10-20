@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.autobiography.ABStory;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.Hardwired.SceneRelation;
@@ -156,12 +156,12 @@ public class RecordedStory implements XapagyComponent {
      * @return
      */
     private List<VerbInstance> exec(Runner r, ABStory story, int line) {
-        List<LoopItem> history = r.agent.getLoop().getHistory();
+        List<AbstractLoopItem> history = r.agent.getLoop().getHistory();
         int histCountOrig = history.size();
         String storyLine = story.getLine(line);
         List<VerbInstance> vis = r.exec(storyLine);
         int histCountNew = history.size();
-        List<LoopItem> changes =
+        List<AbstractLoopItem> changes =
                 new ArrayList<>(history.subList(histCountOrig, histCountNew));
         RsOneLine rsOneLine =
                 new RsOneLine(r.agent, this, story, line, changes);

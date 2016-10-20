@@ -4,7 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.concepts.Concept;
 import org.xapagy.concepts.Verb;
 import org.xapagy.headless_shadows.Choice;
@@ -335,7 +335,7 @@ public class PwQueryLinks implements IQueryAttributes {
      * @param member
      */
     public static String linkToLoopItem(IXwFormatter fmt, Agent agent,
-            RESTQuery gq, LoopItem li, String... params) {
+            RESTQuery gq, AbstractLoopItem li, String... params) {
         // RESTQuery gqNew = QueryHelper.copyWithEmptyCommand(gq);
         // gqNew.setAttribute(Q_QUERY_TYPE, "LOOP_ITEM");
         // gqNew.setAttribute(Q_ID, li.getIdentifier());

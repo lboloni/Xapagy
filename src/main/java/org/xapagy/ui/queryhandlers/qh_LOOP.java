@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Loop;
-import org.xapagy.agents.LoopItem;
+import org.xapagy.agents.liXapiScheduled;
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.httpserver.RESTQuery;
 import org.xapagy.httpserver.Session;
 import org.xapagy.ui.formatters.PwFormatter;
@@ -46,7 +47,7 @@ public class qh_LOOP implements IQueryHandler {
         //
         // Scheduled time items
         //
-        tmp = qh_LOOP.listOfLoopItemLinks(agent, gq, loop.getScheduled());
+        tmp = qh_LOOP.listOfLiScheduled(agent, gq, loop.getScheduled());
         fmt.addExtensibleH2("id" + countHideable++, "Scheduled time items: "
                 + loop.getScheduled().size(), tmp, true);
         //
@@ -72,12 +73,12 @@ public class qh_LOOP implements IQueryHandler {
      * @return
      */
     public static String listOfLoopItemLinks(Agent agent, RESTQuery gq,
-            List<LoopItem> lis) {
+            List<AbstractLoopItem> lis) {
         PwFormatter fmt = new PwFormatter("");
         if (lis.isEmpty()) {
             fmt.addP("No loop items in this list.");
         } else {
-            for (LoopItem li : lis) {
+            for (AbstractLoopItem li : lis) {
                 fmt.openP();
                 PwQueryLinks.linkToLoopItem(fmt, agent, gq, li);
                 fmt.closeP();
@@ -85,4 +86,29 @@ public class qh_LOOP implements IQueryHandler {
         }
         return fmt.toString();
     }
+
+
+    /**
+     * Returns a list of link items
+     * 
+     * @param agent
+     * @param gs
+     * @param lis
+     * @return
+     */
+    public static String listOfLiScheduled(Agent agent, RESTQuery gq,
+            List<liXapiScheduled> lis) {
+        PwFormatter fmt = new PwFormatter("");
+        if (lis.isEmpty()) {
+            fmt.addP("No loop items in this list.");
+        } else {
+            for (AbstractLoopItem li : lis) {
+                fmt.openP();
+                PwQueryLinks.linkToLoopItem(fmt, agent, gq, li);
+                fmt.closeP();
+            }
+        }
+        return fmt.toString();
+    }
+
 }

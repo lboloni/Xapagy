@@ -10,16 +10,36 @@
 package org.xapagy.agents;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.script.ScriptException;
 
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.Verb;
 import org.xapagy.debug.DebugEvent;
 import org.xapagy.debug.DebugEvent.DebugEventType;
+import org.xapagy.exceptions.MalformedConceptOrVerbName;
+import org.xapagy.exceptions.NoSuchConceptOrVerb;
+import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.metaverbs.AbstractSaMetaVerb;
 import org.xapagy.parameters.Parameters;
 import org.xapagy.questions.QuestionHelper;
+import org.xapagy.reference.ReferenceResolution;
+import org.xapagy.reference.rrException;
+import org.xapagy.ui.TextUi;
+import org.xapagy.xapi.DecompositionHelper;
+import org.xapagy.xapi.MacroParser;
+import org.xapagy.xapi.XapiParserException;
+import org.xapagy.xapi.reference.XapiReference;
+import org.xapagy.xapi.reference.XapiReference.XapiReferenceType;
+import org.xapagy.xapi.reference.XrefStatement;
+import org.xapagy.xapi.reference.XrefVi;
+import org.xapagy.xapi.reference.XrefWait;
 
 /**
  * Functions related to the execution of the VIs, etc. Mostly called from Loop
@@ -119,6 +139,112 @@ public class Execute {
             Execute.executeVIandSAs(agent, vi.getQuote(), null);
         }
     }
+
+	/**
+	 * Executes an internal or reading type LoopItem. This is whatever comes out
+	 * of a single line of Xapi
+	 * 
+	 */
+	public static void executeXapiText(Agent agent, AbstractLoopItem item) {
+		String line = item.getXapiText();
+		//
+		// if we are in script accumulation mode
+		//
+		if (agent.getLoop().isScriptAccumulationMode()) {
+			if (line.startsWith("$EndScript") || line.startsWith("$}}")) {
+				String script = agent.getLoop().stopScriptAccumulation();
+				try {
+					agent.getScriptEngine().eval(script);
+				} catch (ScriptException e) {
+					e.printStackTrace();
+					throw new Error("Script exception!");
+				}
+				return;
+			}
+			// so it is not the end of the script
+			agent.getLoop().addToAccumulatedScript(line);
+			return;
+		}
+		//
+		// if it is a one-line script
+		//
+		if (line.startsWith("!!")) {
+			String scriptText = line.substring("!!".length());
+			try {
+				agent.getScriptEngine().eval(scriptText);
+			} catch (ScriptException e) {
+				e.printStackTrace();
+				throw new Error("Script exception!");
+			}
+			return;
+		}
+		if (line.startsWith("$BeginScript") || line.startsWith("${{")) {
+			agent.getLoop().startScriptAccumulation();
+			return;
+		}
+	
+		//
+		// if it is a macro
+		//
+		if (line.startsWith(AbstractLoopItem.MACRO_PREFIX)) {
+			MacroParser.executeMacro(line, agent);
+			return;
+		}
+		//
+		// if we got here, it is a regular sentence
+		//
+		XapiReference xst = null;
+		try {
+			xst = agent.getXapiParser().parseLine(line);
+		} catch (XapiParserException e) {
+			TextUi.println(line);
+			throw new Error(item.formatException(e, e.getDiagnosis()));
+		} catch (MalformedConceptOrVerbName e) {
+			throw new Error(item.formatException(e, e.toString()));
+		} catch (NoSuchConceptOrVerb e) {
+			throw new Error(item.formatException(e, e.toString()));
+		}
+		// if it is a macro
+		List<XapiReference> atomicStatements;
+		// the scenes referenced by this loopitem
+		Set<Instance> referencedScenes = new HashSet<>();
+		if (xst.getType().equals(XapiReferenceType.WAIT)) {
+			// if it is a wait statement, add directly
+			atomicStatements = new ArrayList<>();
+			atomicStatements.add(xst);
+		} else {
+			// if it is a statement, decompose
+			atomicStatements = DecompositionHelper.decomposeStatementIntoVisAndWait(agent, (XrefStatement) xst);
+		}
+		List<VerbInstance> retval = new ArrayList<>();
+		for (XapiReference statement : atomicStatements) {
+			if (statement.getType().equals(XapiReferenceType.VI)) {
+				VerbInstance vi = null;
+				try {
+					vi = ReferenceResolution.resolveFullVi(agent, (XrefVi) statement, null);
+				} catch (rrException e) {
+					throw new Error("Reference resolution exception at line:\n" + line + "\n" + e.toString());
+				}
+				// at this moment we have the VI !!!
+				referencedScenes.addAll(vi.getReferencedScenes());
+				executeVIandSAs(agent, vi, null);
+				retval.add(vi);
+				continue;
+			}
+			if (statement.getType().equals(XapiReferenceType.WAIT)) {
+				executeDiffusionActivities(agent, ((XrefWait) statement).getTimeWait());
+				continue;
+			}
+			throw new Error("The only ones allowed are XapiVi and XapiWait, this one is " + xst.getType());
+		}
+		//
+		// Sets the interstitial energy for all the referenced scenes
+		//
+		for (Instance scene : referencedScenes) {
+			scene.getSceneParameters().resetInterstitialEnergy();
+		}
+		item.getExecutionResult().addAll(retval);
+	}
 
 
 

@@ -617,7 +617,7 @@ public class XapiParser implements Serializable {
      * Parses a potentially quoted statement. Chops it down, parses the
      * statements independently and sets up the statement with quote links
      * 
-     * @param text
+     * @param xapiText
      *            - the text
      * @param timeWait
      *            - the time to be waited after the statement, passed down
