@@ -17,12 +17,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.xapagy.agents.AbstractLoopItem;
+import org.xapagy.agents.AbstractLoopItem.LoopItemState;
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Focus;
 import org.xapagy.agents.liHlsChoiceBased;
+import org.xapagy.agents.liViBased;
 import org.xapagy.agents.liXapiReading;
-import org.xapagy.agents.AbstractLoopItem;
-import org.xapagy.agents.AbstractLoopItem.LoopItemState;
+import org.xapagy.agents.liXapiScheduled;
 import org.xapagy.debug.DebugEvent;
 import org.xapagy.debug.DebugEvent.DebugEventType;
 import org.xapagy.headless_shadows.HeadlessComponents;
@@ -188,12 +190,10 @@ public class ToStringObserver extends AbstractAgentObserver {
 		//
 		// the text
 		//
-		switch (current.getType()) {
-		case XAPI_SCHEDULED: {
+		if (current instanceof liXapiScheduled) {
 			buff.append(current.getXapiText());
-			break;
 		}
-		case HLS_CHOICE_BASED: {
+		if (current instanceof liHlsChoiceBased) {
 			if (current.getState().equals(LoopItemState.EXECUTED)) {
 				buff.append("I~~~"); // showing is an approximation
 				for (VerbInstance vi : current.getExecutionResult()) {
@@ -202,9 +202,8 @@ public class ToStringObserver extends AbstractAgentObserver {
 			} else {
 				buff.append("~~~ internal loopitem execution in progress...");
 			}
-			break;
 		}
-		case VI_BASED: {
+		if (current instanceof liViBased) {
 			if (current.getState().equals(LoopItemState.EXECUTED)) {
 				buff.append("F~~~"); // showing is an approximation
 				for (VerbInstance vi : current.getExecutionResult()) {
@@ -213,40 +212,37 @@ public class ToStringObserver extends AbstractAgentObserver {
 			} else {
 				buff.append("~~~ forced loopitem execution in progress...");
 			}
-			break;
 		}
-		case XAPI_READING: {
+		if (current instanceof liXapiReading) {
 			buff.append(current.getXapiText());
-			break;
-		}
 		}
 		//
 		// the source
 		//
 		buff.append(" -- ");
-		switch (current.getType()) {
-		case XAPI_SCHEDULED: {
-			buff.append("(extern)");
-			break;
+		if (current instanceof liXapiScheduled) {
+			buff.append("(extern)");			
 		}
-		case HLS_CHOICE_BASED: {
+		if (current instanceof liHlsChoiceBased) {
 			liHlsChoiceBased li2 = (liHlsChoiceBased) current;
 			buff.append("(intern:");
 			buff.append(li2.getChoice().getChoiceType() + " w=" + Formatter.fmt(li2.getWillingness()));
-			buff.append(")");
-			break;
+			buff.append(")");			
 		}
-		case XAPI_READING: {
+		if (current instanceof liXapiReading) {
 			liXapiReading li2 = (liXapiReading) current;
 			if (li2.getFileName() != null) {
 				File f = new File(li2.getFileName());
 				buff.append("(" + f.getName() + ":" + li2.getFileLineNo() + ")");
 			} else {
 				buff.append("(reading/generated)");
-			}
-			break;
+			}			
 		}
+		if (current instanceof liViBased) {
+			buff.append("(VI-based, story line reasoning)");
 		}
+		
+		
 		// buff.append("\n");
 		if (traceWhat.contains(TraceWhat.VERBALIZATION)) {
 			for (VerbInstance vi : current.getExecutionResult()) {

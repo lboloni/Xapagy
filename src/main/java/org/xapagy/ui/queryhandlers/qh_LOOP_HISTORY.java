@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Loop;
+import org.xapagy.agents.liHlsChoiceBased;
+import org.xapagy.agents.liViBased;
+import org.xapagy.agents.liXapiReading;
 import org.xapagy.agents.liXapiScheduled;
 import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.httpserver.RESTQuery;
@@ -80,19 +83,17 @@ public class qh_LOOP_HISTORY implements IQueryHandler {
         for (AbstractLoopItem li : toShow) {
             fmt.openP();
             String color = "black";
-            switch (li.getType()) {
-            case XAPI_READING:
-                color = "black";
-                break;
-            case XAPI_SCHEDULED:
-                color = "yellow";
-                break;
-            case HLS_CHOICE_BASED:
+            if (li instanceof liXapiReading) {
+                color = "black";            	
+            }
+            if (li instanceof liXapiScheduled) {
+            	color = "yellow";
+            }
+            if (li instanceof liHlsChoiceBased) {
                 color = "green";
-                break;
-            case VI_BASED:
+            }
+            if (li instanceof liViBased) {
                 color = "red";
-                break;
             }
             PwQueryLinks.linkToLoopItem(fmt, agent, gq, li, "style=\"color: "
                     + color + ";\"");

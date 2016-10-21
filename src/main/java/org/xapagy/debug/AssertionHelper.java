@@ -14,12 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
-
+import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Focus;
 import org.xapagy.agents.liHlsChoiceBased;
-import org.xapagy.agents.AbstractLoopItem;
-import org.xapagy.agents.AbstractLoopItem.LoopItemType;
 import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.VerbOverlay;
@@ -274,7 +272,7 @@ public class AssertionHelper implements Serializable {
         List<AbstractLoopItem> history = agent.getLoop().getHistory();
         AbstractLoopItem li = history.get(history.size() - back);
         boolean retval;
-        if (!li.getType().equals(LoopItemType.HLS_CHOICE_BASED)) {
+        if (!(li instanceof liHlsChoiceBased)) {
             retval = false;
         } else {
             retval = ahNotAsserting.viIs(li.getExecutionResult().get(0), viType,
@@ -590,7 +588,7 @@ public class AssertionHelper implements Serializable {
             }
             AbstractLoopItem li = history.get(history.size() - back);
             back++;
-            if (!li.getType().equals(LoopItemType.HLS_CHOICE_BASED)) {
+            if (!(li instanceof liHlsChoiceBased)) {
                 continue;
             }
             // so now we know it is a 

@@ -24,8 +24,6 @@ public class liXapiReading extends AbstractLoopItem {
 	 */
 	public liXapiReading(Agent agent, String xapiText) {
 		super(agent);
-		this.state = LoopItemState.NOT_EXECUTED;
-		this.type = LoopItemType.XAPI_READING;
 		this.xapiText = xapiText;
 	}
 
@@ -36,8 +34,6 @@ public class liXapiReading extends AbstractLoopItem {
 	 */
 	public liXapiReading(Agent agent, String xapiText, File file, int fileLineNo) {
 		super(agent);
-		this.state = LoopItemState.NOT_EXECUTED;
-		this.type = LoopItemType.XAPI_READING;
 		this.xapiText = xapiText;
 		this.fileName = file.getName();
 		this.fileLineNo = fileLineNo;

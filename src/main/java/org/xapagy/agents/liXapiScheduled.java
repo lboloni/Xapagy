@@ -2,6 +2,10 @@ package org.xapagy.agents;
 
 public class liXapiScheduled extends AbstractLoopItem {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4790922158730493388L;
 	private double scheduledExecutionTime = -1;
 
 	/**
@@ -11,7 +15,6 @@ public class liXapiScheduled extends AbstractLoopItem {
 	public liXapiScheduled(Agent agent, String xapiText, double time) {
 		super(agent);
 		this.state = LoopItemState.NOT_EXECUTED;
-		this.type = LoopItemType.XAPI_SCHEDULED;
 		this.xapiText = xapiText;
 		this.scheduledExecutionTime = time;
 	}

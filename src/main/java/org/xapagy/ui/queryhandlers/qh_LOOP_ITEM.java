@@ -54,30 +54,24 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
         case NOT_EXECUTED:
             break;
         }
-        // /
-        switch (li.getType()) {
-        case XAPI_SCHEDULED: {
+        //
+        if (li instanceof liXapiScheduled) {
             fmt.addEnum("External: ");
             fmt.add("-- dont know how to handle external");
-            break;
         }
-        case HLS_CHOICE_BASED: {
+        if (li instanceof liHlsChoiceBased) {
         	liHlsChoiceBased li2 = (liHlsChoiceBased) li;
             fmt.addEnum("Internal: ");
-            fmt.add(PrettyPrint.ppConcise(li2.getChoice(), agent));
-            break;
+            fmt.add(PrettyPrint.ppConcise(li2.getChoice(), agent));        	
         }
-        case VI_BASED: {
+        if (li instanceof liViBased) {
         	liViBased li2 = (liViBased) li;
             fmt.addEnum("Forced: ");
-            fmt.add(PrettyPrint.ppConcise(li2.getXapiText(), agent));
-            break;
+            fmt.add(PrettyPrint.ppConcise(li2.getXapiText(), agent));        	
         }
-        case XAPI_READING: {
+        if (li instanceof liXapiReading) {
             fmt.addEnum("Reading: ");
             fmt.add(li.getXapiText());
-            break;
-        }
         }
         return fmt.toString();
     }
@@ -94,7 +88,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
      */
     public static String pwDetailed(PwFormatter fmt, Agent agent, AbstractLoopItem li,
             RESTQuery query) {
-        fmt.is("Type", fmt.getEmpty().addEnum(li.getType().toString()));
+        fmt.is("Type", fmt.getEmpty().addEnum(li.getClass().getName()));
         fmt.is("State", fmt.getEmpty().addEnum(li.getState().toString()));
         if (li.getState().equals(LoopItemState.EXECUTED)) {
             fmt.is("Execution time", li.getExecutionTime());
@@ -107,23 +101,19 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
             }
             fmt.deindent();
         }
-
-        switch (li.getType()) {
-        case XAPI_SCHEDULED: {
+        if (li instanceof liXapiScheduled) {
             fmt.is("scheduled time", ((liXapiScheduled)li).getScheduledExecutionTime());
-            fmt.is("text", li.getXapiText());
-            break;
+            fmt.is("text", li.getXapiText());        	
         }
-        case HLS_CHOICE_BASED: {
+        if (li instanceof liHlsChoiceBased) {
         	liHlsChoiceBased li2 = (liHlsChoiceBased) li;
             fmt.addBold("choice");
             fmt.startEmbed();
             qh_CHOICE.pwDetailed(fmt, agent, li2.getChoice(), query);
             fmt.endEmbed();
-            break;
         }
-        case XAPI_READING: {
-        	liXapiReading li2 = (liXapiReading) li;
+        if (li instanceof liXapiReading) {
+        		liXapiReading li2 = (liXapiReading) li;
             String header = "Reading: ";
             if (li2.getFileName() != null) {
                 header =
@@ -134,8 +124,9 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
             }
             fmt.add(header);
             fmt.add(li.getXapiText());
-            break;
         }
+        if (li instanceof liViBased) {
+        	fmt.addPre(PrettyPrint.ppDetailed(li, agent));
         }
         return fmt.toString();
     }

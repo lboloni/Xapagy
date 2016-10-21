@@ -20,16 +20,7 @@ import org.xapagy.instances.XapagyComponent;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**
- * A loop item is the execution unit of the Xapagy agent. One loop item can
- * correspond to:
- * 
- * <ul>
- * <li>A Xapi sentence describing a VI.
- * <li>A Xapi meta-statement
- * <li>An internally generated choice.
- * <li>A currently pending summarization (FIXME)
- * <li>A forced external VI
- * </ul>
+ * A loop item is the execution unit of the Xapagy agent.
  * 
  * @author Ladislau Boloni
  * 
@@ -46,31 +37,7 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 		EXECUTED, NOT_EXECUTED
 	}
 
-	/**
-	 * The type of the loop item:
-	 * 
-	 * <ul>
-	 * <li>EXTERNAL - an external observation (this normally appears as a
-	 * scheduled loop item when Xapagy is run from the command line.
-	 * <li>READING - a loop item which is retrieved from the reading list
-	 * <li>INTERNAL - a loop item which is generated internally by Xapagy
-	 * (typically, a result of a choice selected for execution)
-	 * <li>FORCED - a forced, externally generated VI - for instance as coming
-	 * from the story line reasoning
-	 * </ul>
-	 * 
-	 * @author Ladislau Boloni
-	 *
-	 */
-	public enum LoopItemType {
-		XAPI_SCHEDULED, HLS_CHOICE_BASED, XAPI_READING, VI_BASED
-	};
-
 	private static final long serialVersionUID = 5644893720655147749L;
-
-
-
-
 	protected Agent agent;
 	/**
 	 * Stores the VIs that resulted from the execution of this loop item. They
@@ -89,11 +56,6 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 	 * loopitem
 	 */
 	protected String xapiText;
-	/**
-	 * READING, INTERNAL, EXTERNAL or FORCED
-	 */
-	protected LoopItemType type = null;
-
 	public static String MACRO_PREFIX = "$";
 
 	public AbstractLoopItem(Agent agent) {
@@ -173,12 +135,6 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 		return xapiText;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public LoopItemType getType() {
-		return type;
-	}
 
 
 	@Override

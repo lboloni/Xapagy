@@ -53,7 +53,6 @@ public class liViBased extends AbstractLoopItem {
 	 */
 	public liViBased(Agent agent, double time, VerbInstance forcedVi, double forcedTimeAfter) {
 		super(agent);
-		this.type = LoopItemType.VI_BASED;
 		this.executionTime = time;
 		this.forcedVi = forcedVi;
 		this.forcedTimeAfter = forcedTimeAfter;

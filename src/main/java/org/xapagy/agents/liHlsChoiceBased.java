@@ -29,7 +29,6 @@ public class liHlsChoiceBased extends AbstractLoopItem {
 
 	public liHlsChoiceBased(Agent agent, double time, Choice choice, double willingness) {
 		super(agent);
-		this.type = LoopItemType.HLS_CHOICE_BASED;
 		this.executionTime = time;
 		this.willingness = willingness;
 		this.choice = choice;
