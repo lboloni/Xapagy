@@ -44,7 +44,7 @@ public class PpLoopItem {
 			break;
 		}
 		if (li instanceof liXapiScheduled) {
-			buf.append("External: ");
+			buf.append("External: " + ((liXapiScheduled)li).getXapiText());
 		}
 		if (li instanceof liHlsChoiceBased) {
 			liHlsChoiceBased li2 = (liHlsChoiceBased) li;

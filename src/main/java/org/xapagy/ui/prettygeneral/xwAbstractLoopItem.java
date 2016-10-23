@@ -15,7 +15,9 @@ public class xwAbstractLoopItem {
 	 */
 	public static void xwDetailedSubset(IXwFormatter xwf, AbstractLoopItem li,
             Agent agent) {
-		
+		xwf.is("State", li.getState());
+		xwf.is("Identifier", li.getIdentifier());
+		// xwf.is
     }
 
 
