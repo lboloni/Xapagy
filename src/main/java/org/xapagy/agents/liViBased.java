@@ -7,25 +7,43 @@ import org.xapagy.ui.smartprint.XapiPrint;
 /**
  * A VI based loopitem. Used in the case when we already have the VI we want to
  * execute in the loop item.
- * 
+ *
  * @author lboloni
  *
  */
 public class liViBased extends AbstractLoopItem {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4361342266891541296L;
 	/**
 	 * The VI we have forced when it is of type FORCED
 	 */
 	private VerbInstance forcedVi = null;
 	/**
-	 * @return the forcedVi
+	 * The time after we are forcng
 	 */
-	public VerbInstance getForcedVi() {
-		return forcedVi;
+	private double forcedTimeAfter = 0;
+
+	/**
+	 * Creates a forced VI loop item
+	 *
+	 * @param agent
+	 * @param time
+	 *            - normally the current time - this will be the execution time
+	 * @param forcedVi
+	 *            - the VI whose execution we are forcing at this moment
+	 * @param forcedTimeAfter
+	 *            - the time after the execution, when the DAs will operate
+	 */
+	public liViBased(Agent agent, VerbInstance forcedVi, double forcedTimeAfter) {
+		super(agent);
+		this.forcedVi = forcedVi;
+		this.forcedTimeAfter = forcedTimeAfter;
+		this.xapiText = XapiPrint.ppsViXapiForm(forcedVi, agent);
+	}
+
+	@Override
+	public String formatException(Throwable t, String description) {
+		return description + t.toString();
 	}
 
 	/**
@@ -36,27 +54,10 @@ public class liViBased extends AbstractLoopItem {
 	}
 
 	/**
-	 * The time after we are forcng
+	 * @return the forcedVi
 	 */
-	private double forcedTimeAfter = 0;
-
-	/**
-	 * Creates a forced VI loop item
-	 * 
-	 * @param agent
-	 * @param time
-	 *            - normally the current time - this will be the execution time
-	 * @param forcedVi
-	 *            - the VI whose execution we are forcing at this moment
-	 * @param forcedTimeAfter
-	 *            - the time after the execution, when the DAs will operate
-	 */
-	public liViBased(Agent agent, double time, VerbInstance forcedVi, double forcedTimeAfter) {
-		super(agent);
-		this.executionTime = time;
-		this.forcedVi = forcedVi;
-		this.forcedTimeAfter = forcedTimeAfter;
-		this.xapiText = XapiPrint.ppsViXapiForm(forcedVi, agent);
+	public VerbInstance getForcedVi() {
+		return forcedVi;
 	}
 
 	/**
@@ -72,11 +73,6 @@ public class liViBased extends AbstractLoopItem {
 		if (forcedTimeAfter > 0) {
 			Execute.executeDiffusionActivities(agent, forcedTimeAfter);
 		}
-	}
-
-	@Override
-	public String formatException(Throwable t, String description) {
-		return description + t.toString();
 	}
 
 }

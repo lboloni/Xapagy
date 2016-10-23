@@ -9,7 +9,7 @@ import org.xapagy.headless_shadows.HeadlessComponents;
 public class liHlsChoiceBased extends AbstractLoopItem {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5668168521389864977L;
 	/**
@@ -27,22 +27,32 @@ public class liHlsChoiceBased extends AbstractLoopItem {
 	 */
 	private double willingness = 0;
 
-	public liHlsChoiceBased(Agent agent, double time, Choice choice, double willingness) {
+	public liHlsChoiceBased(Agent agent, Choice choice, double willingness) {
 		super(agent);
-		this.executionTime = time;
 		this.willingness = willingness;
 		this.choice = choice;
 	}
-	
+
+	@Override
+	public String formatException(Throwable t, String description) {
+		return description + t.toString();
+	}
+
+	/**
+	 * @return the choice
+	 */
+	public Choice getChoice() {
+		return choice;
+	}
 
 	/**
 	 * Returns how much pause are we going to have after after a specific
 	 * choice. Currently, all of them imply a pause of 1.0 second.
-	 * 
+	 *
 	 * Essentially, this is the time we have to run the Da's before the next
 	 * loop, so if we return 0 here, we won't take into account the newly
 	 * created VI.
-	 * 
+	 *
 	 * @return
 	 */
 	public double getPauseAfterInternalLoopItem() {
@@ -61,18 +71,9 @@ public class liHlsChoiceBased extends AbstractLoopItem {
 		throw new Error("unknown choice type");
 	}
 
-	
-	/**
-	 * @return the willingness
-	 */
-	public double getWillingness() {
-		return willingness;
-	}
-
-
 	/**
 	 * Returns the recorded choices...
-	 * 
+	 *
 	 * @return
 	 */
 	public List<Choice> getRecordedChoices() {
@@ -80,10 +81,10 @@ public class liHlsChoiceBased extends AbstractLoopItem {
 	}
 
 	/**
-	 * @return the choice
+	 * @return the willingness
 	 */
-	public Choice getChoice() {
-		return choice;
+	public double getWillingness() {
+		return willingness;
 	}
 
 	@Override
@@ -104,10 +105,4 @@ public class liHlsChoiceBased extends AbstractLoopItem {
 		Execute.executeDiffusionActivities(agent, pause);
 	}
 
-	@Override
-	public String formatException(Throwable t, String description) {
-		return description + t.toString() ;
-	}
-
-	
 }

@@ -18,11 +18,12 @@ public class Instance implements Serializable, XapagyComponent {
     private ConceptOverlay concepts;
     private String identifier;
     /**
-     * The VIs which are referring to the instance. Only the VIs which actually
+     * The VIs which are referring to the instance. Only the VIs that actually
      * had been instantiated (inserted in the focus) will be reported here, and the
      * order in which they appear, is the order in which they were recorded
      */
     private List<VerbInstance> referringVis = new ArrayList<>();
+    
     /**
      * The scene of the instance. If the instance _is_ a scene, it points to
      * itself.

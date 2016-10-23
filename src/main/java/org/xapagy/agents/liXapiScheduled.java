@@ -2,10 +2,10 @@ package org.xapagy.agents;
 
 public class liXapiScheduled extends AbstractLoopItem {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4790922158730493388L;
+	/**
+	 * The time at which it was scheduled to execute
+	 */
 	private double scheduledExecutionTime = -1;
 
 	/**
@@ -17,6 +17,12 @@ public class liXapiScheduled extends AbstractLoopItem {
 		this.state = LoopItemState.NOT_EXECUTED;
 		this.xapiText = xapiText;
 		this.scheduledExecutionTime = time;
+	}
+
+	@Override
+	public String formatException(Throwable t, String description) {
+		return "liScheduled: At generated Xapi = " + xapiText + "\nError was found: " + t.getClass().getCanonicalName()
+				+ " " + description;
 	}
 
 	/**
@@ -32,12 +38,6 @@ public class liXapiScheduled extends AbstractLoopItem {
 	@Override
 	protected void internalExecute() {
 		Execute.executeXapiText(agent, this);
-	}
-
-	@Override
-	public String formatException(Throwable t, String description) {
-		return "liScheduled: At generated Xapi = " + xapiText + "\nError was found: " + t.getClass().getCanonicalName()
-				+ " " + description;
 	}
 
 }

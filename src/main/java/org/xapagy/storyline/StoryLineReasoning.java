@@ -234,13 +234,14 @@ public class StoryLineReasoning {
 	public static Map<VerbInstance, List<SimpleEntry<VerbInstance, Double>>> getViMappingPossibilities(Agent agent,
 			StoryLine fline, StoryLine sline, String ec) {
 		Shadows sh = agent.getShadows();
+		Set<VerbInstance> slineMembers = new HashSet<>(sline.getVis());
 		Map<VerbInstance, List<SimpleEntry<VerbInstance, Double>>> retval = new HashMap<>();
 		for (VerbInstance fvi : fline.getVis()) {
 			List<SimpleEntry<VerbInstance, Double>> mappings = new ArrayList<>();
 			retval.put(fvi, mappings);
 			List<VerbInstance> members = sh.getMembers(fvi, ec);
 			for (VerbInstance svi : members) {
-				if (sline.contains(svi)) {
+				if (slineMembers.contains(svi)) {
 					double salience = sh.getSalience(fvi, svi, ec);
 					SimpleEntry<VerbInstance, Double> entry = new SimpleEntry<>(svi, salience);
 					mappings.add(entry);
@@ -326,9 +327,10 @@ public class StoryLineReasoning {
 		VerbInstance viLast = fline.getVis().get(fline.getVis().size() - 1);
 		Shadows sh = agent.getShadows();
 		List<VerbInstance> members = sh.getMembers(viLast, ec);
+		Set<VerbInstance> slineMembers = new HashSet<>(sline.getVis());
 		VerbInstance match = null;
 		for (VerbInstance vi : members) {
-			if (sline.contains(vi)) {
+			if (slineMembers.contains(vi)) {
 				match = vi;
 				break;
 			}

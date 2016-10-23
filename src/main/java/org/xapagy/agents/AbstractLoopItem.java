@@ -1,9 +1,9 @@
 /*
    This file is part of the Xapagy project
    Created on: Sep 11, 2011
- 
+
    org.xapagy.agents.LoopItem
- 
+
    Copyright (c) 2008-2014 Ladislau Boloni
  */
 
@@ -21,15 +21,15 @@ import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**
  * A loop item is the execution unit of the Xapagy agent.
- * 
+ *
  * @author Ladislau Boloni
- * 
+ *
  */
 public abstract class AbstractLoopItem implements XapagyComponent, Serializable {
 
 	/**
 	 * The state of the loop item: each loop item can be executed at most once.
-	 * 
+	 *
 	 * @author Ladislau Boloni
 	 *
 	 */
@@ -38,6 +38,7 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 	}
 
 	private static final long serialVersionUID = 5644893720655147749L;
+	public static String MACRO_PREFIX = "$";
 	protected Agent agent;
 	/**
 	 * Stores the VIs that resulted from the execution of this loop item. They
@@ -56,7 +57,6 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 	 * loopitem
 	 */
 	protected String xapiText;
-	public static String MACRO_PREFIX = "$";
 
 	public AbstractLoopItem(Agent agent) {
 		identifier = agent.getIdentifierGenerator().getLoopItemIdentifier();
@@ -65,17 +65,16 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 		this.state = LoopItemState.NOT_EXECUTED;
 	}
 
-
 	/**
 	 * Executes a loop item
-	 * 
+	 *
 	 * @param notifyObservers
 	 *            - if this is set to false, it is called from an observer, so
 	 *            we don't put it into the history and do not re-notify
 	 *            observers to avoid an infinite loop
 	 */
 	public void execute(boolean notifyObservers) {
-		// this allows recursive execution 
+		// this allows recursive execution
 		AbstractLoopItem current = agent.getLoop().getInExecution();
 		agent.getLoop().setInExecution(this);
 		agent.notifyObservers(new DebugEvent(DebugEventType.BEFORE_LOOP_ITEM_EXECUTION));
@@ -90,14 +89,7 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 		agent.getLoop().setInExecution(current);
 	}
 
-
-	/**
-	 * The type specific execute part - this should go into the individual classes
-	 */
-	protected abstract void internalExecute();
-
 	public abstract String formatException(Throwable t, String description);
-
 
 	/**
 	 * @return the executionResult
@@ -112,6 +104,7 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 	public double getExecutionTime() {
 		return executionTime;
 	}
+
 	/**
 	 * @return the identifier
 	 */
@@ -119,7 +112,6 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 	public String getIdentifier() {
 		return identifier;
 	}
-
 
 	/**
 	 * @return the state
@@ -135,7 +127,11 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 		return xapiText;
 	}
 
-
+	/**
+	 * The type specific execute part - this should go into the individual
+	 * classes
+	 */
+	protected abstract void internalExecute();
 
 	@Override
 	public String toString() {

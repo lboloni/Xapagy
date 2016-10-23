@@ -198,8 +198,7 @@ public class Loop implements Serializable {
 	}
 
 	/**
-	 * Executes all the internal inputs generated between the call to the next
-	 * reading components.
+	 * Executes all the HlsChoice based items until the next reading
 	 * 
 	 * This should not be called directly, instead it must be part of the
 	 * proceed()
@@ -209,14 +208,14 @@ public class Loop implements Serializable {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	private List<VerbInstance> executeInternalInput() throws IOException {
+	private List<VerbInstance> executeHlsChoices() throws IOException {
 		List<VerbInstance> retval = new ArrayList<>();
 		while (true) {
 			Choice choice = choiceSelector.selectChoice();
 			if (choice == null) {
 				break;
 			}
-			liHlsChoiceBased item = new liHlsChoiceBased(agent, agent.getTime(), choice,
+			liHlsChoiceBased item = new liHlsChoiceBased(agent, choice,
 					choice.getChoiceScore().getScoreMood());
 			item.execute(true);
 		}
@@ -332,7 +331,7 @@ public class Loop implements Serializable {
 			}
 			if (!onlyReading) {
 				// execute internal input, if any
-				List<VerbInstance> viInternalInput = executeInternalInput();
+				List<VerbInstance> viInternalInput = executeHlsChoices();
 				retval.addAll(viInternalInput);
 				// process the summaries, if any
 				List<VerbInstance> viSummaries = processNewSummaries();
@@ -357,7 +356,7 @@ public class Loop implements Serializable {
 	 * @return
 	 */
 	public VerbInstance proceedOneForcedStep(VerbInstance forcedVi, double forcedTimeAfter) {
-		AbstractLoopItem item = new liViBased(agent, agent.getTime(), forcedVi, forcedTimeAfter);
+		AbstractLoopItem item = new liViBased(agent, forcedVi, forcedTimeAfter);
 		item.execute(true);
 		return forcedVi;
 	}

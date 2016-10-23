@@ -71,7 +71,7 @@ public class StoryLineRepository implements Serializable {
 	 */
 	public StoryLine getStoryLineOfVi(VerbInstance vi) {
 		for (StoryLine st : storyLines) {
-			if (st.contains(vi)) {
+			if (st.getVis().contains(vi)) {
 				return st;
 			}
 		}

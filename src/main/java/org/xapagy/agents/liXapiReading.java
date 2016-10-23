@@ -5,7 +5,7 @@ import java.io.File;
 public class liXapiReading extends AbstractLoopItem {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -726480028511080865L;
 	/**
@@ -19,7 +19,7 @@ public class liXapiReading extends AbstractLoopItem {
 
 	/**
 	 * Creates a reading type loop item, hand edited (no source file)
-	 * 
+	 *
 	 * @param xapiText
 	 */
 	public liXapiReading(Agent agent, String xapiText) {
@@ -29,7 +29,7 @@ public class liXapiReading extends AbstractLoopItem {
 
 	/**
 	 * Creates a reading type loop item (called from Loop.addFileToReading)
-	 * 
+	 *
 	 * @param xapiText
 	 */
 	public liXapiReading(Agent agent, String xapiText, File file, int fileLineNo) {
@@ -42,7 +42,7 @@ public class liXapiReading extends AbstractLoopItem {
 	/**
 	 * Formats a specific throwable (Error or Exception) by indicating where it
 	 * was coming from
-	 * 
+	 *
 	 * @param t
 	 * @param xapiText
 	 * @return
@@ -58,11 +58,6 @@ public class liXapiReading extends AbstractLoopItem {
 		}
 	}
 
-	@Override
-	protected void internalExecute() {
-		Execute.executeXapiText(agent, this);
-	}
-
 	/**
 	 * @return the fileLineNo
 	 */
@@ -75,6 +70,11 @@ public class liXapiReading extends AbstractLoopItem {
 	 */
 	public String getFileName() {
 		return fileName;
+	}
+
+	@Override
+	protected void internalExecute() {
+		Execute.executeXapiText(agent, this);
 	}
 
 }

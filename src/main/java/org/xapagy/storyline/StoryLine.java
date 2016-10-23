@@ -67,7 +67,7 @@ public class StoryLine implements Serializable {
 	/**
 	 * Returns true if the story line contains the given instance
 	 * 
-	 * @param vi
+	 * @param instance
 	 * @return
 	 */
 	public boolean contains(Instance instance) {
@@ -83,26 +83,8 @@ public class StoryLine implements Serializable {
 	}
 
 	/**
-	 * Returns true if the story line contains the given VI
-	 * 
-	 * @param vi
-	 * @return
-	 */
-	public boolean contains(VerbInstance vi) {
-		//for (Instance scene : scenes) {
-		//	if (scene.getReferringVis().contains(vi)) {
-		//		return true;
-		//	}
-		//}
-		//return false;
-		//
-		//  FIXME: cache me!!!
-		//
-		return getVis().contains(vi);
-	}
-
-	/**
 	 * Returns the name of the story line
+	 * 
 	 * @return
 	 */
 	public String getName() {
@@ -145,14 +127,14 @@ public class StoryLine implements Serializable {
 
 	/**
 	 * Returns the last verbinstance in the story line
+	 * 
 	 * @return
 	 */
 	public VerbInstance lastVi() {
 		List<VerbInstance> vis = getVis();
-		return vis.get(vis.size()-1);
+		return vis.get(vis.size() - 1);
 	}
-	
-	
+
 	/**
 	 * Two storylines overlap if they have a common scene.
 	 * 
@@ -176,7 +158,7 @@ public class StoryLine implements Serializable {
 	 */
 	public void mergeIn(StoryLine st) {
 		for (Instance scene : st.scenes) {
-			if (!scenes.contains(st)) {
+			if (!scenes.contains(scene)) {
 				scenes.add(scene);
 			}
 		}
