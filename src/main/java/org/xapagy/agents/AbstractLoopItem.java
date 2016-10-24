@@ -52,11 +52,7 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 	 */
 	protected String identifier;
 	protected LoopItemState state = null;
-	/**
-	 * For external or internal loopitems, the Xapi text that generates this
-	 * loopitem
-	 */
-	protected String xapiText;
+
 
 	public AbstractLoopItem(Agent agent) {
 		identifier = agent.getIdentifierGenerator().getLoopItemIdentifier();
@@ -118,13 +114,6 @@ public abstract class AbstractLoopItem implements XapagyComponent, Serializable 
 	 */
 	public LoopItemState getState() {
 		return state;
-	}
-
-	/**
-	 * @return the text
-	 */
-	public String getXapiText() {
-		return xapiText;
 	}
 
 	/**

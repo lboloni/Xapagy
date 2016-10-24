@@ -545,6 +545,7 @@ public class StoryLineReasoning {
 		// finally, if this is a quote, recurse
 		if (type == ViType.QUOTE) {
 			VerbInstance fqoute = createFocusPair(agent, svi.getQuote(), s2fInstanceMap);
+			retval.setResolvedPart(ViPart.Quote, fqoute);
 		}
 		return VerbInstance.createViFromResolvedTemplate(agent, retval);
 	}

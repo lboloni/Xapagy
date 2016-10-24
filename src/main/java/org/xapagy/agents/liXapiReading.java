@@ -2,7 +2,7 @@ package org.xapagy.agents;
 
 import java.io.File;
 
-public class liXapiReading extends AbstractLoopItem {
+public class liXapiReading extends AbstractXapiLoopItem {
 
 	/**
 	 *
@@ -23,8 +23,7 @@ public class liXapiReading extends AbstractLoopItem {
 	 * @param xapiText
 	 */
 	public liXapiReading(Agent agent, String xapiText) {
-		super(agent);
-		this.xapiText = xapiText;
+		super(agent, xapiText);
 	}
 
 	/**
@@ -33,8 +32,7 @@ public class liXapiReading extends AbstractLoopItem {
 	 * @param xapiText
 	 */
 	public liXapiReading(Agent agent, String xapiText, File file, int fileLineNo) {
-		super(agent);
-		this.xapiText = xapiText;
+		super(agent, xapiText);
 		this.fileName = file.getName();
 		this.fileLineNo = fileLineNo;
 	}

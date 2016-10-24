@@ -145,7 +145,7 @@ public class Execute {
 	 * of a single line of Xapi
 	 * 
 	 */
-	public static void executeXapiText(Agent agent, AbstractLoopItem item) {
+	public static void executeXapiText(Agent agent, AbstractXapiLoopItem item) {
 		String line = item.getXapiText();
 		//
 		// if we are in script accumulation mode

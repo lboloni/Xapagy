@@ -14,6 +14,11 @@ import org.xapagy.agents.liHlsChoiceBased;
 import org.xapagy.agents.liXapiReading;
 import org.xapagy.agents.liViBased;
 import org.xapagy.agents.liXapiScheduled;
+import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.prettygeneral.xwLiHlsChoiceBased;
+import org.xapagy.ui.prettygeneral.xwLiViBased;
+import org.xapagy.ui.prettygeneral.xwLiXapiReading;
+import org.xapagy.ui.prettygeneral.xwLiXapiScheduled;
 import org.xapagy.ui.smartprint.XapiPrint;
 
 import org.xapagy.agents.AbstractLoopItem;
@@ -56,53 +61,26 @@ public class PpLoopItem {
 			buf.append(XapiPrint.ppsViXapiForm(li2.getForcedVi(), agent));
 		}
 		if (li instanceof liXapiReading) {
-			buf.append("Reading: " + li.getXapiText());
+			buf.append("Reading: " + ((liXapiReading)li).getXapiText());
 		}
 		return buf.toString();
 	}
 
 	public static String ppDetailed(AbstractLoopItem li, Agent agent) {
-		Formatter fmt = new Formatter();
-		if (li instanceof liXapiScheduled) {
-			fmt.add("LoopItem - External");
-			fmt.indent();
-			fmt.is("scheduled time", ((liXapiScheduled) li).getScheduledExecutionTime());
-		}
-		if (li instanceof liHlsChoiceBased) {
-			liHlsChoiceBased li2 = (liHlsChoiceBased) li;
-			fmt.add("LoopItem - Internal");
-			fmt.indent();
-			fmt.add(PrettyPrint.ppDetailed(li2.getChoice(), agent));
-		}
-		if (li instanceof liViBased) {
-			liViBased li2 = (liViBased) li;
-			fmt.add("LoopItem - liViBased");
-			fmt.indent();
-			fmt.add(XapiPrint.ppsViXapiForm(li2.getForcedVi(), agent));
-		}
-		if (li instanceof liXapiReading) {
-			liXapiReading li2 = (liXapiReading) li;
-			String header = "LoopItem - Reading";
-			if (li2.getFileName() != null) {
-				header = header + " (" + li2.getFileName() + ":" + li2.getFileLineNo() + ")";
-			} else {
-				header = header + "(directly added)";
-			}
-			fmt.add(header);
-			fmt.add(li2.getXapiText());
-			fmt.indent();
-		}
-		switch (li.getState()) {
-		case EXECUTED:
-			fmt.add("STATE: EXECUTED");
-			fmt.is("Execution time", li.getExecutionTime());
-			fmt.addIndented(PpListPartial.ppListPartial(li.getExecutionResult(), agent, PrintDetail.DTL_CONCISE, 100));
-			break;
-		case NOT_EXECUTED:
-			fmt.add("STATE: not executed");
-			break;
-		}
-		return fmt.toString();
+		PwFormatter fmt = new PwFormatter();
+        if (li instanceof liXapiScheduled) {
+        	xwLiXapiScheduled.xwDetailed(fmt, (liXapiScheduled)li, agent);
+        }
+        if (li instanceof liHlsChoiceBased) {
+        	xwLiHlsChoiceBased.xwDetailed(fmt, (liHlsChoiceBased)li, agent);
+        }
+        if (li instanceof liXapiReading) {
+        	xwLiXapiReading.xwDetailed(fmt, (liXapiReading)li, agent);
+        }
+        if (li instanceof liViBased) {
+        	xwLiViBased.xwDetailed(fmt, (liViBased)li, agent);
+        }
+        return fmt.toString();
 	}
 
 }

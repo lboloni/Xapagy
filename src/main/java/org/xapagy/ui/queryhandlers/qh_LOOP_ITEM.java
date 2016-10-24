@@ -11,11 +11,16 @@ import org.xapagy.httpserver.RESTQuery;
 import org.xapagy.httpserver.Session;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.prettygeneral.xwLiHlsChoiceBased;
+import org.xapagy.ui.prettygeneral.xwLiViBased;
+import org.xapagy.ui.prettygeneral.xwLiXapiReading;
+import org.xapagy.ui.prettygeneral.xwLiXapiScheduled;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
 import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;
+import org.xapagy.ui.smartprint.XapiPrint;
 
 public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
 
@@ -34,7 +39,18 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
         //
         String redheader = "LoopItem " + fmt.getEmpty().addIdentifier(li);
         fmt.addH2(redheader, "class=identifier");
-        qh_LOOP_ITEM.pwDetailed(fmt, agent, li, query);
+        if (li instanceof liXapiScheduled) {
+        	xwLiXapiScheduled.xwDetailed(fmt, (liXapiScheduled)li, agent);
+        }
+        if (li instanceof liHlsChoiceBased) {
+        	xwLiHlsChoiceBased.xwDetailed(fmt, (liHlsChoiceBased)li, agent);
+        }
+        if (li instanceof liXapiReading) {
+        	xwLiXapiReading.xwDetailed(fmt, (liXapiReading)li, agent);
+        }
+        if (li instanceof liViBased) {
+        	xwLiViBased.xwDetailed(fmt, (liViBased)li, agent);
+        }
     }
 
     /**
@@ -56,7 +72,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
         }
         //
         if (li instanceof liXapiScheduled) {
-            fmt.addEnum("External: ");
+            fmt.addEnum("Scheduled: ");
             fmt.add("-- dont know how to handle external");
         }
         if (li instanceof liHlsChoiceBased) {
@@ -67,16 +83,20 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
         if (li instanceof liViBased) {
         	liViBased li2 = (liViBased) li;
             fmt.addEnum("Forced: ");
-            fmt.add(PrettyPrint.ppConcise(li2.getXapiText(), agent));        	
+            fmt.add(XapiPrint.ppsViXapiForm(li2.getForcedVi(), agent));
         }
         if (li instanceof liXapiReading) {
             fmt.addEnum("Reading: ");
-            fmt.add(li.getXapiText());
+            fmt.add(((liXapiReading)li).getXapiText());
         }
         return fmt.toString();
     }
 
+
     /**
+     * OLD IMPLEMENTATION, based on explicit writing, replaced by the Xw-based
+     * ones
+     * 
      * Prints a LoopItem in such a way that it can be embedded in other
      * components
      * 
@@ -86,7 +106,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
      * @param query
      * @return
      */
-    public static String pwDetailed(PwFormatter fmt, Agent agent, AbstractLoopItem li,
+    public static String pwDetailedXXX(PwFormatter fmt, Agent agent, AbstractLoopItem li,
             RESTQuery query) {
         fmt.is("Type", fmt.getEmpty().addEnum(li.getClass().getName()));
         fmt.is("State", fmt.getEmpty().addEnum(li.getState().toString()));
@@ -103,7 +123,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
         }
         if (li instanceof liXapiScheduled) {
             fmt.is("scheduled time", ((liXapiScheduled)li).getScheduledExecutionTime());
-            fmt.is("text", li.getXapiText());        	
+            fmt.is("text", ((liXapiScheduled)li).getXapiText());        	
         }
         if (li instanceof liHlsChoiceBased) {
         	liHlsChoiceBased li2 = (liHlsChoiceBased) li;
@@ -123,7 +143,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
                 header = header + "(directly added)";
             }
             fmt.add(header);
-            fmt.add(li.getXapiText());
+            fmt.add(li2.getXapiText());
         }
         if (li instanceof liViBased) {
         	fmt.addPre(PrettyPrint.ppDetailed(li, agent));

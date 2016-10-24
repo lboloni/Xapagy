@@ -2,7 +2,6 @@ package org.xapagy.agents;
 
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
-import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
  * A VI based loopitem. Used in the case when we already have the VI we want to
@@ -38,7 +37,6 @@ public class liViBased extends AbstractLoopItem {
 		super(agent);
 		this.forcedVi = forcedVi;
 		this.forcedTimeAfter = forcedTimeAfter;
-		this.xapiText = XapiPrint.ppsViXapiForm(forcedVi, agent);
 	}
 
 	@Override

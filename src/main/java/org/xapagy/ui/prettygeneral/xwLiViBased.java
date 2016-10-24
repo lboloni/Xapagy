@@ -21,7 +21,7 @@ public class xwLiViBased {
         xwf.addLabelParagraph("liViBased");
         xwf.indent();
         // common stuff for LoopItem
-        // TODO add here
+        xwAbstractLoopItem.xwDetailedSubset(xwf, li, agent);
         xwf.is("forcedVI", XapiPrint.ppsViXapiForm(li.getForcedVi(), agent));
         xwf.is("forcedTimeAfter", li.getForcedTimeAfter());
         return xwf.toString();

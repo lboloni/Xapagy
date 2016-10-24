@@ -191,7 +191,7 @@ public class ToStringObserver extends AbstractAgentObserver {
 		// the text
 		//
 		if (current instanceof liXapiScheduled) {
-			buff.append(current.getXapiText());
+			buff.append(((liXapiScheduled)current).getXapiText());
 		}
 		if (current instanceof liHlsChoiceBased) {
 			if (current.getState().equals(LoopItemState.EXECUTED)) {
@@ -214,7 +214,7 @@ public class ToStringObserver extends AbstractAgentObserver {
 			}
 		}
 		if (current instanceof liXapiReading) {
-			buff.append(current.getXapiText());
+			buff.append(((liXapiReading)current).getXapiText());
 		}
 		//
 		// the source
