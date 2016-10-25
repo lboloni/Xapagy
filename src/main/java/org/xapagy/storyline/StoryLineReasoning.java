@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.xapagy.agents.Agent;
+import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.RelationHelper;
@@ -526,7 +527,8 @@ public class StoryLineReasoning {
 	 */
 	public static VerbInstance createFocusPair(Agent agent, VerbInstance svi, Map<Instance, Instance> s2fInstanceMap) {
 		ViType type = svi.getViType();
-		VerbInstance retval = VerbInstance.createViTemplate(agent, svi.getViType(), svi.getVerbs());
+		VerbInstance viTemplate = VerbInstance.createViTemplate(agent, svi.getViType(), svi.getVerbs());
+		// resolve the instances
 		for (ViPart part : ViStructureHelper.getAllowedInstanceParts(type)) {
 			Instance si = (Instance) svi.getPart(part);
 			Instance fi = s2fInstanceMap.get(si);
@@ -540,14 +542,20 @@ public class StoryLineReasoning {
 				TextUi.println("Not generating prediction");
 				return null;
 			}
-			retval.setResolvedPart(part, fi);
+			viTemplate.setResolvedPart(part, fi);
 		}
+		// if this one is an adjective, copy over the adjective
+		if (type.equals(ViType.S_ADJ)) {
+			ConceptOverlay co = new ConceptOverlay(agent);
+			co.addOverlay(svi.getAdjective());
+			viTemplate.setResolvedPart(ViPart.Adjective, co);
+		}		
 		// finally, if this is a quote, recurse
 		if (type == ViType.QUOTE) {
 			VerbInstance fqoute = createFocusPair(agent, svi.getQuote(), s2fInstanceMap);
-			retval.setResolvedPart(ViPart.Quote, fqoute);
+			viTemplate.setResolvedPart(ViPart.Quote, fqoute);
 		}
-		return VerbInstance.createViFromResolvedTemplate(agent, retval);
+		return VerbInstance.createViFromResolvedTemplate(agent, viTemplate);
 	}
 
 	/**

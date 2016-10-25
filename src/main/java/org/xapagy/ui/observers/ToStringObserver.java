@@ -32,6 +32,12 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.TextUiHelper;
+import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwLiHlsChoiceBased;
+import org.xapagy.ui.prettygeneral.xwLiViBased;
+import org.xapagy.ui.prettygeneral.xwLiXapiReading;
+import org.xapagy.ui.prettygeneral.xwLiXapiScheduled;
 import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.prettyprint.PpChoices;
 import org.xapagy.ui.prettyprint.PpHlsNewInstance;
@@ -174,12 +180,6 @@ public class ToStringObserver extends AbstractAgentObserver {
 	 */
 	public static String formatTraceString(Agent agent, DebugEventType eventType, Set<TraceWhat> traceWhat) {
 		StringBuffer buff = new StringBuffer();
-		//
-		// the time
-		//
-		buff.append(String.format("%5.1f", agent.getTime()));
-		buff.append(" > ");
-
 		AbstractLoopItem current = agent.getLoop().getInExecution();
 		if (current == null && !eventType.equals(DebugEventType.AFTER_LOOP_ITEM_EXECUTION)) {
 			current = agent.getLoop().getHistory().get(agent.getLoop().getHistory().size() - 1);
@@ -187,62 +187,23 @@ public class ToStringObserver extends AbstractAgentObserver {
 		if (current == null) {
 			return "formatTraceString: No current execution!";
 		}
-		//
-		// the text
-		//
+		// at this moment we have the loop item
+		TwFormatter pwf = new TwFormatter();
+		pwf.add(String.format("%5.1f", agent.getTime()) + " > ");
+
 		if (current instanceof liXapiScheduled) {
-			buff.append(((liXapiScheduled)current).getXapiText());
+			return xwLiXapiScheduled.xwConcise(pwf, (liXapiScheduled)current, agent);
 		}
 		if (current instanceof liHlsChoiceBased) {
-			if (current.getState().equals(LoopItemState.EXECUTED)) {
-				buff.append("I~~~"); // showing is an approximation
-				for (VerbInstance vi : current.getExecutionResult()) {
-					buff.append(agent.getVerbalize().verbalize(vi));
-				}
-			} else {
-				buff.append("~~~ internal loopitem execution in progress...");
-			}
-		}
+			return xwLiHlsChoiceBased.xwConcise(pwf, (liHlsChoiceBased)current, agent);
+		}		
 		if (current instanceof liViBased) {
-			if (current.getState().equals(LoopItemState.EXECUTED)) {
-				buff.append("F~~~"); // showing is an approximation
-				for (VerbInstance vi : current.getExecutionResult()) {
-					buff.append(agent.getVerbalize().verbalize(vi));
-				}
-			} else {
-				buff.append("~~~ forced loopitem execution in progress...");
-			}
-		}
+			return xwLiViBased.xwConcise(pwf, (liViBased) current, agent);
+		}		
 		if (current instanceof liXapiReading) {
-			buff.append(((liXapiReading)current).getXapiText());
+			return xwLiXapiReading.xwConcise(pwf, (liXapiReading) current, agent);
 		}
-		//
-		// the source
-		//
-		buff.append(" -- ");
-		if (current instanceof liXapiScheduled) {
-			buff.append("(extern)");			
-		}
-		if (current instanceof liHlsChoiceBased) {
-			liHlsChoiceBased li2 = (liHlsChoiceBased) current;
-			buff.append("(intern:");
-			buff.append(li2.getChoice().getChoiceType() + " w=" + Formatter.fmt(li2.getWillingness()));
-			buff.append(")");			
-		}
-		if (current instanceof liXapiReading) {
-			liXapiReading li2 = (liXapiReading) current;
-			if (li2.getFileName() != null) {
-				File f = new File(li2.getFileName());
-				buff.append("(" + f.getName() + ":" + li2.getFileLineNo() + ")");
-			} else {
-				buff.append("(reading/generated)");
-			}			
-		}
-		if (current instanceof liViBased) {
-			buff.append("(VI-based, story line reasoning)");
-		}
-		
-		
+
 		// buff.append("\n");
 		if (traceWhat.contains(TraceWhat.VERBALIZATION)) {
 			for (VerbInstance vi : current.getExecutionResult()) {

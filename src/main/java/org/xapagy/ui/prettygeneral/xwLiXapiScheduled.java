@@ -23,4 +23,23 @@ public class xwLiXapiScheduled {
 		xwf.is("scheduled at", li.getScheduledExecutionTime());
 		return xwf.toString();
 	}
+
+	/**
+	 * Prints a concise description of the scheduled loopitem. Note that this
+	 * was taken from the ToStringObserver, so it is more suitable for tracing
+	 * than for investigation
+	 * 
+	 * @param xwf
+	 * @param li
+	 * @param agent
+	 * @return
+	 */
+	public static String xwConcise(IXwFormatter xwf, liXapiScheduled li, Agent agent) {
+		StringBuffer buff = new StringBuffer();
+		buff.append(li.getXapiText());
+		buff.append(" --- ");
+		buff.append("(was scheduled at " + String.format("%5.1f", agent.getTime()) + ")");
+		xwf.addPre(buff.toString());
+		return xwf.toString();
+	}
 }
