@@ -16,9 +16,12 @@ import java.util.AbstractMap.SimpleEntry;
 import org.xapagy.agents.Agent;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.questions.QuestionHelper;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.storyline.QuestionAnswering;
 import org.xapagy.storyline.StoryLine;
 import org.xapagy.storyline.StoryLineReasoning;
+import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
@@ -140,6 +143,32 @@ public class Introspect {
 		return fmt.toString();
 	}
 
+	
+	/**
+	 * This is the entry point to the Xapagy question answering system. Takes a 
+	 * question that had been posed, and returns a set of VIs that answer it
+	 * 
+	 * @param label - the label from the focus
+	 * @return
+	 */
+	public List<VerbInstance> answerQuestion(String label) {
+		// identify the question VI
+		VerbInstance theQuestion = null;
+		for(VerbInstance vi: agent.getFocus().getViListAllEnergies()) {
+			if (!QuestionHelper.isAQuestion(vi, agent)) {
+				continue;
+			}
+			if (!vi.getVerbs().getLabels().contains(label)) {
+				continue;
+			}			
+		}
+		if (theQuestion == null) {
+			TextUi.errorPrint("There was no question to answer");
+		}
+		TextUi.println(XapiPrint.ppsViXapiForm(theQuestion, agent));
+		return QuestionAnswering.answerQuestion(theQuestion);
+	}
+	
 	
 	/**
 	 * Returns a formatted string showing a focus VI to shadow VI
