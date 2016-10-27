@@ -23,6 +23,7 @@ public class xwLiXapiReading {
 		// common stuff for LoopItem
 		xwAbstractLoopItem.xwDetailedSubset(xwf, li, agent);
 		xwf.is("xapiText", li.getXapiText());
+		xwf.deindent();
 		return xwf.toString();
 	}
 	

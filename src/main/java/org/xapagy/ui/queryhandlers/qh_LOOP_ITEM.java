@@ -32,8 +32,7 @@ public class qh_LOOP_ITEM implements IQueryHandler, IQueryAttributes {
             fmt.addErrorMessage("The LoopItem with the identifier "
                     + identifier + " could not be found");
             return;
-        } else {
-        }
+        } 
         //
         // Identifier block
         //

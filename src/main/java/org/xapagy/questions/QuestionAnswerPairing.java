@@ -30,45 +30,7 @@ import org.xapagy.reference.rrVoCompatibility;
  */
 public class QuestionAnswerPairing {
 
-    /**
-     * Ground truth pair is a pairing which requires direct identity and the
-     * answer must be coming from the outside.
-     * 
-     * @param viQuestion
-     * @param viAnswer
-     * @param agent
-     * @return
-     */
-    /*
-    public static boolean isGroundTruthPair(VerbInstance viQuestion,
-            VerbInstance viAnswer, Agent agent) {
-        LoopItem li = viAnswer.getLoopItem();
-        if (li.getType() == LoopItemType.INTERNAL) {
-            return false;
-        }
-        return QuestionAnswerPairing.isPair(viQuestion, viAnswer, agent, false);
-    }
-    */
 
-    /**
-     * Inferred pair is a pairing which requires direct identity and the answer
-     * must be an internally generated one (but probably not a continuation)
-     * 
-     * @param viQuestion
-     * @param viAnswer
-     * @param agent
-     * @return
-     */
-    /*
-    public static boolean isInferredPair(VerbInstance viQuestion,
-            VerbInstance viAnswer, Agent agent) {
-        LoopItem li = viAnswer.getLoopItem();
-        if (li.getType() != LoopItemType.INTERNAL) {
-            return false;
-        }
-        return QuestionAnswerPairing.isPair(viQuestion, viAnswer, agent, false);
-    }
-    */
 
     /**
      * Question / answer pairing generic function
@@ -86,6 +48,10 @@ public class QuestionAnswerPairing {
         // some checks
         if (!QuestionHelper.isAQuestion(viQuestion, agent)) {
             throw new Error("not a question!");
+        }
+        // if the answer is a question, just return false
+        if (QuestionHelper.isAQuestion(viAnswer, agent)) {
+            return false;
         }
         // handle the special case that this is a why question, anything matches
         if (QuestionHelper.isWhyQuestion(viQuestion, agent)) {

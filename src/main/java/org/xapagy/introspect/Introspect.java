@@ -52,14 +52,14 @@ public class Introspect {
 	}
 
 	/**
-	 * Executes a VI in the agent. 
+	 * Executes a VI in the agent.
+	 * 
 	 * @param vi
 	 */
 	public void enactVi(VerbInstance vi) {
 		agent.getLoop().proceedOneForcedStep(vi, 1.0);
 	}
-	
-	
+
 	/**
 	 * Verbalizes a story line in Xapi. Ideally, this should be a format which
 	 * can be parsed back.
@@ -122,7 +122,7 @@ public class Introspect {
 	public Map<VerbInstance, VerbInstance> getLikelyViMapping(StoryLine fline, StoryLine sline) {
 		return StoryLineReasoning.getLikelyViMapping(agent, fline, sline, EnergyColors.SHV_GENERIC);
 	}
-	
+
 	/**
 	 * Returns a formatted string showing a focus instance to shadow instance
 	 * map
@@ -143,36 +143,46 @@ public class Introspect {
 		return fmt.toString();
 	}
 
-	
 	/**
-	 * This is the entry point to the Xapagy question answering system. Takes a 
+	 * This is the entry point to the Xapagy question answering system. Takes a
 	 * question that had been posed, and returns a set of VIs that answer it
 	 * 
-	 * @param label - the label from the focus
+	 * @param label
+	 *            - the label from the focus
 	 * @return
 	 */
 	public List<VerbInstance> answerQuestion(String label) {
 		// identify the question VI
 		VerbInstance theQuestion = null;
-		for(VerbInstance vi: agent.getFocus().getViListAllEnergies()) {
+		for (VerbInstance vi : agent.getFocus().getViListAllEnergies()) {
 			if (!QuestionHelper.isAQuestion(vi, agent)) {
 				continue;
 			}
-			if (!vi.getVerbs().getLabels().contains(label)) {
+			List<String> labels = vi.getVerbs().getLabels();
+			String fullLabel = agent.getLabelSpaces().fullLabel(label);
+			if (!labels.contains(fullLabel)) {
 				continue;
-			}			
+			}
+			theQuestion = vi;
+			break;
 		}
 		if (theQuestion == null) {
 			TextUi.errorPrint("There was no question to answer");
 		}
-		TextUi.println(XapiPrint.ppsViXapiForm(theQuestion, agent));
-		return QuestionAnswering.answerQuestion(theQuestion);
+		TextUi.println("Question: " + XapiPrint.ppsViXapiForm(theQuestion, agent) + "?");
+		List<VerbInstance> retval = QuestionAnswering.answerQuestion(agent, theQuestion);
+		if (retval.isEmpty()) {
+			TextUi.println("Answer: none found");
+		} else {
+			for (VerbInstance answer : retval) {
+				TextUi.println("Answer: " + XapiPrint.ppsViXapiForm(answer, agent));
+			}
+		}
+		return retval;
 	}
-	
-	
+
 	/**
-	 * Returns a formatted string showing a focus VI to shadow VI
-	 * map
+	 * Returns a formatted string showing a focus VI to shadow VI map
 	 * 
 	 * @param map
 	 * @return
@@ -192,8 +202,6 @@ public class Introspect {
 		return fmt.toString();
 	}
 
-	
-	
 	/**
 	 * Returns the shadow story lines associated with the specified story line
 	 * 
@@ -205,7 +213,7 @@ public class Introspect {
 	}
 
 	/**
-	 * Creates a list of predictions based on the most likely mapping... 
+	 * Creates a list of predictions based on the most likely mapping...
 	 * 
 	 * @param fline
 	 * @param sline
@@ -215,8 +223,7 @@ public class Introspect {
 		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(fline, sline);
 		return StoryLineReasoning.createPrediction(agent, fline, sline, instanceMap, EnergyColors.SHV_GENERIC);
 	}
-	
-	
+
 	/**
 	 * Gets the whole storyline of the strongest shadow and prints it out
 	 * -actually, what we would want here is to identify what are the strongest
