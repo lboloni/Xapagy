@@ -223,35 +223,17 @@ public class Introspect {
 		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(fline, sline);
 		return StoryLineReasoning.createPrediction(agent, fline, sline, instanceMap, EnergyColors.SHV_GENERIC);
 	}
-
+	
 	/**
-	 * Gets the whole storyline of the strongest shadow and prints it out
-	 * -actually, what we would want here is to identify what are the strongest
-	 * shadows of the whole thing...
+	 * Show a completion
 	 */
-	public String getStrongestShadowStory() {
-		String ec = EnergyColors.SHV_GENERIC;
-		StoryLine stl = StoryLineReasoning.getCurrentStoryLine(agent);
-		StringBuffer buf = new StringBuffer();
-		StoryLine bestStoryLine = StoryLineReasoning.getStrongestShadowStoryLine(agent, stl);
-		if (bestStoryLine == null) {
-			return "Could not find a storyline in the shadow.";
+	public String showCompletion() {
+		List<VerbInstance> completion = StoryLineReasoning.createMostLikelyCompletion(agent);
+		Formatter fmt = new Formatter();
+		for(VerbInstance vi: completion) {
+			fmt.add(XapiPrint.ppsViXapiForm(vi, agent));
 		}
-		buf.append(verbalize(bestStoryLine));
-		buf.append("Where the instances are mapped as follows:\n");
-		Map<Instance, Instance> mapping = StoryLineReasoning.getLikelyInstanceMapping(agent, stl, bestStoryLine,
-				EnergyColors.SHI_GENERIC);
-		for (Instance from : mapping.keySet()) {
-			Instance value = mapping.get(from);
-			if (value != null) {
-				buf.append(SpInstance.spc(from, agent) + " ==>" + SpInstance.spc(value, agent) + "\n");
-			} else {
-				buf.append(SpInstance.spc(from, agent) + " ==> <none>\n");
-			}
-		}
-		//
-		buf.append("And now for a prediction");
-		buf.append(StoryLineReasoning.singleStoryLinePrediction(agent, stl, bestStoryLine, ec));
-		return buf.toString();
+		return fmt.toString();
 	}
+
 }
