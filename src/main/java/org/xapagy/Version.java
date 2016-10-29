@@ -22,13 +22,13 @@ public class Version {
     }
 
     public static final String PROJECTNAME = "Xapagy";
-    public static String VERSION_DATE = "Oct 28, 2016";
+    public static String VERSION_DATE = "Oct 29, 2016";
     public static int VERSION_MAJOR = 1;
-    public static int VERSION_MICRO = 533;
+    public static int VERSION_MICRO = 534;
     public static int VERSION_MINOR = 0;
     public static VersionStatus VERSION_STATUS = VersionStatus.Beta;
 
-    /**
+    /**f
      * Creates a property file for the use of the ant generator
      * 
      * @param args
