@@ -2,7 +2,6 @@ package org.xapagy.ui.prettygeneral;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.liHlsChoiceBased;
-import org.xapagy.agents.liXapiScheduled;
 import org.xapagy.agents.AbstractLoopItem.LoopItemState;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.formatters.IXwFormatter;

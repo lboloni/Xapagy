@@ -28,8 +28,6 @@ import org.xapagy.ui.TextUi;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.util.SimpleEntryComparator;
-import org.xapagy.verbalize.VerbalizeVo;
-import org.xapagy.verbalize.VrblzAdjective;
 
 public class StoryLineReasoning {
 

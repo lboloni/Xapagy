@@ -9,6 +9,7 @@
 
 package org.xapagy.introspect;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
@@ -170,14 +171,9 @@ public class Introspect {
 			TextUi.errorPrint("There was no question to answer");
 		}
 		TextUi.println("Question: " + XapiPrint.ppsViXapiForm(theQuestion, agent) + "?");
-		List<VerbInstance> retval = QuestionAnswering.answerQuestion(agent, theQuestion);
-		if (retval.isEmpty()) {
-			TextUi.println("Answer: none found");
-		} else {
-			for (VerbInstance answer : retval) {
-				TextUi.println("Answer: " + XapiPrint.ppsViXapiForm(answer, agent));
-			}
-		}
+		SimpleEntry<String, List<VerbInstance>> answer = QuestionAnswering.answerQuestion(agent, theQuestion);
+		List<VerbInstance> retval = answer.getValue();
+		TextUi.println(answer.getKey());
 		return retval;
 	}
 
@@ -234,6 +230,25 @@ public class Introspect {
 			fmt.add(XapiPrint.ppsViXapiForm(vi, agent));
 		}
 		return fmt.toString();
+	}
+
+	/**
+	 * For a given story line returns the set of VIs which are "in focus". 
+	 * 
+	 * Probably at some moment we will need to make this more sophisticated, in the sense of keeping 
+	 * 
+	 * @param line
+	 * @return
+	 */
+	public List<VerbInstance> filterInFocus(StoryLine line) {
+		List<VerbInstance> retval = new ArrayList<>();
+		List<VerbInstance> focus = agent.getFocus().getViListAllEnergies();
+		for(VerbInstance vi: line.getVis()) {
+			if (focus.contains(vi)) {
+				retval.add(vi);
+			}
+		}
+		return retval;
 	}
 
 }

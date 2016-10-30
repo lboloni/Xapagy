@@ -2,7 +2,6 @@ package org.xapagy.ui.prettygeneral;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.liViBased;
-import org.xapagy.agents.liXapiScheduled;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.smartprint.XapiPrint;
 

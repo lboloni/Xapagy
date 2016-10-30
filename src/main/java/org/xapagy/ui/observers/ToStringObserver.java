@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.xapagy.agents.AbstractLoopItem;
-import org.xapagy.agents.AbstractLoopItem.LoopItemState;
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Focus;
 import org.xapagy.agents.liHlsChoiceBased;
@@ -32,7 +31,6 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.TextUiHelper;
-import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.formatters.TwFormatter;
 import org.xapagy.ui.prettygeneral.xwLiHlsChoiceBased;
 import org.xapagy.ui.prettygeneral.xwLiViBased;

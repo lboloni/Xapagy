@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.liXapiReading;
-import org.xapagy.agents.liXapiScheduled;
 import org.xapagy.ui.formatters.IXwFormatter;
 
 public class xwLiXapiReading {
