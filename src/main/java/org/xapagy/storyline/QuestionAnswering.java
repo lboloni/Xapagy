@@ -105,9 +105,10 @@ public class QuestionAnswering {
 	 */
 	private static SimpleEntry<String, List<VerbInstance>> answerWhetherFuture(Agent agent, Introspect introspect,
 			VerbInstance question) {
-		// List<VerbInstance> retval = new ArrayList<>();
-		TextUi.println("Answering whether question about the future is not implemented yet");
-		return null;
+		List<VerbInstance> prediction = StoryLineReasoning.createMostLikelyPrediction(agent);
+		List<VerbInstance> answer = findAnswerInStory(agent, question, prediction);
+		String text = formatWhetherAnswer(agent, question, answer);
+		return new SimpleEntry<String, List<VerbInstance>>(text, answer);
 	}
 
 	/**
@@ -121,9 +122,10 @@ public class QuestionAnswering {
 	 */
 	private static SimpleEntry<String, List<VerbInstance>> answerWhetherPast(Agent agent, Introspect introspect,
 			VerbInstance question) {
-		// List<VerbInstance> retval = new ArrayList<>();
-		TextUi.println("Answering whether question about the past is not implemented yet");
-		return null;
+		List<VerbInstance> completion = StoryLineReasoning.createMostLikelyCompletion(agent);
+		List<VerbInstance> answer = findAnswerInStory(agent, question, completion);
+		String text = formatWhetherAnswer(agent, question, answer);
+		return new SimpleEntry<String, List<VerbInstance>>(text, answer);
 	}
 
 	/**
@@ -137,9 +139,10 @@ public class QuestionAnswering {
 	 */
 	private static SimpleEntry<String, List<VerbInstance>> answerWhatFuture(Agent agent, Introspect introspect,
 			VerbInstance question) {
-		// List<VerbInstance> retval = new ArrayList<>();
-		TextUi.println("Answering what/who question about the future is not implemented yet");
-		return null;
+		List<VerbInstance> prediction = StoryLineReasoning.createMostLikelyPrediction(agent);
+		List<VerbInstance> answer = findAnswerInStory(agent, question, prediction);
+		String text = formatWhatAnswer(agent, question, answer);
+		return new SimpleEntry<String, List<VerbInstance>>(text, answer);
 	}
 
 	/**
@@ -153,8 +156,10 @@ public class QuestionAnswering {
 	 */
 	private static SimpleEntry<String, List<VerbInstance>> answerWhatPast(Agent agent, Introspect introspect,
 			VerbInstance question) {
-		StoryLine line = introspect.currentStoryLine();
-		List<VerbInstance> answer = findAnswerInStory(agent, question, introspect.currentStoryLine().getVis());
+		// these would be only the current VIs
+		// List<VerbInstance> onlyCurrent = introspect.currentStoryLine().getVis();
+		List<VerbInstance> completion = StoryLineReasoning.createMostLikelyCompletion(agent);
+		List<VerbInstance> answer = findAnswerInStory(agent, question, completion);
 		String text = formatWhatAnswer(agent, question, answer);
 		return new SimpleEntry<String, List<VerbInstance>>(text, answer);
 	}
@@ -172,6 +177,24 @@ public class QuestionAnswering {
 		} else {
 			for (VerbInstance vi : answer) {
 				buf.append(XapiPrint.ppsViXapiForm(vi, agent));
+			}
+		}
+		return buf.toString();
+	}
+	
+	
+	/**
+	 * Formats the answer for a whether question
+	 * @param answer
+	 * @return
+	 */
+	private static String formatWhetherAnswer(Agent agent, VerbInstance question, List<VerbInstance> answer) {
+		StringBuffer buf = new StringBuffer("Answer: ");
+		if (answer.isEmpty()) {
+			buf.append("No, " + XapiPrint.ppsViXapiForm(question, agent));
+		} else {
+			for (VerbInstance vi : answer) {
+				buf.append("Yes, indeed " + XapiPrint.ppsViXapiForm(vi, agent));
 			}
 		}
 		return buf.toString();
