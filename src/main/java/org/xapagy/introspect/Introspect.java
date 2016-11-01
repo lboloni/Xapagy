@@ -299,7 +299,7 @@ public class Introspect {
 	}
 
 	/**
-	 * Show a completion
+	 * Prints the most likely completion of the current storyline in the Xapi form
 	 */
 	public String showCompletion() {
 		List<VerbInstance> completion = StoryLineReasoning
@@ -311,6 +311,22 @@ public class Introspect {
 		return fmt.toString();
 	}
 
+	
+	/**
+	 * Prints the most likely prediction of the current storyline in the Xapi form
+	 */
+	public String showPrediction() {
+		List<VerbInstance> completion = StoryLineReasoning
+				.createMostLikelyPrediction(agent);
+		Formatter fmt = new Formatter();
+		for (VerbInstance vi : completion) {
+			fmt.add(XapiPrint.ppsViXapiForm(vi, agent));
+		}
+		return fmt.toString();
+	}
+
+	
+	
 	/**
 	 * For a given story line returns the set of VIs which are "in focus".
 	 * 

@@ -4,7 +4,7 @@
  
    org.xapagy.storyvisualizer.agent.AgentHelperUiStubs
  
-   Copyright (c) 2008-2014 Ladislau Boloni
+   Copyright (c) 2008-2016 Ladislau Boloni
  */
 package org.xapagy;
 
