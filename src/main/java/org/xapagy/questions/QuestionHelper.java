@@ -296,7 +296,7 @@ public class QuestionHelper {
 	 * @return
 	 */
 	public static boolean isPastQuestion(Agent agent, VerbInstance viQuestion) {
-		String label = agent.getLabelSpaces().fullLabel("PAST");
+		String label = agent.getLabelSpaces().fullLabel("#PAST");
 		if (viQuestion.getVerbs().getLabels().contains(label)) {
 			return true;
 		}
@@ -313,7 +313,7 @@ public class QuestionHelper {
 	 */
 	public static boolean isFutureQuestion(Agent agent,
 			VerbInstance viQuestion) {
-		String label = agent.getLabelSpaces().fullLabel("FUTURE");
+		String label = agent.getLabelSpaces().fullLabel("#FUTURE");
 		if (viQuestion.getVerbs().getLabels().contains(label)) {
 			return true;
 		}

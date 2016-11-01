@@ -15,9 +15,13 @@ import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 
 import org.xapagy.agents.Agent;
+import org.xapagy.exceptions.MalformedConceptOrVerbName;
+import org.xapagy.exceptions.NoSuchConceptOrVerb;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.questions.QuestionHelper;
+import org.xapagy.reference.ReferenceResolution;
+import org.xapagy.reference.rrException;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.storyline.QuestionAnswering;
 import org.xapagy.storyline.StoryLine;
@@ -26,6 +30,12 @@ import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
+import org.xapagy.xapi.DecompositionHelper;
+import org.xapagy.xapi.XapiParserException;
+import org.xapagy.xapi.reference.XapiReference;
+import org.xapagy.xapi.reference.XrefStatement;
+import org.xapagy.xapi.reference.XrefVi;
+import org.xapagy.xapi.reference.XapiReference.XapiReferenceType;
 
 /**
  * 
@@ -57,7 +67,7 @@ public class Introspect {
 	 * 
 	 * @param vi
 	 */
-	public void enactVi(VerbInstance vi) {
+	public void execute(VerbInstance vi) {
 		agent.getLoop().proceedOneForcedStep(vi, 1.0);
 	}
 
@@ -112,16 +122,21 @@ public class Introspect {
 	 * @return the current story line
 	 */
 	public List<StoryLine> inFocusStoryLines() {
-		List<VerbInstance> viList = agent.getFocus().getViList(EnergyColors.FOCUS_VI);
+		List<VerbInstance> viList = agent.getFocus()
+				.getViList(EnergyColors.FOCUS_VI);
 		return StoryLineReasoning.createStoryLines(agent, viList);
 	}
 
-	public Map<Instance, Instance> getLikelyInstanceMapping(StoryLine fline, StoryLine sline) {
-		return StoryLineReasoning.getLikelyInstanceMapping(agent, fline, sline, EnergyColors.SHI_GENERIC);
+	public Map<Instance, Instance> getLikelyInstanceMapping(StoryLine fline,
+			StoryLine sline) {
+		return StoryLineReasoning.getLikelyInstanceMapping(agent, fline, sline,
+				EnergyColors.SHI_GENERIC);
 	}
 
-	public Map<VerbInstance, VerbInstance> getLikelyViMapping(StoryLine fline, StoryLine sline) {
-		return StoryLineReasoning.getLikelyViMapping(agent, fline, sline, EnergyColors.SHV_GENERIC);
+	public Map<VerbInstance, VerbInstance> getLikelyViMapping(StoryLine fline,
+			StoryLine sline) {
+		return StoryLineReasoning.getLikelyViMapping(agent, fline, sline,
+				EnergyColors.SHV_GENERIC);
 	}
 
 	/**
@@ -145,14 +160,36 @@ public class Introspect {
 	}
 
 	/**
-	 * This is the entry point to the Xapagy question answering system. Takes a
-	 * question that had been posed, and returns a set of VIs that answer it
+	 * Answers an offline question. This happens without the time advancing in
+	 * the agent, and of course.
 	 * 
-	 * @param label
-	 *            - the label from the focus
+	 * Returns both a formatted, human readable answer string.
+	 * 
+	 * @param question
+	 *            - the question in a string format
 	 * @return
 	 */
-	public List<VerbInstance> answerQuestion(String label) {
+	public SimpleEntry<String, List<VerbInstance>> answerOfflineQuestion(
+			String question) {
+		VerbInstance theQuestion = parseStringToVi(question);
+		SimpleEntry<String, List<VerbInstance>> answer = QuestionAnswering
+				.answerQuestion(agent, theQuestion);
+		TextUi.println(answer.getKey());
+		return answer;
+	}
+
+	/**
+	 * Forces Xapagy to answer a question posed online. Refers by a label to a
+	 * question that had been posed inside the story, and returns the answers as
+	 * VIs. These answers can then technically be inserted in the story.
+	 * 
+	 * @param label
+	 *            - the label identifying the online question which should
+	 *            already be in focus
+	 * @return
+	 */
+	public SimpleEntry<String, List<VerbInstance>> answerOnlineQuestion(
+			String label) {
 		// identify the question VI
 		VerbInstance theQuestion = null;
 		for (VerbInstance vi : agent.getFocus().getViListAllEnergies()) {
@@ -170,11 +207,47 @@ public class Introspect {
 		if (theQuestion == null) {
 			TextUi.errorPrint("There was no question to answer");
 		}
-		TextUi.println("Question: " + XapiPrint.ppsViXapiForm(theQuestion, agent) + "?");
-		SimpleEntry<String, List<VerbInstance>> answer = QuestionAnswering.answerQuestion(agent, theQuestion);
-		List<VerbInstance> retval = answer.getValue();
+		TextUi.println("Question: "
+				+ XapiPrint.ppsViXapiForm(theQuestion, agent) + "?");
+		SimpleEntry<String, List<VerbInstance>> answer = QuestionAnswering
+				.answerQuestion(agent, theQuestion);
 		TextUi.println(answer.getKey());
-		return retval;
+		return answer;
+	}
+
+	/**
+	 * Parses a string to a VI. FIXME: this should share code with
+	 * Execute.executeXapiText but that is too complicated at this moment.
+	 * 
+	 * @param xapi
+	 * @return
+	 */
+	public VerbInstance parseStringToVi(String xapi) {
+		XapiReference xst = null;
+		try {
+			xst = agent.getXapiParser().parseLine(xapi);
+		} catch (XapiParserException e) {
+			throw new Error(xapi + "\n" + e.getDiagnosis());
+		} catch (MalformedConceptOrVerbName e) {
+			throw new Error(xapi + "\n" + e.toString());
+		} catch (NoSuchConceptOrVerb e) {
+			throw new Error(xapi + "\n" + e.toString());
+		}
+		// we go with the assumption that xst is a pair
+		List<XapiReference> atomicStatements = DecompositionHelper
+				.decomposeStatementIntoVisAndWait(agent, (XrefStatement) xst);
+		XapiReference statement = atomicStatements.get(0);
+		if (!statement.getType().equals(XapiReferenceType.VI)) {
+			throw new Error("Expected VI, found " + statement.getType());
+		}
+		VerbInstance vi = null;
+		try {
+			vi = ReferenceResolution.resolveFullVi(agent, (XrefVi) statement,
+					null);
+		} catch (rrException e) {
+			throw new Error(e.toString());
+		}
+		return vi;
 	}
 
 	/**
@@ -204,8 +277,10 @@ public class Introspect {
 	 * @param st
 	 * @return
 	 */
-	public List<SimpleEntry<StoryLine, Double>> createShadowStoryLines(StoryLine st) {
-		return StoryLineReasoning.createShadowStoryLines(agent, st, EnergyColors.SHV_GENERIC);
+	public List<SimpleEntry<StoryLine, Double>> createShadowStoryLines(
+			StoryLine st) {
+		return StoryLineReasoning.createShadowStoryLines(agent, st,
+				EnergyColors.SHV_GENERIC);
 	}
 
 	/**
@@ -215,27 +290,32 @@ public class Introspect {
 	 * @param sline
 	 * @return
 	 */
-	public List<VerbInstance> createPrediction(StoryLine fline, StoryLine sline) {
-		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(fline, sline);
-		return StoryLineReasoning.createPrediction(agent, fline, sline, instanceMap, EnergyColors.SHV_GENERIC);
+	public List<VerbInstance> createPrediction(StoryLine fline,
+			StoryLine sline) {
+		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(fline,
+				sline);
+		return StoryLineReasoning.createPrediction(agent, fline, sline,
+				instanceMap, EnergyColors.SHV_GENERIC);
 	}
-	
+
 	/**
 	 * Show a completion
 	 */
 	public String showCompletion() {
-		List<VerbInstance> completion = StoryLineReasoning.createMostLikelyCompletion(agent);
+		List<VerbInstance> completion = StoryLineReasoning
+				.createMostLikelyCompletion(agent);
 		Formatter fmt = new Formatter();
-		for(VerbInstance vi: completion) {
+		for (VerbInstance vi : completion) {
 			fmt.add(XapiPrint.ppsViXapiForm(vi, agent));
 		}
 		return fmt.toString();
 	}
 
 	/**
-	 * For a given story line returns the set of VIs which are "in focus". 
+	 * For a given story line returns the set of VIs which are "in focus".
 	 * 
-	 * Probably at some moment we will need to make this more sophisticated, in the sense of keeping 
+	 * Probably at some moment we will need to make this more sophisticated, in
+	 * the sense of keeping
 	 * 
 	 * @param line
 	 * @return
@@ -243,7 +323,7 @@ public class Introspect {
 	public List<VerbInstance> filterInFocus(StoryLine line) {
 		List<VerbInstance> retval = new ArrayList<>();
 		List<VerbInstance> focus = agent.getFocus().getViListAllEnergies();
-		for(VerbInstance vi: line.getVis()) {
+		for (VerbInstance vi : line.getVis()) {
 			if (focus.contains(vi)) {
 				retval.add(vi);
 			}

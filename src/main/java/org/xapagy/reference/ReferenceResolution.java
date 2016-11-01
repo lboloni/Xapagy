@@ -199,8 +199,8 @@ public class ReferenceResolution {
             break;
         }
         case WH_INSTANCE: {
-            TextUi.println(
-                    "Creating an instance for Wh: FIXME this should be a spike.");
+            //TextUi.println(
+            //        "Creating an instance for Wh: FIXME this should be a spike.");
             Instance instance = null;
             instance = agent.createInstance(rrc.getScene());
             // should be done from VerbalMemoryHelper
