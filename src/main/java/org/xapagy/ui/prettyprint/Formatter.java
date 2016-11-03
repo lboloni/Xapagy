@@ -82,7 +82,7 @@ public class Formatter {
     private int indent = 4;
 
     /**
-     * Adds an object at the current level of indent
+     * Adds an object at the current level of indent and terminates it with a new line
      * 
      * @param object
      */
@@ -95,6 +95,29 @@ public class Formatter {
         }
     }
 
+    /**
+     * For simple formatter, this is the same as add (but it will be different for HtmlFormatter)
+     * @param object
+     */
+    protected void addLine(Object object) {
+    	add(object);
+    }
+    
+    
+    /**
+     * Adds an object at the current level of indent, but does not terminate it with newline
+     * @param object
+     */
+    public void accumulate(Object object) {
+        String objectString = object.toString();
+        if (!objectString.endsWith("\n")) {
+            objectString = objectString.substring(0, objectString.length()-1);
+        }
+        String temp = TextUiHelper.indent(currentIndent, objectString);
+        buffer.append(temp);    	
+    }
+    
+    
     /**
      * Adds the next object in an indented form
      */

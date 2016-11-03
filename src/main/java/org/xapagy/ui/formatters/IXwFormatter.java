@@ -29,8 +29,18 @@ public interface IXwFormatter {
      * @param options
      */
     void addH2(String text, String... options);
+    /**
+     * Adds a paragraph where the label is clearly separatable from the values: eg. it is bolded
+     * @param label
+     * @param values
+     * @return
+     */
     String addLabelParagraph(String label, String... values);
     void deindent();
+    /**
+     * Returns an empty IXwFormatter of the same type like the current one
+     * @return
+     */
     IXwFormatter getEmpty();
     String grayoutEnd();
     String grayoutStart();   
@@ -41,10 +51,14 @@ public interface IXwFormatter {
     void addPre(String text, String... options);
     void indent();
     /**
-     * Adds an object at the current level of indent
+     * Adds an object at the current level of indent and a new line
      * @param object
      */
     void add(Object object);
+    /**
+     * Accumulates the object on the current line
+     */
+    void accumulate(Object object);
     /**
      * Describes the value of a variable in the VAR = value format
      * @param name

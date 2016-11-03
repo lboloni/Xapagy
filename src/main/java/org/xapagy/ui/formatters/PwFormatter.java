@@ -49,7 +49,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
      * 
      */
     public String addArrow() {
-        add("<span style=\"font-size:200%;\">&rarr;</span>");
+        addLine("<span style=\"font-size:200%;\">&rarr;</span>");
         return toString();
     }
 
@@ -60,7 +60,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
      */
     @Override
     public String addBold(String label) {
-        add("<b>" + label + "</b>");
+        addLine("<b>" + label + "</b>");
         return toString();
     }
 
@@ -79,7 +79,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
                                 .substring(2) + "\"";
         // case 1: a single color over 6 levels
         if (cc.getColorSecond() == null) {
-            add("<span " + styleText1 + ">" + "______" + "</span>");
+            addLine("<span " + styleText1 + ">" + "______" + "</span>");
             return toString();
         }
         String styleText2 =
@@ -108,7 +108,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
      */
     public String addEnum(String text) {
         openSpan("class=" + PwFormatter.CLASS_ENUM);
-        add(text);
+        addLine(text);
         closeSpan();
         return toString();
     }
@@ -142,7 +142,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
             openA("href=\"#\"", "id=\"" + id + "-show\"",
                     "onclick=\"showHide('" + id + "');return false;\"");
         }
-        add(showString);
+        addLine(showString);
         closeA();
         // the show / hide content
         if (initiallyVisible) {
@@ -153,7 +153,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
         // the hide link
         openA("href=\"#\"", "id=\"" + id + "-hide\"", "onclick=\"showHide('"
                 + id + "');return false;\"");
-        add(hideString);
+        addLine(hideString);
         closeA();
         // a little hack to avoid indenting preformatted data
         if (content.contains("<pre")) {
@@ -210,7 +210,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
     @Override
     public String addIdentifier(XapagyComponent xc) {
         openSpan("class=" + PwFormatter.CLASS_XAPAGYIDENTIFIER);
-        add(xc.getIdentifier());
+        addLine(xc.getIdentifier());
         closeSpan();
         return toString();
     }
@@ -226,10 +226,10 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
     public String addLabelParagraph(String label, String... values) {
         openP();
         openSpan("class=" + PwFormatter.CLASS_LABEL);
-        add(label);
+        addLine(label);
         closeSpan();
         for (String value : values) {
-            add(value);
+            addLine(value);
         }
         closeP();
         return toString();
@@ -273,7 +273,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
     @Override
     public String explanatoryNote(String explanation) {
         openP("class=" + PwFormatter.CLASS_EXPLANATION);
-        add(explanation);
+        addLine(explanation);
         closeP();
         return toString();
     }
@@ -408,13 +408,13 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
             }
             if (label == null) {
                 if (value >= 0) {
-                    add(Formatter.fmt(value));
+                    addLine(Formatter.fmt(value));
                 } else {
                     String text = Formatter.fmt(value);
-                    add(text);
+                    addLine(text);
                 }
             } else {
-                add(label);
+                addLine(label);
             }
             closeSpan();
             closeSpan();

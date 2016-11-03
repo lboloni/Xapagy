@@ -64,19 +64,19 @@ public class HtmlFormatter extends Formatter {
 
     public void addH1(String text, String... options) {
         openH1(options);
-        add(text);
+        addLine(text);
         closeH1();
     }
 
     public void addH2(String text, String... options) {
         openH2(options);
-        add(text);
+        addLine(text);
         closeH2();
     }
 
     public void addH3(String text, String... options) {
         openH3(options);
-        add(text);
+        addLine(text);
         closeH3();
     }
 
@@ -87,19 +87,19 @@ public class HtmlFormatter extends Formatter {
 
     public void addJavascript(String text) {
         openScript("language=\"javascript\"", "type=\"text/javascript\"");
-        add(text);
+        addLine(text);
         closeScript();
     }
 
     public void addLI(String text, String... options) {
         openLI(options);
-        add(text);
+        addLine(text);
         closeLI();
     }
 
     public void addP(String text, String... options) {
         openP(options);
-        add(text);
+        addLine(text);
         closeP();
     }
 
@@ -203,7 +203,7 @@ public class HtmlFormatter extends Formatter {
     public void openGeneric(OpenType type, String... options) {
         stack.push(type);
         String label = type.toString().toLowerCase();
-        add(HtmlFormatter.makeOpening(label, options));
+        addLine(HtmlFormatter.makeOpening(label, options));
         textIndent();
     }
 
@@ -222,15 +222,15 @@ public class HtmlFormatter extends Formatter {
     public void openHtml(String... options) {
         openGeneric(OpenType.HTML, options);
         textIndent();
-        add("<head>");
-        add("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">");
-        add("<meta name=\"DESCRIPTION\" content=\"Xapagy\">");
-        add("<meta name=\"OWNER\" content=\"Lotzi Boloni\">");
-        add("<meta name=\"CREATED\" content=\"Lotzi Boloni 2012\">");
-        add("<title>" + title + "</title>");
-        add("<link HREF=\"" + cssFileName
+        addLine("<head>");
+        addLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">");
+        addLine("<meta name=\"DESCRIPTION\" content=\"Xapagy\">");
+        addLine("<meta name=\"OWNER\" content=\"Lotzi Boloni\">");
+        addLine("<meta name=\"CREATED\" content=\"Lotzi Boloni 2012\">");
+        addLine("<title>" + title + "</title>");
+        addLine("<link HREF=\"" + cssFileName
                 + "\" REL=\"STYLESHEET\" LANG=\"en.us\">");
-        add("</head>");
+        addLine("</head>");
     }
 
     public void openImg(String... options) {
