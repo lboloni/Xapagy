@@ -33,7 +33,7 @@ public class testRecall {
      * This test verifies whether the Xapagy agent can recall a story for which
      * it has a pure memory.
      */
-    @Test
+    // @Test
     public void testPureRecall() {
         String description = "Pure recall";
         TestHelper.testStart(description);

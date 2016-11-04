@@ -10,7 +10,7 @@
 package org.xapagy.shadows;
 
 import org.junit.Test;
-
+import org.xapagy.TestHelper;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.FormatTable;
@@ -27,6 +27,7 @@ public class testEnergyToSalience {
      */
     @Test
     public void testEnergy2Salience() {
+        TestHelper.testStart("Test the energy to salience conversion");
         int cnt = 10;
         String header[] = new String[cnt + 1];
         int columnwidths[] = new int[cnt + 1];
@@ -53,7 +54,8 @@ public class testEnergyToSalience {
             ft.row((Object[]) labels);
         }
         ft.endTable();
-        TextUi.println(ft);
+        TestHelper.printIfVerbose(ft.toString());
+        TestHelper.testDone();
     }
 
 }

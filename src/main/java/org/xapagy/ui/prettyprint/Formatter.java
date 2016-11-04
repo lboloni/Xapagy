@@ -100,7 +100,7 @@ public class Formatter {
      * @param object
      */
     protected void addLine(Object object) {
-    	add(object);
+    	this.add(object);
     }
     
     

@@ -83,7 +83,7 @@ public class testSharpening {
                     pes.valueEnergy(instF, instances.get(i), EnergyColors.FOCUS_INSTANCE);
             fmt.is("i" + i, energy);
         }
-        TextUi.println(fmt.toString());
+        TestHelper.printIfVerbose(fmt.toString());
         TestHelper.testDone();
 
     }

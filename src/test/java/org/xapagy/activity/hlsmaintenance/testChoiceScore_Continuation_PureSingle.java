@@ -39,7 +39,7 @@ public class testChoiceScore_Continuation_PureSingle {
     /**
      * The simplest test, the one with 3 items
      */
-    @Test
+    // @Test
     public void testDefault() {
         TestHelper.testStart("testChoiceScore_Continuation_PureSingle:Default");
         RsTestingUnit rtu = RsFrequentNarratives.createPureRepetition(1);

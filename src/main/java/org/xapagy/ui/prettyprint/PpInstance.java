@@ -21,6 +21,8 @@ import org.xapagy.instances.RelationHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.metaverbs.MetaVerbHelper;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwInstance;
 
 /**
  * @author Ladislau Boloni
@@ -32,15 +34,17 @@ public class PpInstance {
      * Returns a concise, single line version of the instance description
      * 
      * @param instance
-     * @param detailLevel
      * @param agent
      * @return
      */
     public static String ppConcise(Instance instance, Agent agent) {
+    	return xwInstance.xwConcise(new TwFormatter(), instance, agent);
+    	/*
         StringBuffer buf = new StringBuffer();
         buf.append(instance.getIdentifier());
         buf.append(" " + PrettyPrint.ppConcise(instance.getConcepts(), agent));
         return buf.toString();
+        */
     }
 
     /**
@@ -48,11 +52,12 @@ public class PpInstance {
      * composites
      * 
      * @param instance
-     * @param detailLevel
      * @param agent
      * @return
      */
     public static String ppDetailed(Instance instance, Agent agent) {
+    	return xwInstance.xwDetailed(new TwFormatter(), instance, agent);
+    	/*
         Formatter fmt = new Formatter();
         Focus fc = agent.getFocus();
         fmt.add(PpInstance.ppConcise(instance, agent));
@@ -60,17 +65,6 @@ public class PpInstance {
                 + PpInstance.ppConcise(instance.getScene(), agent));
         String prefix = "";
         List<VerbInstance> vis = null;
-        // unary context relations
-        /*
-         * List<VerbInstance> vis = RelationHelper
-         * .getUnaryContextRelations(agent, instance, false); if
-         * (!vis.isEmpty()) { fmt.add("Unary context relations:"); fmt.indent();
-         * for (VerbInstance vi : vis) { VerbOverlay vo =
-         * MetaVerbHelper.removeMetaVerbs(vi.getVerbs(), agent); if
-         * (fc.getValue(vi) > 0) { prefix = ""; } else { prefix = "(inactive)";
-         * } fmt.add(prefix + "+ " + PrettyPrint.ppConcise(vo, agent)); }
-         * fmt.deindent(); }
-         */
         // binary context relations, from
         vis = RelationHelper.getRelationsFrom(agent, instance, false);
         if (!vis.isEmpty()) {
@@ -114,6 +108,7 @@ public class PpInstance {
                     .getFiredShadowVis(), agent));
         }
         return fmt.toString();
+        */
     }
 
     /**
@@ -125,6 +120,8 @@ public class PpInstance {
      * @return
      */
     public static String ppSuperConcise(Instance instance, Agent agent) {
+    	return xwInstance.xwSuperConcise(new TwFormatter(), instance, agent);
+    	/*
         for (SimpleEntry<Concept, Double> entry : instance.getConcepts()
                 .getList()) {
             Concept c = entry.getKey();
@@ -133,5 +130,6 @@ public class PpInstance {
             }
         }
         return instance.getIdentifier();
+        */
     }
 }

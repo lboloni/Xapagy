@@ -43,8 +43,8 @@ public class TemporalDynamicsObserver extends AbstractAgentObserver {
     public void observeInner(DebugEvent event) throws IOException,
             InterruptedException {
         database.record(agent);
-        TextUi.println("TemporalDynamicsObserver: observing at time:"
-                + Formatter.fmt(agent.getTime()));
+        //TextUi.println("TemporalDynamicsObserver: observing at time:"
+        //        + Formatter.fmt(agent.getTime()));
     }
 
 }

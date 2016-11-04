@@ -64,7 +64,7 @@ public class IncludeHelper {
         if (retval.exists()) {
             return retval;
         } else {
-        	TextUi.println("Trying but not found: " + retval.getAbsolutePath());
+        	//TextUi.println("Trying but not found: " + retval.getAbsolutePath());
         }
         // try the local domain directory
         dir = new File("domain");
@@ -72,7 +72,7 @@ public class IncludeHelper {
         if (retval.exists()) {
             return retval;
         } else {
-        	TextUi.println("Trying but not found: " + retval.getAbsolutePath());
+        	//TextUi.println("Trying but not found: " + retval.getAbsolutePath());
         }
         // try the location of the jar file + domain
         // try the location of the jar file + classes + domain - for running from maven
@@ -85,7 +85,7 @@ public class IncludeHelper {
             if (retval.exists()) {
                 return retval;
             } else {
-            	TextUi.println("Trying but not found: " + retval.getAbsolutePath());
+            	//TextUi.println("Trying but not found: " + retval.getAbsolutePath());
             }			
             dir = new File(jarDir.getParent(), "classes");
             dir = new File(dir, "domain");
@@ -93,7 +93,7 @@ public class IncludeHelper {
             if (retval.exists()) {
                 return retval;
             } else {
-            	TextUi.println("Trying but not found: " + retval.getAbsolutePath());
+            	//TextUi.println("Trying but not found: " + retval.getAbsolutePath());
             }			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

@@ -22,8 +22,16 @@ import org.xapagy.ui.TextUi;
  * 
  */
 public class TestHelper {
+	/**
+	 *  If set to true, then the tests go through their verbose modes 
+	 */
+	public static boolean verbose = false;
+	/**
+	 *  Default state of verbose: if set allows us to set individual tests to verbose 
+	 */
+	public static boolean defaultVerbose = false;
+	
     public static final String ANSI_BLACK = "\u001B[30m";
-
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -68,11 +76,21 @@ public class TestHelper {
      * Called at the end of the test when it is done
      */
     public static void testStart(String label) {
+    	verbose = defaultVerbose;
         TextUi.println("[test: " + TestHelper.whoCalledMe() + "]:\n\t" + label);
     }
 
     public static String whoCalledMe() {
         Throwable t = new Throwable();
         return t.getStackTrace()[2].toString();
+    }
+    
+    /**
+     *   Essentially a mini logging level - only print if set to verbose
+     */
+    public static void printIfVerbose(String text) {
+    	if (verbose) {
+    		TextUi.println(text);
+    	}
     }
 }

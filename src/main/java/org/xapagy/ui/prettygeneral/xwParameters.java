@@ -4,7 +4,7 @@
  
    org.xapagy.ui.prettygeneral.xwParamNew
  
-   Copyright (c) 2008-2014 Ladislau Boloni
+   Copyright (c) 2008-2016 Ladislau Boloni
  */
 
 package org.xapagy.ui.prettygeneral;
