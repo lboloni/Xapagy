@@ -19,7 +19,7 @@ import org.xapagy.ui.formatters.IXwFormatter;
  */
 public class xwRrState {
 
-    public static String pwDetailed(IXwFormatter xwf, rrState rrs, Agent agent) {
+    public static String xwDetailed(IXwFormatter xwf, rrState rrs, Agent agent) {
         xwf.addLabelParagraph("RrState");
         xwf.indent();
         xwf.is("compositionParent", rrs.getCompositionParent());

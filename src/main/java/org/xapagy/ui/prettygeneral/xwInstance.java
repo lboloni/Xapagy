@@ -67,10 +67,11 @@ public class xwInstance {
      */
     public static String xwDetailed(IXwFormatter fmt, Instance instance, Agent agent) {
         Focus fc = agent.getFocus();
-        fmt.add(PpInstance.ppConcise(instance, agent));
+        xwConcise(fmt, instance, agent);
+        fmt.add("");
         fmt.indent();
         fmt.add("Scene: "
-                + PpInstance.ppConcise(instance.getScene(), agent));
+                + xwConcise(fmt, instance.getScene(), agent));
         fmt.deindent();
         String prefix = "";
         List<VerbInstance> vis = null;

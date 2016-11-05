@@ -29,7 +29,7 @@ import org.xapagy.ui.prettyprint.PpVerbOverlay;
 public class xwRrContext {
 
     public static String
-            pwDetailed(IXwFormatter xwf, rrContext rrc, Agent agent) {
+            xwDetailed(IXwFormatter xwf, rrContext rrc, Agent agent) {
         xwf.addLabelParagraph("RrContext");
         xwf.indent();
         xwf.is("referenceType", rrc.getReferenceType());
@@ -44,7 +44,7 @@ public class xwRrContext {
             xwf.addLabelParagraph("group members:");
             xwf.indent();
             for (rrContext member : rrc.getGroupMembers()) {
-                xwRrContext.pwDetailed(xwf, member, agent);
+                xwRrContext.xwDetailed(xwf, member, agent);
             }
             xwf.deindent();
             break;

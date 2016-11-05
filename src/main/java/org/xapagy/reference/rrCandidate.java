@@ -65,7 +65,7 @@ public class rrCandidate {
     public String toString() {
         TwFormatter twf = new TwFormatter();
         String retval =
-                xwRrCandidate.pwDetailed(twf, this, PrettyPrint.lastAgent);
+                xwRrCandidate.xwDetailed(twf, this, PrettyPrint.lastAgent);
         return retval;
     }
 

@@ -31,7 +31,7 @@ public class xwRrCandidate {
      * @param agent
      * @return
      */
-    public static String pwDetailed(IXwFormatter xwf, rrCandidate rrc,
+    public static String xwDetailed(IXwFormatter xwf, rrCandidate rrc,
             Agent agent) {
         xwf.addLabelParagraph("RrCandidate");
         xwf.indent();
@@ -40,13 +40,13 @@ public class xwRrCandidate {
         xwf.is("instance", PpInstance.ppConcise(rrc.getInstance(), agent));
         xwf.addLabelParagraph("rrc (the rrContext)");
         xwf.indent();
-        xwRrContext.pwDetailed(xwf, rrc.getRrc(), agent);
+        xwRrContext.xwDetailed(xwf, rrc.getRrc(), agent);
         xwf.deindent();
         rrState rrs = rrc.getState();
         if (rrs != null) {
             xwf.addLabelParagraph("state (the rrState)");
             xwf.indent();
-            xwRrState.pwDetailed(xwf, rrs, agent);
+            xwRrState.xwDetailed(xwf, rrs, agent);
             xwf.deindent();
         } else {
             xwf.addLabelParagraph("state (the rrState) = <null>");

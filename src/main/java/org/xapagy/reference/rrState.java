@@ -238,7 +238,7 @@ public class rrState implements Serializable {
     @Override
     public String toString() {
         TwFormatter twf = new TwFormatter();
-        String retval = xwRrState.pwDetailed(twf, this, PrettyPrint.lastAgent);
+        String retval = xwRrState.xwDetailed(twf, this, PrettyPrint.lastAgent);
         return retval;
     }
 

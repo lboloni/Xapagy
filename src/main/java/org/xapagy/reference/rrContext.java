@@ -263,7 +263,7 @@ public class rrContext {
     @Override
     public String toString() {
         TwFormatter fmt = new TwFormatter();
-        return xwRrContext.pwDetailed(fmt, this, agent);
+        return xwRrContext.xwDetailed(fmt, this, agent);
     }
 
 }
