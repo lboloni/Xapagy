@@ -19,7 +19,6 @@ import org.xapagy.reference.rrContext;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.prettyprint.PpConceptOverlay;
 import org.xapagy.ui.prettyprint.PpInstance;
-import org.xapagy.ui.prettyprint.PpVerbInstance;
 import org.xapagy.ui.prettyprint.PpVerbOverlay;
 
 /**
@@ -77,7 +76,7 @@ public class xwRrContext {
         VerbInstance viInquitParent = rrc.getViInquitParent();
         if (viInquitParent != null) {
             xwf.is("viInquitParent",
-                    PpVerbInstance.ppConcise(viInquitParent, agent));
+                    xwVerbInstance.xwConcise(xwf.getEmpty(), viInquitParent, agent));
         } else {
             xwf.is("viInquitParent", "<< null >>");
         }

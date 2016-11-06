@@ -10,11 +10,12 @@ import org.xapagy.httpserver.Session;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwVerbInstance;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
 import org.xapagy.ui.prettyprint.PpHlsCharacterization;
-import org.xapagy.ui.prettyprint.PpVerbInstance;
 
 public class qh_CHOICE implements IQueryHandler, IQueryAttributes {
 
@@ -105,12 +106,12 @@ public class qh_CHOICE implements IQueryHandler, IQueryAttributes {
             statusText = "NotChosen";
             if (ChoiceTypeHelper.isHlsBased(choice)) {
                 viText =
-                        PpVerbInstance.ppConcise(choice.getHls()
+                       xwVerbInstance.xwConcise(new TwFormatter(), choice.getHls()
                                 .getViTemplate(), agent);
             }
             if (ChoiceTypeHelper.isStatic(choice)) {
                 viText =
-                        PpVerbInstance.ppConcise(choice.getStaticHls()
+                        xwVerbInstance.xwConcise(new TwFormatter(), choice.getStaticHls()
                                 .getViTemplate(), agent);
             }
             if (ChoiceTypeHelper.isCharacterization(choice)) {

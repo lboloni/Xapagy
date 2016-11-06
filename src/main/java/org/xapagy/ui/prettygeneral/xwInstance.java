@@ -13,8 +13,6 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.metaverbs.MetaVerbHelper;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.prettyprint.PpInstance;
 import org.xapagy.ui.prettyprint.PpViSet;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 

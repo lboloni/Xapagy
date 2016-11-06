@@ -13,6 +13,8 @@ import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.Choice;
 import org.xapagy.headless_shadows.Hls;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwVerbInstance;
 
 /**
  * Prints a choice object of various types
@@ -53,7 +55,7 @@ public class PpChoice {
             Hls hls = choice.getHls();
             if (hls != null) {
                 viText =
-                        PpVerbInstance.ppConcise(choice.getHls()
+                        xwVerbInstance.xwConcise(new TwFormatter(), choice.getHls()
                                 .getViTemplate(), agent);
             } else { // so it is a characterization
                 viText =

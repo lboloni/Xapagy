@@ -16,6 +16,8 @@ import org.xapagy.TestHelper;
 import org.xapagy.debug.Runner;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwVerbInstance;
 
 /**
  * Tests the functionality of the ppVerbInstance printing.
@@ -43,9 +45,9 @@ public class testPpVerbInstance {
         VerbInstance viQ = r.exac("Wh / wa_v_av41 / the w_c_bai21?");
         VerbInstance vi4 = r.exac("The w_c_bai21 + the w_c_bai20 / wa_v_av42.");
         // printing w_c_bai21 + w_c_bai20 laughs, no summary here
-        TextUi.println(PpVerbInstance.ppDetailed(vi4, r.agent));
-        TextUi.println(PpVerbInstance.ppDetailed(viQ, r.agent));
-        TextUi.println(PpVerbInstance.ppDetailed(viA, r.agent));
+        TextUi.println(xwVerbInstance.xwDetailed(new TwFormatter(), vi4, r.agent));
+        TextUi.println(xwVerbInstance.xwDetailed(new TwFormatter(), viQ, r.agent));
+        TextUi.println(xwVerbInstance.xwDetailed(new TwFormatter(), viA, r.agent));
         TestHelper.testIncomplete();
     }
 

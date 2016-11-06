@@ -11,8 +11,6 @@ package org.xapagy.activity.hlsmaintenance;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
 import org.xapagy.ArtificialDomain;
 import org.xapagy.TestHelper;
 import org.xapagy.autobiography.ABStory;

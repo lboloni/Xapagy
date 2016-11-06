@@ -12,7 +12,6 @@ package org.xapagy.shadows;
 import org.junit.Test;
 import org.xapagy.TestHelper;
 import org.xapagy.set.EnergyColors;
-import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.Formatter;
 

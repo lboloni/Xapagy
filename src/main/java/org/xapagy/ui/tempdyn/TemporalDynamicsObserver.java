@@ -12,9 +12,7 @@ package org.xapagy.ui.tempdyn;
 import java.io.IOException;
 
 import org.xapagy.debug.DebugEvent;
-import org.xapagy.ui.TextUi;
 import org.xapagy.ui.observers.AbstractAgentObserver;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * An observer which observes the temporal dynamics of the focus and shadow

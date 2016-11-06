@@ -9,18 +9,8 @@
 
 package org.xapagy.ui.prettyprint;
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.List;
-
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.Focus;
-import org.xapagy.concepts.Concept;
-import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.Instance;
-import org.xapagy.instances.RelationHelper;
-import org.xapagy.instances.VerbInstance;
-import org.xapagy.metaverbs.MetaVerbHelper;
-import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.formatters.TwFormatter;
 import org.xapagy.ui.prettygeneral.xwInstance;
 
