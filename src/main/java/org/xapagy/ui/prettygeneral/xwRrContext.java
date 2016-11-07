@@ -17,9 +17,6 @@ import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.reference.rrContext;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.PpConceptOverlay;
-import org.xapagy.ui.prettyprint.PpInstance;
-import org.xapagy.ui.prettyprint.PpVerbOverlay;
 
 /**
  * @author Ladislau Boloni
@@ -28,60 +25,58 @@ import org.xapagy.ui.prettyprint.PpVerbOverlay;
 public class xwRrContext {
 
     public static String
-            xwDetailed(IXwFormatter xwf, rrContext rrc, Agent agent) {
-        xwf.addLabelParagraph("RrContext");
-        xwf.indent();
-        xwf.is("referenceType", rrc.getReferenceType());
+            xwDetailed(IXwFormatter xw, rrContext rrc, Agent agent) {
+        xw.addLabelParagraph("RrContext");
+        xw.indent();
+        xw.is("referenceType", rrc.getReferenceType());
         switch (rrc.getReferenceType()) {
         case REF_DIRECT: {
-            // FIXME: make it pwConceptOverlay.pwConcise
-            xwf.is("coDirect",
-                    PpConceptOverlay.ppConcise(rrc.getCoDirect(), agent));
+            xw.is("coDirect", xwConceptOverlay.xwConcise(xw.getEmpty(), rrc.getCoDirect(), agent));
             break;
         }
         case REF_GROUP: {
-            xwf.addLabelParagraph("group members:");
-            xwf.indent();
+            xw.addLabelParagraph("group members:");
+            xw.indent();
             for (rrContext member : rrc.getGroupMembers()) {
-                xwRrContext.xwDetailed(xwf, member, agent);
+                xwRrContext.xwDetailed(xw, member, agent);
             }
-            xwf.deindent();
+            xw.deindent();
             break;
         }
         case REF_RELATIONAL: {
-            xwf.addLabelParagraph("relations");
-            xwf.indent();
+            xw.addLabelParagraph("relations");
+            xw.indent();
             List<ConceptOverlay> cos = rrc.getRelationCOs();
             List<VerbOverlay> relations = rrc.getRelationChain();
             for (int i = 0; i != cos.size(); i++) {
                 ConceptOverlay co = cos.get(i);
-                xwf.is("CO " + i, PpConceptOverlay.ppConcise(co, agent));
+                xw.is("CO " + i, xwConceptOverlay.xwConcise(xw.getEmpty(), co, agent));
                 if (i < relations.size()) {
                     VerbOverlay relation = relations.get(i);
-                    xwf.is("REL " + i, PpVerbOverlay.ppConcise(relation, agent));
+                    xw.is("REL " + i, xwVerbOverlay.xwConcise(xw, relation, agent));
                 }
             }
-            xwf.deindent();
+            xw.deindent();
             break;
         }
 
         default: {
-            xwf.addErrorMessage("<ERROR:> pwRrContext: I don't know how to print an rrContext of this type");
+            xw.addErrorMessage("<ERROR:> pwRrContext: I don't know how to print an rrContext of this type");
             break;
         }
         }
-        xwf.is("partInVi", rrc.getPartInVi());
-        xwf.is("verbsInVi", PpVerbOverlay.ppConcise(rrc.getVerbsInVi(), agent));
-        xwf.is("scene", PpInstance.ppConcise(rrc.getScene(), agent));
+        xw.is("partInVi", rrc.getPartInVi());
+        xw.is("verbsInVi", xwVerbOverlay.xwConcise(xw.getEmpty(), rrc.getVerbsInVi(), agent));
+        xw.is("scene", xwInstance.xwConcise(xw.getEmpty(), rrc.getScene(), agent));
         VerbInstance viInquitParent = rrc.getViInquitParent();
         if (viInquitParent != null) {
-            xwf.is("viInquitParent",
-                    xwVerbInstance.xwConcise(xwf.getEmpty(), viInquitParent, agent));
+            xw.is("viInquitParent",
+                    xwVerbInstance.xwConcise(xw.getEmpty(), viInquitParent, agent));
         } else {
-            xwf.is("viInquitParent", "<< null >>");
+            xw.is("viInquitParent", "<< null >>");
         }
-        xwf.deindent();
-        return xwf.toString();
+        xw.deindent();
+        return xw.toString();
     }
 
 }

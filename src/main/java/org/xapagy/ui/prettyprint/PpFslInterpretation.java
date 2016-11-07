@@ -30,7 +30,7 @@ public class PpFslInterpretation {
         buf.append("FSLI:");
         buf.append(fsli.getFsl().getFslType());
         buf.append(" -- "
-                + PpVerbInstance.ppConciseViTemplate(
+                + PpVerbInstanceTemplate.ppConciseViTemplate(
                         fsli.getViInterpretation(), agent));
         buf.append(" -- " + Formatter.fmt(fsli.getTotalSupport(agent)));
         buf.append(" -- " + Formatter.fmt(fsli.getSupportFraction() * 100.0)

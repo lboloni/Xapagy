@@ -32,8 +32,9 @@ import org.xapagy.set.ViSet;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwInstance;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.prettyprint.PpInstance;
 
 /**
  * The calculation of the score of a choice. This depends on the type of the
@@ -338,7 +339,7 @@ public class ChoiceScore implements Serializable {
         fmt.add("Referred scenes:");
         for (Instance scene : scenes) {
             fmt.indent();
-            fmt.is("Scene:", PpInstance.ppConcise(scene, agent));
+            fmt.is("Scene:", xwInstance.xwConcise(new TwFormatter(), scene, agent));
             fmt.indent();
             double currentEnergy = ChoiceScore.getEnergy(choiceType, scene);
             minEnergy = Math.min(minEnergy, currentEnergy);

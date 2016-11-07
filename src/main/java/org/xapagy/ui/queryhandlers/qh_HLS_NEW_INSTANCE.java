@@ -9,10 +9,10 @@ import org.xapagy.httpserver.RESTQuery;
 import org.xapagy.httpserver.Session;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.prettygeneral.xwConceptOverlay;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
-import org.xapagy.ui.prettyprint.PpConceptOverlay;
 import org.xapagy.ui.smartprint.SpFocus;
 
 public class qh_HLS_NEW_INSTANCE implements IQueryHandler, IQueryAttributes {
@@ -59,7 +59,7 @@ public class qh_HLS_NEW_INSTANCE implements IQueryHandler, IQueryAttributes {
         }
         fmt.add("Scene: " + SpFocus.ppsScene(hlsni.getScene(), agent, false));
         fmt.add("Attributes: "
-                + PpConceptOverlay.ppConcise(hlsni.getAttributes(), agent));
+                + xwConceptOverlay.xwConcise(fmt.getEmpty(), hlsni.getAttributes(), agent));
         fmt.add("No. of supports: " + hlsni.getSupports().size());
         fmt.addIdentifier(hlsni);
         return fmt.toString();
@@ -81,7 +81,7 @@ public class qh_HLS_NEW_INSTANCE implements IQueryHandler, IQueryAttributes {
                 PwQueryLinks.linkToInstance(fmt.getEmpty(), agent, query,
                         hlsni.getScene()));
         fmt.is("Attributes:",
-                PpConceptOverlay.ppConcise(hlsni.getAttributes(), agent));
+                xwConceptOverlay.xwConcise(fmt.getEmpty(), hlsni.getAttributes(), agent));
         fmt.is("Resolved", hlsni.isResolved());
         if (hlsni.isResolved()) {
             fmt.is("Resolved to: ", PwQueryLinks.linkToInstance(new PwFormatter(),

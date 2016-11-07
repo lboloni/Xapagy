@@ -16,7 +16,7 @@ import org.xapagy.instances.Instance;
 import org.xapagy.instances.RelationHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.PpVerbOverlay;
+import org.xapagy.ui.prettygeneral.xwVerbOverlay;
 import org.xapagy.ui.smartprint.SpFocus;
 
 /**
@@ -76,7 +76,7 @@ public class pgvScene {
             fmt.is(GvParameters.FONTNAME, param.fontname);
             fmt.is(GvParameters.FONTSIZE, "" + param.fontsize);
             // the problem here, is that due to the way the
-            String label = PpVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
+            String label = xwVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
             // fmt.label(label);
             switch (label) {
             case "scene_fictional_future":

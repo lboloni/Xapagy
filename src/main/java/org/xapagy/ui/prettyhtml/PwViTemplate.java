@@ -8,8 +8,8 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.instances.XapagyComponent;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.PpConceptOverlay;
-import org.xapagy.ui.prettyprint.PpInstance;
+import org.xapagy.ui.prettygeneral.xwConceptOverlay;
+import org.xapagy.ui.prettygeneral.xwInstance;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**
@@ -85,47 +85,47 @@ public class PwViTemplate {
     /**
      * A detailed description of the VI template
      * 
-     * @param fmt
+     * @param xw
      * @param vit
      * @param agent
      * @param query
      */
-    public static String xwDetailed(IXwFormatter fmt, VerbInstance vit,
+    public static String xwDetailed(IXwFormatter xw, VerbInstance vit,
             Agent agent, RESTQuery query) {
-        fmt.addLabelParagraph("template:" + vit.getViType());
-        fmt.indent();
+        xw.addLabelParagraph("template:" + vit.getViType());
+        xw.indent();
         switch (vit.getViType()) {
         case S_V_O: {
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Subject, agent, query);
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Verb, agent, query);
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Object, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Subject, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Verb, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Object, agent, query);
             break;
         }
         case S_V: {
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Subject, agent, query);
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Verb, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Subject, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Verb, agent, query);
             break;
         }
         case S_ADJ: {
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Subject, agent, query);
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Verb, agent, query);
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Adjective, agent,
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Subject, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Verb, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Adjective, agent,
                     query);
             break;
         }
         case QUOTE: {
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Subject, agent, query);
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.Verb, agent, query);
-            PwViTemplate.pwPartDetailed(fmt, vit, ViPart.QuoteScene, agent,
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Subject, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.Verb, agent, query);
+            PwViTemplate.pwPartDetailed(xw, vit, ViPart.QuoteScene, agent,
                     query);
-            fmt.addLabelParagraph("Quote: ");
-            fmt.add(PwViTemplate.xwDetailed(fmt.getEmpty(), vit.getQuote(),
+            xw.addLabelParagraph("Quote: ");
+            xw.add(PwViTemplate.xwDetailed(xw.getEmpty(), vit.getQuote(),
                     agent, query));
             break;
         }
         }
-        fmt.deindent();
-        return fmt.toString();
+        xw.deindent();
+        return xw.toString();
     }
 
     /**
@@ -133,12 +133,12 @@ public class PwViTemplate {
      * 
      * -differently, depending if it is resolved or not etc.
      * 
-     * @param fmt
+     * @param xw
      * @param vit
      * @param part
      * @return
      */
-    private static String pwPartConcise(IXwFormatter fmt, VerbInstance vit,
+    private static String pwPartConcise(IXwFormatter xw, VerbInstance vit,
             ViPart part, Agent agent) {
         // check if it is a resolved part
         XapagyComponent resolvedPart = null;
@@ -152,27 +152,27 @@ public class PwViTemplate {
             if (resolvedPart instanceof Instance) {
                 Instance instance = (Instance) resolvedPart;
                 // String retval = SpInstance.spc(instance, agent);
-                String retval = PpInstance.ppSuperConcise(instance, agent);
-                fmt.add(retval);
-                return fmt.toString();
+                String retval = xwInstance.xwSuperConcise(xw, instance, agent);
+                xw.add(retval);
+                return xw.toString();
             }
             String retval = PrettyPrint.ppConcise(resolvedPart, agent);
-            fmt.add(retval);
-            return fmt.toString();
+            xw.add(retval);
+            return xw.toString();
         }
         // ok it is not resolved
         ConceptOverlay newPartCo = vit.getNewParts().get(part);
         if (newPartCo != null) {
             String retval =
-                    "*" + PpConceptOverlay.ppConcise(newPartCo, agent) + "*";
-            fmt.add(retval);
-            return fmt.toString();
+                    "*" + xwConceptOverlay.xwConcise(xw.getEmpty(), newPartCo, agent) + "*";
+            xw.add(retval);
+            return xw.toString();
         }
         // ok, it is missing
         if (vit.getMissingParts().contains(part)) {
             String retval = "<? missing>";
-            fmt.add(retval);
-            return fmt.toString();
+            xw.add(retval);
+            return xw.toString();
         }
         throw new Error("not resolved, new or missing");
     }
@@ -218,7 +218,7 @@ public class PwViTemplate {
         ConceptOverlay newPartCo = vit.getNewParts().get(part);
         if (newPartCo != null) {
             String retval =
-                    "*" + PpConceptOverlay.ppConcise(newPartCo, agent) + "*";
+                    "*" + xwConceptOverlay.xwConcise(fmt, newPartCo, agent) + "*";
             fmt.add(retval);
             fmt.closeP();
             return fmt.toString();

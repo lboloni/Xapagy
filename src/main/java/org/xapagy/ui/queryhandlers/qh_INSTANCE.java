@@ -18,12 +18,12 @@ import org.xapagy.set.InstanceSet;
 import org.xapagy.shadows.Shadows;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.prettygeneral.xwQuantumEnergyList;
+import org.xapagy.ui.prettygeneral.xwVerbOverlay;
 import org.xapagy.ui.prettyhtml.ColorCodeRepository;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
 import org.xapagy.ui.prettyhtml.PwScenePreferences;
-import org.xapagy.ui.prettyprint.PpVerbOverlay;
 import org.xapagy.ui.smartprint.SpInstance;
 
 public class qh_INSTANCE implements IQueryHandler, IQueryAttributes {
@@ -299,7 +299,7 @@ public class qh_INSTANCE implements IQueryHandler, IQueryAttributes {
                 }
                 fmt.addBold(prefix + "this");
                 fmt.addArrow();
-                fmt.addBold(PpVerbOverlay.ppRelationLabel(vi.getVerbs(), agent));
+                fmt.addBold(xwVerbOverlay.ppRelationLabel(vi.getVerbs(), agent));
                 fmt.addArrow();
                 Instance otherInstance = vi.getObject();
                 PwQueryLinks.linkToInstance(fmt, agent, query, otherInstance);
@@ -324,7 +324,7 @@ public class qh_INSTANCE implements IQueryHandler, IQueryAttributes {
                 Instance otherInstance = vi.getSubject();
                 PwQueryLinks.linkToInstance(fmt, agent, query, otherInstance);
                 fmt.addArrow();
-                fmt.addBold(PpVerbOverlay.ppRelationLabel(vi.getVerbs(), agent));
+                fmt.addBold(xwVerbOverlay.ppRelationLabel(vi.getVerbs(), agent));
                 fmt.addArrow();
                 fmt.addBold("this");
                 fmt.closeP();

@@ -26,7 +26,7 @@ import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.prettyprint.PpVerbInstance;
+import org.xapagy.ui.prettyprint.PpVerbInstanceTemplate;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.xapi.XapiParserException;
@@ -489,12 +489,12 @@ public class ChoiceEvolutionMatrix extends AbstractEvolutionMatrix {
         }
         if (ChoiceTypeHelper.isHlsBased(c)) {
             val +=
-                    PpVerbInstance.ppConciseViTemplate(c.getHls()
+                    PpVerbInstanceTemplate.ppConciseViTemplate(c.getHls()
                             .getViTemplate(), agent);
         }
         if (ChoiceTypeHelper.isStatic(c)) {
             val +=
-                    PpVerbInstance.ppConciseViTemplate(c.getStaticHls()
+                    PpVerbInstanceTemplate.ppConciseViTemplate(c.getStaticHls()
                             .getViTemplate(), agent);
         }
         val +=

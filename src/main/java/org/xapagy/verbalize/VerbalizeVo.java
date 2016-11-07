@@ -22,7 +22,8 @@ import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.metaverbs.AbstractSaMvRelation;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.PpVerbOverlay;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwVerbOverlay;
 import org.xapagy.xapi.XapiParserException;
 
 /**
@@ -54,7 +55,7 @@ public class VerbalizeVo {
         if (ViClassifier.decideViClass(ViClass.RELATION, vi, agent)) {
             // FIXME!!!
             String retval = "rel: ";
-            retval += PpVerbOverlay.ppRelationLabel(vo, agent);
+            retval += xwVerbOverlay.ppRelationLabel(vo, agent);
             return retval;
         }
         //
@@ -68,7 +69,7 @@ public class VerbalizeVo {
             VerbOverlay voResidue = split.getValue();
             // print the relations
             String retval = "";
-            String relation = PpVerbOverlay.ppRelationLabel(voRelations, agent);
+            String relation = xwVerbOverlay.ppRelationLabel(voRelations, agent);
             boolean hasThus = false;
             for (SimpleEntry<Verb, Double> entry : voResidue.getList()) {
                 String verbName = entry.getKey().getName();
@@ -157,7 +158,7 @@ public class VerbalizeVo {
                 VrbOverlay.getWordsForVerbOverlay(agent, vo);
         if (list.isEmpty()) {
             return "[verbalize failed for ] "
-                    + PpVerbOverlay.ppDetailed(vo, agent);
+                    + xwVerbOverlay.xwDetailed(new TwFormatter(), vo, agent);
         }
         return list.get(0).getKey();
     }

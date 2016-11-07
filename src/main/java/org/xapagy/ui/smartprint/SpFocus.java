@@ -25,8 +25,8 @@ import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.prettygeneral.xwVerbOverlay;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.prettyprint.PpVerbOverlay;
 
 /**
  * 
@@ -99,7 +99,7 @@ public class SpFocus {
                 } else {
                     prefix = "(inactive)";
                 }
-                String label = PpVerbOverlay.ppRelationLabel(voOriginal, agent);
+                String label = xwVerbOverlay.ppRelationLabel(voOriginal, agent);
                 fmt.add(prefix
                         + "--"
                         + label
@@ -127,7 +127,7 @@ public class SpFocus {
                     prefix = "(inactive)";
                 }
                 String label =
-                        PpVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
+                        xwVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
                 fmt.add(prefix
                         + SpInstance.spInstance(vi.getSubject(), scene, agent,
                                 false) + "--" + label + "--> this");
@@ -210,7 +210,7 @@ public class SpFocus {
                     prefix = "(inactive)";
                 }
                 String label =
-                        PpVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
+                        xwVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
                 fmt.add(prefix + "--" + label + "-->"
                         + SpFocus.ppsScene(vi.getObject(), agent, false));
             }
@@ -234,7 +234,7 @@ public class SpFocus {
                     prefix = "(inactive)";
                 }
                 String label =
-                        PpVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
+                        xwVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
                 fmt.add(prefix
                         + SpFocus.ppsScene(vi.getSubject(), agent, false)
                         + "--" + label + "--> this");

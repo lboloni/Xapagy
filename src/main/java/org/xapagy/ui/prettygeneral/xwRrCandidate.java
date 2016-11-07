@@ -13,7 +13,6 @@ import org.xapagy.agents.Agent;
 import org.xapagy.reference.rrCandidate;
 import org.xapagy.reference.rrState;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.PpInstance;
 
 /**
  * General formatter printing of the rrCandidate object
@@ -26,32 +25,31 @@ public class xwRrCandidate {
     /**
      * Prints a detailed description of the candidate
      * 
-     * @param xwf
+     * @param xw
      * @param rrc
      * @param agent
      * @return
      */
-    public static String xwDetailed(IXwFormatter xwf, rrCandidate rrc,
+    public static String xwDetailed(IXwFormatter xw, rrCandidate rrc,
             Agent agent) {
-        xwf.addLabelParagraph("RrCandidate");
-        xwf.indent();
-        xwf.is("assignedScore", rrc.getAssignedScore());
-        // FIXME: this should be done instead with xwDetailed
-        xwf.is("instance", PpInstance.ppConcise(rrc.getInstance(), agent));
-        xwf.addLabelParagraph("rrc (the rrContext)");
-        xwf.indent();
-        xwRrContext.xwDetailed(xwf, rrc.getRrc(), agent);
-        xwf.deindent();
+        xw.addLabelParagraph("RrCandidate");
+        xw.indent();
+        xw.is("assignedScore", rrc.getAssignedScore());
+        xw.is("instance", xwInstance.xwConcise(xw.getEmpty(), rrc.getInstance(), agent));
+        xw.addLabelParagraph("rrc (the rrContext)");
+        xw.indent();
+        xwRrContext.xwDetailed(xw, rrc.getRrc(), agent);
+        xw.deindent();
         rrState rrs = rrc.getState();
         if (rrs != null) {
-            xwf.addLabelParagraph("state (the rrState)");
-            xwf.indent();
-            xwRrState.xwDetailed(xwf, rrs, agent);
-            xwf.deindent();
+            xw.addLabelParagraph("state (the rrState)");
+            xw.indent();
+            xwRrState.xwDetailed(xw, rrs, agent);
+            xw.deindent();
         } else {
-            xwf.addLabelParagraph("state (the rrState) = <null>");
+            xw.addLabelParagraph("state (the rrState) = <null>");
         }
-        xwf.deindent();
-        return xwf.toString();
+        xw.deindent();
+        return xw.toString();
     }
 }

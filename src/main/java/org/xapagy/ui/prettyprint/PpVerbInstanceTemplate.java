@@ -9,15 +9,11 @@
 
 package org.xapagy.ui.prettyprint;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.xapagy.agents.Agent;
-import org.xapagy.concepts.Hardwired;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper;
 import org.xapagy.instances.ViStructureHelper.ViPart;
-import org.xapagy.set.ViSet;
+import org.xapagy.ui.prettygeneral.xwVerbInstance;
 
 /**
  * 
@@ -26,7 +22,7 @@ import org.xapagy.set.ViSet;
  * @author Ladislau Boloni
  * 
  */
-public class PpVerbInstance {
+public class PpVerbInstanceTemplate {
 
 
 
@@ -42,7 +38,7 @@ public class PpVerbInstance {
      */
     public static String ppConciseViTemplate(VerbInstance verbInstanceTemplate,
             Agent agent) {
-        return PpVerbInstance.ppDetailedViTemplate(verbInstanceTemplate, agent);
+        return PpVerbInstanceTemplate.ppDetailedViTemplate(verbInstanceTemplate, agent);
     }
 
 
@@ -70,31 +66,6 @@ public class PpVerbInstance {
         }
         fmt.deindent();
         return fmt.toString();
-    }
-
-
-
-    /**
-     * Printing the VI structure
-     * 
-     * @param vi
-     * @param agent
-     * @return
-     */
-    public static String ppViTypeStructureConcise(VerbInstance vi, Agent agent) {
-        switch (vi.getViType()) {
-        case S_V_O:
-            return "S-V-O";
-        case S_V:
-            return "S-V";
-        case S_ADJ:
-            return "S-ADJ";
-        case QUOTE:
-            return "S-V-Sc-Q("
-                    + PpVerbInstance.ppViTypeStructureConcise(vi.getQuote(),
-                            agent) + ")";
-        }
-        throw new Error("this should not happen");
     }
 
 }

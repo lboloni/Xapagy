@@ -23,8 +23,9 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwConceptOverlay;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.prettyprint.PpConceptOverlay;
 import org.xapagy.verbalize.VerbalMemoryHelper;
 
 /**
@@ -84,7 +85,7 @@ public class SpInstance {
                 viewedFromScene, exclusionList);
         // if the label is still null, then refer by parameters
         if (retval == null) {
-            retval = PpConceptOverlay.ppConcise(instance.getConcepts(), agent);
+            retval = xwConceptOverlay.xwConcise(new TwFormatter(), instance.getConcepts(), agent);
         } else {
             // add the labels, if we found it by verbal reference, otherwise, it
             // is there

@@ -21,7 +21,7 @@ import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.PpVerbOverlay;
+import org.xapagy.ui.prettygeneral.xwVerbOverlay;
 import org.xapagy.ui.smartprint.SpInstance;
 
 /**
@@ -54,7 +54,7 @@ public class pgvInstance {
                     fmt.is(GvParameters.FONTNAME, param.fontname);
                     fmt.is(GvParameters.FONTSIZE, param.fontsize);
                     String label =
-                            PpVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
+                            xwVerbOverlay.ppRelationLabel(vi.getVerbs(), agent);
                     fmt.label(label);
                     if (fc.getSalience(vi, EnergyColors.FOCUS_VI) > 0) {
                         color = param.relations_color_nonIdentity;

@@ -33,8 +33,9 @@ import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwInstance;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.prettyprint.PpInstance;
 import org.xapagy.xapi.XapiParserException;
 
 /**
@@ -251,7 +252,7 @@ public class AssertionHelper implements Serializable {
         boolean retval = instance.getConcepts().getLabels().contains(label);
         if (junitAssert) {
             Assert.assertTrue(
-                    "Instance " + PpInstance.ppConcise(instance, agent)
+                    "Instance " + xwInstance.xwConcise(new TwFormatter(), instance, agent)
                             + " doesn't have the required label " + label,
                     retval);
         }

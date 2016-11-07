@@ -4,26 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.Focus;
 import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.Instance;
-import org.xapagy.instances.RelationHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
-import org.xapagy.metaverbs.MetaVerbHelper;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.prettyprint.Formatter;
-import org.xapagy.ui.prettyprint.PpConceptOverlay;
-import org.xapagy.ui.prettyprint.PpInstance;
-import org.xapagy.ui.prettyprint.PpVerbInstance;
-import org.xapagy.ui.prettyprint.PpVerbOverlay;
-import org.xapagy.ui.prettyprint.PpViSet;
+import org.xapagy.ui.prettyprint.PpVerbInstanceTemplate;
 import org.xapagy.ui.prettyprint.PrettyPrint;
-import org.xapagy.ui.prettyprint.PrintDetail;
 import org.xapagy.verbalize.VerbalMemoryHelper;
 
 public class xwVerbInstance {
@@ -117,12 +109,12 @@ public class xwVerbInstance {
 			}
 			case Adjective: {
 				ConceptOverlay co = (ConceptOverlay) thePart;
-				xw.accumulate(PpConceptOverlay.ppConcise(co, agent));
+				xwConceptOverlay.xwConcise(xw, co, agent);
 				return;
 			}
 			case Verb: {
 				VerbOverlay vo = (VerbOverlay) thePart;
-				xw.accumulate(PpVerbOverlay.ppConcise(vo, agent));
+				xwVerbOverlay.xwConcise(xw, vo, agent);
 				return;
 			}
 			case QuoteScene: {
@@ -144,7 +136,7 @@ public class xwVerbInstance {
 			case QuoteScene: {
 				ConceptOverlay co = (ConceptOverlay) thePart;
 				xw.accumulate("<<new: ");
-				xw.accumulate(PpConceptOverlay.ppConcise(co, agent));
+				xwConceptOverlay.xwConcise(xw, co, agent);
 				xw.accumulate(">>");
 				return;
 			}
@@ -170,10 +162,10 @@ public class xwVerbInstance {
 		// if there are missing parts or new parts, it is a template, do
 		// different printing
 		if (!vi.getMissingParts().isEmpty() || !vi.getNewParts().isEmpty()) {
-			xw.add(PpVerbInstance.ppDetailedViTemplate(vi, agent));
+			xw.add(PpVerbInstanceTemplate.ppDetailedViTemplate(vi, agent));
 			return xw.toString();
 		}
-		String head = vi.getIdentifier() + " [" + PpVerbInstance.ppViTypeStructureConcise(vi, agent) + "]";
+		String head = vi.getIdentifier() + " [" + xwVerbInstance.toStringViTypeStructureConcise(vi, agent) + "]";
 		String viText = VerbalMemoryHelper.getXapiStatementOfVi(vi, agent);
 		if (viText != null) {
 			head += " (\"" + viText + "\")";
@@ -184,8 +176,8 @@ public class xwVerbInstance {
 		head += " focus = " + Formatter.fmt(agent.getFocus().getSalience(vi, EnergyColors.FOCUS_VI));
 		xw.add(head);
 		xw.indent();
-		xw.add("Verbs: " + PpVerbOverlay.ppConcise(vi.getVerbs(), agent));
-		xw.add(PpVerbOverlay.getLabels(vi.getVerbs()));
+		xw.add("Verbs: " + xwVerbOverlay.xwConcise(xw.getEmpty(), vi.getVerbs(), agent));
+		xw.add(xwVerbOverlay.getLabels(vi.getVerbs()));
 		xwStructure(xw, vi, agent);
 		xw.add(ppStructuralRelations(vi, agent));
 		xw.add(ppNonStructuralRelations(vi, agent));
@@ -214,7 +206,7 @@ public class xwVerbInstance {
 			break;
 		}
 		case S_ADJ: {
-			xw.add("Adjective: " + PpConceptOverlay.ppConcise(vi.getAdjective(), agent));
+			xw.add("Adjective: " + xwConceptOverlay.xwConcise(xw.getEmpty(), vi.getAdjective(), agent));
 			break;
 		}
 		case QUOTE: {
@@ -276,5 +268,28 @@ public class xwVerbInstance {
         }
         return fmt.toString();
     }
+
+	/**
+	 * Printing the VI structure
+	 * 
+	 * @param vi
+	 * @param agent
+	 * @return
+	 */
+	public static String toStringViTypeStructureConcise(VerbInstance vi, Agent agent) {
+	    switch (vi.getViType()) {
+	    case S_V_O:
+	        return "S-V-O";
+	    case S_V:
+	        return "S-V";
+	    case S_ADJ:
+	        return "S-ADJ";
+	    case QUOTE:
+	        return "S-V-Sc-Q("
+	                + xwVerbInstance.toStringViTypeStructureConcise(vi.getQuote(),
+	                        agent) + ")";
+	    }
+	    throw new Error("this should not happen");
+	}
 	
 }
