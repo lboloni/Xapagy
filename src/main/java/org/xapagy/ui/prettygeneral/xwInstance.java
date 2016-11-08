@@ -1,3 +1,22 @@
+/*
+   
+    This file is part of the Xapagy Cognitive Architecture 
+    Copyright (C) 2008-2017 Ladislau Boloni
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   
+ */
 package org.xapagy.ui.prettygeneral;
 
 import java.util.List;
@@ -43,41 +62,41 @@ public class xwInstance {
     /**
      * Returns a concise, single line version of the instance description
      * 
-     * @param fmt - the formatter
+     * @param xw - the formatter
      * @param instance
      * @param agent
      * @return
      */
-    public static String xwConcise(IXwFormatter fmt, Instance instance, Agent agent) {
-        fmt.accumulate(instance.getIdentifier());
-        fmt.accumulate(" " + PrettyPrint.ppConcise(instance.getConcepts(), agent));
-        return fmt.toString();
+    public static String xwConcise(IXwFormatter xw, Instance instance, Agent agent) {
+        xw.accumulate(instance.getIdentifier());
+        xw.accumulate(" " + PrettyPrint.ppConcise(instance.getConcepts(), agent));
+        return xw.toString();
     }
 	
     /**
      * Returns a detailed version of the instance description which outlines the
      * composites
      * 
-     * @param fmt 
+     * @param xw
      * @param instance
      * @param agent
      * @return
      */
-    public static String xwDetailed(IXwFormatter fmt, Instance instance, Agent agent) {
+    public static String xwDetailed(IXwFormatter xw, Instance instance, Agent agent) {
         Focus fc = agent.getFocus();
-        xwConcise(fmt, instance, agent);
-        fmt.add("");
-        fmt.indent();
-        fmt.add("Scene: "
-                + xwConcise(fmt, instance.getScene(), agent));
-        fmt.deindent();
+        xwConcise(xw, instance, agent);
+        xw.add("");
+        xw.indent();
+        xw.add("Scene: "
+                + xwConcise(xw, instance.getScene(), agent));
+        xw.deindent();
         String prefix = "";
         List<VerbInstance> vis = null;
         // binary context relations, from
         vis = RelationHelper.getRelationsFrom(agent, instance, false);
         if (!vis.isEmpty()) {
-            fmt.add("Binary context relations from:");
-            fmt.indent();
+            xw.add("Binary context relations from:");
+            xw.indent();
             for (VerbInstance vi : vis) {
                 VerbOverlay vo =
                         MetaVerbHelper.removeMetaVerbs(vi.getVerbs(), agent);
@@ -86,16 +105,16 @@ public class xwInstance {
                 } else {
                     prefix = "(inactive)";
                 }
-                fmt.add(prefix + "this -- " + PrettyPrint.ppConcise(vo, agent)
+                xw.add(prefix + "this -- " + PrettyPrint.ppConcise(vo, agent)
                         + "-->" + PrettyPrint.ppConcise(vi.getObject(), agent));
             }
-            fmt.deindent();
+            xw.deindent();
         }
         // binary context relations, to
         vis = RelationHelper.getRelationsTo(agent, instance, false);
         if (!vis.isEmpty()) {
-            fmt.add("Binary context relations to:");
-            fmt.indent();
+            xw.add("Binary context relations to:");
+            xw.indent();
             for (VerbInstance vi : vis) {
                 VerbOverlay vo =
                         MetaVerbHelper.removeMetaVerbs(vi.getVerbs(), agent);
@@ -104,20 +123,20 @@ public class xwInstance {
                 } else {
                     prefix = "(inactive)";
                 }
-                fmt.add(PrettyPrint.ppConcise(vi.getSubject(), agent) + "--"
+                xw.add(PrettyPrint.ppConcise(vi.getSubject(), agent) + "--"
                         + PrettyPrint.ppConcise(vo, agent) + "--> this");
             }
-            fmt.deindent();
+            xw.deindent();
         }
         // print the firedShadowVis
         if (instance.isScene()) {
-            fmt.add("firedShadowVis");
-            fmt.indent();
-            fmt.add(PpViSet.ppConcise(instance.getSceneParameters()
+            xw.add("firedShadowVis");
+            xw.indent();
+            xw.add(PpViSet.ppConcise(instance.getSceneParameters()
                     .getFiredShadowVis(), agent));
-            fmt.deindent();
+            xw.deindent();
         }
-        return fmt.toString();
+        return xw.toString();
     }
 
     
