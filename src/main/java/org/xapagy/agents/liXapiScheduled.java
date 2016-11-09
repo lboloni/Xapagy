@@ -20,9 +20,10 @@
 package org.xapagy.agents;
 
 /**
+ * A loopitem based on a Xapi string that was scheduled ahead of time to execute
+ * at a certain time.
  * 
- * @author lboloni
- * Created on November 1, 2016
+ * @author lboloni Created on November 1, 2016
  */
 public class liXapiScheduled extends AbstractXapiLoopItem {
 
@@ -32,7 +33,6 @@ public class liXapiScheduled extends AbstractXapiLoopItem {
 	 */
 	private double scheduledExecutionTime = -1;
 
-	
 	/**
 	 * 
 	 * @param agent

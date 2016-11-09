@@ -1,12 +1,22 @@
 /*
-   This file is part of the Xapagy project
-   Created on: Jul 13, 2014
- 
-   org.xapagy.debug.ViShadowEvolutionMatrix
- 
-   Copyright (c) 2008-2014 Ladislau Boloni
- */
+   
+    This file is part of the Xapagy Cognitive Architecture 
+    Copyright (C) 2008-2017 Ladislau Boloni
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   
+*/
 package org.xapagy.debug;
 
 import java.util.ArrayList;
@@ -30,7 +40,7 @@ import org.xapagy.ui.smartprint.XapiPrint;
  * are time points in the evolution of the agent.
  * 
  * @author Ladislau Boloni
- *
+ * Created on: Jul 13, 2014
  */
 public class ViShadowEvolutionMatrix extends AbstractEvolutionMatrix {
     private static final long serialVersionUID = -3514273899768949289L;

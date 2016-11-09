@@ -26,15 +26,13 @@ import org.xapagy.headless_shadows.ExecuteChoice;
 import org.xapagy.headless_shadows.HeadlessComponents;
 
 /**
+ * A loopitem created from a HLS choice
  * 
  * @author lboloni
  * Created on November 1, 2016
  */
 public class liHlsChoiceBased extends AbstractLoopItem {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -5668168521389864977L;
 	/**
 	 * For internal recalls, the choice which let to its instantiation
