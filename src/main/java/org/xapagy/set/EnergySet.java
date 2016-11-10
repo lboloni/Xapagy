@@ -1,12 +1,3 @@
-/*
-   This file is part of the Xapagy project
-   Created on: Apr 1, 2014
- 
-   org.xapagy.set.EnergySet
- 
-   Copyright (c) 2008-2014 Ladislau Boloni
- */
-
 package org.xapagy.set;
 
 import java.io.Serializable;
@@ -24,7 +15,7 @@ import org.xapagy.instances.XapagyComponent;
  * the autobiographical memory
  * 
  * @author Ladislau Boloni
- * 
+ * Created on: Apr 1, 2014
  */
 public class EnergySet<T extends XapagyComponent> implements Serializable {
 

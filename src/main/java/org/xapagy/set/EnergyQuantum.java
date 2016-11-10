@@ -1,12 +1,3 @@
-/*
-   This file is part of the Xapagy project
-   Created on: Nov 14, 2012
-
-   org.xapagy.shadows.ShadowQuantum
-
-   Copyright (c) 2008-2014 Ladislau Boloni
- */
-
 package org.xapagy.set;
 
 import java.io.Serializable;
@@ -25,7 +16,7 @@ import org.xapagy.ui.TextUi;
  * Represents a particular quantum of change in the energy in an energy set
  *
  * @author Ladislau Boloni
- *
+ * Created on: Nov 14, 2012
  */
 public class EnergyQuantum<T extends XapagyComponent> implements Serializable {
 

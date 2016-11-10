@@ -1,12 +1,3 @@
-/*
-   This file is part of the Xapagy project
-   Created on: Feb 7, 2012
- 
-   org.xapagy.shadows.ShadowInstanceComparator
- 
-   Copyright (c) 2008-2014 Ladislau Boloni
- */
-
 package org.xapagy.shadows;
 
 import java.util.Comparator;
@@ -20,7 +11,7 @@ import org.xapagy.instances.Instance;
  * 
  * 
  * @author Ladislau Boloni
- * 
+ * Created on: Feb 7, 2012
  */
 public class ShadowInstanceComparator implements Comparator<Instance> {
 

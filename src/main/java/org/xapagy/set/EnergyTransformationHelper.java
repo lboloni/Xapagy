@@ -1,12 +1,3 @@
-/*
-   This file is part of the Xapagy project
-   Created on: Nov 5, 2014
- 
-   org.xapagy.set.EnergyTransformationHelper
- 
-   Copyright (c) 2008-2014 Ladislau Boloni
- */
-
 package org.xapagy.set;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -23,7 +14,7 @@ import org.xapagy.shadows.Shadows;
  * This is always done through two energy quantums
  * 
  * @author Ladislau Boloni
- *
+ * Created on: Nov 5, 2014
  */
 public class EnergyTransformationHelper {
 
