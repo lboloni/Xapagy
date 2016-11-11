@@ -20,7 +20,7 @@ import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.debug.Runner;
 import org.xapagy.reference.rrVoCompatibility;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.latex.LatexFormatter;
+import org.xapagy.ui.formatters.LatexFormatter;
 import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 

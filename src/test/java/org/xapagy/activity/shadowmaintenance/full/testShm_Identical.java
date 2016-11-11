@@ -26,7 +26,7 @@ import org.xapagy.debug.storygenerator.RsTemplates;
 import org.xapagy.debug.storygenerator.RsTestingUnit;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.latex.LatexFormatter;
+import org.xapagy.ui.formatters.LatexFormatter;
 import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.Formatter;
 

@@ -11,7 +11,7 @@ package org.xapagy.activity.shadowmaintenance;
 
 import java.util.AbstractMap.SimpleEntry;
 
-import org.xapagy.ui.latex.LatexFormatter;
+import org.xapagy.ui.formatters.LatexFormatter;
 import org.xapagy.ui.prettyprint.FormatTable;
 
 /**

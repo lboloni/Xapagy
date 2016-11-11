@@ -26,7 +26,7 @@ import org.xapagy.set.EnergyColors;
 import org.xapagy.set.EnergyQuantum;
 import org.xapagy.set.InstanceSet;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.latex.LatexFormatter;
+import org.xapagy.ui.formatters.LatexFormatter;
 import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;

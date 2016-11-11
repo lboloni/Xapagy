@@ -15,6 +15,7 @@ import java.util.List;
 import org.junit.Test;
 
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.LatexFormatter;
 import org.xapagy.ui.prettyprint.Formatter;
 
 /**
