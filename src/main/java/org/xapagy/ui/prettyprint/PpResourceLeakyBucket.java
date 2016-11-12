@@ -21,6 +21,7 @@ package org.xapagy.ui.prettyprint;
 
 import org.xapagy.activity.ResourceLeakyBucket;
 import org.xapagy.agents.Agent;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

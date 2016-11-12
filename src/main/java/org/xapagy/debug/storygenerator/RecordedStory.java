@@ -30,7 +30,7 @@ import org.xapagy.concepts.Hardwired.SceneRelation;
 import org.xapagy.debug.Runner;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.XapagyComponent;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * 

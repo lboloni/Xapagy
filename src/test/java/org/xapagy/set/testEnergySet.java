@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.xapagy.TestHelper;
 import org.xapagy.agents.Agent;
 import org.xapagy.instances.Instance;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * A variety of tests for the EnergySet object, and the way the energies are

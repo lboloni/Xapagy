@@ -19,7 +19,7 @@
 */
 package org.xapagy.reference;
 
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * An exception object which describes the fact that the resolution of a certain

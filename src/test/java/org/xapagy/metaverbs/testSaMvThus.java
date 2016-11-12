@@ -20,7 +20,7 @@ import org.xapagy.debug.Runner;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

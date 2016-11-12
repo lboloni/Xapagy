@@ -40,11 +40,11 @@ import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.formatters.TwFormatter;
 import org.xapagy.ui.prettygeneral.xwInstance;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * The calculation of the score of a choice. This depends on the type of the

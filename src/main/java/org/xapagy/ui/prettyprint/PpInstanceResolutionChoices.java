@@ -29,6 +29,7 @@ import org.xapagy.agents.Agent;
 import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.util.SimpleEntryComparator;
 
 /**

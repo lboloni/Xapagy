@@ -34,8 +34,8 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViSimilarityHelper;
 import org.xapagy.set.ViSet;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.xapi.reference.XrefStatement;
 
 /**

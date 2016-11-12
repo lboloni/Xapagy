@@ -21,7 +21,7 @@ package org.xapagy.ui.prettygraphviz;
 
 import java.util.Stack;
 
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * Special version of formatter, for the purpose of formatting to GraphViz

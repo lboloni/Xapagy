@@ -35,8 +35,8 @@ import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.prettygeneral.xwVerbOverlay;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * 

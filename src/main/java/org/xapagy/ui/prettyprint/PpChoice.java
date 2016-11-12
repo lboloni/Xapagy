@@ -23,6 +23,7 @@ import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.Choice;
 import org.xapagy.headless_shadows.Hls;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.TwFormatter;
 import org.xapagy.ui.prettygeneral.xwVerbInstance;
 

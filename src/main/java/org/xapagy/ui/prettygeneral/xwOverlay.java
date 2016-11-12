@@ -30,8 +30,8 @@ import org.xapagy.concepts.AbstractConcept;
 import org.xapagy.concepts.Concept;
 import org.xapagy.concepts.Overlay;
 import org.xapagy.concepts.Verb;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
 
 public class xwOverlay {
 	/**

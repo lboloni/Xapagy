@@ -22,11 +22,11 @@ package org.xapagy.ui.prettyhtml;
 import org.xapagy.Version;
 import org.xapagy.agents.Agent;
 import org.xapagy.httpserver.RESTQuery;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.HtmlFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.observers.BreakObserver;
 import org.xapagy.ui.observers.IAgentObserver;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * Functions which deal with the navigation bar in Xapagy webpage

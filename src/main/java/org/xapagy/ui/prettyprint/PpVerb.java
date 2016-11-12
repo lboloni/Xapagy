@@ -25,6 +25,7 @@ import org.xapagy.agents.Agent;
 import org.xapagy.concepts.AbstractConceptDB;
 import org.xapagy.concepts.Verb;
 import org.xapagy.concepts.VerbOverlay;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

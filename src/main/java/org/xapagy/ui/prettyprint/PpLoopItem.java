@@ -24,6 +24,7 @@ import org.xapagy.agents.liHlsChoiceBased;
 import org.xapagy.agents.liXapiReading;
 import org.xapagy.agents.liViBased;
 import org.xapagy.agents.liXapiScheduled;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.prettygeneral.xwLiHlsChoiceBased;
 import org.xapagy.ui.prettygeneral.xwLiViBased;

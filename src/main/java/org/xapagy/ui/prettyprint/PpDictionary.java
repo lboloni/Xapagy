@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.xapagy.agents.Agent;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.xapi.XapiDictionary;
 
 /**

@@ -19,8 +19,8 @@ import org.xapagy.agents.Agent;
 import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.debug.Runner;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.FormatTable;
 import org.xapagy.ui.formatters.LatexFormatter;
-import org.xapagy.ui.prettyprint.FormatTable;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**

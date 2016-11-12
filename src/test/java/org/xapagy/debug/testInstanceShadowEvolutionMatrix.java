@@ -19,8 +19,8 @@ import org.xapagy.autobiography.ABStory;
 import org.xapagy.instances.Instance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.observers.AbstractAgentObserver.TraceWhat;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * @author Ladislau Boloni

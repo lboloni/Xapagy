@@ -30,6 +30,7 @@ import org.xapagy.concepts.AbstractConcept;
 import org.xapagy.concepts.AbstractConceptDB;
 import org.xapagy.concepts.Concept;
 import org.xapagy.concepts.ConceptOverlay;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.util.SimpleEntryComparator;
 
 /**

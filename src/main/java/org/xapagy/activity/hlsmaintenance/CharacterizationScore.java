@@ -28,7 +28,7 @@ import org.xapagy.concepts.operations.Incompatibility;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.SceneParameters;
 import org.xapagy.set.EnergyColors;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * An object which holds the various components of the characterization score

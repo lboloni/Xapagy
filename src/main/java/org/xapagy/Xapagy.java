@@ -28,9 +28,9 @@ import org.xapagy.agents.Agent;
 import org.xapagy.debug.Runner;
 import org.xapagy.ui.SaveLoadUtil;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.observers.AbstractAgentObserver.TraceWhat;
 import org.xapagy.ui.observers.ToStringObserver;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * @author Ladislau Boloni

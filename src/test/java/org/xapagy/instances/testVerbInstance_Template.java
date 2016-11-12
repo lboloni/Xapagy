@@ -19,7 +19,7 @@ import org.xapagy.debug.Runner;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 import org.xapagy.xapi.XapiParser;
 import org.xapagy.xapi.XapiParserException;

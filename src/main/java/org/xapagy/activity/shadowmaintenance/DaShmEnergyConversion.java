@@ -35,8 +35,8 @@ import static org.xapagy.set.EnergyColors.*;
 import org.xapagy.set.EnergyQuantum;
 import org.xapagy.set.EnergyTransformationHelper;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.smartprint.XapiPrint;
 
 /**

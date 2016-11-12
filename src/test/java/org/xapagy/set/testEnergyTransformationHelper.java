@@ -20,8 +20,8 @@ import org.xapagy.agents.Agent;
 import org.xapagy.instances.Instance;
 import org.xapagy.shadows.Shadows;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.FormatTable;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.FormatTable;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

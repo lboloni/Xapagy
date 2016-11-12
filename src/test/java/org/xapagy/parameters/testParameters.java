@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import org.xapagy.TestHelper;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

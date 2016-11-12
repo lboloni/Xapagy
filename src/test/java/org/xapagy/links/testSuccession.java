@@ -22,7 +22,7 @@ import org.xapagy.concepts.Hardwired;
 import org.xapagy.debug.Runner;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**

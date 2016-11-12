@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.ui.prettyprint;
+package org.xapagy.ui.formatters;
 
 import java.util.ArrayList;
 import java.util.List;

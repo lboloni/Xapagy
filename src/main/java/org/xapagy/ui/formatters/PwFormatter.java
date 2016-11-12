@@ -22,7 +22,6 @@ package org.xapagy.ui.formatters;
 import org.xapagy.instances.XapagyComponent;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.prettyhtml.ColorCode;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * Extension of the HtmlFormatter which implements the specific GUI elements of

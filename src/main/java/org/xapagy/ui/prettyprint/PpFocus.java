@@ -24,6 +24,7 @@ import org.xapagy.agents.Focus;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

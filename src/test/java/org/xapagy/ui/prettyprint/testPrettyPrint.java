@@ -16,6 +16,7 @@ import org.xapagy.TestHelper;
 import org.xapagy.debug.Runner;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.verbalize.VmInstanceReference;
 
 /**

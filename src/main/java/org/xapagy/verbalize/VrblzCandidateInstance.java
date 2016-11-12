@@ -30,7 +30,7 @@ import org.xapagy.reference.ReferenceResolution;
 import org.xapagy.reference.rrContext;
 import org.xapagy.reference.rrException;
 import org.xapagy.reference.rrState;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * A candidate for the verbalization of an instance

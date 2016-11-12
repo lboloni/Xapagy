@@ -20,7 +20,7 @@
 package org.xapagy.parameters;
 
 import org.xapagy.ui.TextUiHelper;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * 

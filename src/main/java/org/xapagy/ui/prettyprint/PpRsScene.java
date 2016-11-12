@@ -22,6 +22,7 @@ package org.xapagy.ui.prettyprint;
 import org.xapagy.agents.Agent;
 import org.xapagy.debug.storygenerator.RsScene;
 import org.xapagy.instances.Instance;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.smartprint.SpInstance;
 
 /**

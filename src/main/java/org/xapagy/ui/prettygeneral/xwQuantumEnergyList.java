@@ -36,9 +36,9 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.XapagyComponent;
 import org.xapagy.set.EnergyColors.EnergyColorType;
 import org.xapagy.set.EnergyQuantum;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.HtmlFormatter;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.util.SimpleEntryComparator;
 
 /**

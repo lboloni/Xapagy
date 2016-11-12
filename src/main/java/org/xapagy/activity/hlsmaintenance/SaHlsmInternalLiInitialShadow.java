@@ -24,8 +24,8 @@ import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.Choice;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.ViSet;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * Initializes the shadow of an internal LI based on its HLS

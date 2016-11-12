@@ -29,6 +29,7 @@ import org.xapagy.concepts.Hardwired;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * 

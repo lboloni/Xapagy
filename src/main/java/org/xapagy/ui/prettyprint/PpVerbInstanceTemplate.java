@@ -23,6 +23,7 @@ import org.xapagy.agents.Agent;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper;
 import org.xapagy.instances.ViStructureHelper.ViPart;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * 

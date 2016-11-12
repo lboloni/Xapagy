@@ -22,6 +22,7 @@ package org.xapagy.ui.prettyprint;
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.debug.storygenerator.RsOneLine;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

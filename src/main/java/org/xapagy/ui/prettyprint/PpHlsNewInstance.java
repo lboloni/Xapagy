@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.HlsNewInstance;
+import org.xapagy.ui.formatters.XFormatter;
 
 /**
  * @author Ladislau Boloni

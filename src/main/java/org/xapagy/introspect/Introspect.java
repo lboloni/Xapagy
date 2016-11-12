@@ -37,7 +37,7 @@ import org.xapagy.storyline.QuestionAnswering;
 import org.xapagy.storyline.StoryLine;
 import org.xapagy.storyline.StoryLineReasoning;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.xapi.DecompositionHelper;

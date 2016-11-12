@@ -27,8 +27,8 @@ import org.xapagy.concepts.AbstractConceptDB;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.Verb;
 import org.xapagy.concepts.VerbOverlay;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 public class xwVerbOverlay {

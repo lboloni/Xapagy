@@ -17,7 +17,7 @@ import org.xapagy.autobiography.ABStory;
 import org.xapagy.debug.Runner;
 import org.xapagy.debug.storygenerator.StoryTemplates.SceneSetting;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * A series of tests for the visual inspection of the stories generated in

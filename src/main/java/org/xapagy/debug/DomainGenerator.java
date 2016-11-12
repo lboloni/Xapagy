@@ -21,7 +21,7 @@ package org.xapagy.debug;
 
 import org.xapagy.autobiography.ABStory;
 import org.xapagy.concepts.ConceptNamingConventions;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * Utility function for generating domains. It is used to generate automated

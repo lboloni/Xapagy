@@ -23,8 +23,8 @@ import org.xapagy.agents.Agent;
 import org.xapagy.agents.liHlsChoiceBased;
 import org.xapagy.agents.AbstractLoopItem.LoopItemState;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
-import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.ui.smartprint.XapiPrint;
 
 public class xwLiHlsChoiceBased {

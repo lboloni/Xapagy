@@ -21,7 +21,7 @@ import org.xapagy.debug.Runner;
 import org.xapagy.debug.storygenerator.RecordedStory;
 import org.xapagy.debug.storygenerator.RsGenerator;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.util.DirUtil;
 
 /**

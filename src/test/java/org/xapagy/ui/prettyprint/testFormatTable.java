@@ -12,6 +12,7 @@ package org.xapagy.ui.prettyprint;
 import org.junit.Test;
 
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.FormatTable;
 
 /**
  * @author Ladislau Boloni

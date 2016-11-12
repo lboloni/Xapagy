@@ -30,6 +30,7 @@ import org.xapagy.headless_shadows.FsliComparator;
 import org.xapagy.headless_shadows.Hls;
 import org.xapagy.headless_shadows.HlsNewInstance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

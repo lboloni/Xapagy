@@ -35,7 +35,7 @@ import org.xapagy.metaverbs.SaMvInsertHlsLocation;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**

@@ -29,10 +29,10 @@ import java.util.Set;
 import org.xapagy.debug.DebugEvent;
 import org.xapagy.debug.DebugEvent.DebugEventType;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.prettygraphviz.GraphVizHelper;
 import org.xapagy.ui.prettygraphviz.pgvFocusInstances;
 import org.xapagy.ui.prettygraphviz.pgvFocusVis;
-import org.xapagy.ui.prettyprint.Formatter;
 import org.xapagy.util.FileWritingUtil;
 
 /**

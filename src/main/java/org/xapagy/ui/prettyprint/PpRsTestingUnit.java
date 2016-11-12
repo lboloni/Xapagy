@@ -24,6 +24,7 @@ import org.xapagy.debug.storygenerator.RecordedStory;
 import org.xapagy.debug.storygenerator.RsScene;
 import org.xapagy.debug.storygenerator.RsTestingUnit;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

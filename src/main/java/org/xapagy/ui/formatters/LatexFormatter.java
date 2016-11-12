@@ -22,7 +22,6 @@ package org.xapagy.ui.formatters;
 import java.util.Stack;
 
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * @author Ladislau Boloni

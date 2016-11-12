@@ -21,6 +21,7 @@ package org.xapagy.ui.prettyprint;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Loop;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * 

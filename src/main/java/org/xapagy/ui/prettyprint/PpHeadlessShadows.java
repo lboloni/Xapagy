@@ -28,6 +28,7 @@ import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.FslType;
 import org.xapagy.headless_shadows.HeadlessComponents;
 import org.xapagy.headless_shadows.Hls;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.util.SimpleEntryComparator;
 
 /**

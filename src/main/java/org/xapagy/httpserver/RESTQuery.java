@@ -22,7 +22,7 @@ package org.xapagy.httpserver;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * 

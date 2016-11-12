@@ -37,7 +37,7 @@ import org.xapagy.reference.rrState.rrPhase;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.EnergyQuantum;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.verbalize.VerbalMemoryHelper;

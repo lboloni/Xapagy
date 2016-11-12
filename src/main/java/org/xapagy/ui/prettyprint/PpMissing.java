@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.Hls;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni

@@ -20,6 +20,7 @@
 package org.xapagy.ui.prettyprint;
 
 import org.xapagy.agents.Agent;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.xapi.reference.AbstractXapiReference;
 
 /**

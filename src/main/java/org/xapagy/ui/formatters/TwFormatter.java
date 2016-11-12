@@ -22,7 +22,6 @@ package org.xapagy.ui.formatters;
 import org.xapagy.instances.XapagyComponent;
 import org.xapagy.ui.TextUiHelper;
 import org.xapagy.ui.prettyhtml.ColorCode;
-import org.xapagy.ui.prettyprint.Formatter;
 
 /**
  * A text based implementation of the generic

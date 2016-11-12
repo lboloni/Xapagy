@@ -30,8 +30,8 @@ import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.EnergyColors.EnergyColorType;
 import org.xapagy.ui.TextUi;
-import org.xapagy.ui.prettyprint.FormatTable;
-import org.xapagy.ui.prettyprint.Formatter;
+import org.xapagy.ui.formatters.FormatTable;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.smartprint.XapiPrint;
 
 /**
