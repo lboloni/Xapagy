@@ -17,38 +17,37 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.xapi;
+package org.xapagy.ui.formatters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-import org.xapagy.ArtificialDomain;
-import org.xapagy.TestHelper;
-import org.xapagy.concepts.ConceptOverlay;
-import org.xapagy.debug.Runner;
+import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.LatexFormatter;
 
 /**
  * @author Ladislau Boloni
- * Created on: Feb 22, 2011
+ * Created on: Jan 3, 2013
  */
-public class testWordResolutionHelper {
+public class testLatexFormatter {
 
     @Test
-    public void testComposition() throws XapiParserException {
-        String description = "Composition of words for an overlay";
-        TestHelper.testStart(description);
-        Runner r = ArtificialDomain.runnerArtificialAutobiography();
-        r.printOn = true;
-        List<String> words = new ArrayList<>();
-        words.add("w_c_bai20");
-        words.add("w_c_bai21");
-        ConceptOverlay co =
-                WordResolutionHelper.resolveWordsToCo(r.agent, words);
-        r.ah.coContains(co, "c_bai20");
-        r.ah.coContains(co, "c_bai21");
-        TestHelper.testDone();
+    public void testProcessForLatex() {
+        Formatter fmt = new Formatter();
+        List<String> tests = new ArrayList<>();
+        tests.add("aaa");
+        tests.add("a_b");
+        tests.add("a{b}");
+        tests.add("a % b");
+        tests.add("a \\ b");
+        tests.add("[b]");
+        for (String test : tests) {
+            fmt.is(test, LatexFormatter.processForLatex(test));
+        }
+        TextUi.println(fmt.toString());
     }
 
 }
