@@ -187,7 +187,7 @@ public class ToStringObserver extends AbstractAgentObserver {
 	 * @return
 	 */
 	public static String formatTraceString(Agent agent, DebugEventType eventType, Set<TraceWhat> traceWhat) {
-		StringBuffer buff = new StringBuffer();
+
 		AbstractLoopItem current = agent.getLoop().getInExecution();
 		if (current == null && !eventType.equals(DebugEventType.AFTER_LOOP_ITEM_EXECUTION)) {
 			current = agent.getLoop().getHistory().get(agent.getLoop().getHistory().size() - 1);
@@ -196,22 +196,26 @@ public class ToStringObserver extends AbstractAgentObserver {
 			return "formatTraceString: No current execution!";
 		}
 		// at this moment we have the loop item
-		TwFormatter pwf = new TwFormatter();
-		pwf.add(String.format("%5.1f", agent.getTime()) + " > ");
+		TwFormatter tw = new TwFormatter();
+		tw.accumulate(String.format("%6.1f", agent.getTime()) + "    ");
 
 		if (current instanceof liXapiScheduled) {
-			return xwLiXapiScheduled.xwConcise(pwf, (liXapiScheduled)current, agent);
+			return xwLiXapiScheduled.xwConcise(tw, (liXapiScheduled)current, agent);
 		}
 		if (current instanceof liHlsChoiceBased) {
-			return xwLiHlsChoiceBased.xwConcise(pwf, (liHlsChoiceBased)current, agent);
+			return xwLiHlsChoiceBased.xwConcise(tw, (liHlsChoiceBased)current, agent);
 		}		
 		if (current instanceof liViBased) {
-			return xwLiViBased.xwConcise(pwf, (liViBased) current, agent);
+			return xwLiViBased.xwConcise(tw, (liViBased) current, agent);
 		}		
 		if (current instanceof liXapiReading) {
-			return xwLiXapiReading.xwConcise(pwf, (liXapiReading) current, agent);
+			return xwLiXapiReading.xwConcise(tw, (liXapiReading) current, agent);
 		}
 
+		//
+		//  Well...
+		//
+		StringBuffer buff = new StringBuffer();
 		// buff.append("\n");
 		if (traceWhat.contains(TraceWhat.VERBALIZATION)) {
 			for (VerbInstance vi : current.getExecutionResult()) {
@@ -259,7 +263,7 @@ public class ToStringObserver extends AbstractAgentObserver {
 		TextUi.writer = printStream;
 		String eventText = formatEvent(event);
 		if (printToOutput) {
-			TextUi.println(eventText);
+			TextUi.print(eventText);
 		}
 		if (printToTextFiles) {
 			String fileName = stepFileName + String.format("%03d", stepCount);
