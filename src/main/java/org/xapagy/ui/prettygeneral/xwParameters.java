@@ -19,6 +19,7 @@
 */
 package org.xapagy.ui.prettygeneral;
 
+import org.xapagy.agents.Agent;
 import org.xapagy.parameters.Parameters;
 import org.xapagy.ui.formatters.IXwFormatter;
 
@@ -28,26 +29,23 @@ import org.xapagy.ui.formatters.IXwFormatter;
  */
 public class xwParameters {
     /**
-     * Print the parameters, organized by area and group
+     * Detailed printing of the parameters
      * 
-     * @param fmt
+     * @param xw
      * @param p
+     * @param agent 
      * @return
      */
-    public static String xwDetailed(IXwFormatter fmt, Parameters p) {
+    public static String xwDetailed(IXwFormatter xw, Parameters p, Agent agent) {
         for (String area : p.listAreas()) {
-            fmt.addH2(area);
-            fmt.indent();
-            xwParameters.xwDetailedArea(fmt, p, area);
-            fmt.deindent();
+            xw.addH2(area);
+            xw.indent();
+            xwParameters.xwDetailedArea(xw, p, area);
+            xw.deindent();
         }
-        return fmt.toString();
-
+        return xw.toString();
     }
 
-    /**
-     * @param debug
-     */
     private static void xwDetailedArea(IXwFormatter fmt, Parameters p,
             String area) {
         for (String group : p.listGroups(area)) {

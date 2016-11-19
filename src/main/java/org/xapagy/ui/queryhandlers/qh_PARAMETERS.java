@@ -35,6 +35,6 @@ public class qh_PARAMETERS implements IQueryHandler {
         Parameters p = agent.getParameters();
         String redheader = "Parameters prepack = NO NAME";
         fmt.addH2(redheader, "class=identifier");
-        xwParameters.xwDetailed(fmt, p);
+        xwParameters.xwDetailed(fmt, p, agent);
     }
 }

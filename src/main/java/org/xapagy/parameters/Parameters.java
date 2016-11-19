@@ -324,7 +324,7 @@ public class Parameters implements Serializable {
     @Override
     public String toString() {
         TwFormatter twf = new TwFormatter();
-        xwParameters.xwDetailed(twf, this);
+        xwParameters.xwDetailed(twf, this, null);
         return twf.toString();
     }
 

@@ -112,14 +112,38 @@ public class AbstractConceptDB<T extends AbstractConcept> implements
                 "Misnamed concept, must start with cxx_ or vxx_ !!!");
     }
 
+    /**
+     * Map keeping the areas of abstract concepts
+     */
     private Map<T, Double> area = new HashMap<>();
 
+    /**
+     * Map keeping the abstract concept objects themselves
+     */
     private Map<String, T> concepts = new HashMap<>();
 
+    /**
+     * Map keeping the impacts (a double value between two abstract concepts)
+     */
     private Map<T, Map<T, Double>> impactRatio = new HashMap<>();
 
+    /**
+     * Map keeping the overlaps between concepts (a double value between two abstract concepts)
+     */
     private Map<T, Map<T, Double>> overlapArea = new HashMap<>();
 
+    /**
+     * The impact of the concept on a specific drive when it appears as a subject
+     */
+    private Map<T, Map<String, Double>> driveImpactOnSubject = new HashMap<>();
+    /**
+     * The impact of the concept on a specific drive when it appears as an object
+     */
+    private Map<T, Map<String, Double>> driveImpactOnObject = new HashMap<>();
+    
+    
+    
+    
     public AbstractConceptDB() {
         // initializes an empty concept database
     }
@@ -217,18 +241,83 @@ public class AbstractConceptDB<T extends AbstractConcept> implements
     }
 
     /**
-     * Returns all the impacts from a
+     * Returns all the impacts from a given abstract concept
      * 
+     * @param T - the abstract concept whose overlaps we are studying
      * @return
      */
     public Map<T, Double> getImpacts(T a) {
-        Map<T, Double> ovr = impactRatio.get(a);
-        if (ovr == null) {
-            ovr = new HashMap<>();
+        Map<T, Double> retval = impactRatio.get(a);
+        if (retval == null) {
+            retval = new HashMap<>();
         }
-        return Collections.unmodifiableMap(ovr);
+        return Collections.unmodifiableMap(retval);
     }
 
+    
+    /**
+     * Returns all the drive impacts on subject by a given abstract concept
+     * 
+     * @param T - the abstract concept 
+     * @return
+     */
+    public Map<String, Double> getDriveImpactsOnSubject(T a) {
+        Map<String, Double> retval = driveImpactOnSubject.get(a);
+        if (retval == null) {
+            retval = new HashMap<>();
+        }
+        return Collections.unmodifiableMap(retval);
+    }
+    
+    
+    /**
+     * Sets a given impact value
+     * 
+     * @param T - the abstract concept
+     * @param drive 
+     * @param impactValue 
+     * 
+     */
+    public void setDriveImpactOnSubject(T a, String drive, double impactValue) {
+        Map<String, Double> retval = driveImpactOnSubject.get(a);
+        if (retval == null) {
+            retval = new HashMap<>();
+        }
+        retval.put(drive, impactValue);
+    }
+    
+    
+    /**
+     * Sets a given impact value
+     * 
+     * @param T - the abstract concept
+     * @param drive 
+     * @param impactValue 
+     * 
+     */
+    public void setDriveImpactOnObject(T a, String drive, double impactValue) {
+        Map<String, Double> retval = driveImpactOnObject.get(a);
+        if (retval == null) {
+            retval = new HashMap<>();
+        }
+        retval.put(drive, impactValue);
+    }
+    
+    /**
+     * Returns all the impacts from a given abstract concept
+     * 
+     * @param T - the abstract concept 
+     * @return
+     */
+    public Map<String, Double> getDriveImpactsOnObject(T a) {
+        Map<String, Double> retval = driveImpactOnObject.get(a);
+        if (retval == null) {
+            retval = new HashMap<>();
+        }
+        return Collections.unmodifiableMap(retval);
+    }
+    
+    
     /**
      * Returns area of overlap between the two concepts
      * 
