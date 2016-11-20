@@ -26,9 +26,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.xapagy.instances.Instance;
+import org.xapagy.instances.VerbInstance;
+import org.xapagy.set.EnergyColors;
+import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.TwFormatter;
 import org.xapagy.ui.prettygeneral.xwDrives;
-import org.xapagy.ui.prettygeneral.xwParameters;
 
 /**
  * 
@@ -92,18 +96,73 @@ public class Drives implements Serializable {
 	 */
 	public final String DRIVE_FLOW = "Drive_Flow";
 
+	/**
+	 * The list of all the drives
+	 */
 	private List<String> drives = new ArrayList<>();
+	/**
+	 * Map keeping the current values of the drives, indexed by the drive name
+	 */
 	private Map<String, Double> drivesCurrent = new HashMap<>();
+	/**
+	 * Map keeping the equilibrium values of the drives, indexed by the drive
+	 * name
+	 */
 	private Map<String, Double> drivesEquilibrium = new HashMap<>();
+	/**
+	 * Map keeping the target values of the drives, indexed by
+	 */
 	private Map<String, Double> drivesTarget = new HashMap<>();
+	/**
+	 * Link back to the agent
+	 */
+	private Agent agent;
+	/**
+	 * Double last updated
+	 */
+	double lastUpdated = 0;
 
 	/**
 	 * Default constructor, initializes the drives...
 	 */
-	public Drives() {
+	public Drives(Agent agent) {
+		this.agent = agent;
+		lastUpdated = agent.getTime();
 		initDrive();
 	}
 
+	/**
+	 * In this call we update the drives
+	 */
+	public void updateDrives() {
+		Focus fc = agent.getFocus();
+		double time = agent.getTime() - lastUpdated;
+		TextUi.println("updating the drives for a period of " + Formatter.fmt(time));
+		for(VerbInstance fvi: fc.getViList(EnergyColors.FOCUS_VI)) {
+			double salience = fc.getSalience(fvi, EnergyColors.FOCUS_VI);
+			
+			// for(String driveName: getDriveNames()) {
+			// 	agent.get
+			// }
+		}
+	}
+
+	
+	/**
+	 * This function calculates a set of drive changes for an instance
+	 * 
+	 * @param vi - the vi whose impacts we are calculating
+	 * @param target - the instance which is assumed to have feelings... 
+	 */
+	public Map<String, Double> getDriveChanges(VerbInstance vi, Instance target) {
+		// check whether the target is the subject
+		// check whether the target is the object
+		// if not, nothing		
+		Map<String, Double> retval = new HashMap<>();
+		return retval;
+	}
+	
+	
 	/**
 	 * Returns the current value of the specified drive
 	 * 

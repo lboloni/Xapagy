@@ -129,7 +129,7 @@ public class Agent implements Serializable {
 	/**
 	 * The current set of drives of the agent
 	 */
-	private Drives drives = new Drives();
+	private Drives drives = new Drives(this);
 
 	/**
 	 * @return the drives

@@ -218,7 +218,7 @@ public class Loop implements Serializable {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	private List<VerbInstance> executeHlsChoices() throws IOException {
+	private List<VerbInstance> executeLiHlsChoiceBased() throws IOException {
 		List<VerbInstance> retval = new ArrayList<>();
 		while (true) {
 			Choice choice = choiceSelector.selectChoice();
@@ -283,7 +283,7 @@ public class Loop implements Serializable {
 	 * 
 	 * @return the next loop item
 	 */
-	private AbstractLoopItem nextLoopItemExternalOrReading() {
+	private AbstractLoopItem nextLiScheduledOrReading() {
 		AbstractLoopItem inExecution = null;
 		//if (inExecution != null) {
 		//	TextUi.errorPrint("already executing " + PrettyPrint.ppDetailed(inExecution, agent)
@@ -339,16 +339,18 @@ public class Loop implements Serializable {
 				slu.save(agent, requestedCheckPointFile);
 				requestedCheckPointFile = null;
 			}
+			// update the drives 
+			agent.getDrives().updateDrives();
 			if (!onlyReading) {
 				// execute internal input, if any
-				List<VerbInstance> viInternalInput = executeHlsChoices();
+				List<VerbInstance> viInternalInput = executeLiHlsChoiceBased();
 				retval.addAll(viInternalInput);
 				// process the summaries, if any
 				List<VerbInstance> viSummaries = processNewSummaries();
-				retval.addAll(viSummaries);
-				// now proceed with the external or reading lines
+				retval.addAll(viSummaries);				
 			}
-			AbstractLoopItem item = nextLoopItemExternalOrReading();
+			// now proceed with the external or reading lines
+			AbstractLoopItem item = nextLiScheduledOrReading();
 			if (item == null) {
 				return retval;
 			}
