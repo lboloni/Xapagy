@@ -137,6 +137,8 @@ public class Drives implements Serializable {
 	public void updateDrives() {
 		Focus fc = agent.getFocus();
 		double time = agent.getTime() - lastUpdated;
+		lastUpdated = agent.getTime();
+		if (time == 0.0) return;
 		TextUi.println("updating the drives for a period of " + Formatter.fmt(time));
 		for(VerbInstance fvi: fc.getViList(EnergyColors.FOCUS_VI)) {
 			double salience = fc.getSalience(fvi, EnergyColors.FOCUS_VI);
