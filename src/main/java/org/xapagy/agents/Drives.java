@@ -20,14 +20,18 @@
 package org.xapagy.agents;
 
 import java.io.Serializable;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.xapagy.concepts.AbstractConceptDB;
+import org.xapagy.concepts.Verb;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.Formatter;
@@ -120,8 +124,22 @@ public class Drives implements Serializable {
 	/**
 	 * Double last updated
 	 */
-	double lastUpdated = 0;
-
+	private double lastUpdated = 0;
+	/**
+	 * Instance representing the current self
+	 */
+	private Instance currentSelf = null;
+	/**
+	 * The list of the selves
+	 */
+	private List<Instance> selfHistory = new ArrayList<>();
+	/**
+	 * Tracking the drives of other instances...
+	 */
+	private Map<String, Drives> drivesOfOthers = new HashMap<>();
+	
+	
+	
 	/**
 	 * Default constructor, initializes the drives...
 	 */
@@ -132,39 +150,150 @@ public class Drives implements Serializable {
 	}
 
 	/**
-	 * In this call we update the drives
+	 * Sets the current self of the drives
+	 * 
+	 * @param instance
+	 */
+	public void setSelf(Instance instance) {
+		if (instance.equals(currentSelf)) {
+			return;
+		}
+		currentSelf = instance;
+		selfHistory.add(currentSelf);
+	}
+	
+	/**
+	 * Adding a "drive of others" concept
+	 * @param name
+	 * @param instance
+	 */
+	public void addDriveOfOthers(String name, Instance instance) {
+		Drives dr = new Drives(agent);
+		drivesOfOthers.put(name, dr);
+		dr.setSelf(instance);
+	}
+	
+	/**
+	 * Sets the self of others
+	 * @param name
+	 * @param newSelf
+	 */
+	public void setSelfOfOthers(String name, Instance newSelf) {
+		drivesOfOthers.get(name).setSelf(newSelf);
+	}
+	
+	/**
+	 * Return the drive object of others
+	 * @param name
+	 * @return
+	 */
+	public Drives getDrivesOfOthers(String name) {
+		return drivesOfOthers.get(name);
+	}
+	
+	
+
+	/**
+	 * In this call we update the drives. This is called periodically in the
+	 * loop.
 	 */
 	public void updateDrives() {
+		TextUi.println("Begin update drives");
 		Focus fc = agent.getFocus();
 		double time = agent.getTime() - lastUpdated;
 		lastUpdated = agent.getTime();
-		if (time == 0.0) return;
+		if (time == 0.0)
+			return;
 		TextUi.println("updating the drives for a period of " + Formatter.fmt(time));
-		for(VerbInstance fvi: fc.getViList(EnergyColors.FOCUS_VI)) {
+		Map<String, Double> overallChange = new HashMap<>();
+		// consider the impact of the verbs in the vi's
+		for (VerbInstance fvi : fc.getViList(EnergyColors.FOCUS_VI)) {
 			double salience = fc.getSalience(fvi, EnergyColors.FOCUS_VI);
-			
-			// for(String driveName: getDriveNames()) {
-			// 	agent.get
-			// }
+			Map<String, Double> changes = getDriveChanges(fvi);
+			for (String drive : changes.keySet()) {
+				double current = 0;
+				Double d = overallChange.get(drive);
+				if (d != null) {
+					current = d;
+				}
+				current += changes.get(drive) * time * salience;
+				overallChange.put(drive, current);
+			}			
+		}
+		// consider the impact of the verbs in the vi's
+		Map<String, Double> changes = getDriveChangesInTime();
+		for (String drive : changes.keySet()) {
+			double current = 0;
+			Double d = overallChange.get(drive);
+			if (d != null) {
+				current = d;
+			}
+			current += changes.get(drive) * time;
+			overallChange.put(drive, current);
+		}
+		for(String drive: overallChange.keySet()) {
+			setCurrentValue(drive, getCurrentValue(drive) + overallChange.get(drive));
+		}
+		TextUi.println("End update drives: " + overallChange);
+		// call for the drives of others
+		for(Drives drives: drivesOfOthers.values()) {
+			drives.updateDrives();
 		}
 	}
 
-	
 	/**
-	 * This function calculates a set of drive changes for an instance
+	 * The amount of drive change in time FIXME: this is rather a constant...
 	 * 
-	 * @param vi - the vi whose impacts we are calculating
-	 * @param target - the instance which is assumed to have feelings... 
+	 * @return
 	 */
-	public Map<String, Double> getDriveChanges(VerbInstance vi, Instance target) {
-		// check whether the target is the subject
-		// check whether the target is the object
-		// if not, nothing		
+	public Map<String, Double> getDriveChangesInTime() {
+		AbstractConceptDB<Verb> vdb = agent.getVerbDB();
+		Verb verb = vdb.getConcept("v_does_nothing");
+		Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
+		return impacts;
+	}
+
+	/**
+	 * This function calculates a set of drive changes for the self
+	 * 
+	 * @param vi
+	 *            - the vi whose impacts we are calculating
+	 * @param target
+	 *            - the instance which is assumed to have feelings...
+	 */
+	public Map<String, Double> getDriveChanges(VerbInstance vi) {
 		Map<String, Double> retval = new HashMap<>();
+		AbstractConceptDB<Verb> vdb = agent.getVerbDB();
+		// check whether the target is the subject
+		if (vi.getSubject().equals(currentSelf)) {
+			// for all the verbs in the VI
+			for (SimpleEntry<Verb, Double> entry : vi.getVerbs().getSortedByExplicitEnergy()) {
+				Verb verb = entry.getKey();
+				double strength = entry.getValue();
+				Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
+				for (String drive : impacts.keySet()) {
+					retval.put(drive, strength * impacts.get(drive));
+				}
+			}
+			return retval;
+		}
+		// check whether the target is the object
+		if (vi.getViType().equals(ViType.S_V_O) && vi.getObject().equals(currentSelf)) {
+			// for all the verbs in the VI
+			for (SimpleEntry<Verb, Double> entry : vi.getVerbs().getSortedByExplicitEnergy()) {
+				Verb verb = entry.getKey();
+				double strength = entry.getValue();
+				Map<String, Double> impacts = vdb.getDriveImpactsOnObject(verb);
+				for (String drive : impacts.keySet()) {
+					retval.put(drive, strength * impacts.get(drive));
+				}
+			}
+			return retval;
+		}
+		// if not, nothing
 		return retval;
 	}
-	
-	
+
 	/**
 	 * Returns the current value of the specified drive
 	 * 

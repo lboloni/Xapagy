@@ -137,7 +137,7 @@ public class ReferenceAPI implements Serializable {
         List<Instance> retval = new ArrayList<>();
         for (Instance instance : fc.getInstanceList(ec)) {
             ConceptOverlay co = instance.getConcepts();
-            TextUi.println(PrettyPrint.ppConcise(co, agent));
+            // TextUi.println(PrettyPrint.ppConcise(co, agent));
             List<String> labels = co.getLabels();
             if (labels.isEmpty()) {
                 continue;

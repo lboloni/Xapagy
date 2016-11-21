@@ -282,6 +282,7 @@ public class AbstractConceptDB<T extends AbstractConcept> implements
         Map<String, Double> retval = driveImpactOnSubject.get(a);
         if (retval == null) {
             retval = new HashMap<>();
+            driveImpactOnSubject.put(a, retval);
         }
         retval.put(drive, impactValue);
     }
@@ -299,6 +300,7 @@ public class AbstractConceptDB<T extends AbstractConcept> implements
         Map<String, Double> retval = driveImpactOnObject.get(a);
         if (retval == null) {
             retval = new HashMap<>();
+            driveImpactOnObject.put(a, retval);
         }
         retval.put(drive, impactValue);
     }

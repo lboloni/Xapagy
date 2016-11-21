@@ -20,11 +20,14 @@
 package org.xapagy.introspect;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 
 import org.xapagy.agents.Agent;
+import org.xapagy.concepts.AbstractConceptDB;
+import org.xapagy.concepts.Verb;
 import org.xapagy.exceptions.MalformedConceptOrVerbName;
 import org.xapagy.exceptions.NoSuchConceptOrVerb;
 import org.xapagy.instances.Instance;
@@ -357,4 +360,57 @@ public class Introspect {
 		return retval;
 	}
 
+	/**
+	 * Sets the verb impact on a subject... this is here temporarily
+	 * @param verbName
+	 * @param drive
+	 * @param impactValue
+	 */
+	public void setVerbDriveImpactOnSubject(String verbName, String drive, double impactValue) {
+		AbstractConceptDB<Verb> vdb = agent.getVerbDB(); 
+		Verb verb = vdb.getConcept(verbName);
+		vdb.setDriveImpactOnSubject(verb, drive, impactValue);
+	}
+
+	
+	/**
+	 * Sets the verb impact on a subject... this is here temporarily
+	 * @param verbName
+	 * @param drive
+	 * @param impactValue
+	 */
+	public void setVerbDriveImpactOnObject(String verbName, String drive, double impactValue) {
+		AbstractConceptDB<Verb> vdb = agent.getVerbDB(); 
+		Verb verb = vdb.getConcept(verbName);
+		vdb.setDriveImpactOnObject(verb, drive, impactValue);
+	}
+
+
+	/**
+	 * Estimates the drive impacts of a list of VIs for the designated self
+	 * @param vis
+	 * @return
+	 */
+	public Map<String, Double> getDriveChanges(List<VerbInstance> vis) {
+		Map<String, Double> retval = new HashMap<>();
+		for(String drive: agent.getDrives().getDriveNames()) {
+			retval.put(drive, 0.0);
+		}
+		for(VerbInstance vi: vis) {
+			// VI
+			Map<String, Double> viChanges = agent.getDrives().getDriveChanges(vi);
+			for(String drive: viChanges.keySet()) {
+				double val = retval.get(drive) + viChanges.get(drive);
+				retval.put(drive, val);
+			}
+			// assume 1 for time ...
+			Map<String, Double> viTime = agent.getDrives().getDriveChangesInTime();
+			for(String drive: viTime.keySet()) {
+				double val = retval.get(drive) + viTime.get(drive);
+				retval.put(drive, val);
+			}
+		}
+		return retval;
+	}
+	
 }
