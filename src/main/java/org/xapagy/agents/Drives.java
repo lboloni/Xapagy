@@ -28,11 +28,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.xapagy.concepts.AbstractConceptDB;
+import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.Verb;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.set.EnergyQuantum;
+import org.xapagy.set.EnergySet;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.TwFormatter;
@@ -105,9 +108,9 @@ public class Drives implements Serializable {
 	 */
 	private List<String> drives = new ArrayList<>();
 	/**
-	 * Map keeping the current values of the drives, indexed by the drive name
+	 * The drive energies mapped by instance
 	 */
-	private Map<String, Double> drivesCurrent = new HashMap<>();
+	EnergySet<Instance> energyDrives;
 	/**
 	 * Map keeping the equilibrium values of the drives, indexed by the drive
 	 * name
@@ -137,9 +140,7 @@ public class Drives implements Serializable {
 	 * Tracking the drives of other instances...
 	 */
 	private Map<String, Drives> drivesOfOthers = new HashMap<>();
-	
-	
-	
+
 	/**
 	 * Default constructor, initializes the drives...
 	 */
@@ -161,9 +162,10 @@ public class Drives implements Serializable {
 		currentSelf = instance;
 		selfHistory.add(currentSelf);
 	}
-	
+
 	/**
 	 * Adding a "drive of others" concept
+	 * 
 	 * @param name
 	 * @param instance
 	 */
@@ -172,26 +174,26 @@ public class Drives implements Serializable {
 		drivesOfOthers.put(name, dr);
 		dr.setSelf(instance);
 	}
-	
+
 	/**
 	 * Sets the self of others
+	 * 
 	 * @param name
 	 * @param newSelf
 	 */
 	public void setSelfOfOthers(String name, Instance newSelf) {
 		drivesOfOthers.get(name).setSelf(newSelf);
 	}
-	
+
 	/**
 	 * Return the drive object of others
+	 * 
 	 * @param name
 	 * @return
 	 */
 	public Drives getDrivesOfOthers(String name) {
 		return drivesOfOthers.get(name);
 	}
-	
-	
 
 	/**
 	 * In this call we update the drives. This is called periodically in the
@@ -200,69 +202,63 @@ public class Drives implements Serializable {
 	public void updateDrives() {
 		TextUi.println("Begin update drives");
 		Focus fc = agent.getFocus();
-		double time = agent.getTime() - lastUpdated;
+		double timeSlice = agent.getTime() - lastUpdated;
 		lastUpdated = agent.getTime();
-		if (time == 0.0)
+		if (timeSlice == 0.0)
 			return;
-		TextUi.println("updating the drives for a period of " + Formatter.fmt(time));
-		Map<String, Double> overallChange = new HashMap<>();
+		TextUi.println("updating the drives for a period of " + Formatter.fmt(timeSlice));
+		List<EnergyQuantum<Instance>> quantums = new ArrayList<>();
 		// consider the impact of the verbs in the vi's
 		for (VerbInstance fvi : fc.getViList(EnergyColors.FOCUS_VI)) {
 			double salience = fc.getSalience(fvi, EnergyColors.FOCUS_VI);
-			Map<String, Double> changes = getDriveChanges(fvi);
-			for (String drive : changes.keySet()) {
-				double current = 0;
-				Double d = overallChange.get(drive);
-				if (d != null) {
-					current = d;
-				}
-				current += changes.get(drive) * time * salience;
-				overallChange.put(drive, current);
-			}			
+			quantums.addAll(getDriveChanges(fvi, timeSlice, salience));
 		}
-		// consider the impact of the verbs in the vi's
-		Map<String, Double> changes = getDriveChangesInTime();
-		for (String drive : changes.keySet()) {
-			double current = 0;
-			Double d = overallChange.get(drive);
-			if (d != null) {
-				current = d;
-			}
-			current += changes.get(drive) * time;
-			overallChange.put(drive, current);
+		quantums.addAll(getDriveChangesInTime(timeSlice));
+		TextUi.println("End update drives: " + quantums);
+		for (EnergyQuantum<Instance> eq : quantums) {
+			energyDrives.applyEnergyQuantum(eq);
 		}
-		for(String drive: overallChange.keySet()) {
-			setCurrentValue(drive, getCurrentValue(drive) + overallChange.get(drive));
-		}
-		TextUi.println("End update drives: " + overallChange);
 		// call for the drives of others
-		for(Drives drives: drivesOfOthers.values()) {
+		for (Drives drives : drivesOfOthers.values()) {
 			drives.updateDrives();
 		}
 	}
 
 	/**
-	 * The amount of drive change in time FIXME: this is rather a constant...
+	 * Returns the set of energy quantums describing the impact of the passing
+	 * of the time. By convention, the additive values here are stored in the
+	 * V_DOES_NOTHING verb
 	 * 
 	 * @return
 	 */
-	public Map<String, Double> getDriveChangesInTime() {
+	public List<EnergyQuantum<Instance>> getDriveChangesInTime(double timeSlice) {
+		List<EnergyQuantum<Instance>> retval = new ArrayList<>();
 		AbstractConceptDB<Verb> vdb = agent.getVerbDB();
-		Verb verb = vdb.getConcept("v_does_nothing");
+		Verb verb = vdb.getConcept(Hardwired.V_DOES_NOTHING);
 		Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
-		return impacts;
+		for (String drive : impacts.keySet()) {
+			double change = impacts.get(drive);
+			EnergyQuantum<Instance> eq = EnergyQuantum.createAdd(currentSelf, change, timeSlice, drive,
+					"impact from passing of time");
+			retval.add(eq);
+		}
+		return retval;
 	}
 
 	/**
-	 * This function calculates a set of drive changes for the self
+	 * Returns a set of energy quantums describing the impact of specified VI on
+	 * the drives of the self
 	 * 
 	 * @param vi
 	 *            - the vi whose impacts we are calculating
-	 * @param target
-	 *            - the instance which is assumed to have feelings...
+	 * @param timeSlice
+	 *            - the timeslice over which we are calculating the stuff
+	 * @param salience
+	 *            - the salience of the VI, scales the changes
+	 * @return the list of energy quantums for the different drives
 	 */
-	public Map<String, Double> getDriveChanges(VerbInstance vi) {
-		Map<String, Double> retval = new HashMap<>();
+	public List<EnergyQuantum<Instance>> getDriveChanges(VerbInstance vi, double timeSlice, double salience) {
+		List<EnergyQuantum<Instance>> retval = new ArrayList<>();
 		AbstractConceptDB<Verb> vdb = agent.getVerbDB();
 		// check whether the target is the subject
 		if (vi.getSubject().equals(currentSelf)) {
@@ -272,7 +268,10 @@ public class Drives implements Serializable {
 				double strength = entry.getValue();
 				Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
 				for (String drive : impacts.keySet()) {
-					retval.put(drive, strength * impacts.get(drive));
+					double change = salience * strength * impacts.get(drive);
+					EnergyQuantum<Instance> eq = EnergyQuantum.createAdd(currentSelf, change, timeSlice, drive,
+							"subject impact from " + verb.getName());
+					retval.add(eq);
 				}
 			}
 			return retval;
@@ -285,7 +284,10 @@ public class Drives implements Serializable {
 				double strength = entry.getValue();
 				Map<String, Double> impacts = vdb.getDriveImpactsOnObject(verb);
 				for (String drive : impacts.keySet()) {
-					retval.put(drive, strength * impacts.get(drive));
+					double change = salience * strength * impacts.get(drive);
+					EnergyQuantum<Instance> eq = EnergyQuantum.createAdd(currentSelf, change, timeSlice, drive,
+							"object impact from " + verb.getName());
+					retval.add(eq);
 				}
 			}
 			return retval;
@@ -301,17 +303,7 @@ public class Drives implements Serializable {
 	 * @return
 	 */
 	public double getCurrentValue(String driveName) {
-		return drivesCurrent.get(driveName);
-	}
-
-	/**
-	 * Sets the current value of the specified drive
-	 * 
-	 * @param driveName
-	 * @return
-	 */
-	public double setCurrentValue(String driveName, double currentValue) {
-		return drivesCurrent.put(driveName, currentValue);
+		return energyDrives.valueEnergy(currentSelf, driveName);
 	}
 
 	/**
@@ -394,7 +386,7 @@ public class Drives implements Serializable {
 		if (!drives.contains(driveName)) {
 			drives.add(driveName);
 		}
-		drivesCurrent.put(driveName, current);
+		// drivesCurrent.put(driveName, current);
 		drivesEquilibrium.put(driveName, equilibrium);
 		drivesTarget.put(driveName, target);
 	}

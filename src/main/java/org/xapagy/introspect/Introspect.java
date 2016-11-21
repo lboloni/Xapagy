@@ -36,6 +36,7 @@ import org.xapagy.questions.QuestionHelper;
 import org.xapagy.reference.ReferenceResolution;
 import org.xapagy.reference.rrException;
 import org.xapagy.set.EnergyColors;
+import org.xapagy.set.EnergyQuantum;
 import org.xapagy.storyline.QuestionAnswering;
 import org.xapagy.storyline.StoryLine;
 import org.xapagy.storyline.StoryLineReasoning;
@@ -388,6 +389,9 @@ public class Introspect {
 
 	/**
 	 * Estimates the drive impacts of a list of VIs for the designated self
+	 * 
+	 * FIXME: this doesn't work in the current way for the energy quantum stuff...
+	 * 
 	 * @param vis
 	 * @return
 	 */
@@ -396,19 +400,19 @@ public class Introspect {
 		for(String drive: agent.getDrives().getDriveNames()) {
 			retval.put(drive, 0.0);
 		}
-		for(VerbInstance vi: vis) {
+		for(VerbInstance vi: vis) {			
 			// VI
-			Map<String, Double> viChanges = agent.getDrives().getDriveChanges(vi);
-			for(String drive: viChanges.keySet()) {
-				double val = retval.get(drive) + viChanges.get(drive);
-				retval.put(drive, val);
-			}
+			//EnergyQuantum<Instance> viChanges = agent.getDrives().getDriveChanges(vi, 1.0, 1.0);
+			//for(Energy) {
+			//	double val = retval.get(drive) + viChanges.get(drive);
+			//	retval.put(drive, val);
+			//}
 			// assume 1 for time ...
-			Map<String, Double> viTime = agent.getDrives().getDriveChangesInTime();
-			for(String drive: viTime.keySet()) {
-				double val = retval.get(drive) + viTime.get(drive);
-				retval.put(drive, val);
-			}
+			//Map<String, Double> viTime = agent.getDrives().getDriveChangesInTime();
+			//for(String drive: viTime.keySet()) {
+			//	double val = retval.get(drive) + viTime.get(drive);
+			//	retval.put(drive, val);
+			//}
 		}
 		return retval;
 	}
