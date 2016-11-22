@@ -497,7 +497,8 @@ EnergyColors.EnergyColorType energyColor() :
     "FOCUS_INSTANCE" { return EnergyColors.EnergyColorType.FOCUS_INSTANCE; } |
     "FOCUS_VI" { return EnergyColors.EnergyColorType.FOCUS_VI; } |
     "SHADOW_INSTANCE" { return EnergyColors.EnergyColorType.SHADOW_INSTANCE; } |
-    "SHADOW_VI" { return EnergyColors.EnergyColorType.SHADOW_VI; } 
+    "SHADOW_VI" { return EnergyColors.EnergyColorType.SHADOW_VI; } |
+    "DRIVE" { return EnergyColors.EnergyColorType.DRIVE; } 
     )
 }
 

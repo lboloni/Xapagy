@@ -147,6 +147,7 @@ public class Drives implements Serializable {
 	public Drives(Agent agent) {
 		this.agent = agent;
 		lastUpdated = agent.getTime();
+		energyDrives = new EnergySet<>(agent);
 		initDrive();
 	}
 
@@ -237,9 +238,14 @@ public class Drives implements Serializable {
 		Verb verb = vdb.getConcept(Hardwired.V_DOES_NOTHING);
 		Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
 		for (String drive : impacts.keySet()) {
-			double change = impacts.get(drive);
-			EnergyQuantum<Instance> eq = EnergyQuantum.createAdd(currentSelf, change, timeSlice, drive,
-					"impact from passing of time");
+			double impact = impacts.get(drive);
+			EnergyQuantum<Instance> eq = null;
+			// positive impacts are additive, negatives multiplicative...
+			if (impact > 0) {
+				eq = EnergyQuantum.createAdd(currentSelf, impact, timeSlice, drive, "impact from passing of time");
+			} else {
+				eq = EnergyQuantum.createMult(currentSelf, -impact, timeSlice, drive, "impact from passing of time");
+			}
 			retval.add(eq);
 		}
 		return retval;
@@ -268,9 +274,18 @@ public class Drives implements Serializable {
 				double strength = entry.getValue();
 				Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
 				for (String drive : impacts.keySet()) {
-					double change = salience * strength * impacts.get(drive);
-					EnergyQuantum<Instance> eq = EnergyQuantum.createAdd(currentSelf, change, timeSlice, drive,
-							"subject impact from " + verb.getName());
+					EnergyQuantum<Instance> eq = null;
+					double implicitTimeSlice = salience * strength * timeSlice;
+					double impact = impacts.get(drive);
+					// positive impacts are additive, negatives
+					// multiplicative...
+					if (impact > 0) {
+						eq = EnergyQuantum.createAdd(currentSelf, impact, implicitTimeSlice, drive,
+								"subject impact from " + verb.getName());
+					} else {
+						eq = EnergyQuantum.createMult(currentSelf, -impact, implicitTimeSlice, drive,
+								"subject impact from " + verb.getName());
+					}
 					retval.add(eq);
 				}
 			}
@@ -284,9 +299,18 @@ public class Drives implements Serializable {
 				double strength = entry.getValue();
 				Map<String, Double> impacts = vdb.getDriveImpactsOnObject(verb);
 				for (String drive : impacts.keySet()) {
-					double change = salience * strength * impacts.get(drive);
-					EnergyQuantum<Instance> eq = EnergyQuantum.createAdd(currentSelf, change, timeSlice, drive,
-							"object impact from " + verb.getName());
+					EnergyQuantum<Instance> eq = null;
+					double implicitTimeSlice = salience * strength * timeSlice;
+					double impact = impacts.get(drive);
+					// positive impacts are additive, negatives
+					// multiplicative...
+					if (impact > 0) {
+						eq = EnergyQuantum.createAdd(currentSelf, impact, timeSlice, drive,
+								"object impact from " + verb.getName());
+					} else {
+						eq = EnergyQuantum.createMult(currentSelf, -impact, implicitTimeSlice, drive,
+								"object impact from " + verb.getName());
+					}
 					retval.add(eq);
 				}
 			}

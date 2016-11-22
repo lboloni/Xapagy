@@ -36,7 +36,7 @@ public class EnergySet<T extends XapagyComponent> implements Serializable {
     private Map<T, List<EnergyQuantum<T>>> quantums = new HashMap<>();
 
     /**
-     * Constructor / initializes the color repositories
+     * Constructor / initializes the energy repositories
      */
     public EnergySet(Agent agent) {
         this.agent = agent;

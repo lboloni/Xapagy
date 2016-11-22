@@ -17,3 +17,13 @@ $CreateEnergy "SHI_ACTION" Of Type SHADOW_INSTANCE With E2S = 1.0
 $CreateEnergy "SHV_GENERIC" Of Type SHADOW_VI With E2S = 1.0
 $CreateEnergy "SHV_TEMPORAL_ORDER" Of Type SHADOW_VI With E2S = 1.0
 $CreateEnergy "SHV_ACTION_MATCH" Of Type SHADOW_VI With E2S = 1.0  
+// drives
+$CreateEnergy "Drive_Hunger" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Thirst" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Tiredness" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Sleepiness" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Curiosity" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Pain_Avoidance" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Pleasure_Seeking" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Boredom" Of Type DRIVE With E2S = 1.0
+$CreateEnergy "Drive_Flow" Of Type DRIVE With E2S = 1.0

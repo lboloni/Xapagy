@@ -51,7 +51,7 @@ public class EnergyColors implements Serializable {
     
     
     public enum EnergyColorType {
-        AM_INSTANCE, AM_VI, FOCUS_INSTANCE, FOCUS_VI, SHADOW_INSTANCE, SHADOW_VI
+        AM_INSTANCE, AM_VI, FOCUS_INSTANCE, FOCUS_VI, SHADOW_INSTANCE, SHADOW_VI, DRIVE
     }
     
     /**

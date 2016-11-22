@@ -129,7 +129,7 @@ public class Agent implements Serializable {
 	/**
 	 * The current set of drives of the agent
 	 */
-	private Drives drives = new Drives(this);
+	private Drives drives = null;
 
 	/**
 	 * @return the drives
@@ -190,6 +190,7 @@ public class Agent implements Serializable {
 		headlessComponents = new HeadlessComponents();
 		observers = new HashMap<>();
 		verbalize = new Verbalize(this);
+		drives = new Drives(this);
 		//
 		// create the DaComposite and SaComposite objects
 		//

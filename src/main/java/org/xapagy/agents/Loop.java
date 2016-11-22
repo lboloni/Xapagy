@@ -38,8 +38,7 @@ import org.xapagy.ui.SaveLoadUtil;
  * 
  * It also keeps a log of the events...
  * 
- * @author Ladislau Boloni
- * Created on: Sep 11, 2011
+ * @author Ladislau Boloni Created on: Sep 11, 2011
  */
 public class Loop implements Serializable {
 
@@ -225,8 +224,7 @@ public class Loop implements Serializable {
 			if (choice == null) {
 				break;
 			}
-			liHlsChoiceBased item = new liHlsChoiceBased(agent, choice,
-					choice.getChoiceScore().getScoreMood());
+			liHlsChoiceBased item = new liHlsChoiceBased(agent, choice, choice.getChoiceScore().getScoreMood());
 			item.execute(true);
 		}
 		return retval;
@@ -285,11 +283,12 @@ public class Loop implements Serializable {
 	 */
 	private AbstractLoopItem nextLiScheduledOrReading() {
 		AbstractLoopItem inExecution = null;
-		//if (inExecution != null) {
-		//	TextUi.errorPrint("already executing " + PrettyPrint.ppDetailed(inExecution, agent)
-		//			+ " possibly after checkpoint restore?");
-			// throw new Error("Already in execution");
-		//}
+		// if (inExecution != null) {
+		// TextUi.errorPrint("already executing " +
+		// PrettyPrint.ppDetailed(inExecution, agent)
+		// + " possibly after checkpoint restore?");
+		// throw new Error("Already in execution");
+		// }
 		if (!scheduled.isEmpty() && scheduled.get(0).getScheduledExecutionTime() <= agent.getTime()) {
 			inExecution = scheduled.get(0);
 			scheduled.remove(0);
@@ -339,15 +338,17 @@ public class Loop implements Serializable {
 				slu.save(agent, requestedCheckPointFile);
 				requestedCheckPointFile = null;
 			}
-			// update the drives 
-			agent.getDrives().updateDrives();
+			// update the drives
+			if (agent.getDrives() != null) {
+				agent.getDrives().updateDrives();
+			}
 			if (!onlyReading) {
 				// execute internal input, if any
 				List<VerbInstance> viInternalInput = executeLiHlsChoiceBased();
 				retval.addAll(viInternalInput);
 				// process the summaries, if any
 				List<VerbInstance> viSummaries = processNewSummaries();
-				retval.addAll(viSummaries);				
+				retval.addAll(viSummaries);
 			}
 			// now proceed with the external or reading lines
 			AbstractLoopItem item = nextLiScheduledOrReading();
@@ -365,6 +366,7 @@ public class Loop implements Serializable {
 
 	/**
 	 * Proceeds to execute one forced VI and the process
+	 * 
 	 * @return
 	 */
 	public VerbInstance proceedOneForcedStep(VerbInstance forcedVi, double forcedTimeAfter) {
@@ -372,7 +374,7 @@ public class Loop implements Serializable {
 		item.execute(true);
 		return forcedVi;
 	}
-	
+
 	/**
 	 * Processes all the pending summaries in the summary list
 	 * 

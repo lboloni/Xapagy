@@ -11,23 +11,23 @@ public interface XapiLangConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int ID = 102;
+  int ID = 103;
   /** RegularExpression Id. */
-  int LABEL = 103;
+  int LABEL = 104;
   /** RegularExpression Id. */
-  int OCTALINT = 104;
+  int OCTALINT = 105;
   /** RegularExpression Id. */
-  int DECIMALINT = 105;
+  int DECIMALINT = 106;
   /** RegularExpression Id. */
-  int HEXADECIMALINT = 106;
+  int HEXADECIMALINT = 107;
   /** RegularExpression Id. */
-  int FLOATONE = 107;
+  int FLOATONE = 108;
   /** RegularExpression Id. */
-  int FLOATTWO = 108;
+  int FLOATTWO = 109;
   /** RegularExpression Id. */
-  int STRING_DOUBLE_QUOTES = 109;
+  int STRING_DOUBLE_QUOTES = 110;
   /** RegularExpression Id. */
-  int STRING_SINGLE_QUOTES = 110;
+  int STRING_SINGLE_QUOTES = 111;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -89,6 +89,7 @@ public interface XapiLangConstants {
     "\"FOCUS_VI\"",
     "\"SHADOW_INSTANCE\"",
     "\"SHADOW_VI\"",
+    "\"DRIVE\"",
     "\"$CreateEnergy\"",
     "\"Of\"",
     "\"Type\"",

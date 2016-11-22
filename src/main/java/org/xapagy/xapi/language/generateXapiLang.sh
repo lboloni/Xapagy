@@ -1,0 +1,1 @@
+java -cp javacc.jar javacc -static=false -output_directory=parser XapiLang.jj

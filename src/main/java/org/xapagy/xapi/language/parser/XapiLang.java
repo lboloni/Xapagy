@@ -115,36 +115,36 @@ public class XapiLang implements XapiLangConstants {
       parameter();
       break;
       }
-    case 55:{
+    case 56:{
       energyCreate();
       break;
       }
-    case 59:{
+    case 60:{
       performanceMeter();
       break;
       }
-    case 60:
-    case 61:{
+    case 61:
+    case 62:{
       create();
       break;
       }
-    case 91:{
+    case 92:{
       observer();
       break;
       }
-    case 79:{
+    case 80:{
       diffusionActivity();
       break;
       }
-    case 89:{
+    case 90:{
       spikeActivity();
       break;
       }
-    case 97:{
+    case 98:{
       print();
       break;
       }
-    case 98:{
+    case 99:{
       namespace();
       break;
       }
@@ -461,7 +461,7 @@ ABStory generated =
                     MacroGenerator.generateNewScene(agent, newSceneLabel,
                             makeCurrent, onlyScene, addSummary, relation,
                             participants);
-     TextUi.println(PpStory.pp("Generated:", generated));
+     // TextUi.println(PpStory.pp("Generated:", generated));
      agent.getLoop().addImmediateReading(generated.getLines());
   }
 
@@ -732,6 +732,11 @@ Parameters p = agent.getParameters();
 {if ("" != null) return EnergyColors.EnergyColorType.SHADOW_VI;}
       break;
       }
+    case 55:{
+      jj_consume_token(55);
+{if ("" != null) return EnergyColors.EnergyColorType.DRIVE;}
+      break;
+      }
     default:
       jj_la1[22] = jj_gen;
       jj_consume_token(-1);
@@ -744,13 +749,13 @@ Parameters p = agent.getParameters();
   final public void energyCreate() throws ParseException {String name;
    EnergyColors.EnergyColorType type;
    double e2s;
-    jj_consume_token(55);
-    name = string_literal_content();
     jj_consume_token(56);
+    name = string_literal_content();
     jj_consume_token(57);
+    jj_consume_token(58);
     type = energyColor();
     jj_consume_token(40);
-    jj_consume_token(58);
+    jj_consume_token(59);
     jj_consume_token(39);
     e2s = number();
 agent.getEnergyColors().createEnergy(name, type, e2s);
@@ -758,7 +763,7 @@ agent.getEnergyColors().createEnergy(name, type, e2s);
 
 /* turns on a performance meter */
   final public void performanceMeter() throws ParseException {String param;
-    jj_consume_token(59);
+    jj_consume_token(60);
     param = string_literal();
 PerformanceMeter pm = agent.getDebugInfo().getPerformanceMeter();
       switch (param) {
@@ -773,12 +778,12 @@ PerformanceMeter pm = agent.getDebugInfo().getPerformanceMeter();
 /* all the commands with start with $Create or $Update */
   final public void create() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 60:{
-      jj_consume_token(60);
-      break;
-      }
     case 61:{
       jj_consume_token(61);
+      break;
+      }
+    case 62:{
+      jj_consume_token(62);
       break;
       }
     default:
@@ -787,39 +792,39 @@ PerformanceMeter pm = agent.getDebugInfo().getPerformanceMeter();
       throw new ParseException();
     }
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 62:{
+    case 63:{
       createConcept();
       break;
       }
-    case 64:{
+    case 65:{
       createConceptImpact();
       break;
       }
-    case 66:{
+    case 67:{
       createConceptOverlap();
       break;
       }
-    case 70:{
+    case 71:{
       createVerb();
       break;
       }
-    case 71:{
+    case 72:{
       createMetaVerb();
       break;
       }
-    case 73:{
+    case 74:{
       createRelation();
       break;
       }
-    case 74:{
+    case 75:{
       createVerbImpact();
       break;
       }
-    case 75:{
+    case 76:{
       createVerbOverlap();
       break;
       }
-    case 76:{
+    case 77:{
       createWord();
       break;
       }
@@ -833,12 +838,12 @@ PerformanceMeter pm = agent.getDebugInfo().getPerformanceMeter();
 /* create or update a concept */
   final public void createConcept() throws ParseException {Token t;
    double conceptArea = 1.0;
-    jj_consume_token(62);
+    jj_consume_token(63);
     t = jj_consume_token(ID);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case 40:{
       jj_consume_token(40);
-      jj_consume_token(63);
+      jj_consume_token(64);
       jj_consume_token(39);
       conceptArea = number();
       break;
@@ -867,9 +872,9 @@ String conceptName = t.image;
   final public void createConceptImpact() throws ParseException {Token t1;
    Token t2;
    double implication;
-    jj_consume_token(64);
-    t1 = jj_consume_token(ID);
     jj_consume_token(65);
+    t1 = jj_consume_token(ID);
+    jj_consume_token(66);
     t2 = jj_consume_token(ID);
     jj_consume_token(40);
     implication = number();
@@ -886,9 +891,9 @@ String firstConceptName = t1.image;
   final public void createConceptOverlap() throws ParseException {Token t1;
    Token t2;
    double overlap;
-    jj_consume_token(66);
-    t1 = jj_consume_token(ID);
     jj_consume_token(67);
+    t1 = jj_consume_token(ID);
+    jj_consume_token(68);
     t2 = jj_consume_token(ID);
     jj_consume_token(40);
     overlap = number();
@@ -962,7 +967,7 @@ ConceptOverlay retval = new ConceptOverlay(agent);
    ConceptOverlay retval = new ConceptOverlay(agent);
    ConceptOverlay co = null;
    double area = 0.0;
-    jj_consume_token(68);
+    jj_consume_token(69);
     co = coComponent();
 retval.addOverlay(co);
     label_4:
@@ -980,7 +985,7 @@ retval.addOverlay(co);
       co = coComponent();
 retval.addOverlay(co);
     }
-    jj_consume_token(69);
+    jj_consume_token(70);
 {if ("" != null) return retval;}
     throw new Error("Missing return statement in function");
   }
@@ -1036,7 +1041,7 @@ VerbOverlay retval = new VerbOverlay(agent);
 */
   final public VerbOverlay vo() throws ParseException {VerbOverlay retval = new VerbOverlay(agent);
    VerbOverlay vo;
-    jj_consume_token(68);
+    jj_consume_token(69);
     vo = voComponent();
 retval.addOverlay(vo);
     label_5:
@@ -1054,7 +1059,7 @@ retval.addOverlay(vo);
       vo = voComponent();
 retval.addOverlay(vo);
     }
-    jj_consume_token(69);
+    jj_consume_token(70);
 {if ("" != null) return retval;}
     throw new Error("Missing return statement in function");
   }
@@ -1062,12 +1067,12 @@ retval.addOverlay(vo);
 /* create or update a verb (that doesn't have a metaverb) */
   final public void createVerb() throws ParseException {Token t;
    double verbArea = 1.0;
-    jj_consume_token(70);
+    jj_consume_token(71);
     t = jj_consume_token(ID);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case 40:{
       jj_consume_token(40);
-      jj_consume_token(63);
+      jj_consume_token(64);
       jj_consume_token(39);
       verbArea = number();
       break;
@@ -1096,12 +1101,12 @@ String verbName = t.image;
   final public void createMetaVerb() throws ParseException {Token t;
    double verbArea = 1.0;
    Token t2 = null;
-    jj_consume_token(71);
+    jj_consume_token(72);
     t = jj_consume_token(ID);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case 40:{
       jj_consume_token(40);
-      jj_consume_token(63);
+      jj_consume_token(64);
       jj_consume_token(39);
       verbArea = number();
       break;
@@ -1110,7 +1115,7 @@ String verbName = t.image;
       jj_la1[33] = jj_gen;
       ;
     }
-    jj_consume_token(72);
+    jj_consume_token(73);
     t2 = jj_consume_token(ID);
 String verbName = t.image;
     String metaverb = t2.image;
@@ -1133,7 +1138,7 @@ String verbName = t.image;
   final public void createRelation() throws ParseException {Token t;
    double verbArea = 1.0;
    Token t2 = null;
-    jj_consume_token(73);
+    jj_consume_token(74);
     t = jj_consume_token(ID);
 String verbName = t.image;
     Verb verb = vdh.createWithAreaAndMetaverb(verbName, verbArea, null);
@@ -1158,9 +1163,9 @@ String verbName = t.image;
   final public void createVerbImpact() throws ParseException {Token t1;
    Token t2;
    double implication;
-    jj_consume_token(74);
+    jj_consume_token(75);
     t1 = jj_consume_token(ID);
-    jj_consume_token(65);
+    jj_consume_token(66);
     t2 = jj_consume_token(ID);
     jj_consume_token(40);
     implication = number();
@@ -1177,9 +1182,9 @@ String firstVerbName = t1.image;
   final public void createVerbOverlap() throws ParseException {Token t1;
    Token t2;
    double overlap;
-    jj_consume_token(75);
+    jj_consume_token(76);
     t1 = jj_consume_token(ID);
-    jj_consume_token(67);
+    jj_consume_token(68);
     t2 = jj_consume_token(ID);
     jj_consume_token(40);
     overlap = number();
@@ -1195,19 +1200,19 @@ String firstVerbName = t1.image;
 /* define a word for a concept or a verb */
   final public void createWord() throws ParseException {String word;
    VerbOverlay vo;
-    jj_consume_token(76);
-    word = string_literal_content();
     jj_consume_token(77);
+    word = string_literal_content();
+    jj_consume_token(78);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 62:{
+    case 63:{
       createWordForConcept(word);
       break;
       }
-    case 70:{
+    case 71:{
       createWordForVerb(word);
       break;
       }
-    case 78:{
+    case 79:{
       createWordForActionVerb(word);
       break;
       }
@@ -1220,7 +1225,7 @@ String firstVerbName = t1.image;
 
 /* Continues from $Create Word "name" For */
   final public void createWordForConcept(String word) throws ParseException {ConceptOverlay co;
-    jj_consume_token(62);
+    jj_consume_token(63);
     co = co();
 XapiDictionary xepd = agent.getXapiDictionary();
     // gather the documentation into the comment
@@ -1231,7 +1236,7 @@ XapiDictionary xepd = agent.getXapiDictionary();
 
 /* Continues from $Create Word "name" For */
   final public void createWordForVerb(String word) throws ParseException {VerbOverlay vo;
-    jj_consume_token(70);
+    jj_consume_token(71);
     vo = vo();
 XapiDictionary xepd = agent.getXapiDictionary();
      // gather the documentation into the comment
@@ -1242,7 +1247,7 @@ XapiDictionary xepd = agent.getXapiDictionary();
 
 /* Continues from $Create Word "name" For */
   final public void createWordForActionVerb(String word) throws ParseException {VerbOverlay vo;
-    jj_consume_token(78);
+    jj_consume_token(79);
     vo = vo();
 XapiDictionary xepd = agent.getXapiDictionary();
     // FIXME: replace with Hardwired
@@ -1256,17 +1261,17 @@ XapiDictionary xepd = agent.getXapiDictionary();
 
 /* diffusion activity commands: they can be basically clear and add */
   final public void diffusionActivity() throws ParseException {
-    jj_consume_token(79);
+    jj_consume_token(80);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 80:{
+    case 81:{
       diffusionActivityClear();
       break;
       }
-    case 82:{
+    case 83:{
       diffusionActivityAdd();
       break;
       }
-    case 87:{
+    case 88:{
       diffusionActivityUpdate();
       break;
       }
@@ -1279,8 +1284,8 @@ XapiDictionary xepd = agent.getXapiDictionary();
 
 /* clears a particular DA group */
   final public void diffusionActivityClear() throws ParseException {String groupName;
-    jj_consume_token(80);
     jj_consume_token(81);
+    jj_consume_token(82);
     groupName = string_literal_content();
 DaHelper.clearComposite(agent, groupName);
   }
@@ -1290,19 +1295,19 @@ DaHelper.clearComposite(agent, groupName);
         String daName;
         String daCode;
         Map<String, String> parameters = new HashMap<String, String>();
-    jj_consume_token(82);
     jj_consume_token(83);
-    jj_consume_token(81);
-    groupName = string_literal_content();
     jj_consume_token(84);
+    jj_consume_token(82);
+    groupName = string_literal_content();
     jj_consume_token(85);
-    jj_consume_token(40);
     jj_consume_token(86);
+    jj_consume_token(40);
+    jj_consume_token(87);
     daName = string_literal_content();
-    jj_consume_token(72);
+    jj_consume_token(73);
     daCode = string_literal_content();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 88:{
+    case 89:{
       parameters = activityParameters();
       break;
       }
@@ -1317,13 +1322,13 @@ DaHelper.addDaToComposite(agent, groupName, daName, daCode, parameters);
   final public void diffusionActivityUpdate() throws ParseException {String groupName;
         String daName;
         Map<String, String> parameters = new HashMap<String, String>();
-    jj_consume_token(87);
+    jj_consume_token(88);
     jj_consume_token(33);
-    jj_consume_token(81);
+    jj_consume_token(82);
     groupName = string_literal_content();
-    jj_consume_token(85);
-    jj_consume_token(40);
     jj_consume_token(86);
+    jj_consume_token(40);
+    jj_consume_token(87);
     daName = string_literal_content();
     jj_consume_token(40);
     parameters = activityParameters();
@@ -1336,7 +1341,7 @@ DaHelper.updateDaInComposite(agent, groupName, daName, parameters);
   final public Map<String, String> activityParameters() throws ParseException {String name;
         String value;
         Map<String, String> retval = new HashMap<String, String>();
-    jj_consume_token(88);
+    jj_consume_token(89);
     name = string_literal_content();
     jj_consume_token(39);
     value = string_literal_content();
@@ -1364,17 +1369,17 @@ retval.put(name, value);
 
 /* diffusion activity commands: they can be basically clear and add */
   final public void spikeActivity() throws ParseException {
-    jj_consume_token(89);
+    jj_consume_token(90);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 80:{
+    case 81:{
       spikeActivityClear();
       break;
       }
-    case 82:{
+    case 83:{
       spikeActivityAdd();
       break;
       }
-    case 87:{
+    case 88:{
       spikeActivityUpdate();
       break;
       }
@@ -1387,8 +1392,8 @@ retval.put(name, value);
 
 /* clears a particular composite SA */
   final public void spikeActivityClear() throws ParseException {String groupName;
-    jj_consume_token(80);
     jj_consume_token(81);
+    jj_consume_token(82);
     groupName = string_literal_content();
 SaHelper.clearComposite(agent, groupName);
   }
@@ -1398,19 +1403,19 @@ SaHelper.clearComposite(agent, groupName);
         String daName;
         String daCode;
         Map<String, String> parameters = new HashMap<String, String>();
-    jj_consume_token(82);
     jj_consume_token(83);
-    jj_consume_token(81);
-    groupName = string_literal_content();
     jj_consume_token(84);
-    jj_consume_token(90);
+    jj_consume_token(82);
+    groupName = string_literal_content();
+    jj_consume_token(85);
+    jj_consume_token(91);
     jj_consume_token(40);
-    jj_consume_token(86);
+    jj_consume_token(87);
     daName = string_literal_content();
-    jj_consume_token(72);
+    jj_consume_token(73);
     daCode = string_literal_content();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 88:{
+    case 89:{
       parameters = activityParameters();
       break;
       }
@@ -1425,13 +1430,13 @@ SaHelper.addSaToComposite(agent, groupName, daName, daCode, parameters);
   final public void spikeActivityUpdate() throws ParseException {String groupName;
         String daName;
         Map<String, String> parameters = new HashMap<String, String>();
-    jj_consume_token(87);
+    jj_consume_token(88);
     jj_consume_token(33);
-    jj_consume_token(81);
+    jj_consume_token(82);
     groupName = string_literal_content();
-    jj_consume_token(90);
+    jj_consume_token(91);
     jj_consume_token(40);
-    jj_consume_token(86);
+    jj_consume_token(87);
     daName = string_literal_content();
     jj_consume_token(40);
     parameters = activityParameters();
@@ -1440,17 +1445,17 @@ SaHelper.updateSaInComposite(agent, groupName, daName, parameters);
 
 /* metastatement managing observers of the Xapi agent */
   final public void observer() throws ParseException {
-    jj_consume_token(91);
+    jj_consume_token(92);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 92:{
+    case 93:{
       observerAdd();
       break;
       }
-    case 95:{
+    case 96:{
       observerRemoveAll();
       break;
       }
-    case 96:{
+    case 97:{
       observerRemove();
       break;
       }
@@ -1465,11 +1470,11 @@ SaHelper.updateSaInComposite(agent, groupName, daName, parameters);
   final public void observerAdd() throws ParseException {String name;
         String triggerSpec;
         String fileSpec;
-    jj_consume_token(92);
-    name = string_literal_content();
     jj_consume_token(93);
-    triggerSpec = string_literal_content();
+    name = string_literal_content();
     jj_consume_token(94);
+    triggerSpec = string_literal_content();
+    jj_consume_token(95);
     fileSpec = string_literal_content();
 File f = IncludeHelper.findXapiFile(fileSpec);
           XapiObserver observer = null;
@@ -1485,13 +1490,13 @@ File f = IncludeHelper.findXapiFile(fileSpec);
 
 /* removing all observers from the Xapi agent */
   final public void observerRemoveAll() throws ParseException {
-    jj_consume_token(95);
+    jj_consume_token(96);
 agent.removeAllObservers();
   }
 
 /* removing all observers from the Xapi agent */
   final public void observerRemove() throws ParseException {String name;
-    jj_consume_token(96);
+    jj_consume_token(97);
     name = string_literal_content();
 agent.removeObserver(name);
   }
@@ -1499,7 +1504,7 @@ agent.removeObserver(name);
 /* Metastatement for printing something */
   final public void print() throws ParseException {String current = null;
         List<String> list = new ArrayList<String>();
-    jj_consume_token(97);
+    jj_consume_token(98);
     current = printspec();
 list.add(current);
     label_7:
@@ -1525,16 +1530,16 @@ for(String item: list) {
 
 /* statement for creating namespaces */
   final public void namespace() throws ParseException {String ns;
-    jj_consume_token(98);
+    jj_consume_token(99);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 99:{
-      jj_consume_token(99);
+    case 100:{
+      jj_consume_token(100);
       ns = string_literal_content();
 agent.getLabelSpaces().setNamespace(ns);
       break;
       }
-    case 100:{
-      jj_consume_token(100);
+    case 101:{
+      jj_consume_token(101);
 agent.getLabelSpaces().createNamespace();
       break;
       }
@@ -1553,8 +1558,8 @@ agent.getLabelSpaces().createNamespace();
       retval = string_literal_content();
       break;
       }
-    case 101:{
-      jj_consume_token(101);
+    case 102:{
+      jj_consume_token(102);
 Set<TraceWhat> traceWhat = new HashSet<TraceWhat>();
                 traceWhat.add(TraceWhat.VERBALIZATION);
                 retval = ToStringObserver.formatTraceString(agent, DebugEventType.AFTER_LOOP_ITEM_EXECUTION, traceWhat);
@@ -1635,13 +1640,13 @@ Token t2;
       jj_la1_0 = new int[] {0xe0780000,0x70700,0x0,0x0,0x0,0x0,0xf000,0x70000,0x300000,0x800000,0x1000000,0x2000000,0x4000000,0x10000000,0x20000,0x10000000,0x8000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x20000,0x0,0x0,0x20000,0x0,0x0,0x0,0x0,0x0,0x20000,0x0,0x0,0x0,0x20000,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x38818809,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x4,0x410,0x0,0x18000,0x7e0000,0x30000000,0x40000000,0x100,0x0,0x80,0x0,0x0,0x80,0x0,0x100,0x100,0x40000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x71018809,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x4,0x410,0x0,0x18000,0xfe0000,0x60000000,0x80000000,0x100,0x0,0x80,0x0,0x0,0x80,0x0,0x100,0x100,0x80000000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0xa008000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1ec5,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x4040,0x850000,0x1000000,0x0,0x850000,0x1000000,0x90000000,0x0,0x0,0x0,0x0,};
+      jj_la1_2 = new int[] {0x14010000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3d8a,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x8080,0x10a0000,0x2000000,0x0,0x10a0000,0x2000000,0x20000000,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new int[] {0x60c6,0x0,0x60c0,0x60c0,0x6040,0x6040,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x800,0x0,0x0,0x0,0x0,0x0,0x6040,0x0,0x0,0x6040,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x18,0x6020,0x6000,};
+      jj_la1_3 = new int[] {0xc18c,0x0,0xc180,0xc180,0xc080,0xc080,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1000,0x0,0x0,0x0,0x0,0x0,0xc080,0x0,0x0,0xc080,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3,0x0,0x30,0xc040,0xc000,};
    }
 
   /** Constructor with InputStream. */
@@ -1758,7 +1763,7 @@ Token t2;
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[111];
+    boolean[] la1tokens = new boolean[112];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -1781,7 +1786,7 @@ Token t2;
         }
       }
     }
-    for (int i = 0; i < 111; i++) {
+    for (int i = 0; i < 112; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
