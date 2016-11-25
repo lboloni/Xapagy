@@ -20,6 +20,7 @@
 package org.xapagy.instances;
 
 import java.io.Serializable;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,6 +28,7 @@ import java.util.Set;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.concepts.ConceptOverlay;
+import org.xapagy.concepts.Verb;
 import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.instances.ViStructureHelper.ViType;
@@ -36,8 +38,7 @@ import org.xapagy.ui.prettyprint.PrettyPrint;
  * 
  * The verb instance
  * 
- * @author Ladislau Boloni
- * Created on: May 30, 2011
+ * @author Ladislau Boloni Created on: May 30, 2011
  */
 public class VerbInstance implements XapagyComponent, Serializable {
 
@@ -312,6 +313,20 @@ public class VerbInstance implements XapagyComponent, Serializable {
 
 	public VerbOverlay getVerbs() {
 		return (VerbOverlay) getPart(ViPart.Verb);
+	}
+
+	/**
+	 * The summarization level of a VI is the maximum of the summarization
+	 * levels of the verbs
+	 * 
+	 * @return
+	 */
+	public int getSummarizationLevel() {
+		int level = -1;
+		for (SimpleEntry<Verb, Double> entry : getVerbs().getList()) {
+			level = Math.max(level, entry.getKey().getSummarizationLevel());
+		}
+		return level;
 	}
 
 	/**

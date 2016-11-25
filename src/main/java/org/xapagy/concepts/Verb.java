@@ -28,9 +28,31 @@ import org.xapagy.metaverbs.AbstractSaMetaVerb;
 public class Verb extends AbstractConcept implements Serializable {
 
     private static final long serialVersionUID = 8759727500307496910L;
+    /**
+     * The spike associated with this verb
+     */
     private AbstractSaMetaVerb spike;
+    /**
+     *  The hierarchy level of this verb
+     */
+    private int summarizationLevel = 0;
+
 
     /**
+	 * @return the summarization level of this verb
+	 */
+	public int getSummarizationLevel() {
+		return summarizationLevel;
+	}
+
+	/**
+	 * @param set the summarization level of this verb
+	 */
+	public void setSummarizationLevel(int summarizationLevel) {
+		this.summarizationLevel = summarizationLevel;
+	}
+
+	/**
      * @param type
      * @param label
      */

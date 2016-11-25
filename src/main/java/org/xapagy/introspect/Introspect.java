@@ -370,7 +370,7 @@ public class Introspect {
 	public void setVerbDriveImpactOnSubject(String verbName, String drive, double impactValue) {
 		AbstractConceptDB<Verb> vdb = agent.getVerbDB(); 
 		Verb verb = vdb.getConcept(verbName);
-		vdb.setDriveImpactOnSubject(verb, drive, impactValue);
+		verb.setDriveImpactOnSubject(drive, impactValue);
 	}
 
 	
@@ -383,7 +383,7 @@ public class Introspect {
 	public void setVerbDriveImpactOnObject(String verbName, String drive, double impactValue) {
 		AbstractConceptDB<Verb> vdb = agent.getVerbDB(); 
 		Verb verb = vdb.getConcept(verbName);
-		vdb.setDriveImpactOnObject(verb, drive, impactValue);
+		verb.setDriveImpactOnObject(drive, impactValue);
 	}
 
 

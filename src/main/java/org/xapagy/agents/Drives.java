@@ -236,7 +236,7 @@ public class Drives implements Serializable {
 		List<EnergyQuantum<Instance>> retval = new ArrayList<>();
 		AbstractConceptDB<Verb> vdb = agent.getVerbDB();
 		Verb verb = vdb.getConcept(Hardwired.V_DOES_NOTHING);
-		Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
+		Map<String, Double> impacts = verb.getDriveImpactsOnSubject();
 		for (String drive : impacts.keySet()) {
 			double impact = impacts.get(drive);
 			EnergyQuantum<Instance> eq = null;
@@ -272,7 +272,7 @@ public class Drives implements Serializable {
 			for (SimpleEntry<Verb, Double> entry : vi.getVerbs().getSortedByExplicitEnergy()) {
 				Verb verb = entry.getKey();
 				double strength = entry.getValue();
-				Map<String, Double> impacts = vdb.getDriveImpactsOnSubject(verb);
+				Map<String, Double> impacts = verb.getDriveImpactsOnSubject();
 				for (String drive : impacts.keySet()) {
 					EnergyQuantum<Instance> eq = null;
 					double implicitTimeSlice = salience * strength * timeSlice;
@@ -297,7 +297,7 @@ public class Drives implements Serializable {
 			for (SimpleEntry<Verb, Double> entry : vi.getVerbs().getSortedByExplicitEnergy()) {
 				Verb verb = entry.getKey();
 				double strength = entry.getValue();
-				Map<String, Double> impacts = vdb.getDriveImpactsOnObject(verb);
+				Map<String, Double> impacts = verb.getDriveImpactsOnObject();
 				for (String drive : impacts.keySet()) {
 					EnergyQuantum<Instance> eq = null;
 					double implicitTimeSlice = salience * strength * timeSlice;

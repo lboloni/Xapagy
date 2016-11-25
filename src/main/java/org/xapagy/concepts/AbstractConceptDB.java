@@ -132,14 +132,7 @@ public class AbstractConceptDB<T extends AbstractConcept> implements
      */
     private Map<T, Map<T, Double>> overlapArea = new HashMap<>();
 
-    /**
-     * The impact of the concept on a specific drive when it appears as a subject
-     */
-    private Map<T, Map<String, Double>> driveImpactOnSubject = new HashMap<>();
-    /**
-     * The impact of the concept on a specific drive when it appears as an object
-     */
-    private Map<T, Map<String, Double>> driveImpactOnObject = new HashMap<>();
+
     
     
     
@@ -254,70 +247,6 @@ public class AbstractConceptDB<T extends AbstractConcept> implements
         return Collections.unmodifiableMap(retval);
     }
 
-    
-    /**
-     * Returns all the drive impacts on subject by a given abstract concept
-     * 
-     * @param T - the abstract concept 
-     * @return
-     */
-    public Map<String, Double> getDriveImpactsOnSubject(T a) {
-        Map<String, Double> retval = driveImpactOnSubject.get(a);
-        if (retval == null) {
-            retval = new HashMap<>();
-        }
-        return Collections.unmodifiableMap(retval);
-    }
-    
-    
-    /**
-     * Sets a given impact value
-     * 
-     * @param T - the abstract concept
-     * @param drive 
-     * @param impactValue 
-     * 
-     */
-    public void setDriveImpactOnSubject(T a, String drive, double impactValue) {
-        Map<String, Double> retval = driveImpactOnSubject.get(a);
-        if (retval == null) {
-            retval = new HashMap<>();
-            driveImpactOnSubject.put(a, retval);
-        }
-        retval.put(drive, impactValue);
-    }
-    
-    
-    /**
-     * Sets a given impact value
-     * 
-     * @param T - the abstract concept
-     * @param drive 
-     * @param impactValue 
-     * 
-     */
-    public void setDriveImpactOnObject(T a, String drive, double impactValue) {
-        Map<String, Double> retval = driveImpactOnObject.get(a);
-        if (retval == null) {
-            retval = new HashMap<>();
-            driveImpactOnObject.put(a, retval);
-        }
-        retval.put(drive, impactValue);
-    }
-    
-    /**
-     * Returns all the impacts from a given abstract concept
-     * 
-     * @param T - the abstract concept 
-     * @return
-     */
-    public Map<String, Double> getDriveImpactsOnObject(T a) {
-        Map<String, Double> retval = driveImpactOnObject.get(a);
-        if (retval == null) {
-            retval = new HashMap<>();
-        }
-        return Collections.unmodifiableMap(retval);
-    }
     
     
     /**

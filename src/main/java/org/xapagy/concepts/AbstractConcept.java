@@ -20,6 +20,9 @@
 package org.xapagy.concepts;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -37,7 +40,76 @@ public abstract class AbstractConcept implements Serializable {
     private String documentation = "No documentation";
     private String identifier;
     protected String name;
+    
+    /**
+     * The impact of the concept on a specific drive when it appears as a subject
+     */
+    private Map<String, Double> driveImpactOnSubject = new HashMap<>();
+    /**
+	 * @return the driveImpactOnSubject
+	 */
+	public Map<String, Double> getDriveImpactOnSubject() {
+		return driveImpactOnSubject;
+	}
 
+	/**
+	 * @return the driveImpactOnObject
+	 */
+	public Map<String, Double> getDriveImpactOnObject() {
+		return driveImpactOnObject;
+	}
+
+	/**
+     * The impact of the concept on a specific drive when it appears as an object
+     */
+    private Map<String, Double> driveImpactOnObject = new HashMap<>();
+    
+    
+    
+    /**
+     * Returns all the impacts from a given abstract concept
+     * 
+     * @return
+     */
+    public Map<String, Double> getDriveImpactsOnObject() {
+        return Collections.unmodifiableMap(driveImpactOnObject);
+    }
+
+    
+    /**
+     * Returns all the impacts from a given abstract concept
+     * 
+     * @return
+     */
+    public Map<String, Double> getDriveImpactsOnSubject() {
+        return Collections.unmodifiableMap(driveImpactOnSubject);
+    }
+
+    
+    /**
+     * Sets a given impact value
+     * 
+     * @param drive 
+     * @param impactValue 
+     * 
+     */
+    public void setDriveImpactOnObject(String drive, double impactValue) {
+        driveImpactOnObject.put(drive, impactValue);
+    }
+    
+    /**
+     * Sets a given impact value
+     * 
+     * @param drive 
+     * @param impactValue 
+     * 
+     */
+    public void setDriveImpactOnSubject(String drive, double impactValue) {
+        driveImpactOnSubject.put(drive, impactValue);
+    }
+
+    
+    
     // for deserialization
     protected AbstractConcept() {
 
