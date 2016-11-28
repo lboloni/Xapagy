@@ -106,10 +106,6 @@ public class AgentLabelSpaces implements Serializable {
          if (!label.startsWith("#")) {
              throw new Error("Labels should start with #, it was " + label);
          }
-         // this is a special purpose label
-         if (label.equals(Hardwired.LABEL_SUMMARIZATION)) {
-             return label;
-         }
          String label2 = label.substring(1);
          // check if it already has a namespace
          if (label2.contains(".")) {

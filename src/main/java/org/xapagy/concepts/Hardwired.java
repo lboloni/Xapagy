@@ -136,12 +136,7 @@ public class Hardwired {
     public static final String VO_CREATE_RELATION = "CreateRelation";
     public static final String VO_REMOVE_RELATION = "RemoveRelation";
     public static final String VO_THUS = "thus";
-    
-    //
-    // Special purpose labels: start with ## (instead of just one #)
-    //
-    public static final String LABEL_SUMMARIZATION = "##Summarization";
-    
+        
     // Initialize the list of adjective verbs
     static {
         Hardwired.adjectiveVerbs.add(Hardwired.VM_IS_A);

@@ -1,9 +1,13 @@
 // focus instance energies
 $CreateEnergy "FOCUS_INSTANCE" Of Type FOCUS_INSTANCE With E2S = 1.0
-$CreateEnergy "FOCUS_SUMMARIZATION_INSTANCE" Of Type FOCUS_INSTANCE With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_INSTANCE_1" Of Type FOCUS_INSTANCE With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_INSTANCE_2" Of Type FOCUS_INSTANCE With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_INSTANCE_3" Of Type FOCUS_INSTANCE With E2S = 1.0
 // focus VI energies
 $CreateEnergy "FOCUS_VI" Of Type FOCUS_VI With E2S = 1.0
-$CreateEnergy "FOCUS_SUMMARIZATION_VI" Of Type FOCUS_VI With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_VI_1" Of Type FOCUS_VI With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_VI_2" Of Type FOCUS_VI With E2S = 1.0
+$CreateEnergy "FOCUS_SUMMARIZATION_VI_3" Of Type FOCUS_VI With E2S = 1.0
 // AM instance energies
 $CreateEnergy "AM_INSTANCE" Of Type AM_INSTANCE With E2S = 1.0
 // AM VI energies
