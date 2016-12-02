@@ -201,7 +201,7 @@ public class Drives implements Serializable {
 	 * loop.
 	 */
 	public void updateDrives() {
-		TextUi.println("Begin update drives");
+		//TextUi.println("Begin update drives");
 		Focus fc = agent.getFocus();
 		double timeSlice = agent.getTime() - lastUpdated;
 		lastUpdated = agent.getTime();

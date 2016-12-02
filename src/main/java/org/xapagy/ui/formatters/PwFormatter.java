@@ -484,6 +484,7 @@ public class PwFormatter extends HtmlFormatter implements IXwFormatter {
 
 	@Override
     public void add(Object object) {
-		super.add(object.toString() + "<br/>");
+		// super.add(object.toString() + "<br/>");
+		super.add(object.toString());
     }	
 }
