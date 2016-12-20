@@ -62,7 +62,7 @@ public class SpInstance {
             tmp = SpInstance.spInstance(instance, viewedFromScene, agent,
                     false);
         }
-        return tmp + "(" + instance.getIdentifier() + ")";
+        return tmp;
     }
 
     /**

@@ -170,7 +170,7 @@ public class VrblzInstance {
 			}
 		}
 		// verbalization failed - fail back to a full adjective dump.
-		// FIXME in future versions fall back to group / relational etc.
+		// FIXME in future versions fall back to relational etc.
 		if (scoredIVCs.isEmpty()) {
 			String retval = VrblzAdjective.verbalizeAdjective(agent, instance.getConcepts(), false);
 			return retval;

@@ -62,7 +62,7 @@ public class ReferenceAPI implements Serializable {
      * @return
      */
     public VerbInstance ViByLastCreated() {
-        throw new Error("ReferenceAPI.ViByLastCreated not implemented yet");
+    	return agent.getLastVerbInstance();
     }
 
     /**

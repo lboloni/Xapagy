@@ -44,8 +44,12 @@ import org.xapagy.verbalize.VerbalMemoryHelper;
  */
 public class xwVerbInstance {
 
+	
+	
+	
 	/**
-	 * Returns a concise, single line version of the verb instance description
+	 * Returns a concise, single line version of the verb instance description. This is 
+	 * intended to be the kind that conveys information, not a verbalized statement 
 	 * 
 	 * @param xw
 	 *            - the formatter
@@ -315,5 +319,7 @@ public class xwVerbInstance {
 	    }
 	    throw new Error("this should not happen");
 	}
+	
+	
 	
 }

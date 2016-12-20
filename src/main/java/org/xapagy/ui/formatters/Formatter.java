@@ -120,7 +120,8 @@ public class Formatter {
      */
     public void accumulate(Object object) {
         String objectString = object.toString();
-        if (!objectString.endsWith("\n")) {
+        // remove the newline if it is there
+        if (objectString.endsWith("\n")) {
             objectString = objectString.substring(0, objectString.length()-1);
         }
         String temp = TextUiHelper.indent(currentIndent, objectString);

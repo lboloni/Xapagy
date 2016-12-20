@@ -221,7 +221,7 @@ public class Focus implements Serializable {
     }
 
     /**
-     * Returns the VIs who have any of the energies
+     * Returns the VIs who have any of the energies of type FOCUS_VI
      * 
      * @return
      */
@@ -278,13 +278,21 @@ public class Focus implements Serializable {
                 p.get("A_FCM", "G_GENERAL",
                         "N_MINIMUM_VI");
         // KLUDGE: do not garbage collect summarization energy instances
-        if (vise.valueEnergy(vi, EnergyColors.FOCUS_SUMMARIZATION_VI) > 0.0) {
-            return;
-        }        
+        //if (vise.valueEnergy(vi, EnergyColors.FOCUS_SUMMARIZATION_VI) > 0.0) {
+        //    return;
+        //}
         
-        if (vise.valueEnergy(vi, EnergyColors.FOCUS_VI) < minimumVi) {
+        //
+        //  Garbage collect those VIs whose total energy over all energy types is smaller 
+        //
+        double totalEnergy = 0;
+        for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
+            totalEnergy += vise.valueEnergy(vi, ec);
+         }     
+        if (totalEnergy < minimumVi) {
             vise.remove(vi);
         }
+        /*
         boolean toRemove = true;
         for (String ec2 : agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
             if (vise.valueEnergy(vi, ec2) > minimumVi) {
@@ -295,6 +303,7 @@ public class Focus implements Serializable {
         if (toRemove) {
             vise.remove(vi);
         }
+        */
         //
         // sanity check: check if we have VIs which refer to instances which are
         // not in the focus

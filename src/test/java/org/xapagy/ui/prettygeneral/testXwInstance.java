@@ -31,11 +31,21 @@ import org.xapagy.ui.formatters.TwFormatter;
 
 public class testXwInstance {
 
+	protected PwFormatter pw;
+	protected TwFormatter tw;
+	protected StringBuffer tos;
+	
+	/**
+	 * Testing if the different formatters create acceptable results. Trying it out on 
+	 * PwFormatter for html, TwFormatter for text, and simple toString  
+	 */
 	@Test
-	public void testTwoFormatters() {
-		TestHelper.testStart("Testing PwFormatter and TwFormatter compatibility");
-		PwFormatter pw = new PwFormatter();
-		TwFormatter tw = new TwFormatter();
+	public void testFormatters() {
+		TestHelper.testStart("Testing the formats created XwInstance");
+		// create the formatters
+		pw = new PwFormatter();
+		tw = new TwFormatter();
+		tos = new StringBuffer();
 		// let us get some instances to print
 		Runner r = ArtificialDomain.runnerArtificialAutobiography();
         r.exec("$CreateScene #Reality CloseOthers With Instances 'Hector' #Hector, w_c_bai20 #referred, w_c_bai21");
@@ -45,25 +55,48 @@ public class testXwInstance {
                 r.ref.SceneByLabel("#Reality");
         Instance instanceReferred =
                 r.ref.InstanceByLabel("#referred");
-        r.exec("The  w_c_bai20 / wa_v_av40 / the w_c_bai21.");
-        r.exec("'Hector' / wa_v_av41 / the w_c_bai21.");
+        printSuperConcise(instanceHector, r);
+        printConcise(instanceHector, r);
+        printDetailed(instanceHector, r);
         
-		printSuperConcise(tw, instanceHector, r.agent);
-
-        
+        //r.exec("The  w_c_bai20 / wa_v_av40 / the w_c_bai21.");
+        //r.exec("'Hector' / wa_v_av41 / the w_c_bai21.");
+        TestHelper.verbose = true;
 		TestHelper.printIfVerbose("PwFormatter:\n" + pw.toString());
 		TestHelper.printIfVerbose("TwFormatter:\n" + tw.toString());
+		TestHelper.printIfVerbose("toString output:\n" + tos.toString());		
 		TestHelper.testDone();
 	}
 	
 	/**
-	 * Tests the printing of the superconcise printing
-	 * @param xw
+	 * Prints using superconcide on all three formatters
 	 * @param instance
 	 */
-	private void printSuperConcise(IXwFormatter xw, Instance instance, Agent agent) {
-		xwInstance.xwConcise(xw, instance, agent);
+	private void printSuperConcise(Instance instance, Runner r) {
+        xwInstance.xwSuperConcise(pw, instance, r.agent);
+        xwInstance.xwSuperConcise(tw, instance, r.agent);
+		tos.append(instance);
 	}
+
+	/**
+	 * Prints using superconcide on all three formatters
+	 * @param instance
+	 */
+	private void printConcise(Instance instance, Runner r) {
+        xwInstance.xwConcise(pw, instance, r.agent);
+        xwInstance.xwConcise(tw, instance, r.agent);
+	}
+
+	/**
+	 * Prints using superconcide on all three formatters
+	 * @param instance
+	 */
+	private void printDetailed(Instance instance, Runner r) {
+        xwInstance.xwDetailed(pw, instance, r.agent);
+        xwInstance.xwDetailed(tw, instance, r.agent);
+	}
+
+	
 	
 	private void printAdd(IXwFormatter xw) {
 		xw.add("Adding some stuff here");

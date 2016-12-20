@@ -27,6 +27,8 @@ import java.util.List;
 import org.xapagy.agents.Agent;
 import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwInstance;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 public class Instance implements Serializable, XapagyComponent {
@@ -170,7 +172,7 @@ public class Instance implements Serializable, XapagyComponent {
 
     @Override
     public String toString() {
-        return PrettyPrint.ppString(this);
+        return xwInstance.xwSuperConcise(new TwFormatter(), this, PrettyPrint.lastAgent);
     }
 
 }

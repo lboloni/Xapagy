@@ -71,8 +71,8 @@ public class SaFcmInsertVi extends SpikeActivity {
 			ecInstance = EnergyColors.FOCUS_INSTANCE;
 			ecVI = EnergyColors.FOCUS_VI;
 		} else {
-			ecInstance = EnergyColors.FOCUS_SUMMARIZATION_VI + "_" + level;
-			ecVI = EnergyColors.FOCUS_SUMMARIZATION_INSTANCE + "_" + level;
+			ecInstance = EnergyColors.FOCUS_SUMMARIZATION_INSTANCE + "_" + level;
+			ecVI = EnergyColors.FOCUS_SUMMARIZATION_VI + "_" + level;
 		}
 		//
 		// Ok, this is regular VI, we add focus energy

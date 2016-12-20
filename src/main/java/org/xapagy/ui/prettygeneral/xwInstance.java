@@ -22,6 +22,8 @@ package org.xapagy.ui.prettygeneral;
 import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Focus;
 import org.xapagy.concepts.Concept;
@@ -34,33 +36,29 @@ import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.prettyprint.PpViSet;
 import org.xapagy.ui.prettyprint.PrettyPrint;
+import org.xapagy.ui.smartprint.SpInstance;
+import org.xapagy.verbalize.Verbalize;
 
 public class xwInstance {
 
 	
     /**
-     * Returns a concise, single line version of the instance description
+     * Returns a super concise description - fall back on the smartprint
      * 
+     * @param xw 
      * @param instance
      * @param agent
      * @return
      */
     public static String xwSuperConcise(IXwFormatter xw, Instance instance, Agent agent) {   
-        for (SimpleEntry<Concept, Double> entry : instance.getConcepts()
-                .getList()) {
-            Concept c = entry.getKey();
-            if (c.getName().startsWith("\"")) {
-                xw.accumulate(c.getName());
-                return xw.toString();
-            }
-        }
-        xw.accumulate(instance.getIdentifier());
+    	xw.add(SpInstance.spc(instance, agent));
         return xw.toString();
     }
 	
 	
     /**
-     * Returns a concise, single line version of the instance description
+     * Returns a concise, single line version of the instance description - basically 
+     * gets
      * 
      * @param xw - the formatter
      * @param instance

@@ -49,8 +49,8 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
      * Generates a webpage documenting the VIs in the focus. 
      * @param fmt
      * @param agent
-     * @param fc
      * @param gq
+     * @param session
      */
     @Override
     public void generate(PwFormatter fmt, Agent agent, RESTQuery gq, Session session) {
@@ -61,7 +61,7 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
         StringBuffer exp = new StringBuffer();
         exp.append("Energies listed: ");
         for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
-            exp.append(ec.toString() + " ");
+            exp.append(ec.toString() + " &bull; ");
          }        
         fmt.explanatoryNote(exp.toString());
         // this set allows us to track if something did not fit in any of the categories
