@@ -24,6 +24,7 @@ import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.debug.DebugEvent;
 import org.xapagy.debug.DebugEvent.DebugEventType;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**
@@ -100,8 +101,8 @@ public class BreakCondition {
             }
             currentCount++;
             if (currentCount >= initCount) {
-                TextUi.println("\nStopped at counted event" + event.toString()
-                        + "time: " + agent.getTime() + "loopItem "
+                TextUi.println("\nStopped at counted event " + event.toString()
+                        + "time: " + Formatter.fmt(agent.getTime()) + "\nloopItem "
                         + agent.getLoop().getInExecution().toString());
                 return true;
             }

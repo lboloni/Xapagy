@@ -19,6 +19,8 @@
 */
 package org.xapagy.ui.prettygraphviz;
 
+import org.xapagy.ui.formatters.IXwFormatter;
+
 /**
  * A class representing the parameters of the GraphViz representation of a graph
  * 
@@ -99,4 +101,31 @@ public class GvParameters {
 
     public String vi_style = "filled";
     public int vi_wrap = 20;
+    
+    /**
+     * Self description of the legend of a certain image based on its parameters
+     * 
+     * @param xw
+     */
+    public void describeLegend(IXwFormatter xw) {
+        xw.addBold("Interpreting the graphviz picture");
+        xw.addBold("NODES:");
+        xw.indent();
+        xw.is("action VI", "white rectangle black text");
+        xw.is("NOT IMPLEMENTED summarization 1", "light blue rectangle no border");
+        xw.is("NOT IMPLEMENTED summarization 2", "light blue rectangle border");
+        xw.is("NOT IMPLEMENTED summarization 3", "light blue rectangle thick border");
+        xw.is("NOT IMPLEMENTED relations", "yellow rectange");
+        xw.addBold("LINKS:");
+        xw.indent();
+        xw.is("strongest SUCCESSOR link from a given node", link_color_successor);
+        xw.is("inquit to quote",link_color_quote);
+        xw.is("Summarization_Begin", link_color_summarization_begin);
+        xw.is("Summarization_Body", link_color_summarization_body);
+        xw.is("Summarization_Close", link_color_summarization_close);
+        xw.is("NOT IMPLEMENTED summarization 2", "light blue rectangle border");
+        xw.is("NOT IMPLEMENTED summarization 3", "light blue rectangle thick border");
+        xw.is("NOT IMPLEMENTED relations", "yellow rectange");
+    }
+    
 }
