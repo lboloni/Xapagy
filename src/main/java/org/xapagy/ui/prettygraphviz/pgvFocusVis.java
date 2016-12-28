@@ -41,7 +41,7 @@ import org.xapagy.ui.smartprint.SpFocus;
  */
 public class pgvFocusVis {
     /**
-     * Generate the focus verb instances
+     * Generate a graphviz picture with the focus VIs
      * 
      * @return
      */

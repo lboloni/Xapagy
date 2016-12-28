@@ -76,4 +76,23 @@ public class FocusSorter {
         Collections.reverse(list);
     }
 
+    
+    /**
+     * Sorts a list of VIs in the order of decreasing focus salience
+     * 
+     * @param list
+     * @param agent
+     */
+    public static void sortVisIncreasingCreationTime(List<VerbInstance> list,
+            final Agent agent) {
+        Comparator<VerbInstance> comp = new Comparator<VerbInstance>() {
+            @Override
+            public int compare(VerbInstance o1, VerbInstance o2) {
+                return Double.compare(
+                        o1.getCreationTime(),
+                        o2.getCreationTime());
+            }
+        };
+        Collections.sort(list, comp);
+    }
 }

@@ -86,18 +86,7 @@ public class qh_ALL_FOCUS_INSTANCES implements IQueryHandler, IQueryAttributes {
 		PwFormatter fmt2 = fmt.getEmpty();
 		IXwFormatter xw = new PwFormatter();
 		GvParameters gvp = new GvParameters();
-		gvp.describeLegend(xw);
-
-		// Legend for the graphviz image
-		// exp = new StringBuffer();
-		// exp.append("Large rectangles: scenes. <br/>");
-		// exp.append("White nodes with black text: active instances<br>");
-		// exp.append("--- with gray text: inactive instances with zero focus
-		// presence.<br/>");
-		// exp.append("Dotted black lines: identity relations.<br/>");
-		// exp.append("Inter-scene arrows: black for succession, blue for
-		// fictional future, green for view<br/>");
-		// fmt2.explanatoryNote(exp.toString());
+		gvp.describeInstanceLegend(xw);
 		fmt2.explanatoryNote(xw.toString());
 		// add an image
 		RESTQuery gqImg = QueryHelper.copyWithEmptyCommand(gq);

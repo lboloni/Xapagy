@@ -1,6 +1,6 @@
 /*
-   
-    This file is part of the Xapagy Cognitive Architecture 
+
+    This file is part of the Xapagy Cognitive Architecture
     Copyright (C) 2008-2017 Ladislau Boloni
 
     This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-   
+
 */
 package org.xapagy.instances;
 
@@ -35,9 +35,9 @@ import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 
 /**
- * 
+ *
  * The verb instance
- * 
+ *
  * @author Ladislau Boloni Created on: May 30, 2011
  */
 public class VerbInstance implements XapagyComponent, Serializable {
@@ -47,7 +47,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 	/**
 	 * Creates a Vi from a ViTemplate, only for the case when all the missing
 	 * parts are resolved.
-	 * 
+	 *
 	 * @param agent
 	 *            the agent
 	 * @param viOld
@@ -78,11 +78,11 @@ public class VerbInstance implements XapagyComponent, Serializable {
 
 	/**
 	 * Factory function:
-	 * 
+	 *
 	 * Constructs a VI template with the type and the instance specified and all
 	 * the other parts missing. Used in the FsliInterpreter to generate the FSLI
 	 * and in the StoryLineReasoning
-	 * 
+	 *
 	 * @param agent
 	 * @param viType
 	 * @param verbs
@@ -106,7 +106,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 
 	/**
 	 * Copy constructor (for templates)
-	 * 
+	 *
 	 * @param model
 	 */
 	public static VerbInstance createViTemplateFromModel(VerbInstance model) {
@@ -165,21 +165,6 @@ public class VerbInstance implements XapagyComponent, Serializable {
 	private double creationTime;
 
 	/**
-	 * @return the creationTime
-	 */
-	public double getCreationTime() {
-		return creationTime;
-	}
-
-	public Instance getCreatedInstance() {
-		return createdInstance;
-	}
-
-	public void setCreatedInstance(Instance createdInstance) {
-		this.createdInstance = createdInstance;
-	}
-
-	/**
 	 * Empty constructor for deserialization
 	 */
 	public VerbInstance() {
@@ -188,7 +173,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 	/**
 	 * Constructor for a VerbInstance type VI. Called from
 	 * Agent.createVerbInstance
-	 * 
+	 *
 	 * @param viType
 	 *            - the type of the VI
 	 * @param identifier
@@ -213,9 +198,20 @@ public class VerbInstance implements XapagyComponent, Serializable {
 		return (ConceptOverlay) getPart(ViPart.Adjective);
 	}
 
+	public Instance getCreatedInstance() {
+		return createdInstance;
+	}
+
+	/**
+	 * @return the creationTime
+	 */
+	public double getCreationTime() {
+		return creationTime;
+	}
+
 	/**
 	 * Returns the expectedness of the VI - only printed from PwVerbInstance
-	 * 
+	 *
 	 * @return the expectedness
 	 */
 	public double getExpectedness() {
@@ -252,7 +248,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 	/**
 	 * Returns a part based on the specification. Unfortunately type is lost
 	 * here and need to be reproduced later.
-	 * 
+	 *
 	 * @param vip
 	 * @return
 	 */
@@ -269,7 +265,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 
 	/**
 	 * This is the verb instance subject, aka the quote
-	 * 
+	 *
 	 * @return
 	 */
 	public VerbInstance getQuote() {
@@ -286,7 +282,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 	/**
 	 * Returns all the scenes referenced by the instance (also adds the scene of
 	 * the referenced item)
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<Instance> getReferencedScenes() {
@@ -311,14 +307,10 @@ public class VerbInstance implements XapagyComponent, Serializable {
 		return (Instance) getPart(ViPart.Subject);
 	}
 
-	public VerbOverlay getVerbs() {
-		return (VerbOverlay) getPart(ViPart.Verb);
-	}
-
 	/**
 	 * The summarization level of a VI is the maximum of the summarization
 	 * levels of the verbs
-	 * 
+	 *
 	 * @return
 	 */
 	public int getSummarizationLevel() {
@@ -327,6 +319,10 @@ public class VerbInstance implements XapagyComponent, Serializable {
 			level = Math.max(level, entry.getKey().getSummarizationLevel());
 		}
 		return level;
+	}
+
+	public VerbOverlay getVerbs() {
+		return (VerbOverlay) getPart(ViPart.Verb);
 	}
 
 	/**
@@ -339,7 +335,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 	/**
 	 * Returns true if the vi already contains the instance - it can only
 	 * contain it once... Currently used in the FSL interpreter
-	 * 
+	 *
 	 * @param resolvedInstance
 	 * @return
 	 */
@@ -366,7 +362,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 
 	/**
 	 * If a Vi is not completely resolved
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean notCompletelyResolved() {
@@ -383,9 +379,13 @@ public class VerbInstance implements XapagyComponent, Serializable {
 		setResolvedPart(ViPart.Adjective, conceptObject);
 	}
 
+	public void setCreatedInstance(Instance createdInstance) {
+		this.createdInstance = createdInstance;
+	}
+
 	/**
 	 * Sets the expectedness of the VI
-	 * 
+	 *
 	 * @param expectedness
 	 *            the expectedness to set
 	 */
@@ -399,7 +399,7 @@ public class VerbInstance implements XapagyComponent, Serializable {
 
 	/**
 	 * Sets a part. The part will be moved into newParts
-	 * 
+	 *
 	 * @param part
 	 * @param key
 	 */
@@ -428,9 +428,9 @@ public class VerbInstance implements XapagyComponent, Serializable {
 
 	/**
 	 * Sets a part.
-	 * 
+	 *
 	 * The part will be moved into resolved and removed from the missing and new
-	 * 
+	 *
 	 * @param part
 	 * @param key
 	 */

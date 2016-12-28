@@ -139,13 +139,29 @@ public class pgvVerbInstance {
             fmt.openNode(vi.getIdentifier());
             fmt.is(GvParameters.SHAPE, param.vi_shape);
             fmt.is(GvParameters.STYLE, param.vi_style);
-            fmt.is(GvParameters.FILLCOLOR, param.vi_fillcolor_action);
+            int summarizationLevel = vi.getSummarizationLevel();
+            switch (summarizationLevel) {
+            case 0: 
+                fmt.is(GvParameters.FILLCOLOR, param.vi_fillcolor_action);
+                break;
+            case 1: 
+                fmt.is(GvParameters.FILLCOLOR, param.vi_fillcolor_action_s1);
+                break;
+            case 2: 
+                fmt.is(GvParameters.FILLCOLOR, param.vi_fillcolor_action_s2);
+                break;
+            default: 
+                fmt.is(GvParameters.FILLCOLOR, param.vi_fillcolor_action_shigh);
+                break;
+            }
             fmt.is(GvParameters.FONTNAME, param.fontname);
             fmt.is(GvParameters.FONTSIZE, "" + param.fontsize);
             fmt.label(label);
             fmt.close();
             return true;
         }
+        
+        
         // create-other types
         String label = XapiPrint.ppsViXapiForm(vi, agent);
         label = GraphVizHelper.wrapLabel(label, param.vi_wrap);

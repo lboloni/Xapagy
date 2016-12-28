@@ -34,8 +34,11 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.set.EnergyColors.EnergyColorType;
+import org.xapagy.ui.TextUiHelper;
 import org.xapagy.ui.formatters.HtmlFormatter;
+import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.prettygraphviz.GvParameters;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
@@ -59,9 +62,15 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
         fmt.addH2("Focus VIs", "class=identifier");
         // explain the order in which the energies will be listed
         StringBuffer exp = new StringBuffer();
+        String overheadLabel = "";
         exp.append("Energies listed: ");
         for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
             exp.append(ec.toString() + " &bull; ");
+            String ectext = ec.toString();
+            ectext = ectext.substring("FOCUS_".length());
+            ectext = ectext.replaceAll("SUMMARIZATION", "SUM");
+            // padding to width
+            overheadLabel += TextUiHelper.padTo(ectext, 15);
          }        
         fmt.explanatoryNote(exp.toString());
         // this set allows us to track if something did not fit in any of the categories
@@ -77,7 +86,9 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
         fmt.addH2("Action VIs");
         List<VerbInstance> actionList =
                 new ArrayList<>(visSplitByClass.get(ViClass.ACTION));
-        FocusSorter.sortVisDecreasingFocusSalience(actionList, agent);
+        // FocusSorter.sortVisDecreasingFocusSalience(actionList, agent);
+        fmt.add("<pre>" + overheadLabel + "</pre>");
+        FocusSorter.sortVisIncreasingCreationTime(actionList, agent);
         for (VerbInstance vi : actionList) {
             fmt.openP();
             for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
@@ -146,18 +157,16 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
             fmt.closeP();
         }
         //
-        // The graphviz image
-        //
-        PwFormatter fmt2 = fmt.getEmpty();
         // Legend for the graphviz image
-        exp = new StringBuffer();
-        exp.append("White nodes with black text: action VIs<br>");
-        exp.append("Gray arrows: the strongest succession link.<br/>");
-        exp.append("Brown arrows: quote relation<br/>");
-        exp.append("Black arrows connected to a dot: coincidence group<br/>");
-        exp.append("Inter-scene arrows: black for succession, blue for fictional future, green for view<br/>");
-        fmt2.explanatoryNote(exp.toString());
-
+        //
+		PwFormatter fmt2 = fmt.getEmpty();
+		IXwFormatter xw = new PwFormatter();
+		GvParameters gvp = new GvParameters();
+		gvp.describeVILegend(xw);
+        fmt2.explanatoryNote(xw.toString());
+		//
+		// Graphviz image
+		//
         RESTQuery gqImg = QueryHelper.copyWithEmptyCommand(gq);
         gqImg.setAttribute(Q_RESULT_TYPE, "JPG");
         fmt2.addImg("src=" + gqImg.toQuery()); // was "width=90%"

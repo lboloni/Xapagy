@@ -48,7 +48,6 @@ public class GvParameters {
     public String fontname = GvParameters.BASEFONT;
     public int fontsize = 10;
     public String instance_color_active = "black";
-
     public String instance_color_inactive = "gray70";
     public String instance_fillcolor_group = "cadetblue1";
     public String instance_fillcolor_regular = "white";
@@ -95,6 +94,9 @@ public class GvParameters {
      */
     public String splines = "spline"; // was "ortho"
     public String vi_fillcolor_action = "white";
+    public String vi_fillcolor_action_s1 = "darkseagreen1";
+    public String vi_fillcolor_action_s2 = "darkseagreen";
+    public String vi_fillcolor_action_shigh = "darkseagreen4";
     public String vi_fillcolor_other = "gray";
     // verb instances
     public String vi_shape = "box";
@@ -107,15 +109,40 @@ public class GvParameters {
      * 
      * @param xw
      */
-    public void describeLegend(IXwFormatter xw) {
+    public void describeInstanceLegend(IXwFormatter xw) {
         xw.addBold("Interpreting the graphviz picture");
         xw.addBold("NODES:");
         xw.indent();
-        xw.is("action VI", "white rectangle black text");
-        xw.is("NOT IMPLEMENTED summarization 1", "light blue rectangle no border");
-        xw.is("NOT IMPLEMENTED summarization 2", "light blue rectangle border");
-        xw.is("NOT IMPLEMENTED summarization 3", "light blue rectangle thick border");
-        xw.is("NOT IMPLEMENTED relations", "yellow rectange");
+        xw.is("Regular instance", instance_fillcolor_regular + " rectangle " + instance_color_active + " text");
+        xw.is("Group instance", instance_fillcolor_group + " rectangle " + instance_color_active + " text");
+        xw.is("Scene", "large gray rectangles containing the instances");
+        xw.deindent();
+        xw.addBold("LINKS:");
+        xw.indent();
+        xw.is("relations", relations_color_nonIdentity);
+        xw.add("Note that if a relation goes to the group, the arrow ends at no node");
+        xw.is("identity relations", relations_color_identity);
+        xw.deindent();
+    }
+    
+    
+    /**
+     * Self description of the legend of a certain image based on its parameters
+     * 
+     * @param xw
+     */
+    public void describeVILegend(IXwFormatter xw) {
+        xw.addBold("Interpreting the graphviz picture");
+        xw.addBold("NODES:");
+        xw.indent();
+        xw.is("action VI", vi_fillcolor_action + " rectangle black text");
+        xw.is("summarization 1", vi_fillcolor_action_s1 + " rectangle black text");
+        xw.is("summarization 2", vi_fillcolor_action_s2 + " rectangle black text");
+        xw.is("summarization 3 and higher", vi_fillcolor_action_shigh + " rectangle black text");
+        xw.is("relations", "--- not shown ---");
+        xw.is("other VIs", vi_fillcolor_other + " rectangle black text");
+        
+        xw.deindent();
         xw.addBold("LINKS:");
         xw.indent();
         xw.is("strongest SUCCESSOR link from a given node", link_color_successor);
@@ -123,9 +150,6 @@ public class GvParameters {
         xw.is("Summarization_Begin", link_color_summarization_begin);
         xw.is("Summarization_Body", link_color_summarization_body);
         xw.is("Summarization_Close", link_color_summarization_close);
-        xw.is("NOT IMPLEMENTED summarization 2", "light blue rectangle border");
-        xw.is("NOT IMPLEMENTED summarization 3", "light blue rectangle thick border");
-        xw.is("NOT IMPLEMENTED relations", "yellow rectange");
+        xw.deindent();
     }
-    
 }
