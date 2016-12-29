@@ -28,6 +28,7 @@ import org.xapagy.instances.ViStructureHelper;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.EnergyQuantum;
+import org.xapagy.summarization.SummarizationHelper;
 import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
@@ -64,16 +65,9 @@ public class SaFcmInsertVi extends SpikeActivity {
 		// FIXME: adapt this based on the VI
 		//
 
-		String ecVI = null;
-		String ecInstance = null;
-		int level = vi.getSummarizationLevel();
-		if (level == 0) {
-			ecInstance = EnergyColors.FOCUS_INSTANCE;
-			ecVI = EnergyColors.FOCUS_VI;
-		} else {
-			ecInstance = EnergyColors.FOCUS_SUMMARIZATION_INSTANCE + "_" + level;
-			ecVI = EnergyColors.FOCUS_SUMMARIZATION_VI + "_" + level;
-		}
+		
+		String ecVI = SummarizationHelper.getFocusEnergyColor(vi);
+		String ecInstance = SummarizationHelper.getFocusEnergyColorForInstance(vi);
 		//
 		// Ok, this is regular VI, we add focus energy
 		//

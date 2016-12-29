@@ -24,8 +24,17 @@ $DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Focu
 // $DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "FocusSummarizationDecay" Code "org.xapagy.activity.focusmaintenance.DaFcmDecay" Parameters "ecInstance" = "FOCUS_SUMMARIZATION_INSTANCE", "decayInstance" = "0.99", "decayScene" = "0.0", "ecVI" = "FOCUS_SUMMARIZATION_VI", "decayActionVi" = "0.97", "decayNonActionVi" = "0.6"
 //
 // DA daFcmMemorization
-//
+// For FOCUS_VI
 $DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Memorization" Code "org.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "ecFocusVI"="FOCUS_VI", "ecAMInstance"="AM_INSTANCE", "ecAMVI"="AM_VI", "VI_S_Focus_to_VI_E_AM"="1.0", "VI_S_Focus_to_I_E_AM"="1.0"
+// For FOCUS_SUMMARIZATION_VI_1
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Memorization_S1" Code "org.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "ecFocusVI"="FOCUS_SUMMARIZATION_VI_1", "ecAMInstance"="AM_INSTANCE", "ecAMVI"="AM_VI", "VI_S_Focus_to_VI_E_AM"="1.0", "VI_S_Focus_to_I_E_AM"="1.0"
+// For FOCUS_SUMMARIZATION_VI_2
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Memorization_S2" Code "org.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "ecFocusVI"="FOCUS_SUMMARIZATION_VI_2", "ecAMInstance"="AM_INSTANCE", "ecAMVI"="AM_VI", "VI_S_Focus_to_VI_E_AM"="1.0", "VI_S_Focus_to_I_E_AM"="1.0"
+// For FOCUS_SUMMARIZATION_VI_3
+$DiffusionActivity Append To Composite "FocusMaintenance" New DA With Name "Memorization_S3" Code "org.xapagy.activity.focusmaintenance.DaFcmMemorization" Parameters "ecFocusVI"="FOCUS_SUMMARIZATION_VI_3", "ecAMInstance"="AM_INSTANCE", "ecAMVI"="AM_VI", "VI_S_Focus_to_VI_E_AM"="1.0", "VI_S_Focus_to_I_E_AM"="1.0"
+
+
+
 //
 // DA daFcmSummarization
 //

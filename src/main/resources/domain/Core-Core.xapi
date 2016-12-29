@@ -75,6 +75,7 @@ $Create Word "create-succession-identity" For Verb [vm_create_succession_identit
 
 $Create MetaVerb vm_thus Code org.xapagy.metaverbs.SaMvThus
 $Create Word "thus" For Verb [vm_thus]
+$Create Word "coincides-with" For Verb [vm_thus]
 
 $Create MetaVerb vm_forget Code org.xapagy.metaverbs.SaMvForget
 $Create Word "forget" For Verb [vm_forget]

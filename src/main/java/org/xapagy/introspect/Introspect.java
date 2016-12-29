@@ -77,6 +77,17 @@ public class Introspect {
 	}
 
 	/**
+	 * Bridge into story line reasoning renarrate
+	 * @param sline
+	 * @param kind
+	 * @return
+	 */
+	public List<VerbInstance> renarrate(StoryLine sline, String kind) {
+		return StoryLineReasoning.renarrate(agent, sline, kind);
+	}
+	
+	
+	/**
 	 * Executes a VI in the agent.
 	 * 
 	 * @param vi
@@ -89,6 +100,7 @@ public class Introspect {
 	 * Verbalizes a story line in Xapi. Ideally, this should be a format which
 	 * can be parsed back.
 	 * 
+	 * @param stl
 	 * @return
 	 */
 	public String verbalize(StoryLine stl) {
@@ -99,6 +111,23 @@ public class Introspect {
 		return sb.toString();
 	}
 
+	
+	/**
+	 * Verbalizes a list of verb instance
+	 * 
+	 * @param vis
+	 * @return
+	 */
+	public String verbalize(List<VerbInstance> vis) {
+		StringBuffer sb = new StringBuffer();
+		for (VerbInstance vi : vis) {
+			sb.append(XapiPrint.ppsViXapiForm(vi, agent) + "\n");
+		}
+		return sb.toString();		
+	}
+
+	
+	
 	/**
 	 * Verbalizes a verb instance
 	 * 
