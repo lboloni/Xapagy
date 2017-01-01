@@ -20,13 +20,8 @@
 package org.xapagy.ui.prettygeneral;
 
 import java.util.List;
-import java.util.AbstractMap.SimpleEntry;
-
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Focus;
-import org.xapagy.concepts.Concept;
 import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.RelationHelper;
@@ -37,7 +32,6 @@ import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.prettyprint.PpViSet;
 import org.xapagy.ui.prettyprint.PrettyPrint;
 import org.xapagy.ui.smartprint.SpInstance;
-import org.xapagy.verbalize.Verbalize;
 
 public class xwInstance {
 

@@ -23,8 +23,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.xapagy.concepts.Hardwired;
-
 /**
  * This class contains the values of $Define-s, as well as current values of
  * namespaces. As these values are used for debugging and development and they

@@ -34,6 +34,7 @@ import java.util.Set;
 import org.xapagy.agents.Agent;
 import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.concepts.Hardwired;
+import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.RelationHelper;
 import org.xapagy.instances.VerbInstance;
@@ -51,14 +52,79 @@ import org.xapagy.util.SimpleEntryComparator;
 public class StoryLineReasoning {
 
 	/**
+	 * First experiment for a renarration stuff. What it does at this moment, is that it creates all
+	 * the instances in the current scene, then returns the action VIs
+	 * 
+	 * @param agent
+	 *            - the agent
+	 * @param narrative
+	 *            - the narrative, which is a collection of VIs selected from
+	 *            the original story line
+	 * @param sline
+	 *            - the original story line, now likely in the AM and likely in
+	 *            the shadows
+	 * @param f2sInstanceMap
+	 * @param ec
+	 * @return
+	 */
+	public static List<VerbInstance> createRenarrate(Agent agent, List<VerbInstance> narrative, StoryLine sline) {
+		List<VerbInstance> retval = new ArrayList<>();
+		// focus to shadow instance pair
+		Map<Instance, Instance> f2sInstanceMap = new HashMap<>();
+		// shadow to focus instance pair
+		Map<Instance, Instance> s2fInstanceMap = new HashMap<>();
+		// collect all the instances in the narrative
+		Set<Instance> instances = new HashSet<>();
+		for (VerbInstance svi : narrative) {
+			for (ViPart vip : ViStructureHelper.getAllowedInstanceParts(svi.getViType())) {
+				Instance inst = (Instance) svi.getPart(vip);
+				if (!inst.isScene()) {
+					instances.add(inst);
+				}
+			}
+		}
+		// now create all those instances and fill in the f2s and s2f instance
+		// maps
+		// assume that all these are going to be in the current scene
+		for (Instance inst : instances) {
+			VerbOverlay verbs = VerbOverlay.createVO(agent, Hardwired.VM_CREATE_INSTANCE);
+			VerbInstance viTemplate = VerbInstance.createViTemplate(agent, ViType.S_ADJ, verbs);
+			viTemplate.setSubject(agent.getFocus().getCurrentScene());
+			ConceptOverlay co = new ConceptOverlay(agent);
+			co.addOverlay(inst.getConcepts());
+			viTemplate.setAdjective(co);
+			// now the template is complete, let us execute it
+			agent.getLoop().proceedOneForcedStep(viTemplate, 1.0);
+			Instance fi = viTemplate.getCreatedInstance();
+			f2sInstanceMap.put(fi, inst);
+			s2fInstanceMap.put(inst, fi);
+		}
+
+		// now create the narrative
+		for (VerbInstance svi : narrative) {
+			VerbInstance fvi = createFocusPair(agent, svi, s2fInstanceMap);
+			if (fvi != null) {
+				retval.add(fvi);
+				agent.getLoop().proceedOneForcedStep(fvi, 1.0);
+			}
+			// maybe if it is null break???
+		}
+		return retval;
+	}
+
+	/**
 	 * Selects VIs from a story line for re-narration. Returns a list of VIs
 	 * which are from the original story line.
 	 * 
+	 * @param the
+	 *            agent
 	 * @param stl
 	 *            - the story line we want to renarrate
+	 * @param kind
+	 *            - the filtering we want to apply for the renarration
 	 * @return
 	 */
-	public static List<VerbInstance> renarrate(Agent agent, StoryLine sline, String kind) {
+	public static List<VerbInstance> selectForRenarration(Agent agent, StoryLine sline, String kind) {
 		List<VerbInstance> vis = sline.getVis();
 		List<VerbInstance> retval = new ArrayList<>();
 		switch (kind) {

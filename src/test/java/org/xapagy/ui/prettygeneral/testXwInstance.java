@@ -22,7 +22,6 @@ package org.xapagy.ui.prettygeneral;
 import org.junit.Test;
 import org.xapagy.ArtificialDomain;
 import org.xapagy.TestHelper;
-import org.xapagy.agents.Agent;
 import org.xapagy.debug.Runner;
 import org.xapagy.instances.Instance;
 import org.xapagy.ui.formatters.IXwFormatter;

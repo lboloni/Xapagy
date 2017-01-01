@@ -40,7 +40,6 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.links.Links;
-import org.xapagy.set.EnergyColors;
 import org.xapagy.summarization.SummarizationHelper;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.IXwFormatter;

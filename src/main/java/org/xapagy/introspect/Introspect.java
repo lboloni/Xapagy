@@ -36,7 +36,6 @@ import org.xapagy.questions.QuestionHelper;
 import org.xapagy.reference.ReferenceResolution;
 import org.xapagy.reference.rrException;
 import org.xapagy.set.EnergyColors;
-import org.xapagy.set.EnergyQuantum;
 import org.xapagy.storyline.QuestionAnswering;
 import org.xapagy.storyline.StoryLine;
 import org.xapagy.storyline.StoryLineReasoning;
@@ -70,6 +69,11 @@ import org.xapagy.xapi.reference.XapiReference.XapiReferenceType;
  */
 public class Introspect {
 
+	/**
+	 * This kludge here allows us to store values in Javascript...
+	 */
+	public Map<String, Object> store = new HashMap<>();
+	
 	private Agent agent;
 
 	public Introspect(Agent agent) {
@@ -77,13 +81,14 @@ public class Introspect {
 	}
 
 	/**
-	 * Bridge into story line reasoning renarrate
+	 * Re-narrate a specific story line
 	 * @param sline
 	 * @param kind
-	 * @return
+	 * 
 	 */
-	public List<VerbInstance> renarrate(StoryLine sline, String kind) {
-		return StoryLineReasoning.renarrate(agent, sline, kind);
+	public void renarrate(StoryLine sline, String kind) {
+		List<VerbInstance> svis = StoryLineReasoning.selectForRenarration(agent, sline, kind);
+		List<VerbInstance> fvis = StoryLineReasoning.createRenarrate(agent, svis, sline);
 	}
 	
 	
