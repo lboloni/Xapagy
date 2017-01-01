@@ -39,6 +39,7 @@ import org.xapagy.set.EnergyColors;
 import org.xapagy.storyline.QuestionAnswering;
 import org.xapagy.storyline.StoryLine;
 import org.xapagy.storyline.StoryLineReasoning;
+import org.xapagy.storyline.slrMapping;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.smartprint.SpInstance;
@@ -175,7 +176,7 @@ public class Introspect {
 		return StoryLineReasoning.createStoryLines(agent, viList);
 	}
 
-	public Map<Instance, Instance> getLikelyInstanceMapping(StoryLine fline,
+	public slrMapping getLikelyInstanceMapping(StoryLine fline,
 			StoryLine sline) {
 		return StoryLineReasoning.getLikelyInstanceMapping(agent, fline, sline,
 				EnergyColors.SHI_GENERIC);
@@ -194,18 +195,18 @@ public class Introspect {
 	 * @param map
 	 * @return
 	 */
-	public String formatInstanceMapping(Map<Instance, Instance> map) {
-		Formatter fmt = new Formatter();
-		for (Instance fi : map.keySet()) {
-			Instance si = map.get(fi);
-			if (si != null) {
-				fmt.is(SpInstance.spc(fi, agent), SpInstance.spc(si, agent));
-			} else {
-				fmt.is(SpInstance.spc(fi, agent), "<< no mapping found >>");
-			}
-		}
-		return fmt.toString();
-	}
+//	public String formatInstanceMapping(Map<Instance, Instance> map) {
+//		Formatter fmt = new Formatter();
+//		for (Instance fi : map.keySet()) {
+//			Instance si = map.get(fi);
+//			if (si != null) {
+//				fmt.is(SpInstance.spc(fi, agent), SpInstance.spc(si, agent));
+//			} else {
+//				fmt.is(SpInstance.spc(fi, agent), "<< no mapping found >>");
+//			}
+//		}
+//		return fmt.toString();
+//	}
 
 	/**
 	 * Answers an offline question. This happens without the time advancing in
@@ -340,10 +341,10 @@ public class Introspect {
 	 */
 	public List<VerbInstance> createPrediction(StoryLine fline,
 			StoryLine sline) {
-		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(fline,
+		slrMapping slrm = getLikelyInstanceMapping(fline,
 				sline);
 		return StoryLineReasoning.createPrediction(agent, fline, sline,
-				instanceMap, EnergyColors.SHV_GENERIC);
+				slrm, EnergyColors.SHV_GENERIC);
 	}
 
 	/**

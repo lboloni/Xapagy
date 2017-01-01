@@ -52,8 +52,9 @@ import org.xapagy.util.SimpleEntryComparator;
 public class StoryLineReasoning {
 
 	/**
-	 * First experiment for a renarration stuff. What it does at this moment, is that it creates all
-	 * the instances in the current scene, then returns the action VIs
+	 * First experiment for a renarration stuff. What it does at this moment, is
+	 * that it creates all the instances in the current scene, then returns the
+	 * action VIs
 	 * 
 	 * @param agent
 	 *            - the agent
@@ -69,10 +70,7 @@ public class StoryLineReasoning {
 	 */
 	public static List<VerbInstance> createRenarrate(Agent agent, List<VerbInstance> narrative, StoryLine sline) {
 		List<VerbInstance> retval = new ArrayList<>();
-		// focus to shadow instance pair
-		Map<Instance, Instance> f2sInstanceMap = new HashMap<>();
-		// shadow to focus instance pair
-		Map<Instance, Instance> s2fInstanceMap = new HashMap<>();
+		slrMapping mapping = new slrMapping(agent);
 		// collect all the instances in the narrative
 		Set<Instance> instances = new HashSet<>();
 		for (VerbInstance svi : narrative) {
@@ -96,13 +94,12 @@ public class StoryLineReasoning {
 			// now the template is complete, let us execute it
 			agent.getLoop().proceedOneForcedStep(viTemplate, 1.0);
 			Instance fi = viTemplate.getCreatedInstance();
-			f2sInstanceMap.put(fi, inst);
-			s2fInstanceMap.put(inst, fi);
+			mapping.putInstanceMap(fi, inst);
 		}
 
 		// now create the narrative
 		for (VerbInstance svi : narrative) {
-			VerbInstance fvi = createFocusPair(agent, svi, s2fInstanceMap);
+			VerbInstance fvi = createFocusPair(agent, svi, mapping);
 			if (fvi != null) {
 				retval.add(fvi);
 				agent.getLoop().proceedOneForcedStep(fvi, 1.0);
@@ -306,9 +303,9 @@ public class StoryLineReasoning {
 	 * @param ec
 	 * @return
 	 */
-	public static Map<Instance, Instance> getLikelyInstanceMapping(Agent agent, StoryLine fline, StoryLine sline,
+	public static slrMapping getLikelyInstanceMapping(Agent agent, StoryLine fline, StoryLine sline,
 			String ec) {
-		Map<Instance, Instance> retval = new HashMap<>();
+		slrMapping retval = new slrMapping(agent);
 		Map<Instance, List<SimpleEntry<Instance, Double>>> imp = getInstanceMappingPossibilities(agent, fline, sline,
 				ec);
 		while (!imp.isEmpty()) {
@@ -332,7 +329,7 @@ public class StoryLineReasoning {
 			}
 			// ok, so we know the max, let us add it the retval, and clean all
 			// the maxSi from the other lists
-			retval.put(maxFi, maxSi);
+			retval.putInstanceMap(maxFi, maxSi);
 			imp.remove(maxFi);
 			for (Instance fi : imp.keySet()) {
 				List<SimpleEntry<Instance, Double>> list = imp.get(fi);
@@ -584,13 +581,13 @@ public class StoryLineReasoning {
 	 * @param s2fInstanceMap
 	 * @return
 	 */
-	public static VerbInstance createFocusPair(Agent agent, VerbInstance svi, Map<Instance, Instance> s2fInstanceMap) {
+	public static VerbInstance createFocusPair(Agent agent, VerbInstance svi, slrMapping mapping) {
 		ViType type = svi.getViType();
 		VerbInstance viTemplate = VerbInstance.createViTemplate(agent, svi.getViType(), svi.getVerbs());
 		// resolve the instances
 		for (ViPart part : ViStructureHelper.getAllowedInstanceParts(type)) {
 			Instance si = (Instance) svi.getPart(part);
-			Instance fi = s2fInstanceMap.get(si);
+			Instance fi = mapping.getS2fInstanceMap().get(si);
 			if (fi == null) {
 				// throw new Error("createFocusPair - cannot resolve what is in
 				// the current focus for:"
@@ -611,7 +608,7 @@ public class StoryLineReasoning {
 		}
 		// finally, if this is a quote, recurse
 		if (type == ViType.QUOTE) {
-			VerbInstance fqoute = createFocusPair(agent, svi.getQuote(), s2fInstanceMap);
+			VerbInstance fqoute = createFocusPair(agent, svi.getQuote(), mapping);
 			viTemplate.setResolvedPart(ViPart.Quote, fqoute);
 		}
 		return VerbInstance.createViFromResolvedTemplate(agent, viTemplate);
@@ -626,8 +623,8 @@ public class StoryLineReasoning {
 	public static List<VerbInstance> createMostLikelyPrediction(Agent agent) {
 		StoryLine fline = getCurrentStoryLine(agent);
 		StoryLine sline = createShadowStoryLines(agent, fline, EnergyColors.SHV_GENERIC).get(0).getKey();
-		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(agent, fline, sline, EnergyColors.SHI_GENERIC);
-		return StoryLineReasoning.createPrediction(agent, fline, sline, instanceMap, EnergyColors.SHV_GENERIC);
+		slrMapping slrm = getLikelyInstanceMapping(agent, fline, sline, EnergyColors.SHI_GENERIC);
+		return StoryLineReasoning.createPrediction(agent, fline, sline, slrm, EnergyColors.SHV_GENERIC);
 	}
 
 	/**
@@ -642,8 +639,8 @@ public class StoryLineReasoning {
 	public static List<VerbInstance> createMostLikelyCompletion(Agent agent) {
 		StoryLine fline = getCurrentStoryLine(agent);
 		StoryLine sline = createShadowStoryLines(agent, fline, EnergyColors.SHV_GENERIC).get(0).getKey();
-		Map<Instance, Instance> instanceMap = getLikelyInstanceMapping(agent, fline, sline, EnergyColors.SHI_GENERIC);
-		return StoryLineReasoning.createCompletion(agent, fline, sline, instanceMap, EnergyColors.SHV_GENERIC);
+		slrMapping slrm = getLikelyInstanceMapping(agent, fline, sline, EnergyColors.SHI_GENERIC);
+		return StoryLineReasoning.createCompletion(agent, fline, sline, slrm, EnergyColors.SHV_GENERIC);
 	}
 
 	/**
@@ -658,13 +655,7 @@ public class StoryLineReasoning {
 	 * @return
 	 */
 	public static List<VerbInstance> createPrediction(Agent agent, StoryLine fline, StoryLine sline,
-			Map<Instance, Instance> f2sInstanceMap, String ec) {
-		// create the s2fInstanceMap
-		Map<Instance, Instance> s2fInstanceMap = new HashMap<>();
-		for (Entry<Instance, Instance> entry : f2sInstanceMap.entrySet()) {
-			s2fInstanceMap.put(entry.getValue(), entry.getKey());
-		}
-
+			slrMapping mapping, String ec) {
 		int location = findPositionOfCurrentStoryLine(agent, fline, sline, ec);
 		List<VerbInstance> prediction = new ArrayList<>();
 		if (location == -1) {
@@ -674,7 +665,7 @@ public class StoryLineReasoning {
 		List<VerbInstance> vis = sline.getVis();
 		for (int i = location; i < vis.size(); i++) {
 			VerbInstance svi = vis.get(i);
-			VerbInstance fi = createFocusPair(agent, svi, s2fInstanceMap);
+			VerbInstance fi = createFocusPair(agent, svi, mapping);
 			if (fi != null) {
 				prediction.add(fi);
 			}
@@ -698,12 +689,8 @@ public class StoryLineReasoning {
 	 * @return
 	 */
 	public static List<VerbInstance> createCompletion(Agent agent, StoryLine fline, StoryLine sline,
-			Map<Instance, Instance> f2sInstanceMap, String ec) {
+			slrMapping mapping, String ec) {
 		// create the reverse maps: s2fInstanceMap and s2fViMap
-		Map<Instance, Instance> s2fInstanceMap = new HashMap<>();
-		for (Entry<Instance, Instance> entry : f2sInstanceMap.entrySet()) {
-			s2fInstanceMap.put(entry.getValue(), entry.getKey());
-		}
 		Map<VerbInstance, VerbInstance> f2sViMap = getLikelyViMapping(agent, fline, sline, ec);
 		Map<VerbInstance, VerbInstance> s2fViMap = new HashMap<>();
 		for (Entry<VerbInstance, VerbInstance> entry : f2sViMap.entrySet()) {
@@ -721,7 +708,7 @@ public class StoryLineReasoning {
 			VerbInstance svi = vis.get(i);
 			VerbInstance fi = s2fViMap.get(svi);
 			if (fi == null) {
-				fi = createFocusPair(agent, svi, s2fInstanceMap);
+				fi = createFocusPair(agent, svi, mapping);
 			}
 			completion.add(fi);
 			// maybe if it is null break???
