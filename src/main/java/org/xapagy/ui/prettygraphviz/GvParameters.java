@@ -110,8 +110,12 @@ public class GvParameters {
      * @param xw
      */
     public void describeInstanceLegend(IXwFormatter xw) {
+    	xw.openP();
         xw.addBold("Interpreting the graphviz picture");
+        xw.closeP();
+    	xw.openP();
         xw.addBold("NODES:");
+        xw.closeP();
         xw.indent();
         xw.is("Regular instance", instance_fillcolor_regular + " rectangle " + instance_color_active + " text");
         xw.is("Group instance", instance_fillcolor_group + " rectangle " + instance_color_active + " text");
@@ -132,8 +136,12 @@ public class GvParameters {
      * @param xw
      */
     public void describeVILegend(IXwFormatter xw) {
+    	xw.openP();
         xw.addBold("Interpreting the graphviz picture");
+        xw.closeP();
+        xw.openP();
         xw.addBold("NODES:");
+        xw.closeP();
         xw.indent();
         xw.is("action VI", vi_fillcolor_action + " rectangle black text");
         xw.is("summarization 1", vi_fillcolor_action_s1 + " rectangle black text");

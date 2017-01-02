@@ -45,12 +45,155 @@ import org.xapagy.set.EnergyColors;
 import org.xapagy.set.ViSet;
 import org.xapagy.shadows.Shadows;
 import org.xapagy.ui.TextUi;
+import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.util.SimpleEntryComparator;
 
 public class StoryLineReasoning {
 
+	/**
+	 * Second experiment for a renarration stuff. 
+	 * 
+	 * All the instances are created on-demand, but in the same scene.
+	 * 
+	 * @param agent
+	 *            - the agent
+	 * @param narrative
+	 *            - the narrative, which is a collection of VIs selected from
+	 *            the original story line
+	 * @param sline
+	 *            - the original story line, now likely in the AM and likely in
+	 *            the shadows
+	 * @param f2sInstanceMap
+	 * @param ec
+	 * @return
+	 */
+	public static List<VerbInstance> createRenarrate(Agent agent, List<VerbInstance> narrative, StoryLine sline) {
+		List<VerbInstance> retval = new ArrayList<>();
+		slrMapping mapping = new slrMapping(agent);
+		// Let us go with the assumption that the current scene is the mapping for the first scene in the narrative.
+		//VerbInstance svifirst = narrative.get(0);		
+		//mapping.putSceneMap(agent.getFocus().getCurrentScene(), svifirst.getSubject().getScene());
+		
+		// iterate over the narrative
+		for (VerbInstance svi : narrative) {
+			renarrateVi(agent, svi, mapping);
+		}
+		return retval;
+	}
+
+	
+	/**
+	 * Renarrates a particular instance from the shadows into the focus. It uses the 
+	 * slrMapping to do instance mappings
+	 * 
+	 * @param agent
+	 * @param svi
+	 * @param mapping
+	 * @return
+	 */
+	public static List<VerbInstance> renarrateVi(Agent agent, VerbInstance svi, slrMapping mapping) {
+		List<VerbInstance> retval = new ArrayList<>();
+		// check whether we have all the instances
+		for (ViPart vip : ViStructureHelper.getAllowedInstanceParts(svi.getViType())) {
+			Instance inst = (Instance) svi.getPart(vip);
+			// check whether we have the regular instance, and if not, create it
+			if (!inst.isScene()) {
+				if (!mapping.getS2fInstanceMap().containsKey(inst)) {
+					// create the instance
+					List<VerbInstance> vis = renarrateInstance(agent, inst, mapping);
+					retval.addAll(vis);
+				}
+			}
+			// This is the case when we first encounter the reference to this scene as a direct 
+			// part of the VI
+			if (inst.isScene()) {
+				if (!mapping.getS2fSceneMap().containsKey(inst)) {
+					List<VerbInstance> vis = renarrateScene(agent, inst, mapping);
+					retval.addAll(vis);
+				}
+			}			
+		}
+		// at this moment, we are supposed to have the instances 
+		VerbInstance fvi = createFocusPair(agent, svi, mapping);
+		if (fvi != null) {
+			retval.add(fvi);
+			agent.getLoop().proceedOneForcedStep(fvi, 1.0);
+		}
+		return retval;
+	}
+	
+	
+	/**
+	 * Creates a focus instance corresponding to a shadow instance si
+	 * 
+	 * @param agent
+	 * @param si
+	 * @param mapping
+	 * @return
+	 */
+	public static List<VerbInstance> renarrateInstance(Agent agent, Instance si, slrMapping mapping) {
+		List<VerbInstance> retval = new ArrayList<>();
+		VerbOverlay verbs = VerbOverlay.createVO(agent, Hardwired.VM_CREATE_INSTANCE);
+		VerbInstance viTemplate = VerbInstance.createViTemplate(agent, ViType.S_ADJ, verbs);
+		Instance scene = mapping.getS2fSceneMap().get(si.getScene());
+		// if the scene is a different one, call it
+		if (scene == null) {
+			List<VerbInstance> vis = renarrateScene(agent, si.getScene(), mapping);
+			retval.addAll(vis);
+			scene = mapping.getS2fSceneMap().get(si.getScene());
+		}
+		viTemplate.setSubject(scene);
+		ConceptOverlay co = new ConceptOverlay(agent);
+		co.addOverlay(si.getConcepts());
+		viTemplate.setAdjective(co);
+		// now the template is complete, let us execute it
+		agent.getLoop().proceedOneForcedStep(viTemplate, 1.0);
+		retval.add(viTemplate);
+		Instance fi = viTemplate.getCreatedInstance();
+		mapping.putInstanceMap(fi, si);
+		return retval;
+	}
+	
+	
+	
+	/**
+	 * Creates a focus scene corresponding to the shadow scene sscene
+	 * FIXME: what about labels???
+	 * 
+	 * @param agent
+	 * @param sscene
+	 * @param mapping
+	 * @return
+	 */
+	public static List<VerbInstance> renarrateScene(Agent agent, Instance sscene, slrMapping mapping) {
+		List<VerbInstance> retval = new ArrayList<>();
+		// create the scene
+		String label = sscene.getConcepts().getLabels().get(0);
+		String newlabel = "#renarrated_" + Formatter.fmt(agent.getTime()) + "_" + label.substring(1);
+		VerbOverlay verbs = VerbOverlay.createVO(agent, Hardwired.VM_CREATE_INSTANCE);
+		VerbInstance viTemplate = VerbInstance.createViTemplate(agent, ViType.S_ADJ, verbs);
+		Instance scene = agent.getFocus().getCurrentScene();
+		viTemplate.setSubject(scene);
+		ConceptOverlay co = new ConceptOverlay(agent);
+		co.addOverlay(sscene.getConcepts()); // this should include "scene"
+		// FIXME: This creates a null pointer exception in 
+		// at org.xapagy.ui.prettygraphviz.GraphVizHelper.formatIdentifier(GraphVizHelper.java:138)
+		// at org.xapagy.ui.prettygraphviz.GvFormatter.openNode(GvFormatter.java:165)
+		co.addFullLabel(newlabel, agent);
+		// co.addFullLabel("#renarrate", agent);
+		viTemplate.setAdjective(co);
+		// now the template is complete, let us execute it
+		agent.getLoop().proceedOneForcedStep(viTemplate, 1.0);
+		retval.add(viTemplate);
+		Instance fscene = viTemplate.getCreatedInstance();
+		mapping.putSceneMap(fscene, sscene);				
+		return retval;
+	}
+	
+	
+	
 	/**
 	 * First experiment for a renarration stuff. What it does at this moment, is
 	 * that it creates all the instances in the current scene, then returns the
@@ -68,7 +211,8 @@ public class StoryLineReasoning {
 	 * @param ec
 	 * @return
 	 */
-	public static List<VerbInstance> createRenarrate(Agent agent, List<VerbInstance> narrative, StoryLine sline) {
+	public static List<VerbInstance> createRenarrateInstancesFirst(Agent agent, List<VerbInstance> narrative,
+			StoryLine sline) {
 		List<VerbInstance> retval = new ArrayList<>();
 		slrMapping mapping = new slrMapping(agent);
 		// collect all the instances in the narrative
@@ -303,8 +447,7 @@ public class StoryLineReasoning {
 	 * @param ec
 	 * @return
 	 */
-	public static slrMapping getLikelyInstanceMapping(Agent agent, StoryLine fline, StoryLine sline,
-			String ec) {
+	public static slrMapping getLikelyInstanceMapping(Agent agent, StoryLine fline, StoryLine sline, String ec) {
 		slrMapping retval = new slrMapping(agent);
 		Map<Instance, List<SimpleEntry<Instance, Double>>> imp = getInstanceMappingPossibilities(agent, fline, sline,
 				ec);
@@ -654,8 +797,8 @@ public class StoryLineReasoning {
 	 * @param ec
 	 * @return
 	 */
-	public static List<VerbInstance> createPrediction(Agent agent, StoryLine fline, StoryLine sline,
-			slrMapping mapping, String ec) {
+	public static List<VerbInstance> createPrediction(Agent agent, StoryLine fline, StoryLine sline, slrMapping mapping,
+			String ec) {
 		int location = findPositionOfCurrentStoryLine(agent, fline, sline, ec);
 		List<VerbInstance> prediction = new ArrayList<>();
 		if (location == -1) {
@@ -688,8 +831,8 @@ public class StoryLineReasoning {
 	 * @param ec
 	 * @return
 	 */
-	public static List<VerbInstance> createCompletion(Agent agent, StoryLine fline, StoryLine sline,
-			slrMapping mapping, String ec) {
+	public static List<VerbInstance> createCompletion(Agent agent, StoryLine fline, StoryLine sline, slrMapping mapping,
+			String ec) {
 		// create the reverse maps: s2fInstanceMap and s2fViMap
 		Map<VerbInstance, VerbInstance> f2sViMap = getLikelyViMapping(agent, fline, sline, ec);
 		Map<VerbInstance, VerbInstance> s2fViMap = new HashMap<>();

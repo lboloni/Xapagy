@@ -21,6 +21,7 @@ package org.xapagy.ui.prettygraphviz;
 
 import java.util.Stack;
 
+import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.Formatter;
 
 /**
@@ -161,6 +162,10 @@ public class GvFormatter extends Formatter {
      * @param id
      */
     public void openNode(String id) {
+    	if (id == null) {
+    		TextUi.println("id is null!!! why???");
+    		id = "null";
+    	}
         stack.push(OpenType.NODE);
         String id2 = GraphVizHelper.formatIdentifier(id);
         add(id2 + " [");

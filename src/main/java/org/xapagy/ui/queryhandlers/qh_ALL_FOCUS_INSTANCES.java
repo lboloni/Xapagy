@@ -84,10 +84,6 @@ public class qh_ALL_FOCUS_INSTANCES implements IQueryHandler, IQueryAttributes {
 		// Graphviz image
 		//
 		PwFormatter fmt2 = fmt.getEmpty();
-		IXwFormatter xw = new PwFormatter();
-		GvParameters gvp = new GvParameters();
-		gvp.describeInstanceLegend(xw);
-		fmt2.explanatoryNote(xw.toString());
 		// add an image
 		RESTQuery gqImg = QueryHelper.copyWithEmptyCommand(gq);
 		gqImg.setAttribute(Q_RESULT_TYPE, "JPG");
@@ -102,6 +98,10 @@ public class qh_ALL_FOCUS_INSTANCES implements IQueryHandler, IQueryAttributes {
 		gqEps.setAttribute(Q_RESULT_TYPE, "EPS");
 		PwQueryLinks.addLinkToQuery(fmt2, gqEps, "download as eps", PwFormatter.CLASS_BODYLINK);
 		fmt2.closeP();
+		IXwFormatter xw = new PwFormatter();
+		GvParameters gvp = new GvParameters();
+		gvp.describeInstanceLegend(xw);
+		fmt2.explanatoryNote(xw.toString());
 		fmt.addExtensibleH2("id" + countHideable++, "GraphViz", fmt2.toString(), true);
 	}
 

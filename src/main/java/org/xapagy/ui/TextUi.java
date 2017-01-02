@@ -130,6 +130,8 @@ public class TextUi {
     }
 
     /**
+     * Prints an error string
+     * 
      * @param string
      */
     public static void errorPrint(final String string) {

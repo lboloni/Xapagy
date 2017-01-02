@@ -156,17 +156,10 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
             PwQueryLinks.linkToVi(fmt, agent, gq, vi);
             fmt.closeP();
         }
-        //
-        // Legend for the graphviz image
-        //
-		PwFormatter fmt2 = fmt.getEmpty();
-		IXwFormatter xw = new PwFormatter();
-		GvParameters gvp = new GvParameters();
-		gvp.describeVILegend(xw);
-        fmt2.explanatoryNote(xw.toString());
 		//
 		// Graphviz image
 		//
+		PwFormatter fmt2 = fmt.getEmpty();
         RESTQuery gqImg = QueryHelper.copyWithEmptyCommand(gq);
         gqImg.setAttribute(Q_RESULT_TYPE, "JPG");
         fmt2.addImg("src=" + gqImg.toQuery()); // was "width=90%"
@@ -181,6 +174,13 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
         PwQueryLinks.addLinkToQuery(fmt2, gqEps, "download as eps",
                 PwFormatter.CLASS_BODYLINK);
         fmt2.closeP();
+        //
+        // Legend for the graphviz image
+        //
+		IXwFormatter xw = new PwFormatter();
+		GvParameters gvp = new GvParameters();
+		gvp.describeVILegend(xw);
+        fmt2.explanatoryNote(xw.toString());
 
         fmt.addExtensibleH2("id" + countId++, "GraphViz", fmt2.toString(), true);
         //
