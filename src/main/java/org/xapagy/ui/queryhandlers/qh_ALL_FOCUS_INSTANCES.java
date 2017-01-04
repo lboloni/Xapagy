@@ -27,6 +27,7 @@ import org.xapagy.httpserver.RESTQuery;
 import org.xapagy.httpserver.Session;
 import org.xapagy.instances.Instance;
 import org.xapagy.set.EnergyColors.EnergyColorType;
+import org.xapagy.ui.TextUiHelper;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.prettygraphviz.GvParameters;
@@ -57,18 +58,27 @@ public class qh_ALL_FOCUS_INSTANCES implements IQueryHandler, IQueryAttributes {
 		// List of instances organized by scenes
 		//
 		fmt.addH2("Focus instances", "class=identifier");
-		// explain the order in which the energies will be listed
-		StringBuffer exp = new StringBuffer();
-		exp.append("Energies listed: ");
-		for (String ec : agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_INSTANCE)) {
-			exp.append(ec.toString() + " ");
-		}
-		fmt.explanatoryNote(exp.toString());
+        //
+        // energy label: explain the order in which the energies will be listed
+        //
+        //
+        // energy label: explain the order in which the energies will be listed
+        //
+//        String overheadLabel = "";
+//        for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_INSTANCE)) {
+//            String ectext = ec.toString();
+//            ectext = ectext.substring("FOCUS_".length());
+//            ectext = ectext.replaceAll("SUMMARIZATION", "SUM");
+//            // padding to width
+//            overheadLabel += TextUiHelper.padTo(ectext, 15);
+//         }        
 		// list the scenes, and inside the scenes, all the member instances
 		for (Instance scene : fc.getSceneListAllEnergies()) {
 			List<Instance> members = scene.getSceneMembers();
 			PwQueryLinks.linkToInstance(fmt, agent, gq, scene);
 			fmt.indent();
+			//fmt.add("<pre>" + overheadLabel + "</pre>");
+			fmt.add(EnergyLabels.labelsFocusInstance(agent));
 			for (Instance inst : members) {
 				fmt.openP();
 				for (String ec : agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_INSTANCE)) {

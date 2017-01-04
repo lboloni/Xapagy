@@ -43,6 +43,7 @@ public class xwLiViBased {
         xwAbstractLoopItem.xwDetailedSubset(xwf, li, agent);
         xwf.is("forcedVI", XapiPrint.ppsViXapiForm(li.getForcedVi(), agent));
         xwf.is("forcedTimeAfter", li.getForcedTimeAfter());
+        xwf.deindent();
         return xwf.toString();
     }
 

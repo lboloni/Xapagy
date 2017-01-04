@@ -60,19 +60,6 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
         int countId = 0;
         Focus fc = agent.getFocus();
         fmt.addH2("Focus VIs", "class=identifier");
-        // explain the order in which the energies will be listed
-        StringBuffer exp = new StringBuffer();
-        String overheadLabel = "";
-        exp.append("Energies listed: ");
-        for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
-            exp.append(ec.toString() + " &bull; ");
-            String ectext = ec.toString();
-            ectext = ectext.substring("FOCUS_".length());
-            ectext = ectext.replaceAll("SUMMARIZATION", "SUM");
-            // padding to width
-            overheadLabel += TextUiHelper.padTo(ectext, 15);
-         }        
-        fmt.explanatoryNote(exp.toString());
         // this set allows us to track if something did not fit in any of the categories
         // and print it separately at the end
         Set<VerbInstance> alreadyPrinted = new HashSet<>();
@@ -87,7 +74,7 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
         List<VerbInstance> actionList =
                 new ArrayList<>(visSplitByClass.get(ViClass.ACTION));
         // FocusSorter.sortVisDecreasingFocusSalience(actionList, agent);
-        fmt.add("<pre>" + overheadLabel + "</pre>");
+        fmt.add(EnergyLabels.labelsFocusVi(agent));
         FocusSorter.sortVisIncreasingCreationTime(actionList, agent);
         for (VerbInstance vi : actionList) {
             fmt.openP();

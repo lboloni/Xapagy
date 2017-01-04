@@ -84,6 +84,7 @@ public class qh_INSTANCE implements IQueryHandler, IQueryAttributes {
         qh_CONCEPT_OVERLAY.generate(fmt, agent, instance.getConcepts(), query,
                 true);
         fmt.deindent();
+        fmt.addH3("Energies");
         //
         // Focus energies and saliences. Also determines if it is in the focus.
         //
@@ -223,18 +224,7 @@ public class qh_INSTANCE implements IQueryHandler, IQueryAttributes {
             boolean documentEC) {
         PwFormatter fmt = new PwFormatter();
         Shadows sf = agent.getShadows();
-        // document the order of the shadow energies
-        if (documentEC) {
-            String shadowEnergies =
-                    "The shadow energies are listed in the order: ";
-            for (String ec : agent.getEnergyColors().getEnergies(EnergyColorType.SHADOW_INSTANCE)) {
-                shadowEnergies += " " + ec;
-            }
-            fmt.explanatoryNote(shadowEnergies);
-        }
-        //
-        // now, list the shadows. Don't reprint them if they had been already printed.
-        //
+		fmt.add(EnergyLabels.labelsShadowInstance(agent));
         Set<Instance> alreadyPrinted = new HashSet<>();
         for (String ecSort : agent.getEnergyColors().getEnergies(EnergyColorType.SHADOW_INSTANCE)) {
             int count = 0;

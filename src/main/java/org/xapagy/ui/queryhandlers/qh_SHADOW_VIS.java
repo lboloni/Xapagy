@@ -59,7 +59,7 @@ public class qh_SHADOW_VIS implements IQueryHandler {
         PwQueryLinks.linkToVi(fmt, agent, query, vi);
         fmt.startEmbed();
         fmt.add(qh_VERB_INSTANCE.pwViShadow(vi, agent, query,
-                qh_SHADOW_VIS.maxShadows, ccr, false));
+                qh_SHADOW_VIS.maxShadows, ccr));
         fmt.endEmbed();
     }
 
@@ -78,17 +78,6 @@ public class qh_SHADOW_VIS implements IQueryHandler {
         String redheader = "VIs in the focus with their " +  qh_SHADOW_VIS.maxShadows  + " strongest shadows";
         fmt.addH2(redheader, "class=identifier");
         // explain the order in which the energies will be listed
-        StringBuffer exp = new StringBuffer();
-        exp.append("Focus energies listed: (");
-        for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
-            exp.append(ec.toString() + " ");
-        }        
-        exp.append("). Shadow energies listed: (");
-        for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.SHADOW_VI)) {
-            exp.append(ec.toString() + " ");
-        }        
-        exp.append(")");
-        fmt.explanatoryNote(exp.toString());
         // this set allows us to track if something did not fit in any of the categories
         // and print it separately at the end
         Set<VerbInstance> alreadyPrinted = new HashSet<>();
@@ -102,6 +91,7 @@ public class qh_SHADOW_VIS implements IQueryHandler {
                 new ArrayList<>(visSplitByClass.get(ViClass.ACTION));
         FocusSorter.sortVisDecreasingFocusSalience(actionList, agent);
         for (VerbInstance vi : actionList) {
+            fmt.add(EnergyLabels.labelsFocusVi(agent));
             fmt.openP();
             for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
                 fmt.progressBarSlash(fc.getSalience(vi, ec),
@@ -120,6 +110,7 @@ public class qh_SHADOW_VIS implements IQueryHandler {
                 new ArrayList<>(visSplitByClass.get(ViClass.RELATION));
         FocusSorter.sortVisDecreasingFocusSalience(relationList, agent);
         for (VerbInstance vi : relationList) {
+            fmt.add(EnergyLabels.labelsFocusVi(agent));
             fmt.openP();
             for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
                 fmt.progressBarSlash(fc.getSalience(vi, ec),
@@ -139,6 +130,7 @@ public class qh_SHADOW_VIS implements IQueryHandler {
         FocusSorter.sortVisDecreasingFocusSalience(relationManipulationList,
                 agent);
         for (VerbInstance vi : relationManipulationList) {
+            fmt.add(EnergyLabels.labelsFocusVi(agent));
             fmt.openP();
             for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_VI)) {
                 fmt.progressBarSlash(fc.getSalience(vi, ec),
@@ -156,6 +148,7 @@ public class qh_SHADOW_VIS implements IQueryHandler {
         List<VerbInstance> missedList = new ArrayList<>(fc.getViList(EnergyColors.FOCUS_VI));
         FocusSorter.sortVisDecreasingFocusSalience(missedList, agent);
         for (VerbInstance vi : missedList) {
+            fmt.add(EnergyLabels.labelsFocusVi(agent));
             if (alreadyPrinted.contains(vi)) {
                 continue;
             }

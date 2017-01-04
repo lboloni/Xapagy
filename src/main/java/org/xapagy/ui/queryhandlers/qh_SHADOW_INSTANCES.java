@@ -32,25 +32,13 @@ public class qh_SHADOW_INSTANCES implements IQueryHandler {
                 "Focus instances with the " + qh_SHADOW_INSTANCES.maxShadows
                         + " strongest shadows";
         fmt.addH2(redheader, "class=identifier");
-        // explain the order in which the energies will be listed
-        StringBuffer exp = new StringBuffer();
-        exp.append("Focus energies listed: (");
-        for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_INSTANCE)) {
-            exp.append(ec.toString() + " ");
-        }        
-        exp.append("). Shadow energies listed: (");
-        for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.SHADOW_INSTANCE)) {
-            exp.append(ec.toString() + " ");
-        }        
-        exp.append(")");
-        fmt.explanatoryNote(exp.toString());
-        // list all the scenes
         for (Instance scene : fc.getSceneListAllEnergies()) {
             List<Instance> members = scene.getSceneMembers();
             PwQueryLinks.linkToStoryLineColor(fmt, agent, scene, session.colorCodeRepository);
             PwQueryLinks.linkToInstance(fmt, agent, query, scene);
             fmt.indent();
             for (Instance inst : members) {
+    			fmt.add(EnergyLabels.labelsFocusInstance(agent));
                 fmt.openP();
                 for(String ec: agent.getEnergyColors().getEnergies(EnergyColorType.FOCUS_INSTANCE)) {
                     fmt.progressBarSlash(fc.getSalience(inst, ec),

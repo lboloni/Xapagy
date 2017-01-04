@@ -112,7 +112,7 @@ public class qh_LOOP_HISTORY implements IQueryHandler {
                 color = "green";
             }
             if (li instanceof liViBased) {
-                color = "red";
+                color = "blue";
             }
             PwQueryLinks.linkToLoopItem(fmt, agent, gq, li, "style=\"color: "
                     + color + ";\"");

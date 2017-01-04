@@ -38,6 +38,8 @@ import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.RelationHelper;
 import org.xapagy.instances.VerbInstance;
+import org.xapagy.instances.ViClassifier;
+import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.instances.ViStructureHelper;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.instances.ViStructureHelper.ViType;
@@ -78,6 +80,13 @@ public class StoryLineReasoning {
 		
 		// iterate over the narrative
 		for (VerbInstance svi : narrative) {
+			// don't recall the relations, let the creation do it
+			if (ViClassifier.decideViClass(ViClass.RELATION, svi, agent)) {
+				// we do create the group member relations, cause they are different
+				if (!Hardwired.contains(agent, svi.getVerbs(), Hardwired.VR_MEMBER_OF_GROUP)) {
+					continue;					
+				}
+			}
 			renarrateVi(agent, svi, mapping);
 		}
 		return retval;
@@ -730,7 +739,12 @@ public class StoryLineReasoning {
 		// resolve the instances
 		for (ViPart part : ViStructureHelper.getAllowedInstanceParts(type)) {
 			Instance si = (Instance) svi.getPart(part);
-			Instance fi = mapping.getS2fInstanceMap().get(si);
+			Instance fi = null;
+			if (!si.isScene()) {
+				fi = mapping.getS2fInstanceMap().get(si);
+			} else {
+				fi = mapping.getS2fSceneMap().get(si);
+			}
 			if (fi == null) {
 				// throw new Error("createFocusPair - cannot resolve what is in
 				// the current focus for:"

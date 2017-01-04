@@ -161,6 +161,7 @@ public class qh_VERB_INSTANCE implements IQueryHandler, IQueryAttributes {
         fmt.is("Expectedness", vi.getExpectedness());
         qh_VERB_INSTANCE.addStructure(fmt, vi, agent, query);
         //
+        fmt.addH3("Energies");
         // Focus energies and saliences. Also determines if it is in the focus.
         //
         boolean isInFocus = false;
@@ -202,7 +203,7 @@ public class qh_VERB_INSTANCE implements IQueryHandler, IQueryAttributes {
         //
         if (isInFocus) {
             String shadow =
-                    qh_VERB_INSTANCE.pwViShadow(vi, agent, query, 10, ccr, true);
+                    qh_VERB_INSTANCE.pwViShadow(vi, agent, query, 10, ccr);
             fmt.addExtensibleH2("id" + countHideable++, "Shadows", shadow, true);
         }
         //
@@ -335,19 +336,10 @@ public class qh_VERB_INSTANCE implements IQueryHandler, IQueryAttributes {
      * @return
      */
     public static String pwViShadow(VerbInstance fvi, Agent agent,
-            RESTQuery query, int maxPrint, ColorCodeRepository ccr,
-            boolean documentEC) {
+            RESTQuery query, int maxPrint, ColorCodeRepository ccr) {
         PwFormatter fmt = new PwFormatter();
         Shadows sf = agent.getShadows();
-        // document the order of the shadow energies
-        if (documentEC) {
-            String shadowEnergies =
-                    "The shadow energies are listed in the order: ";
-            for (String ec : agent.getEnergyColors().getEnergies(EnergyColorType.SHADOW_VI)) {
-                shadowEnergies += " " + ec;
-            }
-            fmt.explanatoryNote(shadowEnergies);
-        }
+		fmt.add(EnergyLabels.labelsShadowVi(agent));
         //
         // now list the shadows. Don't list them again if they had already
         // been listed, but keep the in the order of the first energy etc.
