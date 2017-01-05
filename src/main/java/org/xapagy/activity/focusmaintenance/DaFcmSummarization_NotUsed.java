@@ -33,6 +33,12 @@ import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
  * 
+ * NOTE: January 5, 2017: This Da had been disconnected from PI-FocusHandling.xapi. 
+ * While the neuromorphic Xapagy way is to do this with Da, in order to make 
+ * progress faster, I will reimplement this as a single shot Sa, to be 
+ * done after the VI is inserted.  
+ * 
+ * 
  * A focus DA which manages the transformation of the summarization energies
  * into regular focus energies. The general idea here is that a closed
  * summarization is like a regular VI.
@@ -48,7 +54,7 @@ import org.xapagy.ui.formatters.IXwFormatter;
  * @author Ladislau Boloni
  * Created on: Dec 28, 2014
  */
-public class DaFcmSummarization extends AbstractDaFocusIterator {
+public class DaFcmSummarization_NotUsed extends AbstractDaFocusIterator {
 
 	private static final long serialVersionUID = -598675107488607177L;
 
@@ -57,7 +63,7 @@ public class DaFcmSummarization extends AbstractDaFocusIterator {
 	 * @param agent
 	 * @param name
 	 */
-	public DaFcmSummarization(Agent agent, String name) {
+	public DaFcmSummarization_NotUsed(Agent agent, String name) {
 		super(agent, name);
 	}
 

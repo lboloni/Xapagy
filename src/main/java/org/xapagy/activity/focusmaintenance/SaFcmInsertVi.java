@@ -55,20 +55,19 @@ public class SaFcmInsertVi extends SpikeActivity {
 	 * Performs the insertion of the VI into the focus. Normal VIs are inserted
 	 * using FOCUS energy, but the other ones marked as summarization VIs are
 	 * inserted with summarization energy.
+	 * 
+	 * @param vi
 	 */
 	@Override
 	public void applyInner(VerbInstance vi) {
 		Focus fc = agent.getFocus();
 		//
 		// Identify the energy types and values to be used
-		// FIXME: adapt this based on the VI
 		//
-
-		
 		String ecVI = SummarizationHelper.getFocusEnergyColor(vi);
 		String ecInstance = SummarizationHelper.getFocusEnergyColorForInstance(vi);
 		//
-		// Ok, this is regular VI, we add focus energy
+		// Insert the VI in the focus, add the appropriate energy types to the participating instances 
 		//
 		EnergyQuantum<VerbInstance> eq = EnergyQuantum.createAdd(vi, Focus.INITIAL_ENERGY_VI, ecVI,
 				"SaFcmInsertVi + VI");
@@ -78,7 +77,6 @@ public class SaFcmInsertVi extends SpikeActivity {
 			EnergyQuantum<Instance> eq1 = EnergyQuantum.createAdd(instance, Focus.INITIAL_ENERGY_INSTANCE, ecInstance,
 					"SaFcmInsertVi + InstStrength");
 			fc.applyInstanceEnergyQuantum(eq1);
-
 			EnergyQuantum<Instance> eq2 = EnergyQuantum.createAdd(instance.getScene(), Focus.INITIAL_ENERGY_INSTANCE,
 					ecInstance, "SaFcmInsertVi + SceneStrength");
 			fc.applyInstanceEnergyQuantum(eq2);
