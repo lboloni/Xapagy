@@ -40,8 +40,18 @@ public class SummarizationHelper {
 	 * @return
 	 */
 	public static String getFocusEnergyColor(VerbInstance vi) {
+		return getFocusEnergyColor(vi.getSummarizationLevel());
+	}
+
+	
+	/**
+	 * Returns the energy color for a certain summarization level
+	 * 
+	 * @param level
+	 * @return 
+	 */
+	public static String getFocusEnergyColor(int level) {
 		String retval = null;
-		int level = vi.getSummarizationLevel();
 		if (level == 0) {
 			retval = EnergyColors.FOCUS_VI;
 		} else {
@@ -49,7 +59,9 @@ public class SummarizationHelper {
 		}
 		return retval;
 	}
-
+	
+	
+	
 	/**
 	 * Returns the energy color the instance of this particular VI should use in
 	 * the focus (either the default, or some kind of summarization energy)
