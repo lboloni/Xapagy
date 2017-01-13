@@ -27,7 +27,6 @@ import org.xapagy.httpserver.RESTQuery;
 import org.xapagy.httpserver.Session;
 import org.xapagy.instances.Instance;
 import org.xapagy.set.EnergyColors.EnergyColorType;
-import org.xapagy.ui.TextUiHelper;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
 import org.xapagy.ui.prettygraphviz.GvParameters;

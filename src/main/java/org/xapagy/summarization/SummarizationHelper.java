@@ -133,4 +133,17 @@ public class SummarizationHelper {
 		return false;
 	}
 
+	/**
+	 * Forces a summarization to be closed. 
+	 * 
+	 * Jan 2017: The current approach is to add a self-summarization close link.  
+	 * 
+	 * @param agent
+	 * @param vi
+	 */
+	public static void forceSummarizationClosed(Agent agent, VerbInstance vi) {
+		agent.getLinks().changeLinkByName(Hardwired.LINK_SUMMARIZATION_CLOSE, vi, vi, 1.0, 
+				"visuviAction - Closes");
+	}
+	
 }
