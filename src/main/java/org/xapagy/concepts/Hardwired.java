@@ -119,6 +119,11 @@ public class Hardwired {
     public static final String VR_SCENE_VIEW = "vr_scene_view";
     public static final String VR_SUBJECT_IS_SCENE = "vr_subject_is_scene";
 
+    public static final String V_SUMMARIZATION_ROOT = "v_summarization_";
+    public static final String V_SUMMARIZATION_1 = "v_summarization_1";
+    public static final String V_SUMMARIZATION_2 = "v_summarization_2";
+    public static final String V_SUMMARIZATION_3 = "v_summarization_3";
+    
     //
     // The words which are used to create scene relations.
     //

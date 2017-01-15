@@ -81,18 +81,18 @@ public class SummarizationHelper {
 	}
 
 	/**
-	 * A VI is a summarization if it has a SUMMARIZATION_BEGIN link
+	 * A VI is a summarization if its summarization level is above 0
 	 * 
 	 * @param agent
 	 * @param vi
 	 * @return
 	 */
 	public static boolean isSummarization(Agent agent, VerbInstance vi) {
-		ViSet begins = agent.getLinks().getLinksByLinkName(vi, Hardwired.LINK_ELABORATION_BEGIN);
-		if (begins.isEmpty()) {
-			return false;
-		}
-		return true;
+		//ViSet begins = agent.getLinks().getLinksByLinkName(vi, Hardwired.LINK_ELABORATION_BEGIN);
+		//if (begins.isEmpty()) {
+		//	return false;
+		//}
+		return vi.getSummarizationLevel() > 0;
 	}
 
 	/**

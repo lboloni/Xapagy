@@ -120,6 +120,9 @@ public class EnergySet<T extends XapagyComponent> implements Serializable {
      */
     public List<T> getParticipants(String ec) {
         Map<T, Double> energy = getEnergy(ec);
+        if (energy == null) {
+        	return new ArrayList<>();
+        }
         return new ArrayList<>(energy.keySet());
     }
     

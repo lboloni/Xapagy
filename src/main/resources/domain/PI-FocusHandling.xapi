@@ -51,6 +51,6 @@ $SpikeActivity Append To Composite "BeforeVi" New SA With Name "FcmInsertVi" Cod
 // SA after
 //
 $SpikeActivity Clear Composite "AfterVi"
-$SpikeActivity Append To Composite "AfterVi" New SA With Name "FcmSummarization" Code "org.xapagy.activity.focusmaintenance.SaFcmSummarization"      
+// $SpikeActivity Append To Composite "AfterVi" New SA With Name "FcmSummarization" Code "org.xapagy.activity.focusmaintenance.SaFcmSummarization"      
 $SpikeActivity Append To Composite "AfterVi" New SA With Name "FcmFoundAnswer" Code "org.xapagy.activity.focusmaintenance.SaFcmFoundAnswer"      
 $SpikeActivity Append To Composite "AfterVi" New SA With Name "HlmsExpectedVi" Code "org.xapagy.activity.hlsmaintenance.SaHlsmExpectedVi"      

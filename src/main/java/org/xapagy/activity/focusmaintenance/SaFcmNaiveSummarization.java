@@ -20,12 +20,16 @@
 package org.xapagy.activity.focusmaintenance;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.xapagy.activity.SpikeActivity;
 import org.xapagy.agents.Agent;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.VerbOverlay;
+import org.xapagy.instances.GroupHelper;
+import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.summarization.SummarizationHelper;
@@ -38,7 +42,7 @@ import org.xapagy.ui.formatters.IXwFormatter;
  * 
  * @author Ladislau Boloni Created on Jan 13, 2017
  */
-public class SaFcmSummarization extends SpikeActivity {
+public class SaFcmNaiveSummarization extends SpikeActivity {
 
 	private static final long serialVersionUID = 2592801386676711424L;
 
@@ -52,7 +56,7 @@ public class SaFcmSummarization extends SpikeActivity {
 	 * @param name
 	 * @param vi
 	 */
-	public SaFcmSummarization(Agent agent, String name) {
+	public SaFcmNaiveSummarization(Agent agent, String name) {
 		super(agent, name);
 	}
 
@@ -88,7 +92,8 @@ public class SaFcmSummarization extends SpikeActivity {
 				break;
 			}
 		}
-		if (partof == 0) {
+		// If there is no summarization, we create an empty one
+		if ((sumlevel) < 2 && (partof == 0)) {
 			// create a new one
 			VerbInstance newsummary = createSummarizationForVi(vi);
 			agent.getLoop().proceedOneForcedStep(newsummary, 1.0);
@@ -97,10 +102,11 @@ public class SaFcmSummarization extends SpikeActivity {
 	}
 
 	/**
-	 * Creates a summarization step. For the time being it is maybe an empty one...
+	 * Creates a summarization step. For the time being it is maybe an empty
+	 * one...
 	 * 
-	 * Later, it might be that already here we can create something interesting, such as 
-	 * the appropriate valence etc.
+	 * Later, it might be that already here we can create something interesting,
+	 * such as the appropriate valence etc.
 	 * 
 	 * FIXME: not fully done yet!!!
 	 * 
@@ -108,13 +114,35 @@ public class SaFcmSummarization extends SpikeActivity {
 	 * @return
 	 */
 	public VerbInstance createSummarizationForVi(VerbInstance vi) {
-		VerbOverlay verbs = null;
+		// create a verbs at the appropriate level
+		VerbOverlay verbs = VerbOverlay.createVO(agent,
+				Hardwired.V_SUMMARIZATION_ROOT + (vi.getSummarizationLevel() + 1), Hardwired.VM_ACTION_MARKER);
 		VerbInstance viTemplate = VerbInstance.createViTemplate(agent, ViType.S_V, verbs);
-		// viTemplate.setVerbs();
+		// the subject should actually be a group of the stuff
+		Set<Instance> groupSet = new HashSet<>();
+		switch(vi.getViType()) {
+		case S_V:
+			groupSet.add(vi.getSubject());
+			break;
+		case S_V_O:
+			groupSet.add(vi.getSubject());
+			groupSet.add(vi.getObject());
+			break;
+		case QUOTE:
+			// summarizing quotes is a separate problem...
+			groupSet.add(vi.getSubject());
+			break;
+		case S_ADJ:
+			groupSet.add(vi.getSubject());
+			break;
+		}
+		// we create a dedicated group here, because it will be extended
+		Instance group = GroupHelper.createGroup(agent, groupSet, vi.getSubject().getScene());
+		// but we will start by replicating the subject
+		viTemplate.setSubject(group);
 		return viTemplate;
 	}
-	
-	
+
 	/**
 	 * The function enacts the relationship between the vi and the suvi
 	 * 

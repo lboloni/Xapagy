@@ -34,6 +34,7 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.set.EnergyColors.EnergyColorType;
+import org.xapagy.summarization.SummarizationHelper;
 import org.xapagy.ui.formatters.HtmlFormatter;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
@@ -82,6 +83,16 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
                      fc.getEnergy(vi, ec));
              }
             PwQueryLinks.linkToVi(fmt, agent, gq, vi);
+            // adds the summarization status
+            if (SummarizationHelper.isSummarization(agent, vi)) {
+            	String summarizationStatus = null;
+            	if (SummarizationHelper.isOpenSummarization(agent, vi)) {
+            		summarizationStatus = "Open summarization, level " + vi.getSummarizationLevel();
+            	} else {
+            		summarizationStatus = "Closed summarization, level " + vi.getSummarizationLevel();            		
+            	}
+            	fmt.add(summarizationStatus);
+            }
             fmt.closeP();
             alreadyPrinted.add(vi);
         }
@@ -98,7 +109,7 @@ public class qh_ALL_FOCUS_VERBINSTANCES implements IQueryHandler, IQueryAttribut
                 fmt.progressBarSlash(fc.getSalience(vi, ec),
                      fc.getEnergy(vi, ec));
              }
-            PwQueryLinks.linkToVi(fmt, agent, gq, vi);
+            PwQueryLinks.linkToVi(fmt, agent, gq, vi);            
             fmt.closeP();
             alreadyPrinted.add(vi);
         }

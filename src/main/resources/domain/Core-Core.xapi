@@ -104,6 +104,22 @@ $-- "why question marker: FIXME: why is this a meta verb?"
 $Create Verb vm_why
 $Create Word "why" For Verb [vm_why]
 
+// **********************************************************
+//   Empty summarization verbs - these are the kind of verbs that 
+//   we put as summarization when we don't want to put anything else.
+// **********************************************************
+
+$Create Verb v_summarization_1
+$Create Verb v_summarization_2
+$Create Verb v_summarization_3
+${{
+   agent.getVerbDB().getConcept("v_summarization_1").setSummarizationLevel(1);
+   agent.getVerbDB().getConcept("v_summarization_2").setSummarizationLevel(2);
+   agent.getVerbDB().getConcept("v_summarization_3").setSummarizationLevel(3);
+$}}
+
+
+
 // ownership type 
 $Create Relation vr_holds 
 $Create Relation vr_legally_owns
