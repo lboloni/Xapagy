@@ -17,15 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-/*
-   This file is part of the Xapagy project
-   
- 
-   org.xapagy.metaverbs.SaMvThus
- 
-   Copyright (c) 2008-2014 Ladislau Boloni
- */
-
 package org.xapagy.metaverbs;
 
 import java.util.List;
@@ -39,6 +30,7 @@ import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
+import org.xapagy.links.CoincidenceHelper;
 import org.xapagy.links.Links;
 import org.xapagy.summarization.SummarizationHelper;
 import org.xapagy.ui.TextUi;
@@ -72,12 +64,7 @@ public class SaMvThus extends AbstractSaMetaVerb {
 		if (viLeader == null) {
 			TextUi.errorPrint("SaMvThus: coincidence, could not resolve the leader!!!");
 		}
-		Links la = agent.getLinks();
-		la.copyAllLinks(viLeader, verbInstance, "SaMvThus");
-		la.changeLinkByName(Hardwired.LINK_COINCIDENCE, viLeader, verbInstance, 1.0,
-				"SaMvThus-front" + "+changeCoincidence");
-		la.changeLinkByName(Hardwired.LINK_COINCIDENCE, verbInstance, viLeader, 1.0,
-				"SaMvThus-back" + "+changeCoincidence");
+		CoincidenceHelper.connectToCoincidenceGroup(agent, viLeader, verbInstance, "SaMvThus");
 	}
 
 	/**
@@ -147,7 +134,7 @@ public class SaMvThus extends AbstractSaMetaVerb {
 			if (fviScenes.isEmpty()) {
 				continue;
 			}
-			if (fvi.getSummarizationLevel() != fvi.getSummarizationLevel()) {
+			if (fvi.getSummarizationLevel() != verbInstance.getSummarizationLevel()) {
 				continue;
 			}
 			if (ViClassifier.decideViClass(ViClass.ACTION, fvi, agent)) {

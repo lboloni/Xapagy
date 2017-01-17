@@ -32,6 +32,7 @@ import org.xapagy.instances.GroupHelper;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViType;
+import org.xapagy.links.CoincidenceHelper;
 import org.xapagy.summarization.SummarizationHelper;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.IXwFormatter;
@@ -163,8 +164,11 @@ public class SaFcmNaiveSummarization extends SpikeActivity {
 			return rel;
 		case Extends:
 			// It is going to get the link as elaboration
-			// It will also extend the suvi with a new coincidence group
-			throw new Error("Not implemented yet");
+			VerbInstance suviex = entry.getValue();
+			agent.getLoop().proceedOneForcedStep(suviex, 1.0);
+			CoincidenceHelper.connectToCoincidenceGroup(agent, suvi, suviex, "SaFcmNaiveSummarization");
+			agent.getLinks().changeLinkByName(Hardwired.LINK_SUMMARIZATION_BODY, vi, suviex, 1.0, "visuviAction - Extends");
+			return rel;
 		case Closes:
 			// It adds the closed link, itself becoming part of the suvi
 			agent.getLinks().changeLinkByName(Hardwired.LINK_SUMMARIZATION_CLOSE, vi, suvi, 1.0,
@@ -199,8 +203,7 @@ public class SaFcmNaiveSummarization extends SpikeActivity {
 
 	@Override
 	public void extractParameters() {
-		// TODO Auto-generated method stub
-
+		// for the time being, this SA has no parameters
 	}
 
 }
