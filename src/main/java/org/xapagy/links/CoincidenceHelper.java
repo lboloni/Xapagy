@@ -19,21 +19,15 @@
 */
 package org.xapagy.links;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.Focus;
-import org.xapagy.agents.FocusSorter;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
-import org.xapagy.instances.ViClassifier;
-import org.xapagy.instances.ViClassifier.ViClass;
 import org.xapagy.set.ViSet;
-import org.xapagy.summarization.SummarizationHelper;
 
 /**
  * A class that contains static functions that help us to
@@ -81,8 +75,10 @@ public class CoincidenceHelper {
 	 */
 	public static Set<Instance> getDominantScenes(Agent agent, VerbInstance viCoincidence) {
 		Set<Instance> retval = new HashSet<>();
-		throw new Error("Not implemented yet");
-		//return retval;
+		for(VerbInstance vi: getVis(agent,viCoincidence)) {
+			retval.addAll(SceneHelper.extractScenes(vi, false));
+		}
+		return retval;
 	}
 	
 }

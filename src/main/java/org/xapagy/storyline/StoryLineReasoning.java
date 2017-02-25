@@ -55,7 +55,7 @@ import org.xapagy.util.SimpleEntryComparator;
 public class StoryLineReasoning {
 
 	/**
-	 * Second experiment for a renarration stuff. 
+	 * Second experiment for a renarration stuff.
 	 * 
 	 * All the instances are created on-demand, but in the same scene.
 	 * 
@@ -73,18 +73,17 @@ public class StoryLineReasoning {
 	 */
 	public static List<VerbInstance> createRenarrate(Agent agent, List<VerbInstance> narrative, StoryLine sline) {
 		List<VerbInstance> retval = new ArrayList<>();
+		// the object which will store the mapping between the created and old
+		// story line
 		slrMapping mapping = new slrMapping(agent);
-		// Let us go with the assumption that the current scene is the mapping for the first scene in the narrative.
-		//VerbInstance svifirst = narrative.get(0);		
-		//mapping.putSceneMap(agent.getFocus().getCurrentScene(), svifirst.getSubject().getScene());
-		
 		// iterate over the narrative
 		for (VerbInstance svi : narrative) {
 			// don't recall the relations, let the creation do it
 			if (ViClassifier.decideViClass(ViClass.RELATION, svi, agent)) {
-				// we do create the group member relations, cause they are different
+				// we do create the group member relations, cause they are
+				// different
 				if (!Hardwired.contains(agent, svi.getVerbs(), Hardwired.VR_MEMBER_OF_GROUP)) {
-					continue;					
+					continue;
 				}
 			}
 			renarrateVi(agent, svi, mapping);
@@ -92,14 +91,17 @@ public class StoryLineReasoning {
 		return retval;
 	}
 
-	
 	/**
-	 * Renarrates a particular instance from the shadows into the focus. It uses the 
-	 * slrMapping to do instance mappings
+	 * Renarrates a specific in-memory VI svi in the current scene in the focus.
+	 * Focus instances corresponding to the shadow instances will be created on
+	 * demand and added to the mapping
 	 * 
 	 * @param agent
 	 * @param svi
+	 *            - in-memory VI we are re-narrating.
 	 * @param mapping
+	 *            - the mapping between the shadow storyline of svi and the
+	 *            current scene
 	 * @return
 	 */
 	public static List<VerbInstance> renarrateVi(Agent agent, VerbInstance svi, slrMapping mapping) {
@@ -115,16 +117,17 @@ public class StoryLineReasoning {
 					retval.addAll(vis);
 				}
 			}
-			// This is the case when we first encounter the reference to this scene as a direct 
+			// This is the case when we first encounter the reference to this
+			// scene as a direct
 			// part of the VI
 			if (inst.isScene()) {
 				if (!mapping.getS2fSceneMap().containsKey(inst)) {
 					List<VerbInstance> vis = renarrateScene(agent, inst, mapping);
 					retval.addAll(vis);
 				}
-			}			
+			}
 		}
-		// at this moment, we are supposed to have the instances 
+		// at this moment, we are supposed to have the instances
 		VerbInstance fvi = createFocusPair(agent, svi, mapping);
 		if (fvi != null) {
 			retval.add(fvi);
@@ -132,10 +135,10 @@ public class StoryLineReasoning {
 		}
 		return retval;
 	}
-	
-	
+
 	/**
-	 * Creates a focus instance corresponding to a shadow instance si
+	 * Creates a focus instance corresponding to a shadow instance si, and
+	 * update the mapping
 	 * 
 	 * @param agent
 	 * @param si
@@ -164,12 +167,10 @@ public class StoryLineReasoning {
 		mapping.putInstanceMap(fi, si);
 		return retval;
 	}
-	
-	
-	
+
 	/**
-	 * Creates a focus scene corresponding to the shadow scene sscene
-	 * FIXME: what about labels???
+	 * Creates a focus scene corresponding to the shadow scene sscene FIXME:
+	 * what about labels???
 	 * 
 	 * @param agent
 	 * @param sscene
@@ -187,9 +188,11 @@ public class StoryLineReasoning {
 		viTemplate.setSubject(scene);
 		ConceptOverlay co = new ConceptOverlay(agent);
 		co.addOverlay(sscene.getConcepts()); // this should include "scene"
-		// FIXME: This creates a null pointer exception in 
-		// at org.xapagy.ui.prettygraphviz.GraphVizHelper.formatIdentifier(GraphVizHelper.java:138)
-		// at org.xapagy.ui.prettygraphviz.GvFormatter.openNode(GvFormatter.java:165)
+		// FIXME: This creates a null pointer exception in
+		// at
+		// org.xapagy.ui.prettygraphviz.GraphVizHelper.formatIdentifier(GraphVizHelper.java:138)
+		// at
+		// org.xapagy.ui.prettygraphviz.GvFormatter.openNode(GvFormatter.java:165)
 		co.addFullLabel(newlabel, agent);
 		// co.addFullLabel("#renarrate", agent);
 		viTemplate.setAdjective(co);
@@ -197,12 +200,10 @@ public class StoryLineReasoning {
 		agent.getLoop().proceedOneForcedStep(viTemplate, 1.0);
 		retval.add(viTemplate);
 		Instance fscene = viTemplate.getCreatedInstance();
-		mapping.putSceneMap(fscene, sscene);				
+		mapping.putSceneMap(fscene, sscene);
 		return retval;
 	}
-	
-	
-	
+
 	/**
 	 * First experiment for a renarration stuff. What it does at this moment, is
 	 * that it creates all the instances in the current scene, then returns the

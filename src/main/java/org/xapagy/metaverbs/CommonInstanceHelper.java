@@ -19,16 +19,15 @@
 */
 package org.xapagy.metaverbs;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.instances.GroupHelper;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper;
 import org.xapagy.instances.ViStructureHelper.ViPart;
-import org.xapagy.instances.ViStructureHelper.ViType;
 
 /**
  * 
@@ -39,35 +38,6 @@ import org.xapagy.instances.ViStructureHelper.ViType;
  * Created on: Aug 27, 2011
  */
 public class CommonInstanceHelper {
-
-    /**
-     * Extracts all the scenes referenced in a VI
-     * 
-     * @param vi
-     *            - a fully resolved verb instance
-     * @param quotesAsWell
-     *            - do we also consider the scenes in the quotes???
-     * 
-     * @return
-     */
-    public static Set<Instance> extractScenes(VerbInstance vi,
-            boolean quotesAsWell) {
-        Set<Instance> retval = new HashSet<>();
-        if (!vi.getViType().equals(ViType.QUOTE)) {
-            for (ViPart part : ViStructureHelper.getAllowedInstanceParts(vi
-                    .getViType())) {
-                retval.add(((Instance) vi.getPart(part)).getScene());
-            }
-        } else {
-            // if this is a quote
-            retval.add(vi.getSubject().getScene());
-            if (quotesAsWell) {
-                retval.addAll(CommonInstanceHelper.extractScenes(vi.getQuote(),
-                        quotesAsWell));
-            }
-        }
-        return retval;
-    }
 
     /**
      * Returns true of vi1 and vi2 have a common instance - it is also true if
@@ -109,9 +79,9 @@ public class CommonInstanceHelper {
     public static boolean haveCommonScenes(VerbInstance vi1, VerbInstance vi2,
             Agent a, boolean quotesAsWell) {
         Set<Instance> scenes1 =
-                CommonInstanceHelper.extractScenes(vi1, quotesAsWell);
+                SceneHelper.extractScenes(vi1, quotesAsWell);
         Set<Instance> scenes2 =
-                CommonInstanceHelper.extractScenes(vi2, quotesAsWell);
+                SceneHelper.extractScenes(vi2, quotesAsWell);
         for (Instance inst : scenes1) {
             if (scenes2.contains(inst)) {
                 return true;
