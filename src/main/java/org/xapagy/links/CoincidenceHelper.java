@@ -73,12 +73,13 @@ public class CoincidenceHelper {
 	 * @param viCoincidence
 	 * @return
 	 */
-	public static Set<Instance> getDominantScenes(Agent agent, VerbInstance viCoincidence) {
+	public static Set<Instance> getScenes(Agent agent, VerbInstance viCoincidence) {
 		Set<Instance> retval = new HashSet<>();
 		for(VerbInstance vi: getVis(agent,viCoincidence)) {
 			retval.addAll(SceneHelper.extractScenes(vi, false));
 		}
 		return retval;
 	}
+	
 	
 }
