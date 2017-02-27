@@ -37,6 +37,7 @@ import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.VerbOverlay;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.RelationHelper;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
@@ -696,18 +697,18 @@ public class StoryLineReasoning {
 			VerbInstance starter = vis2.get(0);
 			vis2.remove(0);
 			stVis.add(starter);
-			stScenes.addAll(starter.getReferencedScenes());
+			stScenes.addAll(SceneHelper.extractScenes(starter, false));
 			stScenes = explodeRelatedScenes(agent, stScenes);
 			for (Iterator<VerbInstance> vit = vis2.iterator(); vit.hasNext();) {
 				VerbInstance current = vit.next();
 				Set<Instance> test = new HashSet<>(stScenes);
-				test.retainAll(current.getReferencedScenes());
+				test.retainAll(SceneHelper.extractScenes(current, false));
 				if (test.isEmpty()) {
 					continue;
 				}
 				// add the vi, and the
 				stVis.add(current);
-				stScenes.addAll(current.getReferencedScenes());
+				stScenes.addAll(SceneHelper.extractScenes(current, false));
 				stScenes = explodeRelatedScenes(agent, stScenes);
 				vit.remove();
 			}

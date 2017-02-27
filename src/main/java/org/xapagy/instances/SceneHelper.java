@@ -26,13 +26,12 @@ import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.instances.ViStructureHelper.ViType;
 
 /**
- * @author lboloni
- * Created on: Feb 25, 2017
+ * @author lboloni Created on: Feb 25, 2017
  */
 public class SceneHelper {
 
 	/**
-	 * Extracts all the scenes referenced in a VI
+	 * Extracts all the scenes referenced in a VI. If an instance is not resolved yet, it skips it.
 	 * 
 	 * @param vi
 	 *            - a fully resolved verb instance
@@ -41,23 +40,80 @@ public class SceneHelper {
 	 * 
 	 * @return
 	 */
-	public static Set<Instance> extractScenes(VerbInstance vi,
-	        boolean quotesAsWell) {
-	    Set<Instance> retval = new HashSet<>();
-	    if (!vi.getViType().equals(ViType.QUOTE)) {
-	        for (ViPart part : ViStructureHelper.getAllowedInstanceParts(vi
-	                .getViType())) {
-	            retval.add(((Instance) vi.getPart(part)).getScene());
-	        }
-	    } else {
-	        // if this is a quote
-	        retval.add(vi.getSubject().getScene());
-	        if (quotesAsWell) {
-	            retval.addAll(SceneHelper.extractScenes(vi.getQuote(),
-	                    quotesAsWell));
-	        }
-	    }
-	    return retval;
+	public static Set<Instance> extractScenes(VerbInstance vi, boolean quotesAsWell) {
+		Set<Instance> retval = new HashSet<>();
+		if (!vi.getViType().equals(ViType.QUOTE)) {
+			for (ViPart part : ViStructureHelper.getAllowedInstanceParts(vi.getViType())) {
+				// only mess with it if it is resolved
+				if (vi.getResolvedParts().containsKey(part)) {
+					retval.add(((Instance) vi.getPart(part)).getScene());
+				}
+			}
+		} else {
+			// if this is a quote
+			retval.add(vi.getSubject().getScene());
+			if (quotesAsWell) {
+				retval.addAll(SceneHelper.extractScenes(vi.getQuote(), quotesAsWell));
+			}
+		}
+		return retval;
 	}
+
+	
+	/**
+	 * Extracts all the instances referenced in a VI. If an instance is not resolved yet, it skips it.
+	 * 
+	 * @param vi
+	 *            - a fully resolved verb instance
+	 * @param quotesAsWell
+	 *            - do we also consider the scenes in the quotes???
+	 * 
+	 * @return
+	 */
+	public static Set<Instance> extractInstances(VerbInstance vi, boolean quotesAsWell) {
+		Set<Instance> retval = new HashSet<>();
+		if (!vi.getViType().equals(ViType.QUOTE)) {
+			for (ViPart part : ViStructureHelper.getAllowedInstanceParts(vi.getViType())) {
+				// only mess with it if it is resolved
+				if (vi.getResolvedParts().containsKey(part)) {
+					retval.add(((Instance) vi.getPart(part)));
+				}
+			}
+		} else {
+			// if this is a quote
+			retval.add(vi.getSubject().getScene());
+			if (quotesAsWell) {
+				retval.addAll(SceneHelper.extractInstances(vi.getQuote(), quotesAsWell));
+			}
+		}
+		return retval;
+	}
+
+	
+	
+	/**
+	 * Returns the dominant scene of an instance - I think that this is the
+	 * scene of the subject
+	 * 
+	 * @param vi
+	 * @return
+	 */
+	public static Instance getDominantScene(VerbInstance vi) {
+		return vi.getSubject().getScene();
+	}
+
+	/**
+	 * Returns all the scenes referenced by the instance (also adds the scene of
+	 * the referenced item)
+	 *
+	 * @return
+	 */
+	/*
+	 * public Set<Instance> getReferencedScenes() { Set<Instance> retval = new
+	 * HashSet<>(); for (ViPart part :
+	 * ViStructureHelper.getAllowedInstanceParts(getViType())) { Instance
+	 * instance = (Instance) resolvedParts.get(part); if (instance != null) {
+	 * retval.add(instance.getScene()); } } return retval; }
+	 */
 
 }

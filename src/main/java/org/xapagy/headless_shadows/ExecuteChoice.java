@@ -30,6 +30,7 @@ import org.xapagy.agents.Agent;
 import org.xapagy.agents.Execute;
 import org.xapagy.headless_shadows.Choice.ChoiceType;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.metaverbs.SaMvInsertHlsLocation;
 import org.xapagy.set.EnergyColors;
@@ -59,7 +60,7 @@ public class ExecuteChoice {
             if (vi == null) {
                 break;
             }
-            referencedScenes.addAll(vi.getReferencedScenes());
+            referencedScenes.addAll(SceneHelper.extractScenes(vi, false));
             Execute.executeVIandSAs(agent, vi, null);
             choice.resolveDependency(vi.getCreatedInstance());
             executionResult.add(vi);
@@ -68,7 +69,7 @@ public class ExecuteChoice {
         //
         //
         VerbInstance vi = choice.instantiate(agent);
-        referencedScenes.addAll(vi.getReferencedScenes());
+        referencedScenes.addAll(SceneHelper.extractScenes(vi, false));
         if (choice.getChoiceType().equals(ChoiceType.MISSING_ACTION)) {
             // for missing actions we do not execute the successor verb in the
             // action verb, instead we execute this special SaMv...

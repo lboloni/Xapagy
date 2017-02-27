@@ -27,6 +27,7 @@ import org.xapagy.agents.Focus;
 import org.xapagy.agents.FocusSorter;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViClassifier;
 import org.xapagy.instances.ViClassifier.ViClass;
@@ -128,8 +129,8 @@ public class SaMvThus extends AbstractSaMetaVerb {
 				continue;
 			}
 			// if the two vi's do not share a scene, skip
-			Set<Instance> fviScenes = fvi.getReferencedScenes();
-			Set<Instance> viScenes = verbInstance.getReferencedScenes();
+			Set<Instance> fviScenes =  SceneHelper.extractScenes(fvi, false);
+			Set<Instance> viScenes = SceneHelper.extractScenes(verbInstance, false); 
 			fviScenes.retainAll(viScenes);
 			if (fviScenes.isEmpty()) {
 				continue;

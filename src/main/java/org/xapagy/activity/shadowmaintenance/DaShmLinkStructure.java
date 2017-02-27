@@ -26,6 +26,7 @@ import org.xapagy.activity.AbstractDaFocusIterator;
 import org.xapagy.agents.Agent;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.links.Links;
 import org.xapagy.set.EnergyColors;
@@ -80,7 +81,7 @@ public class DaShmLinkStructure extends AbstractDaFocusIterator {
 	@Override
 	protected void applyFocusVi(VerbInstance fvi, double timeSlice) {
 		// dominant scene
-		Instance scene = fvi.getReferencedScenes().iterator().next();
+		Instance scene = SceneHelper.getDominantScene(fvi);
 		List<EnergyQuantum<VerbInstance>> eqs = new ArrayList<>();
 		List<EnergyQuantum<VerbInstance>> eqslink;
 		double strength;

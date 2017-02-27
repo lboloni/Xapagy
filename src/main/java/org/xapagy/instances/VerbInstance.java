@@ -279,22 +279,6 @@ public class VerbInstance implements XapagyComponent, Serializable {
 		return (Instance) getPart(ViPart.QuoteScene);
 	}
 
-	/**
-	 * Returns all the scenes referenced by the instance (also adds the scene of
-	 * the referenced item)
-	 *
-	 * @return
-	 */
-	public Set<Instance> getReferencedScenes() {
-		Set<Instance> retval = new HashSet<>();
-		for (ViPart part : ViStructureHelper.getAllowedInstanceParts(getViType())) {
-			Instance instance = (Instance) resolvedParts.get(part);
-			if (instance != null) {
-				retval.add(instance.getScene());
-			}
-		}
-		return retval;
-	}
 
 	/**
 	 * @return the resolvedParts

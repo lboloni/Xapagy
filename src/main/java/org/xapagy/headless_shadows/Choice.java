@@ -29,6 +29,7 @@ import org.xapagy.activity.hlsmaintenance.CharacterizationScore;
 import org.xapagy.activity.hlsmaintenance.ChoiceScore;
 import org.xapagy.agents.Agent;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.instances.XapagyComponent;
@@ -210,10 +211,12 @@ public class Choice implements XapagyComponent, Serializable {
             return retval;
         }
         case STATIC: {
-            return staticHls.getViTemplate().getReferencedScenes();
+            //return staticHls.getViTemplate().getReferencedScenes();
+        	return SceneHelper.extractScenes(staticHls.getViTemplate(), false);
         }
         default: {
-            return hls.getViTemplate().getReferencedScenes();
+        	return SceneHelper.extractScenes(hls.getViTemplate(), false);
+            //return hls.getViTemplate().getReferencedScenes();
         }
         }
 

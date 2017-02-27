@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.concepts.Hardwired;
+import org.xapagy.instances.GroupHelper;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
@@ -70,7 +71,7 @@ public class CoincidenceHelper {
 	/**
 	 * Returns the dominant scenes in the coincidence set
 	 * @param agent
-	 * @param viCoincidence
+	 * @param viCoincidence -  one arbitrary VI that identifies the coincidence set
 	 * @return
 	 */
 	public static Set<Instance> getScenes(Agent agent, VerbInstance viCoincidence) {
@@ -80,6 +81,27 @@ public class CoincidenceHelper {
 		}
 		return retval;
 	}
-	
+
+	/**
+	 * Returns all the instances referred to in a coincidence set
+	 * @param agent
+	 * @param viCoincidence - one arbitrary VI that identifies the coincidence set
+	 * @param unrollGroups
+	 * @return
+	 */
+	public static Set<Instance> getInstances(Agent agent, VerbInstance viCoincidence, boolean unrollGroups) {
+		Set<Instance> retval = new HashSet<>();
+		for(VerbInstance vi: getVis(agent,viCoincidence)) {
+			Set<Instance> insts = SceneHelper.extractInstances(vi, false);
+			for(Instance instance: insts) {
+				retval.add(instance);
+				if (!unrollGroups) {
+					retval.addAll(GroupHelper.getMembersOfGroup(agent, instance));
+				}
+			}
+		}
+		return retval;
+	}
+
 	
 }

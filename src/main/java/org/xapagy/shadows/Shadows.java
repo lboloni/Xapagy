@@ -29,6 +29,7 @@ import java.util.Set;
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.Focus;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViSimilarityHelper;
 import org.xapagy.set.EnergyColors;
@@ -110,8 +111,8 @@ public class Shadows implements Serializable {
         //
         if (allowSameSceneVi) {
             // if the two VI's share a scene, skip
-            Set<Instance> fviScenes = fvi.getReferencedScenes();
-            Set<Instance> sviScenes = svi.getReferencedScenes();
+            Set<Instance> fviScenes = SceneHelper.extractScenes(fvi, false); 
+            Set<Instance> sviScenes = SceneHelper.extractScenes(svi, false); 
             fviScenes.retainAll(sviScenes);
             if (!fviScenes.isEmpty()) {
                 return;

@@ -20,6 +20,7 @@
 package org.xapagy.agents;
 
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 
 /**
@@ -83,7 +84,7 @@ public class liViBased extends AbstractLoopItem {
 	@Override
 	protected void internalExecute() {
 		Execute.executeVIandSAs(agent, forcedVi, null);
-		for (Instance scene : forcedVi.getReferencedScenes()) {
+		for (Instance scene : SceneHelper.extractScenes(forcedVi, false)) {
 			scene.getSceneParameters().resetInterstitialEnergy();
 		}
 		executionResult.add(forcedVi);

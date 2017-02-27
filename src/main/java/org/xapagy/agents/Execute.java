@@ -34,6 +34,7 @@ import org.xapagy.debug.DebugEvent.DebugEventType;
 import org.xapagy.exceptions.MalformedConceptOrVerbName;
 import org.xapagy.exceptions.NoSuchConceptOrVerb;
 import org.xapagy.instances.Instance;
+import org.xapagy.instances.SceneHelper;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.metaverbs.AbstractSaMetaVerb;
@@ -236,7 +237,7 @@ public class Execute {
 					throw new Error("Reference resolution exception at line:\n" + line + "\n" + e.toString());
 				}
 				// at this moment we have the VI !!!
-				referencedScenes.addAll(vi.getReferencedScenes());
+				referencedScenes.addAll(SceneHelper.extractScenes(vi, false));
 				executeVIandSAs(agent, vi, null);
 				retval.add(vi);
 				continue;

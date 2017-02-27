@@ -52,9 +52,6 @@ public class ReferenceAPI implements Serializable {
         this.agent = agent;
     }
 
-    public String testString(String a, String b) {
-        return "ReferenceAPI is working from " + a + " --> " + b;
-    }
 
     /**
      * Returns the VI by the passed reference
@@ -74,14 +71,6 @@ public class ReferenceAPI implements Serializable {
         throw new Error("ReferenceAPI.ViByViMatchFilter not implemented yet");
     }
 
-    /**
-     * Returns the VI accessed by label
-     * 
-     * @return
-     */
-    public VerbInstance ViByLabel() {
-        throw new Error("ReferenceAPI.ViByLabel not implemented yet");
-    }
 
     /**
      * Returns a list of VIs using the ViMatchFilter mechanism
@@ -99,6 +88,7 @@ public class ReferenceAPI implements Serializable {
      * @return
      */
     public Instance InstanceByRef(String reference) {
+    	
         throw new Error("ReferenceAPI.InstanceByRef not implemented yet");
     }
 
