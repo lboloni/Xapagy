@@ -197,8 +197,31 @@ public class SaFcmNaiveSummarization extends SpikeActivity {
 	 * @return
 	 */
 	public SimpleEntry<ViSuviRelation, VerbInstance> identifyViSuviRelation(VerbInstance vi, VerbInstance suvi) {
+		//
+		// if there is no shared scene, return indifferent
+		//
+		Set<Instance> viScenes = CoincidenceHelper.getScenes(agent, vi);
+		Set<Instance> suviScenes = CoincidenceHelper.getScenes(agent, suvi);
+		// calculate intersection in the viScenes, which will be modified here.
+		viScenes.retainAll(suviScenes);
+		if (viScenes.isEmpty()) {
+			return new SimpleEntry<ViSuviRelation, VerbInstance>(ViSuviRelation.Indifferent, null);
+		}
+		//
+		// if there is no shared instance, when unpacked, return indifferent
+		//
+		Set<Instance> viInstances = CoincidenceHelper.getInstances(agent, vi, true); 
+		Set<Instance> suviInstances = CoincidenceHelper.getInstances(agent, suvi, true); 
+		viInstances.retainAll(suviInstances);
+		if (viInstances.isEmpty()) {
+			return new SimpleEntry<ViSuviRelation, VerbInstance>(ViSuviRelation.Indifferent, null);
+		}
+		// FIXME: add here Extend
+		// FIXME: add here Reciprocal
+		// otherwise return indifferent???
 		TextUi.println("visuviAction called, return indiferent");
 		return new SimpleEntry<ViSuviRelation, VerbInstance>(ViSuviRelation.Indifferent, null);
+		
 	}
 
 	@Override

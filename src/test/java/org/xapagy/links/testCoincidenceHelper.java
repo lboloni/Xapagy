@@ -84,25 +84,25 @@ public class testCoincidenceHelper {
 		VerbInstance vi2 = r.exac("'Achilles' / thus wa_v_av40 / 'Hector'.");
 		Instance instHector = r.ref.InstanceByRef("'Hector'");
 		Instance instAchilles = r.ref.InstanceByRef("'Achilles'");
-		
-		Set<Instance> instances = CoincidenceHelper.getInstances(r.agent, vi1, false);
-		
-		
-		r.exec("$CreateScene #HomersEra With Instances 'Homer'");
-		// add a new one
-		VerbInstance vi3 = r.exac("'Ulysses' / wa_v_av40 / 'Hector'.");		
-		Set<VerbInstance> vis = CoincidenceHelper.getVis(r.agent, vi1);
-		assertTrue(vis.contains(vi1));
-		assertTrue(vis.contains(vi2));
-		// connect the third
-		CoincidenceHelper.connectToCoincidenceGroup(r.agent, vi1, vi3, null);
-		// extract from the 2 one 
-		vis = CoincidenceHelper.getVis(r.agent, vi2);
-		assertTrue(vis.contains(vi1));
-		assertTrue(vis.contains(vi2));
-		assertTrue(vis.contains(vi3));
+		Set<Instance> scenes = CoincidenceHelper.getScenes(r.agent, vi1);
+		assertTrue(scenes.size()==1);		
 		TestHelper.testDone();
 	}
 
-	
+
+	@Test
+	public void testGetInstances() {
+		String description = "Test CoincidenceHelper.connectToCoincidenceGroup()";
+		TestHelper.testStart(description);
+		Runner r = ArtificialDomain.runnerArtificialAutobiography();
+		r.exec("$CreateScene #Iliad CloseOthers With Instances 'Achilles', 'Hector', 'Ajax', 'Ulysses', 'Patrocles'");
+		VerbInstance vi1 = r.exac("'Hector' / wa_v_av40 / 'Achilles'.");
+		VerbInstance vi2 = r.exac("'Achilles' / thus wa_v_av40 / 'Ajax'.");
+		Instance instHector = r.ref.InstanceByRef("'Hector'");
+		Instance instAchilles = r.ref.InstanceByRef("'Achilles'");
+		Set<Instance> scenes = CoincidenceHelper.getInstances(r.agent, vi1, false);
+		assertTrue(scenes.size()==3);		
+		TestHelper.testDone();
+	}
+
 }
