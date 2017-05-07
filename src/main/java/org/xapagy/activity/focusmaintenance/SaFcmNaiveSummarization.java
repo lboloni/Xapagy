@@ -145,7 +145,8 @@ public class SaFcmNaiveSummarization extends SpikeActivity {
 	}
 
 	/**
-	 * The function enacts the relationship between the vi and the suvi
+	 * Identify relationship between the vi and a particular candidate suvi. Take
+	 * actions function of this relation
 	 * 
 	 * @param vi
 	 * @param suvi
