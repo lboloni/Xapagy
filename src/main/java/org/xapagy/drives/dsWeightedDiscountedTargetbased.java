@@ -17,12 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.agents;
+package org.xapagy.drives;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.xapagy.agents.Agent;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyQuantum;

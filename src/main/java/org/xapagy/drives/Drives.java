@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.agents;
+package org.xapagy.drives;
 
 import java.io.Serializable;
 import java.util.AbstractMap.SimpleEntry;
@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.xapagy.agents.Agent;
+import org.xapagy.agents.Focus;
 import org.xapagy.concepts.AbstractConceptDB;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.Verb;
@@ -132,6 +134,15 @@ public class Drives implements Serializable {
 	 * Instance representing the current self
 	 */
 	private Instance currentSelf = null;
+	
+	/**
+	 * Returns the current self
+	 * @return
+	 */
+	public Instance getCurrentSelf() {
+		return currentSelf;
+	}
+
 	/**
 	 * The list of the selves
 	 */
@@ -199,6 +210,10 @@ public class Drives implements Serializable {
 	/**
 	 * In this call we update the drives. This is called periodically in the
 	 * loop.
+	 * 
+	 * The drives are updated by the VIs in the focus, and whether they do it, 
+	 * it depends whether their subject or object is the self.
+	 * 
 	 */
 	public void updateDrives() {
 		//TextUi.println("Begin update drives");
@@ -214,6 +229,7 @@ public class Drives implements Serializable {
 			double salience = fc.getSalience(fvi, EnergyColors.FOCUS_VI);
 			quantums.addAll(getDriveChanges(fvi, timeSlice, salience));
 		}
+		// consider the impact of the passage of the time
 		quantums.addAll(getDriveChangesInTime(timeSlice));
 		TextUi.println("End update drives: " + quantums);
 		for (EnergyQuantum<Instance> eq : quantums) {
