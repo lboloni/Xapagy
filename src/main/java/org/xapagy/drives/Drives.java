@@ -86,13 +86,13 @@ public class Drives implements Serializable {
 	 * pain and which ones reduced it. This is certainly something that is
 	 * reactive.
 	 */
-	public final String DRIVE_PAIN_AVOIDANCE = "Drive_PainAvoidance";
+	public final String DRIVE_PAIN_AVOIDANCE = "Drive_Pain_Avoidance";
 	/**
 	 * It is increased by events that cause pleasure.
 	 * 
 	 * FIXME: this is also not very clear on how are they working
 	 */
-	public final String DRIVE_PLEASURE_SEEKING = "Drive_PleasureSeeking";
+	public final String DRIVE_PLEASURE_SEEKING = "Drive_Pleasure_Seeking";
 	/**
 	 * It is increased by lack of events / actions. It is decreased by events.
 	 * 
@@ -222,7 +222,6 @@ public class Drives implements Serializable {
 		lastUpdated = agent.getTime();
 		if (timeSlice == 0.0)
 			return;
-		TextUi.println("updating the drives for a period of " + Formatter.fmt(timeSlice));
 		List<EnergyQuantum<Instance>> quantums = new ArrayList<>();
 		// consider the impact of the verbs in the vi's
 		for (VerbInstance fvi : fc.getViList(EnergyColors.FOCUS_VI)) {
@@ -231,7 +230,6 @@ public class Drives implements Serializable {
 		}
 		// consider the impact of the passage of the time
 		quantums.addAll(getDriveChangesInTime(timeSlice));
-		TextUi.println("End update drives: " + quantums);
 		for (EnergyQuantum<Instance> eq : quantums) {
 			energyDrives.applyEnergyQuantum(eq);
 		}

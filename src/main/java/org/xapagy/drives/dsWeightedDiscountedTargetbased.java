@@ -29,6 +29,8 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyQuantum;
 
 /**
+ * An implementation of the integrated drive score for a specific 
+ * 
  * @author lboloni
  * Created on: Nov 23, 2016
  */
