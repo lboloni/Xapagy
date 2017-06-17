@@ -1,7 +1,7 @@
 package org.xapagy.ui.prettygeneral;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.agents.Drives;
+import org.xapagy.drives.Drives;
 import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
 
@@ -17,6 +17,7 @@ public class xwDrives {
 	public static String xwDetailed(IXwFormatter xw, Drives drives, Agent agent) {
 		xw.add("Drives:");
 		xw.indent();
+		xw.is("Self", drives.getCurrentSelf());
 		xw.addBold("Name = currentValue / targetValue / equilibriumValue ");
 		for (String driveName : drives.getDriveNames()) {
 			xw.is(driveName,
@@ -29,8 +30,9 @@ public class xwDrives {
 	}
 
 	/**
-	 * Concise printing of the drives: difficult to imagine how can we print these 
-	 * possible, so just fall back to the detailed one.
+	 * Concise printing of the drives:
+	 * 
+	 * FIXME: print the drives that are not at their equilibrium values
 	 * 
 	 * @param xw
 	 * @param drives

@@ -183,4 +183,6 @@ public class EnergySet<T extends XapagyComponent> implements Serializable {
         return value;
     }
 
+  
+    
 }

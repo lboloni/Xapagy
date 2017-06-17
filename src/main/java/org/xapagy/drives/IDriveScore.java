@@ -17,8 +17,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.agents;
+package org.xapagy.drives;
 
+import org.xapagy.agents.Agent;
 import org.xapagy.instances.VerbInstance;
 
 /**

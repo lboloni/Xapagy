@@ -25,27 +25,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * The common root of Concept and Verb
  * 
- * @author Ladislau Boloni
- * Created on: Aug 16, 2010
+ * @author Ladislau Boloni Created on: Aug 16, 2010
  */
 public abstract class AbstractConcept implements Serializable {
 
-    private static final long serialVersionUID = -3979669000242254548L;
-    /**
-     * A comment, used to document the concept
-     */
-    private String documentation = "No documentation";
-    private String identifier;
-    protected String name;
-    
-    /**
-     * The impact of the concept on a specific drive when it appears as a subject
-     */
-    private Map<String, Double> driveImpactOnSubject = new HashMap<>();
-    /**
+	private static final long serialVersionUID = -3979669000242254548L;
+	/**
+	 * A comment, used to document the concept
+	 */
+	private String documentation = "No documentation";
+	private String identifier;
+	protected String name;
+
+	/**
+	 * The impact of the concept on a specific drive when it appears as a
+	 * subject
+	 */
+	private Map<String, Double> driveImpactOnSubject = new HashMap<>();
+
+	/**
+	 * 
 	 * @return the driveImpactOnSubject
 	 */
 	public Map<String, Double> getDriveImpactOnSubject() {
@@ -60,124 +61,118 @@ public abstract class AbstractConcept implements Serializable {
 	}
 
 	/**
-     * The impact of the concept on a specific drive when it appears as an object
-     */
-    private Map<String, Double> driveImpactOnObject = new HashMap<>();
-    
-    
-    
-    /**
-     * Returns all the impacts from a given abstract concept
-     * 
-     * @return
-     */
-    public Map<String, Double> getDriveImpactsOnObject() {
-        return Collections.unmodifiableMap(driveImpactOnObject);
-    }
+	 * The impact of the concept on a specific drive when it appears as an
+	 * object
+	 */
+	private Map<String, Double> driveImpactOnObject = new HashMap<>();
 
-    
-    /**
-     * Returns all the impacts from a given abstract concept
-     * 
-     * @return
-     */
-    public Map<String, Double> getDriveImpactsOnSubject() {
-        return Collections.unmodifiableMap(driveImpactOnSubject);
-    }
+	/**
+	 * Returns all the impacts from a given abstract concept
+	 * 
+	 * @return
+	 */
+	public Map<String, Double> getDriveImpactsOnObject() {
+		return Collections.unmodifiableMap(driveImpactOnObject);
+	}
 
-    
-    /**
-     * Sets a given impact value
-     * 
-     * @param drive 
-     * @param impactValue 
-     * 
-     */
-    public void setDriveImpactOnObject(String drive, double impactValue) {
-        driveImpactOnObject.put(drive, impactValue);
-    }
-    
-    /**
-     * Sets a given impact value
-     * 
-     * @param drive 
-     * @param impactValue 
-     * 
-     */
-    public void setDriveImpactOnSubject(String drive, double impactValue) {
-        driveImpactOnSubject.put(drive, impactValue);
-    }
+	/**
+	 * Returns all the impacts from a given abstract concept
+	 * 
+	 * @return
+	 */
+	public Map<String, Double> getDriveImpactsOnSubject() {
+		return Collections.unmodifiableMap(driveImpactOnSubject);
+	}
 
-    
-    
-    // for deserialization
-    protected AbstractConcept() {
+	/**
+	 * Sets a given impact value to be enacted on the object
+	 * 
+	 * @param drive - the drive energy
+	 * @param impactValue
+	 * 
+	 */
+	public void setDriveImpactOnObject(String drive, double impactValue) {
+		driveImpactOnObject.put(drive, impactValue);
+	}
 
-    }
+	/**
+	 * Sets a given impact value to be enacted on the subject
+	 * 
+	 * @param drive
+	 * @param impactValue
+	 * 
+	 */
+	public void setDriveImpactOnSubject(String drive, double impactValue) {
+		driveImpactOnSubject.put(drive, impactValue);
+	}
 
-    public AbstractConcept(String name, String identifier) {
-        this.name = name;
-        this.identifier = identifier;
-    }
+	// for deserialization
+	protected AbstractConcept() {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        AbstractConcept other = (AbstractConcept) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        return true;
-    }
+	}
 
-    
-    public String getDocumentation() {
-        return documentation;
-    }
+	public AbstractConcept(String name, String identifier) {
+		this.name = name;
+		this.identifier = identifier;
+	}
 
-    /**
-     * @return the identifier
-     */
-    public String getIdentifier() {
-        return identifier;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		AbstractConcept other = (AbstractConcept) obj;
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		return true;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getDocumentation() {
+		return documentation;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (name == null ? 0 : name.hashCode());
-        return result;
-    }
+	/**
+	 * @return the identifier
+	 */
+	public String getIdentifier() {
+		return identifier;
+	}
 
-    public void setDocumentation(String documentation) {
-        this.documentation = documentation;
-    }
+	public String getName() {
+		return name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (name == null ? 0 : name.hashCode());
+		return result;
+	}
+
+	public void setDocumentation(String documentation) {
+		this.documentation = documentation;
+	}
 
 }
