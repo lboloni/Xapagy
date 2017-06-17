@@ -145,7 +145,8 @@ public class SaFcmNaiveSummarization extends SpikeActivity {
 	}
 
 	/**
-	 * The function enacts the relationship between the vi and the suvi
+	 * Identify relationship between the vi and a particular candidate suvi. Take
+	 * actions function of this relation
 	 * 
 	 * @param vi
 	 * @param suvi
@@ -216,14 +217,19 @@ public class SaFcmNaiveSummarization extends SpikeActivity {
 		if (viInstances.isEmpty()) {
 			return new SimpleEntry<ViSuviRelation, VerbInstance>(ViSuviRelation.Indifferent, null);
 		}
+		// FIXME: add here Joins
+
+		
 		// FIXME: add here Extend
-		// FIXME: add here Reciprocal
 		// otherwise return indifferent???
 		TextUi.println("visuviAction called, return indiferent");
 		return new SimpleEntry<ViSuviRelation, VerbInstance>(ViSuviRelation.Indifferent, null);
 		
 	}
 
+	
+	
+	
 	@Override
 	public void extractParameters() {
 		// for the time being, this SA has no parameters
