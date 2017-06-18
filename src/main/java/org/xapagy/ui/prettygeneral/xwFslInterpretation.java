@@ -29,7 +29,7 @@ import org.xapagy.ui.prettyprint.PrettyPrint;
 /**
  * @author Ladislau Boloni Created on: Jun 11, 2011
  */
-public class XwFslInterpretation {
+public class xwFslInterpretation {
 
 	/**
 	 * One line summarization
@@ -69,7 +69,7 @@ public class XwFslInterpretation {
 		xw.is("supportPercent", fsli.getSupportFraction());
 		xw.addLabelParagraph("fsl:");
 		xw.indent();
-		XwFocusShadowLinked.xwDetailed(xw, fsli.getFsl(), agent);
+		xwFocusShadowLinked.xwDetailed(xw, fsli.getFsl(), agent);
 		xw.deindent();
 		return xw.toString();
 	}

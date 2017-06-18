@@ -28,7 +28,7 @@ import org.xapagy.ui.prettyprint.PrettyPrint;
 /**
  * @author Ladislau Boloni Created on: Jun 11, 2011
  */
-public class XwFocusShadowLinked {
+public class xwFocusShadowLinked {
 
 	/**
 	 * Fall back on detailed
@@ -39,7 +39,7 @@ public class XwFocusShadowLinked {
 	 * @return
 	 */
 	public static String xwConcise(IXwFormatter xw, FocusShadowLinked fsl, Agent agent) {
-		return XwFocusShadowLinked.xwDetailed(xw, fsl, agent);
+		return xwFocusShadowLinked.xwDetailed(xw, fsl, agent);
 	}
 
 	/**

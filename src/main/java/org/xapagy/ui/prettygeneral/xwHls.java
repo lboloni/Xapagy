@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.ui.prettyprint;
+package org.xapagy.ui.prettygeneral;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,78 +31,74 @@ import org.xapagy.headless_shadows.Hls;
 import org.xapagy.headless_shadows.HlsNewInstance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
 import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.IXwFormatter;
+import org.xapagy.ui.prettyprint.PrettyPrint;
+import org.xapagy.ui.prettyprint.PrintDetail;
 
 /**
  * @author Ladislau Boloni
- * Created on: Jun 10, 2011
+ * Created on: Jun 17, 2017
  */
-public class PpHls {
+public class xwHls {
 
-    public static String pp(Hls hls, Agent agent, PrintDetail detailLevel) {
-        Formatter fmt = new Formatter();
-        fmt.add("HlsSupported id=" + hls.getIdentifier());
-        fmt.indent();
-        fmt.add("ViTemplate: (current)"
-                + PrettyPrint.pp(hls.getViTemplate(), agent, detailLevel));
-        fmt.add("ViTemplate: (original)"
-                + PrettyPrint.pp(hls.getViTemplateOriginal(), agent,
-                        detailLevel));
+	/**
+	 * Print in a concise way: fall back onto the detailed 
+	 * @param xw
+	 * @param hls
+	 * @param agent
+	 * @return
+	 */
+    public static String xwConcise(IXwFormatter xw, Hls hls, Agent agent) {
+    	return xwDetailed(xw, hls, agent);
+    }
+
+	
+	/**
+	 * Prints an HLS in a detailed way
+	 * @param xw
+	 * @param hls
+	 * @param agent
+	 * @return
+	 */
+    public static String xwDetailed(IXwFormatter xw, Hls hls, Agent agent) {
+        xw.addLabelParagraph("HlsSupported id=", "" + hls.getIdentifier());
+        xw.indent();
+        xw.add("ViTemplate: (current)");
+        xwVerbInstance.xwDetailed(xw, hls.getViTemplate(), agent);
+        xw.add("ViTemplate: (original)");
+        xwVerbInstance.xwDetailed(xw, hls.getViTemplateOriginal(), agent);
         // print the dependencies
         if (!hls.getDependencies().isEmpty()
                 || !hls.getResolvedDependencies().isEmpty()) {
-            fmt.add("Unresolved dependencies:");
-            fmt.indent();
+            xw.addLabelParagraph("Unresolved dependencies:");
+            xw.indent();
             for (ViPart part : hls.getDependencies().keySet()) {
                 HlsNewInstance hlsni = hls.getDependencies().get(part);
-                fmt.add(PrettyPrint.pp(hlsni, agent, detailLevel));
+                xw.addP(PrettyPrint.ppDetailed(hlsni, agent));
             }
-            fmt.deindent();
-            fmt.add("Resolved dependencies:");
-            fmt.indent();
+            xw.deindent();
+            xw.addLabelParagraph("Resolved dependencies:");
+            xw.indent();
             for (ViPart part : hls.getResolvedDependencies().keySet()) {
                 HlsNewInstance hlsni = hls.getResolvedDependencies().get(part);
-                fmt.add(PrettyPrint.pp(hlsni, agent, detailLevel));
+                xw.addP(PrettyPrint.ppDetailed(hlsni, agent));
             }
-            fmt.deindent();
+            xw.deindent();
         }
-        PpHls.ppSupports(hls, agent, detailLevel, fmt);
-        return fmt.toString();
+        xwHls.xwSupports(xw, hls, agent, PrintDetail.DTL_DETAIL);
+        return xw.toString();
     }
 
     /**
-     * Pretty print in a concise way
-     * 
-     * @param focus
-     * @param topLevel
-     * @return
-     */
-    public static String ppConcise(Hls hls, Agent agent) {
-        return PpHls.pp(hls, agent, PrintDetail.DTL_CONCISE);
-    }
-
-    /**
-     * Pretty print in a detailed way
-     * 
-     * @param focus
-     * @param topLevel
-     * @return
-     */
-    public static String ppDetailed(Hls hls, Agent agent) {
-        return PpHls.pp(hls, agent, PrintDetail.DTL_DETAIL);
-    }
-
-    /**
-     * Prints the supports
-     * 
+     * Prints the supports of the HLS in a generic way
+     *  
+     * @param xw
      * @param hls
      * @param agent
-     * @param detailLevel
-     * @param fmt
      */
-    public static void ppSupports(Hls hls, Agent agent,
-            PrintDetail detailLevel, Formatter fmt) {
-        fmt.add("Supports " + hls.getSupports().size());
-        fmt.indent();
+    public static void xwSupports(IXwFormatter xw, Hls hls, Agent agent, PrintDetail detailLevel) {
+        xw.addLabelParagraph("Supports " + hls.getSupports().size());
+        xw.indent();
         // print the supports in order
         List<FslInterpretation> listSupport = new ArrayList<>();
         listSupport.addAll(hls.getSupports());
@@ -112,18 +108,18 @@ public class PpHls {
         for (FslType alg : FslType.values()) {
             double value = hls.summativeSupport(alg, agent).getValue();
             if (value > 0.0) {
-                fmt.is(alg.toString().toLowerCase(), value);
+                xw.is(alg.toString().toLowerCase(), value);
             }
         }
         // if the detail level is there, add all the details
         if (detailLevel == PrintDetail.DTL_DETAIL) {
-            Formatter fmt2 = new Formatter();
             for (FslInterpretation fsli : listSupport) {
                 double value = fsli.getTotalSupport(agent);
-                fmt2.addWithMarginNote(Formatter.fmt(value),
-                        PrettyPrint.ppConcise(fsli, agent));
+                xw.addP(Formatter.fmt(value));
+                xw.indent();
+                xwFslInterpretation.xwConcise(xw, fsli, agent);
+                xw.deindent();
             }
-            fmt.add(fmt2.toString());
         }
     }
 }

@@ -50,19 +50,34 @@ public interface IXwFormatter {
      * @return
      */
     String addLabelParagraph(String label, String... values);
+    /**
+     * End of the intended area
+     */
     void deindent();
     /**
      * Returns an empty IXwFormatter of the same type like the current one
      * @return
      */
     IXwFormatter getEmpty();
+    /**
+     * End of the grayed out area (in HTML)
+     * @return
+     */
     String grayoutEnd();
+    /**
+     * Beginning of the grayed out area (in HTML)
+     * @return
+     */
     String grayoutStart();   
     /**
      * Adds a preformatted text
      * @param text
      */
     void addPre(String text, String... options);
+    /**
+     * Beginning of the indented area (both for text and html, although implementation 
+     * differs)
+     */
     void indent();
     /**
      * Adds an object at the current level of indent and a new line
