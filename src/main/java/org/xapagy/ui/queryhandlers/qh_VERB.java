@@ -36,6 +36,7 @@ import org.xapagy.httpserver.Session;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.PwFormatter;
+import org.xapagy.ui.prettygeneral.xwVerb;
 import org.xapagy.ui.prettyhtml.IQueryAttributes;
 import org.xapagy.ui.prettyhtml.IQueryHandler;
 import org.xapagy.ui.prettyhtml.PwQueryLinks;
@@ -44,7 +45,7 @@ import org.xapagy.util.SimpleEntryComparator;
 public class qh_VERB implements IQueryHandler, IQueryAttributes {
 
     @Override
-    public void generate(PwFormatter fmt, Agent agent, RESTQuery query, Session session) {
+    public void generate(PwFormatter pw, Agent agent, RESTQuery query, Session session) {
         String identifier = query.getAttribute(Q_ID);
         Verb verb = null;
         for (Verb verb2 : agent.getVerbDB().getAllConcepts()) {
@@ -55,7 +56,7 @@ public class qh_VERB implements IQueryHandler, IQueryAttributes {
         }
         int countHideable = 1;
         if (verb == null) {
-            fmt.addPre("could not find the verb with the identifier "
+            pw.addPre("could not find the verb with the identifier "
                     + identifier);
             return;
         }
@@ -69,28 +70,30 @@ public class qh_VERB implements IQueryHandler, IQueryAttributes {
         if (verb.getName().startsWith(Hardwired.CONCEPT_PREFIX_NEGATION)) {
             redheader += " negation";
         }
-
-        //
-        // FIXME: add here if this is a category
-        //
-        fmt.addH2(redheader, "class=identifier");
-        fmt.addLabelParagraph("Documentation");
-        fmt.explanatoryNote(verb.getDocumentation());
-        fmt.addH3("area = " + cdb.getArea(verb));
+        pw.addH2(redheader, "class=identifier");
+        // documentation
+        pw.addLabelParagraph("Documentation");
+        pw.explanatoryNote(verb.getDocumentation());
+        // area
+        pw.addH3("area = " + cdb.getArea(verb));
+        // associated spike activity
         if (verb.getSpike() == null) {
-            fmt.addH3("No associated spike");
+            pw.addH3("No associated spike activity");
         } else {
-            fmt.addH3("Associated spike:");
-            fmt.addPre(verb.getSpike().toString());
+            pw.addH3("Associated spike activity:");
+            pw.addPre(verb.getSpike().toString());
         }
+        // Drives
+        xwVerb.xwDetailedDriveImpacts(pw, verb, agent);
+        
         //
         // Adding the overlaps, decreasing order
         //
         Map<Verb, Double> overlaps = cdb.getOverlaps(verb);
         if (overlaps.isEmpty()) {
-            fmt.addH3("Overlaps: None.");
+            pw.addH3("Overlaps: None.");
         } else {
-            fmt.addH3("Overlaps:");
+            pw.addH3("Overlaps:");
             // sort them in decreasing order
             List<SimpleEntry<Verb, Double>> listOverlap = new ArrayList<>();
             for (Verb v : overlaps.keySet()) {
@@ -99,23 +102,23 @@ public class qh_VERB implements IQueryHandler, IQueryAttributes {
             Collections.sort(listOverlap, new SimpleEntryComparator<Verb>());
             Collections.reverse(listOverlap);
             for (SimpleEntry<Verb, Double> entry : listOverlap) {
-                fmt.openP();
+                pw.openP();
                 Verb verbOverlap = entry.getKey();
                 double valueOverlap = entry.getValue();
-                fmt.progressBar(valueOverlap, 1.0);
-                PwQueryLinks.linkToVerb(fmt, agent, query, verbOverlap);
-                fmt.add(" overlap = " + Formatter.fmt(valueOverlap));
-                fmt.closeP();
+                pw.progressBar(valueOverlap, 1.0);
+                PwQueryLinks.linkToVerb(pw, agent, query, verbOverlap);
+                pw.add(" overlap = " + Formatter.fmt(valueOverlap));
+                pw.closeP();
             }
         }
         //
-        // Adding the implications, decreasing order
+        // Adding the implacts, decreasing order
         //
         Map<Verb, Double> impacts = cdb.getImpacts(verb);
         if (impacts == null) {
-            fmt.addH3("Implications: None.");
+            pw.addH3("Implications: None.");
         } else {
-            fmt.addH3("Implications: ");
+            pw.addH3("Implications: ");
             // sort them in decreasing order
             List<SimpleEntry<Verb, Double>> listImpacts = new ArrayList<>();
             for (Verb c : impacts.keySet()) {
@@ -124,13 +127,13 @@ public class qh_VERB implements IQueryHandler, IQueryAttributes {
             Collections.sort(listImpacts, new SimpleEntryComparator<Verb>());
             Collections.reverse(listImpacts);
             for (SimpleEntry<Verb, Double> entry : listImpacts) {
-                fmt.openP();
+                pw.openP();
                 Verb conceptImpact = entry.getKey();
                 double valueImpact = entry.getValue();
-                fmt.progressBar(valueImpact, 1.0);
-                PwQueryLinks.linkToVerb(fmt, agent, query, conceptImpact);
-                fmt.add(" impact = " + Formatter.fmt(valueImpact));
-                fmt.closeP();
+                pw.progressBar(valueImpact, 1.0);
+                PwQueryLinks.linkToVerb(pw, agent, query, conceptImpact);
+                pw.add(" impact = " + Formatter.fmt(valueImpact));
+                pw.closeP();
             }
         }
         //
@@ -138,7 +141,7 @@ public class qh_VERB implements IQueryHandler, IQueryAttributes {
         //
         PwFormatter fmt2 = new PwFormatter("");
         qh_VERB.pwReferringVis(fmt2, verb, agent, query);
-        fmt.addExtensibleH2("id" + countHideable++, "Referring VIs",
+        pw.addExtensibleH2("id" + countHideable++, "Referring VIs",
                 fmt2.toString(), true);
     }
 

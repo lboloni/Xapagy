@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.ui.prettyprint;
+package org.xapagy.ui.prettygeneral;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Set;
 import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.Choice;
 import org.xapagy.headless_shadows.Choice.ChoiceType;
-import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
  * 
@@ -35,62 +35,59 @@ import org.xapagy.ui.formatters.Formatter;
  * @author Ladislau Boloni
  * Created on: Jun 25, 2011
  */
-public class PpChoices {
+public class xwChoices {
 
     // initialize the choice types to all
     public static Set<Choice.ChoiceType> choiceTypesConsidered = null;
     public static int countLimit = 3;
     public static double valueLimit = 0.001;
     static {
-        PpChoices.choiceTypesConsidered = new HashSet<>();
-        PpChoices.choiceTypesConsidered.add(ChoiceType.CHARACTERIZATION);
-        PpChoices.choiceTypesConsidered.add(ChoiceType.MISSING_ACTION);
-        PpChoices.choiceTypesConsidered.add(ChoiceType.MISSING_RELATION);
-        PpChoices.choiceTypesConsidered.add(ChoiceType.CONTINUATION);
+        xwChoices.choiceTypesConsidered = new HashSet<>();
+        xwChoices.choiceTypesConsidered.add(ChoiceType.CHARACTERIZATION);
+        xwChoices.choiceTypesConsidered.add(ChoiceType.MISSING_ACTION);
+        xwChoices.choiceTypesConsidered.add(ChoiceType.MISSING_RELATION);
+        xwChoices.choiceTypesConsidered.add(ChoiceType.CONTINUATION);
     }
 
     /**
-     * Prints a list of choices.
+     * Prints a list of choices, with them being detailed
      * 
-     * FIXME: various filterings needed in the future
-     * 
-     * @param objects
+     * @param aw
+     * @param list
      * @param agent
      * @return
      */
-    public static String pp(List<Choice> list, Agent agent,
-            PrintDetail detailLevel) {
-        Formatter fmt = new Formatter();
-        fmt.add("Choices: " + list.size());
-        fmt.indent();
+    public static String xwConcise(IXwFormatter xw, List<Choice> list, Agent agent) {
+        xw.addLabelParagraph("Choices: " + list.size());
+        xw.indent();
         int count = 0;
         for (Choice choice : list) {
-            if (!PpChoices.choiceTypesConsidered.contains(choice
+            if (!xwChoices.choiceTypesConsidered.contains(choice
                     .getChoiceType())) {
                 continue;
             }
             double value = choice.getChoiceScore().getScoreDependent();
-            if (value < PpChoices.valueLimit) {
+            if (value < xwChoices.valueLimit) {
                 break;
             }
-            if (count >= PpChoices.countLimit) {
+            if (count >= xwChoices.countLimit) {
                 break;
             }
-            fmt.add(PpChoice.pp(choice, agent, detailLevel));
+            xwChoice.xwConcise(xw, choice, agent);
             count++;
 
         }
         if (count < list.size()) {
-            fmt.add("... and " + (list.size() - count) + " more.");
+            xw.addP("... and " + (list.size() - count) + " more.");
         }
-        return fmt.toString();
+        return xw.toString();
     }
 
     /**
      * Changes the printing such that it prints only the continuations
      */
     public static void printContinuationsOnly() {
-        PpChoices.choiceTypesConsidered = new HashSet<>();
-        PpChoices.choiceTypesConsidered.add(ChoiceType.CONTINUATION);
+        xwChoices.choiceTypesConsidered = new HashSet<>();
+        xwChoices.choiceTypesConsidered.add(ChoiceType.CONTINUATION);
     }
 }

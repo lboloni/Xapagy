@@ -38,8 +38,6 @@ import org.xapagy.instances.ViStructureHelper.ViType;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.set.EnergyQuantum;
 import org.xapagy.set.EnergySet;
-import org.xapagy.ui.TextUi;
-import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.TwFormatter;
 import org.xapagy.ui.prettygeneral.xwDrives;
 

@@ -29,7 +29,8 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyColors;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.Formatter;
-import org.xapagy.ui.prettyprint.PpChoice;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwChoice;
 
 /**
  * A TextUi based, interactive tool to choose visualization models. The
@@ -116,7 +117,7 @@ public class tdInteractiveVisualization {
         List<String> menuItems = new ArrayList<>();
         for (tdComponent tdc : tdb.getChoices()) {
             Choice choice = tdc.getChoice();
-            String menuitem = PpChoice.ppConcise(choice, agent);
+            String menuitem = xwChoice.xwConcise(new TwFormatter(), choice, agent);
             menuItems.add(menuitem);
         }
         int result =

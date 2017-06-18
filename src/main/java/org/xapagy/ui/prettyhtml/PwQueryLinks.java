@@ -45,8 +45,8 @@ import org.xapagy.ui.TextUi;
 import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
-import org.xapagy.ui.prettyprint.PpConcept;
-import org.xapagy.ui.prettyprint.PpVerb;
+import org.xapagy.ui.prettygeneral.xwConcept;
+import org.xapagy.ui.prettygeneral.xwVerb;
 import org.xapagy.ui.queryhandlers.qh_CHOICE;
 import org.xapagy.ui.queryhandlers.qh_FOCUS_SHADOW_LINKED;
 import org.xapagy.ui.queryhandlers.qh_FSL_INTERPRETATION;
@@ -133,12 +133,12 @@ public class PwQueryLinks implements IQueryAttributes {
 	 * @param gq
 	 * @param member
 	 */
-	public static String linkToConcept(IXwFormatter fmt, Agent agent, RESTQuery gq, Concept concept) {
-		String label = PpConcept.ppConcise(concept, agent);
+	public static String linkToConcept(IXwFormatter xw, Agent agent, RESTQuery gq, Concept concept) {
+		String label = xwConcept.xwConcise(xw.getEmpty(), concept, agent);
 		RESTQuery gqNew = QueryHelper.copyWithEmptyCommand(gq);
 		gqNew.setAttribute(Q_QUERY_TYPE, "CONCEPT");
 		gqNew.setAttribute(Q_ID, concept.getIdentifier());
-		return PwQueryLinks.addLinkToQuery(fmt, gqNew, label, PwFormatter.CLASS_BODYLINK);
+		return PwQueryLinks.addLinkToQuery(xw, gqNew, label, PwFormatter.CLASS_BODYLINK);
 	}
 
 	/**
@@ -386,12 +386,12 @@ public class PwQueryLinks implements IQueryAttributes {
 	 * @param gq
 	 * @param member
 	 */
-	public static String linkToVerb(IXwFormatter fmt, Agent agent, RESTQuery gq, Verb verb) {
-		String label = PpVerb.ppConcise(verb, agent);
+	public static String linkToVerb(IXwFormatter xw, Agent agent, RESTQuery gq, Verb verb) {
+		String label = xwVerb.xwConcise(xw.getEmpty(), verb, agent);
 		RESTQuery gqNew = QueryHelper.copyWithEmptyCommand(gq);
 		gqNew.setAttribute(Q_QUERY_TYPE, "VERB");
 		gqNew.setAttribute(Q_ID, verb.getIdentifier());
-		return PwQueryLinks.addLinkToQuery(fmt, gqNew, label, PwFormatter.CLASS_BODYLINK);
+		return PwQueryLinks.addLinkToQuery(xw, gqNew, label, PwFormatter.CLASS_BODYLINK);
 	}
 
 	/**

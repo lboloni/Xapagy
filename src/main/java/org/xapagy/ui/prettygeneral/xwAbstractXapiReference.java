@@ -17,50 +17,55 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.ui.prettyprint;
+package org.xapagy.ui.prettygeneral;
 
 import org.xapagy.agents.Agent;
-import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.IXwFormatter;
+import org.xapagy.ui.prettyprint.PrettyPrint;
 import org.xapagy.xapi.reference.AbstractXapiReference;
 
 /**
  * @author Ladislau Boloni
  * Created on: Jan 3, 2012
  */
-public class PpAbstractXapiReference {
+public class xwAbstractXapiReference {
 
     /**
      * Normally, this will not be called directly, only from the more specific
      * variants
      * 
+     * @param xw
      * @param axr
      * @param agent
      * @return
      */
-    public static String ppConcise(AbstractXapiReference axr, Agent agent) {
-        Formatter fmt = new Formatter();
-        fmt.is("Text", axr.getText());
-        fmt.is("Type / Level", axr.getType() + " / " + axr.getXapiLevel());
-        fmt.is("Position in parent", axr.getPositionInParent());
-        return fmt.toString();
+    public static String xwConcise(IXwFormatter xw, AbstractXapiReference axr, Agent agent) {
+        xw.is("Text", axr.getText());
+        xw.is("Type / Level", axr.getType() + " / " + axr.getXapiLevel());
+        xw.is("Position in parent", axr.getPositionInParent());
+        return xw.toString();
     }
 
     /**
      * Normally, this will not be called directly, only from the more specific
      * variants
      * 
+     * @param xw
      * @param axr
      * @param agent
      * @return
      */
-    public static String ppDetailed(AbstractXapiReference axr, Agent agent) {
-        Formatter fmt = new Formatter();
-        fmt.add(PpAbstractXapiReference.ppConcise(axr, agent));
-        fmt.add("ResolutionConfidence");
-        fmt.addIndented(PrettyPrint.ppDetailed(axr.getResolutionConfidence(),
+    public static String xwDetailed(IXwFormatter xw, AbstractXapiReference axr, Agent agent) {
+        xw.add(xwAbstractXapiReference.xwConcise(xw.getEmpty(), axr, agent));
+        xw.addLabelParagraph("ResolutionConfidence");
+        xw.indent();
+        xw.addP(PrettyPrint.ppDetailed(axr.getResolutionConfidence(),
                 agent));
-        fmt.add("Parent");
-        fmt.addIndented(PrettyPrint.ppDetailed(axr.getParent(), agent));
-        return fmt.toString();
+        xw.deindent();
+        xw.addLabelParagraph("Parent");
+        xw.indent();
+        xw.add(PrettyPrint.ppDetailed(axr.getParent(), agent));
+        xw.deindent();
+        return xw.toString();
     }
 }

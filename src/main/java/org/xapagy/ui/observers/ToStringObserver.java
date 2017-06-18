@@ -43,11 +43,11 @@ import org.xapagy.ui.TextUi;
 import org.xapagy.ui.TextUiHelper;
 import org.xapagy.ui.formatters.Formatter;
 import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwChoices;
 import org.xapagy.ui.prettygeneral.xwLiHlsChoiceBased;
 import org.xapagy.ui.prettygeneral.xwLiViBased;
 import org.xapagy.ui.prettygeneral.xwLiXapiReading;
 import org.xapagy.ui.prettygeneral.xwLiXapiScheduled;
-import org.xapagy.ui.prettyprint.PpChoices;
 import org.xapagy.ui.prettyprint.PpHlsNewInstance;
 import org.xapagy.ui.prettyprint.PpInstanceResolutionChoices;
 import org.xapagy.ui.prettyprint.PpShadows;
@@ -57,8 +57,7 @@ import org.xapagy.ui.smartprint.SpFocus;
 import org.xapagy.util.FileWritingUtil;
 
 /**
- * @author Ladislau Boloni
- * Created on: Aug 30, 2010
+ * @author Ladislau Boloni Created on: Aug 30, 2010
  */
 public class ToStringObserver extends AbstractAgentObserver {
 
@@ -223,14 +222,13 @@ public class ToStringObserver extends AbstractAgentObserver {
 			}
 		}
 		if (traceWhat.contains(TraceWhat.CHOICES_NATIVE)) {
-			buff.append("\n" + PpChoices.pp(
-					agent.getHeadlessComponents().getChoices(HeadlessComponents.comparatorDependentScore), agent,
-					PrintDetail.DTL_CONCISE));
+			buff.append("\n" + xwChoices.xwConcise(new TwFormatter(),
+					agent.getHeadlessComponents().getChoices(HeadlessComponents.comparatorDependentScore), agent));
 		}
 		if (traceWhat.contains(TraceWhat.CHOICES_DYNAMIC)) {
 			buff.append("\n"
-					+ PpChoices.pp(agent.getHeadlessComponents().getChoices(HeadlessComponents.comparatorMoodScore),
-							agent, PrintDetail.DTL_CONCISE));
+					+ xwChoices.xwConcise(new TwFormatter(), agent.getHeadlessComponents().getChoices(HeadlessComponents.comparatorMoodScore),
+							agent));
 		}
 		if (traceWhat.contains(TraceWhat.HLS_NEW_INSTANCES)) {
 			buff.append("\n" + "HlsNewInstances\n" + PpHlsNewInstance
@@ -383,12 +381,12 @@ public class ToStringObserver extends AbstractAgentObserver {
 		case "CHOICES_NATIVE": {
 			buffer.append(TextUiHelper.createHeader("Recall choices sorted by native", "*", 100) + "\n");
 			buffer.append(
-					PpChoices.pp(hls.getChoices(HeadlessComponents.comparatorDependentScore), agent, detailLevel));
+					xwChoices.xwConcise(new TwFormatter(), hls.getChoices(HeadlessComponents.comparatorDependentScore), agent));
 			break;
 		}
 		case "ALL_CHOICES": {
 			buffer.append(TextUiHelper.createHeader("Recall choices sorted by dynamic score", "*", 100) + "\n");
-			buffer.append(PpChoices.pp(hls.getChoices(HeadlessComponents.comparatorMoodScore), agent, detailLevel));
+			buffer.append(xwChoices.xwConcise(new TwFormatter(), hls.getChoices(HeadlessComponents.comparatorMoodScore), agent));
 			break;
 		}
 		case "HLS_NEW_INSTANCES": {

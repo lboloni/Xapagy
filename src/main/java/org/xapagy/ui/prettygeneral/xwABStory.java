@@ -17,47 +17,46 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.ui.prettyprint;
+package org.xapagy.ui.prettygeneral;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.autobiography.ABStory;
 import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.IXwFormatter;
 
 /**
  * @author Ladislau Boloni
  * Created on: Sep 24, 2012
  */
-public class PpABStory {
+public class xwABStory {
 
-    public static String pp(ABStory abs, Agent agent, PrintDetail detailLevel) {
-        if (detailLevel == PrintDetail.DTL_DETAIL) {
-            return PpABStory.ppDetailed(abs, agent);
-        }
-        if (detailLevel == PrintDetail.DTL_CONCISE) {
-            return PpABStory.ppConcise(abs, agent);
-        }
-        throw new Error("Unsupported detailLevel" + detailLevel);
-    }
-
-    public static String ppConcise(ABStory abs, Agent agent) {
-        return abs.toString();
+    /**
+     * Adding the concise version of the story: it is just a pre-formatted text
+     * @param xw
+     * @param abs
+     * @param agent
+     * @return
+     */
+    public static String xwConcise(IXwFormatter xw, ABStory abs, Agent agent) {
+		xw.addPre(abs.toString());
+		return xw.toString();
     }
 
     /**
-     * Detailed printing, lists the
-     * 
-     * @param choice
+     * Adding the detailed version of the story - basically, we are adding line numbers 
+     * @param xw
+     * @param abs
      * @param agent
-     * @param detailLevel
      * @return
      */
-    public static String ppDetailed(ABStory abs, Agent agent) {
+    public static String xwDetailed(IXwFormatter xw, ABStory abs, Agent agent) {
         Formatter fmt = new Formatter();
         for (int i = 0; i != abs.length(); i++) {
             String temp = Formatter.padTo(i, 5) + " " + abs.getLine(i);
             fmt.add(temp);
         }
-        return fmt.toString();
+		xw.addPre(abs.toString());
+		return xw.toString();
     }
 
 }

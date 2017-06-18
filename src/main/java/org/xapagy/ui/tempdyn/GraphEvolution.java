@@ -47,7 +47,8 @@ import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.parameters.Parameters;
 import org.xapagy.set.EnergyColors;
-import org.xapagy.ui.prettyprint.PpChoice;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwChoice;
 import org.xapagy.ui.smartprint.SpInstance;
 import org.xapagy.ui.smartprint.XapiPrint;
 import org.xapagy.ui.tempdyn.tdComponent.tdComponentType;
@@ -83,7 +84,7 @@ public class GraphEvolution {
     public static void graphChoiceEvolution(tdComponent tdc,
             tdDataBase database, Agent agent, List<Double> index,
             double choiceRange) {
-        String label = PpChoice.ppConcise(tdc.getChoice(), agent);
+        String label = xwChoice.xwConcise(new TwFormatter(), tdc.getChoice(), agent);
 
         // create a general purpose xy collection for jfreechart
         XYSeriesCollection xysc = new XYSeriesCollection();

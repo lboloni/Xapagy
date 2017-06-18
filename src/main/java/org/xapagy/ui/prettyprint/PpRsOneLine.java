@@ -23,6 +23,8 @@ import org.xapagy.agents.Agent;
 import org.xapagy.agents.AbstractLoopItem;
 import org.xapagy.debug.storygenerator.RsOneLine;
 import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.TwFormatter;
+import org.xapagy.ui.prettygeneral.xwLoopItem;
 
 /**
  * @author Ladislau Boloni
@@ -50,7 +52,7 @@ public class PpRsOneLine {
         fmt.add("LoopItems");
         fmt.indent();
         for (AbstractLoopItem li : rsol.getLoopItems()) {
-            fmt.add(PpLoopItem.ppDetailed(li, agent));
+            fmt.add(xwLoopItem.xwDetailed(new TwFormatter(), li, agent));
         }
         fmt.deindent();
         fmt.deindent();

@@ -17,15 +17,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.ui.prettyprint;
+package org.xapagy.ui.prettygeneral;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.headless_shadows.Choice;
 import org.xapagy.headless_shadows.Hls;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.TwFormatter;
-import org.xapagy.ui.prettygeneral.xwVerbInstance;
+import org.xapagy.ui.prettyprint.PpHlsCharacterization;
+import org.xapagy.ui.prettyprint.PrettyPrint;
+import org.xapagy.ui.prettyprint.PrintDetail;
 
 /**
  * Prints a choice object of various types
@@ -33,28 +36,18 @@ import org.xapagy.ui.prettygeneral.xwVerbInstance;
  * @author Ladislau Boloni
  * Created on: Sep 13, 2011
  */
-public class PpChoice {
-
-    public static String
-            pp(Choice choice, Agent agent, PrintDetail detailLevel) {
-        if (detailLevel == PrintDetail.DTL_DETAIL) {
-            return PpChoice.ppDetailed(choice, agent);
-        }
-        if (detailLevel == PrintDetail.DTL_CONCISE) {
-            return PpChoice.ppConcise(choice, agent);
-        }
-        throw new Error("Unsupported detailLevel" + detailLevel);
-    }
+public class xwChoice {
 
     /**
      * FIXME: this uses verbalization, make sure the instantiation does not
      * affect things!!!
      * 
+     * @param xw
      * @param choice
      * @param agent
      * @return
      */
-    public static String ppConcise(Choice choice, Agent agent) {
+    public static String xwConcise(IXwFormatter xw, Choice choice, Agent agent) {
         // int detailLevel = DTL_CONCISE;
         Formatter fmtMargin = new Formatter();
         // hopefully, this would not mess up anything, except the counter
@@ -98,22 +91,26 @@ public class PpChoice {
         case CONTINUATION: {
             fmtMargin.addWithMarginNote(margin, "[Contin:" + statusText + "] "
                     + viText);
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         case MISSING_ACTION: {
             fmtMargin.addWithMarginNote(margin, "[Miss-Act:" + statusText
                     + "] " + viText);
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         case MISSING_RELATION: {
             fmtMargin.addWithMarginNote(margin, "[Miss-Rel: " + statusText
                     + "] " + viText);
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         case CHARACTERIZATION: {
             fmtMargin.addWithMarginNote(margin, "[Charact: " + statusText
                     + "] " + viText);
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         default:
             return "cannot print choice of type " + choice.getChoiceType();
@@ -123,12 +120,12 @@ public class PpChoice {
     /**
      * Detailed printing, lists the
      * 
+     * @param xw
      * @param choice
      * @param agent
-     * @param detailLevel
      * @return
      */
-    public static String ppDetailed(Choice choice, Agent agent) {
+    public static String xwDetailed(IXwFormatter xw, Choice choice, Agent agent) {
         PrintDetail detailLevel = PrintDetail.DTL_CONCISE;
         Formatter fmtMargin = new Formatter();
         Formatter fmt = new Formatter();
@@ -142,26 +139,30 @@ public class PpChoice {
             fmt.add("Choice: Continuation");
             fmt.addIndented(PrettyPrint.pp(choice.getHls(), agent, detailLevel));
             fmtMargin.addWithMarginNote(margin, fmt.toString());
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         case MISSING_ACTION: {
             fmt.add("Choice: Missing action");
             fmt.addIndented(PrettyPrint.pp(choice.getHls(), agent, detailLevel));
             fmtMargin.addWithMarginNote(margin, fmt.toString());
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         case MISSING_RELATION: {
             fmt.add("Choice: Missing relation");
             fmt.addIndented(PrettyPrint.pp(choice.getHls(), agent, detailLevel));
             fmtMargin.addWithMarginNote(margin, fmt.toString());
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         case CHARACTERIZATION: {
             fmt.add("Choice: Characterization");
             fmt.addIndented(PrettyPrint.pp(choice.getHlsCharacterization(),
                     agent, detailLevel));
             fmtMargin.addWithMarginNote(margin, fmt.toString());
-            return fmtMargin.toString();
+            xw.addPre(fmtMargin.toString());
+            return xw.toString();
         }
         default:
             return "cannot print choice of type " + choice.getChoiceType();

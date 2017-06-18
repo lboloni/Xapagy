@@ -185,8 +185,6 @@ public class PwNavigationBar implements IQueryAttributes {
         // Headless shadows
         //
         fmt.openP("class=" + PwFormatter.CLASS_NAVBAR);
-        fmt.add("Headless");
-        // HEADLESS_SHADOWS
         gq2 = QueryHelper.copyWithEmptyCommand(query);
         gq2.setAttribute(Q_QUERY_TYPE, "HEADLESS_COMPONENTS");
         PwQueryLinks.addLinkToQuery(fmt, gq2, "Headless: ", PwFormatter.CLASS_NAVBAR);
@@ -280,10 +278,8 @@ public class PwNavigationBar implements IQueryAttributes {
         PwQueryLinks.addLinkToQuery(fmt, gq2, "Logs", PwFormatter.CLASS_NAVBAR);
         fmt.closeP();
         //
-        // General stuff, second line: concepts, verbs, concept words, verb words, 
-        //    am instances, am VIs
+        // General stuff, second line: concepts, verbs, concept words, verb words
         //
-        // Memory
         fmt.openP("class=" + PwFormatter.CLASS_NAVBAR);
         // Concepts
         gq2 = QueryHelper.copyWithEmptyCommand(query);
@@ -306,6 +302,11 @@ public class PwNavigationBar implements IQueryAttributes {
         gq2.setAttribute(Q_QUERY_TYPE, "ALL_VERB_WORDS");
         PwQueryLinks.addLinkToQuery(fmt, gq2, "Verb words", PwFormatter.CLASS_NAVBAR);
         fmt.add("&bull;");
+        fmt.closeP();
+        //
+        // General stuff, third line: memory instances, memory VIs, drives
+        //
+        fmt.openP("class=" + PwFormatter.CLASS_NAVBAR);
         // autobiographical memory instances
         gq2 = QueryHelper.copyWithEmptyCommand(query);
         gq2.setAttribute(Q_QUERY_TYPE, "ALL_MEMORY_INSTANCES");
@@ -320,6 +321,12 @@ public class PwNavigationBar implements IQueryAttributes {
         gq2.setAttribute(Q_CURSOR_TOTAL, "0");
         gq2.setAttribute(Q_SORTED_BY, "SORTED_BY_ID");
         PwQueryLinks.addLinkToQuery(fmt, gq2, "Memory VIs", PwFormatter.CLASS_NAVBAR);
+        // drives
+        fmt.add("&bull;");
+        gq2 = QueryHelper.copyWithEmptyCommand(query);
+        gq2.setAttribute(Q_QUERY_TYPE, "DRIVES");
+        PwQueryLinks.addLinkToQuery(fmt, gq2, "Drives", PwFormatter.CLASS_NAVBAR);
+        
         // if there is a RsTestingUnit, add link to it
         if (agent.getDebugInfo().getRsTestingUnit() != null) {
             fmt.add("&bull;");

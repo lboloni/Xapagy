@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
    
 */
-package org.xapagy.ui.prettyprint;
+package org.xapagy.ui.prettygeneral;
 
 import org.xapagy.agents.Agent;
 import org.xapagy.agents.liHlsChoiceBased;
@@ -25,11 +25,9 @@ import org.xapagy.agents.liXapiReading;
 import org.xapagy.agents.liViBased;
 import org.xapagy.agents.liXapiScheduled;
 import org.xapagy.ui.formatters.Formatter;
+import org.xapagy.ui.formatters.IXwFormatter;
 import org.xapagy.ui.formatters.PwFormatter;
-import org.xapagy.ui.prettygeneral.xwLiHlsChoiceBased;
-import org.xapagy.ui.prettygeneral.xwLiViBased;
-import org.xapagy.ui.prettygeneral.xwLiXapiReading;
-import org.xapagy.ui.prettygeneral.xwLiXapiScheduled;
+import org.xapagy.ui.prettyprint.PrettyPrint;
 import org.xapagy.ui.smartprint.XapiPrint;
 
 import org.xapagy.agents.AbstractLoopItem;
@@ -40,16 +38,17 @@ import org.xapagy.agents.AbstractLoopItem;
  * @author Ladislau Boloni
  * Created on: Sep 14, 2011
  */
-public class PpLoopItem {
+public class xwLoopItem {
 
 	/**
 	 * Try to summarize in one line the essence of the loop item
 	 * 
+	 * @param xw
 	 * @param li
 	 * @param agent
 	 * @return
 	 */
-	public static String ppConcise(AbstractLoopItem li, Agent agent) {
+	public static String xwConcise(IXwFormatter xw, AbstractLoopItem li, Agent agent) {
 		StringBuffer buf = new StringBuffer();
 		// prefix: executed / not executed
 		switch (li.getState()) {
@@ -74,24 +73,31 @@ public class PpLoopItem {
 		if (li instanceof liXapiReading) {
 			buf.append("Reading: " + ((liXapiReading)li).getXapiText());
 		}
-		return buf.toString();
+		xw.addPre(buf.toString());
+		return xw.toString();
 	}
 
-	public static String ppDetailed(AbstractLoopItem li, Agent agent) {
-		PwFormatter fmt = new PwFormatter();
+	/**
+	 * Detailed formatting of a loop item - depends on the type...
+	 * @param xw
+	 * @param li
+	 * @param agent
+	 * @return
+	 */
+	public static String xwDetailed(IXwFormatter xw, AbstractLoopItem li, Agent agent) {
         if (li instanceof liXapiScheduled) {
-        	xwLiXapiScheduled.xwDetailed(fmt, (liXapiScheduled)li, agent);
+        	xwLiXapiScheduled.xwDetailed(xw, (liXapiScheduled)li, agent);
         }
         if (li instanceof liHlsChoiceBased) {
-        	xwLiHlsChoiceBased.xwDetailed(fmt, (liHlsChoiceBased)li, agent);
+        	xwLiHlsChoiceBased.xwDetailed(xw, (liHlsChoiceBased)li, agent);
         }
         if (li instanceof liXapiReading) {
-        	xwLiXapiReading.xwDetailed(fmt, (liXapiReading)li, agent);
+        	xwLiXapiReading.xwDetailed(xw, (liXapiReading)li, agent);
         }
         if (li instanceof liViBased) {
-        	xwLiViBased.xwDetailed(fmt, (liViBased)li, agent);
+        	xwLiViBased.xwDetailed(xw, (liViBased)li, agent);
         }
-        return fmt.toString();
+        return xw.toString();
 	}
 
 }

@@ -32,6 +32,10 @@ import org.xapagy.ui.prettyhtml.ColorCode;
  * Created on: Apr 11, 2014
  */
 public interface IXwFormatter {
+	/**
+	 * Adds an error message - appropriately colored in HTML
+	 * @param notificationString
+	 */
     void addErrorMessage(String notificationString);
     /**
      * An important header

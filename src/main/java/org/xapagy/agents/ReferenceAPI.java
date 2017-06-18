@@ -28,7 +28,6 @@ import java.util.AbstractMap.SimpleEntry;
 import org.xapagy.concepts.ConceptOverlay;
 import org.xapagy.concepts.Hardwired;
 import org.xapagy.concepts.VerbOverlay;
-import org.xapagy.debug.Runner;
 import org.xapagy.instances.Instance;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.instances.ViStructureHelper.ViPart;
