@@ -28,6 +28,7 @@ import org.xapagy.debug.DebugEvent;
 import org.xapagy.debug.DebugEvent.DebugEventType;
 import org.xapagy.ui.TextUi;
 import org.xapagy.ui.TextUiHelper;
+import org.xapagy.ui.formatters.Formatter;
 
 /**
  * @author Ladislau Boloni
@@ -279,4 +280,17 @@ public class BreakObserver implements IAgentObserver {
     public void setEnabled(boolean enabled) {
         // TODO Auto-generated method stub
     }
+    
+    /**
+     * Allows us to print something intelligent during debugging
+     */
+    public String toString() {
+    	Formatter fmt = new Formatter();
+    	fmt.add("BreakObserver");
+    	fmt.indent();
+    	fmt.is("isInBreak", inBreak);
+    	fmt.is("agent.getTime()", agent.getTime());
+    	return fmt.toString();
+    }
+    
 }

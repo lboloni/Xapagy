@@ -29,7 +29,7 @@ import org.xapagy.instances.VerbInstance;
 import org.xapagy.set.EnergyQuantum;
 
 /**
- * An implementation of the integrated drive score for a specific 
+ * An implementation of the integrated drive score. 
  * 
  * @author lboloni
  * Created on: Nov 23, 2016
@@ -44,6 +44,7 @@ public class dsWeightedDiscountedTargetbased implements IDriveScore {
 	 */
 	@Override
 	public double score(Agent agent, Drives drives, double delayTime, VerbInstance vi) {
+		double retval = 0;
 		List<EnergyQuantum<Instance>> changes = drives.getDriveChanges(vi, 1.0, 1.0);
 		return 0;
 	}

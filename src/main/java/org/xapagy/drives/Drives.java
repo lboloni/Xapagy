@@ -52,22 +52,22 @@ public class Drives implements Serializable {
 	 * The drive caused by hunger. It is increased by time - in increments of
 	 * hours. It is decreased by eating. Equilibrium value is zero.
 	 */
-	public final String DRIVE_HUNGER = "Drive_Hunger";
+	public final static String DRIVE_HUNGER = "Drive_Hunger";
 	/**
 	 * The drive caused by thirst. It is increased by time - in increments of
 	 * hours. It is decreased by drinking water etc. Equilibrium value is zero.
 	 */
-	public final String DRIVE_THIRST = "Drive_Thirst";
+	public final static String DRIVE_THIRST = "Drive_Thirst";
 	/**
 	 * The drive caused by being tired. It is increased by exhausing physical
 	 * activities. It is decreased by rest. This can happen over minutes...
 	 */
-	public final String DRIVE_TIREDNESS = "Drive_Tiredness";
+	public final static String DRIVE_TIREDNESS = "Drive_Tiredness";
 	/**
 	 * The drive caused by being sleepy. It is increased in time - over the span
 	 * of a day. It is decreased by sleeping.
 	 */
-	public final String DRIVE_SLEEPINESS = "Drive_Sleepiness";
+	public final static String DRIVE_SLEEPINESS = "Drive_Sleepiness";
 	/**
 	 * It is increased when environments have unclear properties. It is
 	 * decreased by increased knowledge.
@@ -75,7 +75,7 @@ public class Drives implements Serializable {
 	 * FIXME: this needs to be clarified - it is unlikely that all this thing
 	 * can be expressed in terms of actions???
 	 */
-	public final String DRIVE_CURIOSITY = "Drive_Curiosity";
+	public final static String DRIVE_CURIOSITY = "Drive_Curiosity";
 	/**
 	 * It is increased by events that cause pain. It is decreased by actions
 	 * that are tied to reducing pain.
@@ -84,24 +84,24 @@ public class Drives implements Serializable {
 	 * pain and which ones reduced it. This is certainly something that is
 	 * reactive.
 	 */
-	public final String DRIVE_PAIN_AVOIDANCE = "Drive_Pain_Avoidance";
+	public final static String DRIVE_PAIN_AVOIDANCE = "Drive_Pain_Avoidance";
 	/**
 	 * It is increased by events that cause pleasure.
 	 * 
 	 * FIXME: this is also not very clear on how are they working
 	 */
-	public final String DRIVE_PLEASURE_SEEKING = "Drive_Pleasure_Seeking";
+	public final static String DRIVE_PLEASURE_SEEKING = "Drive_Pleasure_Seeking";
 	/**
 	 * It is increased by lack of events / actions. It is decreased by events.
 	 * 
 	 * FIXME: this is also not very clear on how it is working
 	 */
-	public final String DRIVE_BOREDOM = "Drive_Boredom";
+	public final static String DRIVE_BOREDOM = "Drive_Boredom";
 	/**
 	 * It is increased by repeated successful executions ... see Dimitrios'
 	 * fights in the Iliad
 	 */
-	public final String DRIVE_FLOW = "Drive_Flow";
+	public final static String DRIVE_FLOW = "Drive_Flow";
 
 	/**
 	 * The list of all the drives

@@ -94,6 +94,7 @@ public class StoryLineReasoning {
 
 	/**
 	 * Renarrates a specific in-memory VI svi in the current scene in the focus.
+	 * 
 	 * Focus instances corresponding to the shadow instances will be created on
 	 * demand and added to the mapping
 	 * 
@@ -101,8 +102,8 @@ public class StoryLineReasoning {
 	 * @param svi
 	 *            - in-memory VI we are re-narrating.
 	 * @param mapping
-	 *            - the mapping between the shadow storyline of svi and the
-	 *            current scene
+	 *            - the mapping of the instances and VIs between the shadow
+	 *            storyline of svi and the current scene
 	 * @return
 	 */
 	public static List<VerbInstance> renarrateVi(Agent agent, VerbInstance svi, slrMapping mapping) {
@@ -139,11 +140,18 @@ public class StoryLineReasoning {
 
 	/**
 	 * Creates a focus instance corresponding to a shadow instance si, and
-	 * update the mapping
+	 * update the mapping. The new instance will have all the concepts of the
+	 * shadow instance.
+	 * 
+	 * The creation of the focus instance will happen using a create-instance VI
+	 * which puts all the attributes
 	 * 
 	 * @param agent
 	 * @param si
+	 *            - the shadow instance we are reproducing in the current scene
 	 * @param mapping
+	 *            - the mapping of the instances and VIs between the shadow
+	 *            storyline of svi and the current scene
 	 * @return
 	 */
 	public static List<VerbInstance> renarrateInstance(Agent agent, Instance si, slrMapping mapping) {
@@ -170,8 +178,9 @@ public class StoryLineReasoning {
 	}
 
 	/**
-	 * Creates a focus scene corresponding to the shadow scene sscene FIXME:
-	 * what about labels???
+	 * Creates a focus scene corresponding to the shadow scene sscene
+	 * 
+	 * FIXME: what about labels???
 	 * 
 	 * @param agent
 	 * @param sscene
@@ -265,15 +274,15 @@ public class StoryLineReasoning {
 	}
 
 	/**
-	 * Selects VIs from a story line for re-narration. Returns a list of VIs
-	 * which are from the original story line.
+	 * Selects VIs from a story line for re-narration. Returns a list of the
+	 * selected original VIs
 	 * 
-	 * @param the
-	 *            agent
+	 * @param agent
 	 * @param stl
 	 *            - the story line we want to renarrate
 	 * @param kind
-	 *            - the filtering we want to apply for the renarration
+	 *            - the filtering we want to apply for the renarration: "all",
+	 *            "0", "1", "2" or "3"
 	 * @return
 	 */
 	public static List<VerbInstance> selectForRenarration(Agent agent, StoryLine sline, String kind) {
@@ -339,8 +348,10 @@ public class StoryLineReasoning {
 	 * in-focus story line. The resulting story lines are paired with a metric
 	 * that shows their strength with regards to the current story line.
 	 * 
-	 * FIXME: the current implementation does not take into account the current
-	 * storyline, only looks for the strongest shadows
+	 * The metric, as currently implemented is the sum of the saliences of the
+	 * best mapping from the shadow back to the focus. This means that the long matches have 
+	 * a advantage. On the other hand, shadow storylines that do not cover the whole current
+	 * are not penalized.
 	 * 
 	 * @param agent
 	 * @param fline
@@ -361,7 +372,9 @@ public class StoryLineReasoning {
 		}
 		List<StoryLine> stlsShadows = StoryLineReasoning.createStoryLines(agent, vis);
 		//
-		// for all story lines, calculate a metric that looks at their energies
+		// for all story lines, calculate a metric that is the sum of the
+		// saliences of the best
+		// mapping from the shadow back to the focus
 		//
 		List<SimpleEntry<StoryLine, Double>> entries = new ArrayList<>();
 		for (StoryLine stl : stlsShadows) {

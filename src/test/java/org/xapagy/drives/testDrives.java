@@ -1,44 +1,24 @@
 package org.xapagy.drives;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
-import org.xapagy.ArtificialDomain;
 import org.xapagy.TestHelper;
 import org.xapagy.debug.Runner;
 import org.xapagy.instances.VerbInstance;
 import org.xapagy.ui.TextUi;
+import org.xapagy.drives.Drives;
 
 public class testDrives {
 
 	/**
-	 * This is a development-type test
+	 * Checks how the drives are changed with different actions
 	 */
 	@Test
-	public void develTest() {
-		String description = "Test how is the drives stuff is supposed to work";
+	public void testDriveChanges() {
+		String description = "the way various VIs change the drives";
 		TestHelper.testStart(description);
-		Runner r = ArtificialDomain.runnerArtificialAutobiography();
-		r.exec("$CreateScene #one CloseOthers With Instances w_c_bai20 'Hector', w_c_bai21 'Achilles'");
-		// this is how I set the target value and equilibrium value of a drive
-		r.exec("!!agent.getDrives().setTargetValue('Drive_Pleasure_Seeking',2.0);");
-		r.exec("!!agent.getDrives().setEquilibriumValue('Drive_Pleasure_Seeking',2.0);");
-		// this is how I set the self
-		r.exec("!!cself = ref.InstanceByRef('\"Achilles\"');");
-		r.exec("!!agent.getDrives().setSelf(cself);");
-		TextUi.println(r.agent.getDrives());
-		//
-		// Setting from Xapi the impact of verb v_av40 on the pleasure seeking
-		// drive of the subject
-		//
-		r.exec("!!v = agent.getVerbDB().getConcept('v_av40');");
-		r.exec("!!print(v);");
-		r.exec("!!v.setDriveImpactOnSubject('Drive_Pleasure_Seeking',1.0);");
-		//
-		// Setting of the impact of time -- on v_does_nothing on tiredness
-		//
-		r.exec("!!v = agent.getVerbDB().getConcept('v_does_nothing');");
-		r.exec("!!print(v);");
-		r.exec("!!v.setDriveImpactOnSubject('Drive_Tiredness',1.0);");
-
+		Runner r = commonDriveTests.createScenario();
 		//
 		// Now let us see whether it works
 		//
@@ -50,6 +30,9 @@ public class testDrives {
 			r.exec("-");
 			TextUi.println(r.agent.getDrives());
 		}
+		double tiredness = r.agent.getDrives().getCurrentValue(Drives.DRIVE_TIREDNESS);
+		assertTrue(tiredness > 1.0);
+		double pleasureSeeking = r.agent.getDrives().getCurrentValue(Drives.DRIVE_PLEASURE_SEEKING);
+		assertTrue(pleasureSeeking > 1.0);
 	}
-
 }
